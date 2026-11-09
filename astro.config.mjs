@@ -39,6 +39,13 @@ export default defineConfig({
 			],
 			head: [
 				{
+					tag: 'meta',
+					attrs: {
+						name: 'naver-site-verification',
+						content: 'eb2c2728bb177a71bd7af42817abc0a39ec04fbc',
+					},
+				},
+				{
 					tag: 'link',
 					attrs: {
 						rel: 'stylesheet',
