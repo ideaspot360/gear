@@ -39,6 +39,17 @@ export default defineConfig({
 			],
 			head: [
 				{
+					tag: 'script',
+					attrs: {
+						src: 'https://www.googletagmanager.com/gtag/js?id=G-B7NFDK1QFM',
+						async: true,
+					},
+				},
+				{
+					tag: 'script',
+					content: "window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-B7NFDK1QFM');",
+				},
+				{
 					tag: 'meta',
 					attrs: {
 						name: 'naver-site-verification',
