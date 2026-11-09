@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
 
+Sitemap: https://gear.ideaspot360.com/sitemap.xml
+Sitemap: https://gear.ideaspot360.com/sitemap-0.xml
 Sitemap: https://gear.ideaspot360.com/sitemap-index.xml
-
