@@ -59,3 +59,4 @@ The singular engineering superiority of the involute profile lies in its **cente
 $$
 a' \cos\alpha_{wt} = a \cos\alpha_t = r_{b1} + r_{b2}
 $$
+

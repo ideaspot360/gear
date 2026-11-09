@@ -51,3 +51,4 @@ Der entscheidende Vorteil der Evolventenverzahnung liegt in ihrer **Achsabstands
 $$
 a' \cos\alpha_{wt} = a \cos\alpha_t = r_{b1} + r_{b2}
 $$
+
