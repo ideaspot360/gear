@@ -1,0 +1,36 @@
+---
+title: H-GEAR STUDIO 歯車工学ナレッジベース
+description: 歯車幾何学、噛み合い運動学、および接触力学に関する公式多言語技術白書アーカイブ
+template: splash
+hero:
+  tagline: 超精密歯車運動学、共役噛み合い理論、およびISO/JIS規格に関する厳密な工学論文・技術白書
+  image:
+    file: ../../../assets/houston.webp
+  actions:
+    - text: 技術白書を読む
+      link: /ja/part1-kinematics/01-conjugate-action/
+      icon: right-arrow
+      variant: primary
+    - text: H-GEAR STUDIO プラットフォーム
+      link: https://github.com/ideaspot360/gear
+      icon: external
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## 主要工学分野
+
+<CardGrid stagger>
+	<Card title="微分幾何学と歯形運動学" icon="pencil">
+		インボリュート閉形式数式、ウィリスの噛み合い法則、および共役曲率の厳密解析。
+	</Card>
+	<Card title="国際強度規格 (ISO 6336 / JIS B 1755)" icon="setting">
+		歯元曲げ疲労、歯面ピッチング、およびスコーフィング限界の多重安全率監査。
+	</Card>
+	<Card title="負荷歯面接触解析 (3D LTCA)" icon="open-book">
+		Weber-Banaschek弾性コンプライアンス行列と3次元接触応力トポロジー。
+	</Card>
+	<Card title="超精密加工工具学" icon="document">
+		ISO 53基本ラック創成切削、トロコイドフィレット曲線およびプロツバランス解析。
+	</Card>
+</CardGrid>
