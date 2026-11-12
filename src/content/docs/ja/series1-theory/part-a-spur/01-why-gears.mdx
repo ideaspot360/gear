@@ -9,7 +9,8 @@ standards:
   - "JIS B 1701"
   - "ISO 21771:2007"
 required_diagrams:
-  - "fig1_friction_vs_gear"
+  - "fig1a_friction_drive"
+  - "fig1b_gear_drive"
   - "fig2_willis_law_geometry"
   - "fig3_contact_velocity_vectors"
 academic_level: undergraduate
@@ -37,12 +38,23 @@ $$T_{1,\max} = r_1 \cdot F_{t,\max} = \mu_s r_1 F_N$$
 
 $$v = r_1 \omega_1 = r_2 \omega_2 \quad \Longrightarrow \quad u = \frac{\omega_1}{\omega_2} = \frac{r_2}{r_1} = \mathrm{Constant}$$
 
-![図 1: 摩擦車と歯車伝動の力学的比較](/images/part1/fig1_friction_vs_gear.png)
+![図 1A: 摩擦車の動力伝達機構と力学的限界](/images/part1/ja/fig1a_friction_drive.png)
 
 しかし、摩擦車には重大な力学的限界があります。
 1. **すべり（Slip）と位相同期の喪失**: 伝達トルクが摩擦限界を超えるか、油分の付着により摩擦係数が低下するとすべりが発生し、厳密な等速比 $u(t)$ が維持できなくなります。
 2. **過大な軸受荷重**: 大きなトルクを伝達するには極めて大きな押付力 $F_N$ が必要となり、軸と軸受に過大な曲げ荷重を与え、早期疲労破壊を招きます。
 3. **摩擦発熱と摩耗**: すべりが発生すると急激な発熱と偏摩耗が進行します。
+
+### 摩擦車 vs インボリュート歯車伝動の比較
+
+![図 1B: インボリュート歯車の正確なかみ合い](/images/part1/ja/fig1b_gear_drive.png)
+
+| 比較項目 | 摩擦車 (Friction Wheels) | インボリュート歯車伝動 |
+| :--- | :--- | :--- |
+| **動力伝達原理** | 接触面の摩擦力に依存 ($F_t \le \mu_s F_N$) | 歯面のかみ合い（確実な形状拘束） |
+| **速度比の同期性** | すべり発生（$\Delta v \ne 0$、変動） | 理論的に完全な等速同期 ($u = z_2/z_1 = \mathrm{const}$) |
+| **軸受・軸荷重** | 巨大な押付力 $F_N$ が必須（軸受疲労） | 伝達トルクにのみ比例する正常荷重 |
+| **高負荷信頼性** | 過負荷ですべり発生（急激な摩耗・発熱） | $0.000\text{ mm}$ 干渉のない確実な動力伝達（効率98〜99.5%） |
 
 ---
 
@@ -110,7 +122,7 @@ $$\mathrm{inv}\,\alpha_K = \tan\alpha_K - \alpha_K$$
 
 一定の角速度比を保つための機構学的条件を**歯車かみ合いの法則（Law of Gearing / Willis's Law）**と呼びます。
 
-![図 2: ウィリスのかみ合いの法則の幾何学的証明](/images/part1/fig2_willis_law_geometry.png)
+![図 2: ウィリスのかみ合いの法則の幾何学的証明](/images/part1/ja/fig2_willis_law_geometry.png)
 
 ### 4.1 接触条件：法線速度成分の一致
 
@@ -118,7 +130,7 @@ $$\mathrm{inv}\,\alpha_K = \tan\alpha_K - \alpha_K$$
 
 $$v_1 = \omega_1 \cdot O_1 K, \quad v_2 = \omega_2 \cdot O_2 K$$
 
-![図 3: 接触点における速度ベクトルの分解](/images/part1/fig3_contact_velocity_vectors.png)
+![図 3: 接触点における速度ベクトルの分解](/images/part1/ja/fig3_contact_velocity_vectors.png)
 
 歯面同士が食い込まず、離脱しないためには、共通法線 $n$-$n$ 方向の速度成分が厳密に一致する必要があります。
 

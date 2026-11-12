@@ -10,7 +10,8 @@ standards:
   - "KS B 0053"
   - "ISO 21771:2007"
 required_diagrams:
-  - "fig1_friction_vs_gear"
+  - "fig1a_friction_drive"
+  - "fig1b_gear_drive"
   - "fig2_willis_law_geometry"
   - "fig3_contact_velocity_vectors"
 academic_level: undergraduate
@@ -38,13 +39,24 @@ $$T_{1,\max} = r_1 \cdot F_{t,\max} = \mu_s r_1 F_N$$
 
 $$v = r_1 \omega_1 = r_2 \omega_2 \quad \Longrightarrow \quad u = \frac{\omega_1}{\omega_2} = \frac{r_2}{r_1} = \mathrm{Constant}$$
 
-![그림 1: 마찰차와 기어 전동의 역학적 비교](/images/part1/fig1_friction_vs_gear.png)
+![그림 1A: 마찰차의 동력 전달 메커니즘과 역학적 한계](/images/part1/ko/fig1a_friction_drive.png)
 
 그러나 현실의 기계 시스템에서 마찰차는 치명적인 역학적 한계를 지닙니다.
 
 1. **미끄럼(Slip)과 위상 동기화 상실**: 요구되는 전달 토크 $T_1$이 마찰 한계 토크 $\mu_s r_1 F_N$을 초과하거나, 윤활유 유입, 표면 마모, 습기 등으로 인해 마찰계수가 감소하면 즉각적인 미끄러짐(Slip)이 발생합니다. 그 결과 각속도비 $u(t)$는 일정하게 유지되지 못하고 요동치며, 입출력 축의 각도 위치를 정밀하게 일치시켜야 하는 동기화(Synchronization) 장치에 결코 사용할 수 없습니다.
 2. **과도한 베어링 반력과 축 하중**: 큰 토크를 전달하기 위해서는 비례적으로 거대한 수직항력 $F_N$을 상시 가해야 합니다. 이 수직항력은 축과 지지 베어링에 지속적인 굽힘 하중과 반력을 유발하여 베어링의 조기 피로 파손을 초래하고 지지 구조물을 비대하게 만듭니다.
 3. **마찰 발열 및 마모**: 미끄럼이 발생하는 순간 접촉부에서 극심한 마찰열이 발생하여 바퀴 표면이 비대칭으로 마모되고 동력 전달 효율이 급격히 저하됩니다.
+
+### 마찰차 vs 정규 인벌류트 기어 전동 비교
+
+![그림 1B: 정규 인벌류트 기어의 형상 맞물림과 백래시](/images/part1/ko/fig1b_gear_drive.png)
+
+| 비교 항목 | 마찰차 (Friction Wheels) | 정규 인벌류트 기어 (Involute Gear) |
+| :--- | :--- | :--- |
+| **동력 전달 원리** | 접촉면 마찰력 의존 ($F_t \le \mu_s F_N$) | 치면 형상 맞물림 (Positive Mechanical Mesh) |
+| **속도비 동기화** | 슬립 발생 ($\Delta v \ne 0$, $u$ 변동) | 이론적 완전 등속 동기화 ($u = z_2/z_1 = \mathrm{const}$) |
+| **베어링 축 하중** | 거대 압축 하중 $F_N$ 필수 (베어링 피로 가속) | 전달 토크에만 비례하는 정상 하중 발생 |
+| **고부하 신뢰성** | 과부하 시 헛돎 (급격한 마모 및 발열 손상) | $0.000\text{ mm}$ 간섭 없는 무슬립 동력 전달 (효율 98~99.5%) |
 
 ---
 
@@ -121,7 +133,7 @@ $$\mathrm{inv}\,\alpha_K = \tan\alpha_K - \alpha_K$$
 
 기어가 회전할 때 일정한 각속도비를 유지하기 위한 근본적인 기구학적 조건을 **기어 맞물림 기본 법칙(Law of Gearing)** 또는 **윌리스의 법칙(Willis's Law)**이라고 부릅니다. 이 법칙은 18세기 프랑스의 수학자 샤를 카뮤(Charles Camus)에 의해 엄밀하게 정리되었습니다.
 
-![그림 2: 윌리스 맞물림 법칙의 기하학적 증명](/images/part1/fig2_willis_law_geometry.png)
+![그림 2: 윌리스 맞물림 법칙의 기하학적 증명](/images/part1/ko/fig2_willis_law_geometry.png)
 
 ### 4.1 기구학적 접촉 조건: 속도법선 성분의 일치
 
@@ -131,7 +143,7 @@ $$\mathrm{inv}\,\alpha_K = \tan\alpha_K - \alpha_K$$
 
 $$v_1 = \omega_1 \cdot O_1 K, \quad v_2 = \omega_2 \cdot O_2 K$$
 
-![그림 3: 접촉점 기구학 및 속도 벡터 분해](/images/part1/fig3_contact_velocity_vectors.png)
+![그림 3: 접촉점 기구학 및 속도 벡터 분해](/images/part1/ko/fig3_contact_velocity_vectors.png)
 
 두 치면이 서로를 파고들지 않고(No Penetration), 또한 맞물림 중 치면이 허공으로 떨어져 접촉을 상실하지(No Separation) 않으려면, **공통 법선 $n$-$n$ 방향으로 투영된 두 속도 벡터의 성분 $v_{n1}$과 $v_{n2}$가 반드시 완전히 일치**해야 합니다.
 

@@ -10,7 +10,8 @@ standards:
   - "DIN 3960"
   - "AGMA 9005-F16"
 required_diagrams:
-  - "fig1_friction_vs_gear"
+  - "fig1a_friction_drive"
+  - "fig1b_gear_drive"
   - "fig2_willis_law_geometry"
   - "fig3_contact_velocity_vectors"
 academic_level: undergraduate
@@ -38,12 +39,23 @@ In an ideal pure-rolling state without slip, the pitch line velocity is identica
 
 $$v = r_1 \omega_1 = r_2 \omega_2 \quad \Longrightarrow \quad u = \frac{\omega_1}{\omega_2} = \frac{r_2}{r_1} = \mathrm{Constant}$$
 
-![Figure 1: Mechanical Comparison between Friction Wheels and Gear Drives](/images/part1/fig1_friction_vs_gear.png)
+![Figure 1A: Power Transmission Mechanism of Friction Wheels](/images/part1/en/fig1a_friction_drive.png)
 
 However, friction wheels suffer from critical mechanical limitations:
 1. **Slip and Loss of Phase Synchronization**: When transmitted torque exceeds friction capacity or oil contamination lowers friction, slipping occurs, destroying constant angular velocity ratio $u(t)$.
 2. **Excessive Bearing Loads**: High torque transmission requires enormous normal clamp forces $F_N$, causing severe bending moments and premature bearing fatigue.
 3. **Frictional Wear and Heating**: Slip induces intense local heating and uneven surface wear.
+
+### Friction Wheels vs Involute Gear Drive Comparison
+
+![Figure 1B: Form-Closed Conjugate Meshing of Involute Gears](/images/part1/en/fig1b_gear_drive.png)
+
+| Comparison Item | Friction Wheels | Involute Gear Drive |
+| :--- | :--- | :--- |
+| **Power Transmission Principle** | Contact Friction Dependent ($F_t \le \mu_s F_N$) | Positive Mechanical Mesh (Form-Closed Conjugate) |
+| **Speed Ratio Synchronization** | Slip Occurs ($\Delta v \ne 0$, $u$ fluctuates) | Theoretical Constant Ratio ($u = z_2/z_1 = \mathrm{const}$) |
+| **Bearing Shaft Load** | Enormous Normal Force $F_N$ Required (Bearing Fatigue) | Pure Torque Proportional Working Load |
+| **High-Load Reliability** | Overload Slippage (Severe Wear and Thermal Damage) | $0.000\text{ mm}$ Interference-Free Power Mesh (98~99.5% Efficiency) |
 
 ---
 
@@ -111,7 +123,7 @@ $$\mathrm{inv}\,\alpha_K = \tan\alpha_K - \alpha_K$$
 
 The kinematic condition for constant angular velocity ratio is the **Law of Gearing** (or **Willis's Law**), formalized by Charles Camus.
 
-![Figure 2: Geometric Proof of Willis's Law of Gearing](/images/part1/fig2_willis_law_geometry.png)
+![Figure 2: Geometric Proof of Willis's Law of Gearing](/images/part1/en/fig2_willis_law_geometry.png)
 
 ### 4.1 Kinematic Contact Condition: Velocity Normal Equivalence
 
@@ -119,7 +131,7 @@ At contact point $K$ between gear 1 and gear 2, with velocities $\vec{v}_1$ and 
 
 $$v_1 = \omega_1 \cdot O_1 K, \quad v_2 = \omega_2 \cdot O_2 K$$
 
-![Figure 3: Contact Point Kinematics and Velocity Vector Decomposition](/images/part1/fig3_contact_velocity_vectors.png)
+![Figure 3: Contact Point Kinematics and Velocity Vector Decomposition](/images/part1/en/fig3_contact_velocity_vectors.png)
 
 To prevent penetration and tooth separation, normal velocity components along common normal $n$-$n$ must match:
 

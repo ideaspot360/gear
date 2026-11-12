@@ -9,7 +9,8 @@ standards:
   - "DIN 3960"
   - "ISO 21771:2007"
 required_diagrams:
-  - "fig1_friction_vs_gear"
+  - "fig1a_friction_drive"
+  - "fig1b_gear_drive"
   - "fig2_willis_law_geometry"
   - "fig3_contact_velocity_vectors"
 academic_level: undergraduate
@@ -37,12 +38,23 @@ Im idealen schlupffreien Rollzustand ist das Übersetzungsverhältnis $u$ konsta
 
 $$v = r_1 \omega_1 = r_2 \omega_2 \quad \Longrightarrow \quad u = \frac{\omega_1}{\omega_2} = \frac{r_2}{r_1} = \mathrm{Constant}$$
 
-![Abbildung 1: Mechanischer Vergleich zwischen Reibrad und Zahnradgetriebe](/images/part1/fig1_friction_vs_gear.png)
+![Abbildung 1A: Funktionsprinzip und Grenzen von Reibrädern](/images/part1/de/fig1a_friction_drive.png)
 
 Reibräder besitzen jedoch erhebliche Nachteile:
 1. **Schlupf und Verlust der Phasensynchronisation**: Bei Drehmomentspitzen oder Ölbenetzung tritt Schlupf auf, wodurch die Winkelgeschwindigkeit pulsiert.
 2. **Hohe Lagerbelastung**: Hohe Drehmomente erfordern enorme Anpresskräfte $F_N$, was zu hoher Lagerbelastung und vorzeitiger Ermüdung führt.
 3. **Reibungswärme und Verschleiß**: Schlupf erzeugt starke Erwärmung und ungleichmäßigen Verschleiß.
+
+### Vergleich: Reibrad vs Evolventen-Zahnradgetriebe
+
+![Abbildung 1B: Formschlüssiger Eingriff von Evolventenverzahnungen](/images/part1/de/fig1b_gear_drive.png)
+
+| Merkmal / Kriterium | Reibrad (Friction Wheel) | Evolventen-Zahnradgetriebe |
+| :--- | :--- | :--- |
+| **Kraft- und Leistungsübertragung** | Kontakt-Reibschluss ($F_t \le \mu_s F_N$) | Formschlüssiger Verzahnungseingriff |
+| **Drehzahlverhältnis und Synchronisation** | Schlupf möglich ($\Delta v \ne 0$) | Theoretisch exakte Drehzahltreue ($u = z_2/z_1 = \mathrm{const}$) |
+| **Lager- und Wellenbelastung** | Hohe Normalkraft $F_N$ erforderlich (Lagerermüdung) | Reine drehmomentproportionale Betriebslast |
+| **Hochlast-Zuverlässigkeit** | Durchrutschen bei Überlast (starker Verschleiß) | $0.000\text{ mm}$ kollisionsfreie Kraftübertragung (Wirkungsgrad 98~99.5%) |
 
 ---
 
@@ -110,7 +122,7 @@ $$\mathrm{inv}\,\alpha_K = \tan\alpha_K - \alpha_K$$
 
 Die kinematische Grundbedingung für eine konstante Winkelgeschwindigkeit ist das **Verzahnungsgesetz (Law of Gearing / Willis's Law)**.
 
-![Abbildung 2: Geometrischer Beweis des Verzahnungsgesetzes](/images/part1/fig2_willis_law_geometry.png)
+![Abbildung 2: Geometrischer Beweis des Verzahnungsgesetzes](/images/part1/de/fig2_willis_law_geometry.png)
 
 ### 4.1 Kinematische Berührbedingung: Übereinstimmung der Geschwindigkeitsnormalen
 
@@ -118,7 +130,7 @@ Im Berührpunkt $K$ mit Geschwindigkeiten $\vec{v}_1$ und $\vec{v}_2$:
 
 $$v_1 = \omega_1 \cdot O_1 K, \quad v_2 = \omega_2 \cdot O_2 K$$
 
-![Abbildung 3: Kinematik des Eingriffspunkts und Geschwindigkeitsvektoren](/images/part1/fig3_contact_velocity_vectors.png)
+![Abbildung 3: Kinematik des Eingriffspunkts und Geschwindigkeitsvektoren](/images/part1/de/fig3_contact_velocity_vectors.png)
 
 Damit kein Eindringen oder Abheben stattfindet, müssen die Normalkomponenten entlang der Eingriffslinie $n$-$n$ übereinstimmen:
 
