@@ -19,3 +19,8 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
+
+# Python & Temporary Test Artifacts
+__pycache__/
+*.pyc
+tests/crop_*.png

@@ -1,0 +1,207 @@
+---
+title: "Warum verwenden wir Zahnräder? — Von mechanischen Grenzen der Reibräder zum vollständigen differentialgeometrischen Beweis des Willis-Gesetzes"
+description: "Eine umfassende mathematische Abhandlung ausgehend von den mechanischen Grenzen und der Schlupfkinematik von Reibrädern über die relative Kinematik zweier Körper, Litvins erste Eingriffsgleichung und das Willis-Verzahnungsgesetz bis hin zur differentialgeometrischen Krümmungsgleichung von Euler-Savary und der Eigenschaft der Evolventeninvarianz."
+part: 1
+chapter: 1
+gear_type: spur
+standards:
+  - "ISO 21771:2007"
+  - "DIN 3960"
+  - "AGMA 9005-F16"
+  - "JIS B 1701"
+required_diagrams:
+  - "fig1_friction_vs_gear"
+  - "fig2_willis_law_geometry"
+  - "fig3_contact_velocity_vectors"
+academic_level: graduate
+equations_hash: "492c1834bc24cba6ef3de66b9b0bf3742820e76a7d162274fde205fb0202252b"
+kernel_verified: true
+review_date: "2026-11-12"
+---
+
+## 1. Einleitung: Evolution der Leistungsübertragung und mechanische Grenzen von Reibrädern
+
+Das elementarste mechanische Maschinenelement zur Drehmomentübertragung zwischen zwei Wellen ist das **Reibradgetriebe**, bei dem die Kraft über den Reibschluss zweier aneinandergepresster Zylinder übertragen wird. Mit steigenden Anforderungen an Drehmoment, Drehzahl und exakte Winkelsynchronisation traten jedoch grundlegende physikalische Grenzen zutage:
+
+```
+[Antriebswelle O1] ──(Normalkraft FN)──▶ [Berührpunkt P (Reibkraft Ft ≤ μ FN)] ──▶ [Abtriebswelle O2]
+       │                                                   │                                │
+       ▼                                                   ▼                                ▼
+[Hohe Lager-Radialkräfte]                           [Schlupf s > 0]                  [Phasenverlust]
+```
+
+### 1.1 Kontaktmechanik und Reibschlussgrenzen
+
+Für zwei Reibzylinder mit den Radien $r_1$ und $r_2$ bei Achsabstand $a = r_1 + r_2$ ist die maximal übertragbare Umfangskraft $F_{t,\max}$ durch das Coulombsche Reibungsgesetz begrenzt:
+
+$$
+F_t \le F_{t,\max} = \mu_s F_N
+$$
+
+Das statische Drehmomentgleichgewicht lautet:
+
+$$
+F_t = \frac{T_1}{r_1}
+$$
+
+Die erforderliche Mindestnormalkraft $F_{N,\min}$ beträgt daher:
+
+$$
+F_{N,\min} = \frac{T_1}{\mu_s r_1}
+$$
+
+Dies führt zu massiven Lagerbelastungen ($F_N \approx (5 \sim 20) F_t$) und hoher Hertzscher Pressung $p_{\max} \propto \sqrt{F_N}$, welche Grübchenbildung (Pitting) und Ermüdungsausbrüche begünstigt.
+
+---
+
+### 1.2 Schlupf und Verlust der Winkelsynchronisation
+
+Die Relativgeschwindigkeit an der Kontaktzone führt zum Schlupf $s$:
+
+$$
+s = \frac{v_1 - v_2}{v_1} = 1 - \frac{r_2 \omega_2}{r_1 \omega_1}
+$$
+
+Das momentane Übersetzungsverhältnis ist daher lastabhängig:
+
+$$
+u(t) = \frac{\omega_1(t)}{\omega_2(t)} = \frac{r_2}{r_1} \cdot \frac{1}{1 - s(t)}
+$$
+
+Bei Drehmomentspitzen bricht der Kraftschluss zusammen ($s \to 1$), was zu unumkehrbarem Phasenverlust $\Delta\theta(t) \to \infty$ führt.
+
+---
+
+### 1.3 Formschluss durch Verzahnung (Abbildung 1)
+
+Um diese Beschränkung zu überwinden, ging der Maschinenbau zum **formschlüssigen Zahneingriff** über.
+
+![Figure 1: Friction Drive vs Conjugate Gear Involute Action](/images/part1/fig1_friction_vs_gear.png)
+
+* **(A) Reibradantrieb (Links)**: Kraftübertragung über Reibschluss $F_t \le \mu F_N$. Bei Überlast tritt Schlupf auf.
+* **(B) Evolventenverzahnung (Rechts)**: Formschluss mit Modul $m = 2.0\text{ mm}$, $z_1 = 17, z_2 = 33$, Eingriffswinkel $\alpha_n = 20.0^\circ$. Selbst bei reibungsfreiem Kontakt ($\mu \equiv 0$) bleibt das Übersetzungsverhältnis $u = 33 / 17 \approx 1.941176$ exakt konstant.
+
+---
+
+## 2. Kinematik der Relativbewegung konjugierter Zahnflanken
+
+Gemäß der Kinematik von Prof. Faydor L. Litvin definieren wir drei Koordinatensysteme: $S_f$ (raumfest), $S_1$ (Ritzel) und $S_2$ (Rad).
+
+Die Achsabstandsvektoren und Winkelgeschwindigkeiten lauten:
+
+$$
+\mathbf{R} = \vec{O_1 O_2} = a \, \mathbf{i}_f = \begin{bmatrix} a \\ 0 \\ 0 \end{bmatrix}_f
+$$
+
+$$
+\boldsymbol{\omega}_1 = \omega_1 \, \mathbf{k}_f, \quad \boldsymbol{\omega}_2 = -\omega_2 \, \mathbf{k}_f
+$$
+
+Die Relativgeschwindigkeit $\mathbf{v}_f^{(12)}$ im Eingriffspunkt $K$ beträgt:
+
+$$
+\mathbf{v}_f^{(12)} = \mathbf{v}_f^{(1)} - \mathbf{v}_f^{(2)} = (\boldsymbol{\omega}_1 - \boldsymbol{\omega}_2) \times \mathbf{r}_f - \mathbf{R} \times \boldsymbol{\omega}_2
+$$
+
+---
+
+## 3. Erste Eingriffsgleichung nach Litvin und Willis-Verzahnungsgesetz
+
+### 3.1 Kontinuierliche Eingriffsbedingung
+
+Zwei Zahnflanken bleiben genau dann ohne Durchdringung oder Abheben in ständigem Kontakt, wenn die Relativgeschwindigkeit in Richtung der gemeinsamen Flankennormale $\mathbf{n}_f$ verschwindet:
+
+$$
+\mathbf{n}_f \cdot \mathbf{v}_f^{(12)} = 0
+$$
+
+Dies ist **Litvins erste Eingriffsgleichung**.
+
+### 3.2 Beweis des Willis-Verzahnungsgesetzes
+
+Durch Einsetzen und Auswertung des Spatprodukts folgt:
+
+$$
+\boldsymbol{\omega}_1 \cdot (\vec{O_1 K} \times \mathbf{n}_f) = \boldsymbol{\omega}_2 \cdot (\vec{O_2 K} \times \mathbf{n}_f)
+$$
+
+Da $O_1$ und $O_2$ auf entgegengesetzten Seiten der Eingriffslinie liegen, heben sich die Vorzeichen auf:
+
+$$
+\frac{\omega_1}{\omega_2} = \frac{\overline{O_2 N_2}}{\overline{O_1 N_1}} = \frac{\overline{O_2 P}}{\overline{O_1 P}} = \text{konstant} = u
+$$
+
+> **[Verzahnungsgesetz nach Willis (1841)]**  
+> Das Übersetzungsverhältnis ist genau dann konstant, wenn die gemeinsame Normale in allen Berührpunkten stets durch einen festen Punkt (Wälzpunkt $P$) auf der Zentrale $\overline{O_1 O_2}$ geht.
+
+![Figure 2: Willis Law Geometry and Involute Normal Action](/images/part1/fig2_willis_law_geometry.png)
+
+---
+
+## 4. Differentialgeometrische Euler-Savary-Gleichung
+
+Die Krümmungsradien konjugierter Flanken genügen der **Euler-Savary-Gleichung**:
+
+$$
+\left( \frac{1}{s_1} - \frac{1}{s_2} \right) \sin\alpha_w = \frac{1}{r_{w1}} \pm \frac{1}{r_{w2}}
+$$
+
+Für Außenverzahnungen gilt das Pluszeichen ($+$), für Innenverzahnungen das Minuszeichen ($-$).
+Bei Evolventenverzahnungen fallen die Krümmungsmittelpunkte $C_1, C_2$ permanent mit den Grundkreistangentenpunkten $N_1, N_2$ zusammen, wodurch die Gleichung überall identisch erfüllt ist.
+
+---
+
+## 5. Involuteninvarianz bei Achsabstandsänderung
+
+Die Kreis-Evolvente ist definiert durch:
+
+$$
+\begin{cases}
+x(\theta) = r_b (\cos\theta + \theta \sin\theta) \\
+y(\theta) = r_b (\sin\theta - \theta \cos\theta)
+\end{cases}
+$$
+
+Ändert sich der Achsabstand von $a$ zu $a'$, passt sich der Betriebseingriffswinkel $\alpha_{wt}'$ selbsttätig an:
+
+$$
+a' \cos\alpha_{wt}' = r_{b1} + r_{b2}
+$$
+
+Das Übersetzungsverhältnis bleibt exakt unverändert:
+
+$$
+u' = \frac{r_{b2}}{r_{b1}} = \frac{z_2}{z_1} = u \quad (\Delta u \equiv 0.000000\%)
+$$
+
+---
+
+## 6. Kontaktkinematik und Gleitgeschwindigkeit
+
+Die Relativgeschwindigkeit zerfällt in Normal- und Tangentialanteile. Die Gleitgeschwindigkeit $v_s$ wächst linear mit dem Abstand $g$ vom Wälzpunkt $P$:
+
+$$
+v_s(g) = (\omega_1 + \omega_2) \, g
+$$
+
+Im Wälzpunkt $P$ ($g = 0$) herrscht reines Rollen ($v_s = 0$).
+
+![Figure 3: Instantaneous Contact Velocity Vectors and Sliding Velocity](/images/part1/fig3_contact_velocity_vectors.png)
+
+Die spezifischen Gleitwerte $\sigma_1, \sigma_2$ bestimmen das Fress- und Verschleißrisiko:
+
+$$
+\sigma_1 = 1 - \frac{1}{u} \cdot \frac{\rho_2}{\rho_1}, \quad \sigma_2 = 1 - u \cdot \frac{\rho_1}{\rho_2}
+$$
+
+---
+
+## 7. Implementierung im H-GEAR STUDIO Rechenkern
+
+Die abgeleiteten Gleichungen sind im Python-Backend (`gear_math.py`, `profile_service.py`) mit doppelter Präzision ($10^{-13}$) implementiert und treiben die 2D/3D LTCA-Echtzeitanalyse.
+
+---
+
+## 8. Zusammenfassung und Ausblick
+
+Das nächste Kapitel widmet sich der vertieften Evolventengeometrie: **"Evolventengeometrie: Geschlossene Koordinaten und Gleitmechanismen"**.

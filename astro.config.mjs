@@ -7,6 +7,16 @@ import rehypeKatex from 'rehype-katex';
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://gear.ideaspot360.com',
+	redirects: {
+		'/ko/part1-kinematics/01-conjugate-action': '/ko/part01-kinematics/01-why-gears',
+		'/ko/part1-kinematics/01-why-gears': '/ko/part01-kinematics/01-why-gears',
+		'/en/part1-kinematics/01-conjugate-action': '/en/part01-kinematics/01-why-gears',
+		'/en/part1-kinematics/01-why-gears': '/en/part01-kinematics/01-why-gears',
+		'/de/part1-kinematics/01-conjugate-action': '/de/part01-kinematics/01-why-gears',
+		'/de/part1-kinematics/01-why-gears': '/de/part01-kinematics/01-why-gears',
+		'/ja/part1-kinematics/01-conjugate-action': '/ja/part01-kinematics/01-why-gears',
+		'/ja/part1-kinematics/01-why-gears': '/ja/part01-kinematics/01-why-gears',
+	},
 	markdown: {
 		remarkPlugins: [remarkMath],
 		rehypePlugins: [rehypeKatex],
@@ -16,6 +26,7 @@ export default defineConfig({
 			title: 'H-GEAR STUDIO Engineering',
 			description: 'Official Multi-Language Technical Whitepaper & Gear Engineering Knowledge Base',
 			defaultLocale: 'en',
+			customCss: ['./src/styles/custom.css'],
 			locales: {
 				en: {
 					label: 'English',
@@ -74,7 +85,7 @@ export default defineConfig({
 						ko: '제1부: 치형 기구학 및 맞물림 기본 법칙',
 					},
 					items: [
-						{ autogenerate: { directory: 'part1-kinematics' } },
+						{ autogenerate: { directory: 'part01-kinematics' } },
 					],
 				},
 			],

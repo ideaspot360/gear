@@ -1,0 +1,153 @@
+# H-GEAR STUDIO Official 4-Language Engineering Terminology Glossary
+# Conforming to ISO 21771:2007, DIN 3960, AGMA 9005-F16, JIS B 1701
+version: "1.0.0"
+standards:
+  - "ISO 21771:2007 (Cylindrical involute gears - Concepts and geometry)"
+  - "DIN 3960 (Definitions, parameters and symbols for cylindrical gears)"
+  - "AGMA 9005-F16 / AGMA 913"
+  - "JIS B 1701 (Involute gear tooth flutes)"
+
+terms:
+  - id: "pitch_point"
+    iso_symbol: "P"
+    definition: "Intersection of the line of centers with the line of action."
+    locales:
+      ko: { canonical: "피치점", forbidden: ["접촉점", "중심점"] }
+      en: { canonical: "Pitch Point", forbidden: ["center point"] }
+      de: { canonical: "Wälzpunkt", forbidden: ["Rollpunkt", "Eingriffspunkt"] }
+      ja: { canonical: "ピッチ点", forbidden: ["接触点", "中心点"] }
+
+  - id: "conjugate_action"
+    iso_symbol: "u = const"
+    definition: "Meshing condition maintaining a constant angular velocity ratio."
+    locales:
+      ko: { canonical: "공액 맞물림", synonyms: ["공액 작용"], forbidden: ["일반 맞물림", "연결 작용"] }
+      en: { canonical: "Conjugate Action", synonyms: ["Conjugate Meshing"], forbidden: ["joint action"] }
+      de: { canonical: "Verzahnungsgesetz", synonyms: ["konjugierte Verzahnung"], forbidden: ["Kupplungswirkung"] }
+      ja: { canonical: "共役噛み合い", synonyms: ["共役作用"], forbidden: ["連続噛み合い"] }
+
+  - id: "line_of_action"
+    iso_symbol: "g_alpha"
+    definition: "The straight line along which the point of contact moves."
+    locales:
+      ko: { canonical: "작용선", synonyms: ["물림선"], forbidden: ["접선"] }
+      en: { canonical: "Line of Action", forbidden: ["tangent line"] }
+      de: { canonical: "Eingriffslinie", forbidden: ["Wirkungslinie"] }
+      ja: { canonical: "作用線", synonyms: ["噛み合い線"], forbidden: ["接線"] }
+
+  - id: "involute_curve"
+    iso_symbol: "inv(alpha)"
+    definition: "Spiral trace described by the end of a string unwinding from a base circle."
+    locales:
+      ko: { canonical: "인볼류트 곡선", forbidden: ["신개선"] }
+      en: { canonical: "Involute Curve", forbidden: ["evolute curve"] }
+      de: { canonical: "Kreisevolvente", synonyms: ["Evolvente"], forbidden: ["Involute"] }
+      ja: { canonical: "インボリュート曲線", forbidden: ["伸開線"] }
+
+  - id: "center_distance"
+    iso_symbol: "a"
+    definition: "Shortest distance between axes of two meshing gears."
+    locales:
+      ko: { canonical: "중심거리", forbidden: ["축간거리"] }
+      en: { canonical: "Center Distance", forbidden: ["axis distance"] }
+      de: { canonical: "Achsabstand", forbidden: ["Mittelabstand"] }
+      ja: { canonical: "中心距離", forbidden: ["軸間距離"] }
+
+  - id: "backlash"
+    iso_symbol: "j_t"
+    definition: "Clearance between non-working flanks of adjacent teeth."
+    locales:
+      ko: { canonical: "백래시", forbidden: ["틈새", "유격"] }
+      en: { canonical: "Backlash", forbidden: ["play", "gap"] }
+      de: { canonical: "Flankenspiel", forbidden: ["Spiel", "Zahnspiel"] }
+      ja: { canonical: "バックラッシ", forbidden: ["遊び", "隙間"] }
+
+  - id: "contact_ratio"
+    iso_symbol: "epsilon_alpha"
+    definition: "Ratio of length of path of contact to base pitch."
+    locales:
+      ko: { canonical: "물림률", synonyms: ["접촉률"], forbidden: ["접촉비"] }
+      en: { canonical: "Contact Ratio", forbidden: ["mesh ratio"] }
+      de: { canonical: "Profilüberdeckung", synonyms: ["Überdeckungsgrad"], forbidden: ["Kontaktverhältnis"] }
+      ja: { canonical: "かみ合い率", forbidden: ["接触比"] }
+
+  - id: "sliding_velocity"
+    iso_symbol: "v_s (or v_g)"
+    definition: "Relative tangential velocity between two contacting tooth surfaces."
+    locales:
+      ko: { canonical: "미끄럼 속도", forbidden: ["이동 속도"] }
+      en: { canonical: "Sliding Velocity", forbidden: ["slip speed"] }
+      de: { canonical: "Gleitgeschwindigkeit", forbidden: ["Rutschgeschwindigkeit"] }
+      ja: { canonical: "すべり速度", forbidden: ["スリップ速度"] }
+
+  - id: "base_circle"
+    iso_symbol: "d_b"
+    definition: "The circle from which the involute curve is generated."
+    locales:
+      ko: { canonical: "기초원", forbidden: ["바닥원", "베이스원"] }
+      en: { canonical: "Base Circle", forbidden: ["bottom circle"] }
+      de: { canonical: "Grundkreis", forbidden: ["Basiskreis"] }
+      ja: { canonical: "基礎円", forbidden: ["ベース円"] }
+
+  - id: "pressure_angle"
+    iso_symbol: "alpha"
+    definition: "Angle between line of action and normal to line of centers."
+    locales:
+      ko: { canonical: "압력각", forbidden: ["경사각"] }
+      en: { canonical: "Pressure Angle", forbidden: ["slope angle"] }
+      de: { canonical: "Eingriffswinkel", forbidden: ["Druckwinkel"] }
+      ja: { canonical: "圧力角", forbidden: ["傾斜角"] }
+
+  - id: "friction_wheel"
+    iso_symbol: "d_w"
+    definition: "Non-toothed cylindrical drive transmitting power via friction."
+    locales:
+      ko: { canonical: "마찰차", forbidden: ["마찰바퀴"] }
+      en: { canonical: "Friction Wheel", synonyms: ["Friction Drive"], forbidden: ["rubbing wheel"] }
+      de: { canonical: "Reibrad", synonyms: ["Reibradgetriebe"], forbidden: ["Reibungsrad"] }
+      ja: { canonical: "摩擦車", forbidden: ["摩擦円板"] }
+
+  - id: "common_normal"
+    iso_symbol: "n"
+    definition: "Vector perpendicular to both contacting tooth surfaces at contact point."
+    locales:
+      ko: { canonical: "공통 법선", forbidden: ["직각선"] }
+      en: { canonical: "Common Normal", forbidden: ["orthogonal line"] }
+      de: { canonical: "Gemeinsame Normale", forbidden: ["Senkrechte"] }
+      ja: { canonical: "共通法線", forbidden: ["垂直線"] }
+
+  - id: "pitch_circle"
+    iso_symbol: "d"
+    definition: "Standard reference circle on which standard tooth parameters are defined."
+    locales:
+      ko: { canonical: "피치원", forbidden: ["표준원"] }
+      en: { canonical: "Pitch Circle", forbidden: ["standard circle"] }
+      de: { canonical: "Wälzkreis", synonyms: ["Teilkreis"], forbidden: ["Standardkreis"] }
+      ja: { canonical: "ピッチ円", forbidden: ["基準円"] }
+
+  - id: "tip_circle"
+    iso_symbol: "d_a"
+    definition: "Circle bounding the outer ends of gear teeth."
+    locales:
+      ko: { canonical: "이끝원", forbidden: ["외부원", "상단원"] }
+      en: { canonical: "Tip Circle", synonyms: ["Addendum Circle"], forbidden: ["crest circle"] }
+      de: { canonical: "Kopfkreis", forbidden: ["Außenkreis"] }
+      ja: { canonical: "歯先円", forbidden: ["外径円"] }
+
+  - id: "root_circle"
+    iso_symbol: "d_f"
+    definition: "Circle bounding the bottom of tooth spaces."
+    locales:
+      ko: { canonical: "이뿌리원", forbidden: ["하단원", "밑원"] }
+      en: { canonical: "Root Circle", synonyms: ["Dedendum Circle"], forbidden: ["bottom circle"] }
+      de: { canonical: "Fußkreis", forbidden: ["Bodenkreis"] }
+      ja: { canonical: "歯底円", forbidden: ["下径円"] }
+
+  - id: "elastohydrodynamic_lubrication"
+    iso_symbol: "EHL"
+    definition: "Lubrication regime where elastic deformation of surfaces affects lubricant film."
+    locales:
+      ko: { canonical: "탄성유체윤활", synonyms: ["EHL"], forbidden: ["유체윤활"] }
+      en: { canonical: "Elastohydrodynamic Lubrication", synonyms: ["EHL"], forbidden: ["liquid lubrication"] }
+      de: { canonical: "Elastohydrodynamische Schmierung", synonyms: ["EHD-Schmierung"], forbidden: ["Ölschmierung"] }
+      ja: { canonical: "弾性流体潤滑", synonyms: ["EHL"], forbidden: ["単純油滑"] }
