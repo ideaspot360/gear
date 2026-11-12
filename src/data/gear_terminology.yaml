@@ -21,7 +21,7 @@ terms:
     iso_symbol: "u = const"
     definition: "Meshing condition maintaining a constant angular velocity ratio."
     locales:
-      ko: { canonical: "공액 맞물림", synonyms: ["공액 작용"], forbidden: ["일반 맞물림", "연결 작용"] }
+      ko: { canonical: "기어 맞물림 법칙", synonyms: ["등속 맞물림 조건", "맞물림 작용"], forbidden: ["공액 맞물림", "공액 작용", "일반 맞물림"] }
       en: { canonical: "Conjugate Action", synonyms: ["Conjugate Meshing"], forbidden: ["joint action"] }
       de: { canonical: "Verzahnungsgesetz", synonyms: ["konjugierte Verzahnung"], forbidden: ["Kupplungswirkung"] }
       ja: { canonical: "共役噛み合い", synonyms: ["共役作用"], forbidden: ["連続噛み合い"] }
@@ -102,7 +102,7 @@ terms:
     iso_symbol: "d_w"
     definition: "Non-toothed cylindrical drive transmitting power via friction."
     locales:
-      ko: { canonical: "마찰차", forbidden: ["마찰바퀴"] }
+      ko: { canonical: "마찰차", forbidden: ["평찰차", "마찰바퀴"] }
       en: { canonical: "Friction Wheel", synonyms: ["Friction Drive"], forbidden: ["rubbing wheel"] }
       de: { canonical: "Reibrad", synonyms: ["Reibradgetriebe"], forbidden: ["Reibungsrad"] }
       ja: { canonical: "摩擦車", forbidden: ["摩擦円板"] }

@@ -255,7 +255,7 @@ def create_diagram_1(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all'):
     
     ax1.set_xlim(-4.0, 4.0)
     ax1.set_ylim(-5.2, 4.6)
-    ax1.set_title("(A) 평찰차(Friction Wheel)의 구동 메커니즘", fontsize=13.5,
+    ax1.set_title("(A) 마찰차(Friction Wheel)의 구동 메커니즘", fontsize=13.5,
                   fontweight='normal', pad=15, color=COLOR_TEXT_MAIN)
     
     # -------------------------------------------------------------
@@ -318,7 +318,7 @@ def create_diagram_1(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all'):
     
     # Annotations with slim leader lines
     ax2_top.text(-5.4, 3.6,
-                 r"★ 정규 인볼류트 형상 맞물림 (공액 접촉, 오버랩 $0.000\;\mathrm{mm}$)" "\n"
+                 r"★ 정규 인볼류트 치형 맞물림 (등속 맞물림 접촉, 오버랩 $0.000\;\mathrm{mm}$)" "\n"
                  r"   모듈 $m=2.0,\; z_1=17,\; z_2=33,\; \alpha_n=20^\circ,\; j_n=0.0$",
                  fontsize=10, fontweight='normal', color=COLOR_TEXT_MAIN,
                  bbox=dict(boxstyle="round,pad=0.25", fc="#F8FAFC", ec=COLOR_AXIS, lw=0.8))
@@ -373,7 +373,7 @@ def create_diagram_1(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all'):
 
     ax2_bot.text(col1_x, 0.675, "비교 항목 (Criteria)", fontsize=9.0, fontweight='normal',
                  color=COLOR_TEXT_MAIN, ha='center', va='center', zorder=3)
-    ax2_bot.text(col2_x, 0.675, "평찰차 (Friction Wheel)", fontsize=9.0, fontweight='normal',
+    ax2_bot.text(col2_x, 0.675, "마찰차 (Friction Wheel)", fontsize=9.0, fontweight='normal',
                  color="#B91C1C", ha='center', va='center', zorder=3)
     ax2_bot.text(col3_x, 0.675, "정규 인볼류트 기어 (Involute)", fontsize=9.0, fontweight='normal',
                  color="#15803D", ha='center', va='center', zorder=3)
@@ -610,7 +610,7 @@ def create_diagram_2(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all'):
     
     ax.set_xlim(-6.0, 6.0)
     ax.set_ylim(-6.05, 4.8)
-    ax.set_title("기어 기구학의 제1헌법: 공액 맞물림의 법칙 (Willis' Law)",
+    ax.set_title("기어 기구학의 제1법칙: 기어 맞물림의 법칙 (Willis' Law)",
                  fontsize=15, fontweight='normal', pad=22, color=COLOR_TEXT_MAIN)
     ax.legend(loc="upper left", fontsize=9.5, framealpha=0.95, edgecolor=COLOR_AXIS)
     

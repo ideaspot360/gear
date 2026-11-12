@@ -1,0 +1,274 @@
+---
+title: Chapter 1. Why Gears? — Fundamental Principles of Power Transmission and Law of Gearing
+description: From friction wheel slip limits and notched cylinder angular acceleration pulsations to involute string geometry, Camus's theorem, velocity normal matching, and the 3 fundamental design factors.
+series: theory
+part: 1
+chapter: 1
+gear_type: spur
+standards:
+  - "ISO 21771:2007"
+  - "DIN 3960"
+  - "AGMA 9005-F16"
+required_diagrams:
+  - "fig1_friction_vs_gear"
+  - "fig2_willis_law_geometry"
+  - "fig3_contact_velocity_vectors"
+academic_level: undergraduate
+equations_hash: "ce384ecf0c4f9dbf3c20e8e5968832bd1d20e60e3dd9823bffc7be493bb9920c"
+review_date: "2026-11-12"
+---
+
+## 1. Introduction: Evolution of Power Transmission Elements and Limitations of Friction Wheels
+
+The most primitive mechanical device for transmitting rotational power from one shaft to another is a pair of smooth cylinders pressed against each other, relying on contact friction—known as **Friction Wheels**.
+
+When two cylindrical wheels of radii $r_1$ and $r_2$ are mounted on shafts separated by center distance $a$ and pressed together with normal force $F_N$, the maximum transferable tangential force $F_{t,\max}$ governed by Coulomb friction is:
+
+$$F_t \le \mu_s F_N$$
+
+The maximum torque transferable by the driving shaft is:
+
+$$T_{1,\max} = r_1 \cdot F_{t,\max} = \mu_s r_1 F_N$$
+
+```
+[Drive Shaft O₁ (Radius r₁)] ──(Normal Force FN)──▶ [Contact Point P (Ft ≤ μ FN)] ──(Driven)──▶ [Driven Shaft O₂ (Radius r₂)]
+```
+
+In an ideal pure-rolling state without slip, the pitch line velocity is identical, giving a constant velocity ratio $u$:
+
+$$v = r_1 \omega_1 = r_2 \omega_2 \quad \Longrightarrow \quad u = \frac{\omega_1}{\omega_2} = \frac{r_2}{r_1} = \mathrm{Constant}$$
+
+![Figure 1: Mechanical Comparison between Friction Wheels and Gear Drives](/images/part1/fig1_friction_vs_gear.png)
+
+However, friction wheels suffer from critical mechanical limitations:
+1. **Slip and Loss of Phase Synchronization**: When transmitted torque exceeds friction capacity or oil contamination lowers friction, slipping occurs, destroying constant angular velocity ratio $u(t)$.
+2. **Excessive Bearing Loads**: High torque transmission requires enormous normal clamp forces $F_N$, causing severe bending moments and premature bearing fatigue.
+3. **Frictional Wear and Heating**: Slip induces intense local heating and uneven surface wear.
+
+---
+
+## 2. The Need for Tooth Form Generation: Limitations of Notched Cylinders and Dynamic Pulsation
+
+To prevent slipping, one might simply cut rectangular or semicircular notches into the cylinder rims. However, arbitrary tooth shapes cause a dynamic catastrophe.
+
+When arbitrary profiles mesh, the common normal at the contact point swings periodically across the center line. As a result, the instantaneous speed ratio $u(t) = \omega_1(t)/\omega_2(t)$ oscillates:
+
+$$u(t) = \frac{\omega_1}{\omega_2(t)} \ne \mathrm{Constant}$$
+
+Even if the driving shaft rotates at constant $\omega_1$, the driven shaft experiences angular acceleration:
+
+$$\alpha_2(t) = \frac{d\omega_2(t)}{dt} \ne 0$$
+
+By Newton's second law, with load inertia $I$, huge dynamic impact forces are generated:
+
+$$F_{dyn}(t) = I \cdot \alpha_2(t) = I \cdot \frac{d\omega_2(t)}{dt}$$
+
+This causes severe noise, vibration, and tooth breakage. Therefore, gear engineering is fundamentally about finding **a special mathematical curve that guarantees strictly zero angular acceleration ($d\omega_2/dt \equiv 0$) throughout mesh engagement**.
+
+---
+
+## 3. Genesis of the Involute Curve: Geometry Unwinding from a Cylinder
+
+The ideal tooth curve was formulated by Leonhard Euler: the **Involute of a Circle**.
+
+Imagine a taut string wrapped around a cylinder of radius $r_b$ (the **Base Circle**). As the string unwinds while kept taut, its end traces out an involute curve.
+
+```
+                  Base Circle (Radius rb)
+                     . - ~ - .
+                 .               .
+               .                   .
+              .         O           .
+               .                   .  Unwinding Taut String (Length L = rb · θ)
+                 .               .     \
+                   ' - _ _ _ - ' ───────▶ K (Tracing Involute Curve)
+```
+
+The 3 fundamental invariants of the involute curve are:
+1. **String Length Equals Arc Length**:
+   $$L = r_b \cdot \theta$$
+2. **The String is the Curve Normal**: The taut string is perpendicular to the tangent of the involute at point $K$, acting as the curve normal.
+3. **All Normals are Tangent to the Base Circle**: Radius of curvature $\rho_K$ equals the unwound length:
+   $$\rho_K = r_b \cdot \theta$$
+
+Parametric equations with base radius $r_b$ and roll angle $\theta$:
+
+$$x_K = r_b (\cos\theta + \theta \sin\theta)$$
+
+$$y_K = r_b (\sin\theta - \theta \cos\theta)$$
+
+At radius $r_K$ with pressure angle $\alpha_K$:
+
+$$r_b = r_K \cos\alpha_K \quad \Longrightarrow \quad \cos\alpha_K = \frac{r_b}{r_K}$$
+
+$$\theta = \tan\alpha_K$$
+
+$$\mathrm{inv}\,\alpha_K = \tan\alpha_K - \alpha_K$$
+
+---
+
+## 4. Fundamental Law of Gearing and Proof of Camus's Theorem
+
+The kinematic condition for constant angular velocity ratio is the **Law of Gearing** (or **Willis's Law**), formalized by Charles Camus.
+
+![Figure 2: Geometric Proof of Willis's Law of Gearing](/images/part1/fig2_willis_law_geometry.png)
+
+### 4.1 Kinematic Contact Condition: Velocity Normal Equivalence
+
+At contact point $K$ between gear 1 and gear 2, with velocities $\vec{v}_1$ and $\vec{v}_2$:
+
+$$v_1 = \omega_1 \cdot O_1 K, \quad v_2 = \omega_2 \cdot O_2 K$$
+
+![Figure 3: Contact Point Kinematics and Velocity Vector Decomposition](/images/part1/fig3_contact_velocity_vectors.png)
+
+To prevent penetration and tooth separation, normal velocity components along common normal $n$-$n$ must match:
+
+$$v_{n1} = v_{n2}$$
+
+Tangential difference is sliding velocity $v_g$:
+
+$$v_g = v_{t1} - v_{t2}$$
+
+### 4.2 Proof via Similar Triangles
+
+Dropping perpendiculars $O_1 N_1$ and $O_2 N_2$ from centers onto normal $n$-$n$:
+
+$$v_{n1} = v_1 \cos\beta_1 = (\omega_1 \cdot O_1 K) \cdot \frac{O_1 N_1}{O_1 K} = \omega_1 \cdot O_1 N_1$$
+
+$$v_{n2} = v_2 \cos\beta_2 = (\omega_2 \cdot O_2 K) \cdot \frac{O_2 N_2}{O_2 K} = \omega_2 \cdot O_2 N_2$$
+
+Equating normal velocities:
+
+$$\omega_1 \cdot O_1 N_1 = \omega_2 \cdot O_2 N_2$$
+
+$$\frac{\omega_1}{\omega_2} = \frac{O_2 N_2}{O_1 N_1}$$
+
+Intersecting normal $n$-$n$ with line of centers $O_1 O_2$ at pitch point $P$:
+
+$$\Delta O_1 N_1 P \sim \Delta O_2 N_2 P$$
+
+$$\frac{O_2 N_2}{O_1 N_1} = \frac{O_2 P}{O_1 P}$$
+
+$$\frac{\omega_1}{\omega_2} = \frac{O_2 P}{O_1 P} = \mathrm{Constant}$$
+
+> **Law of Gearing (Willis's Law)**  
+> "A constant angular velocity ratio requires that the common normal to the tooth profiles at all contact points must pass through a fixed point (Pitch Point $P$) on the line of centers."
+
+### 4.3 Center Distance Invariance of Involute Gears
+
+Unlike cycloidal gears, involute gears possess **center distance invariance**:
+1. All normals to an involute must be tangent to its base circle.
+2. The common normal between two involutes is the unique common tangent to the two base circles.
+3. Pitch point $P$ divides center distance strictly in the ratio $r_{b2}/r_{b1}$:
+   $$\frac{O_2 P}{O_1 P} = \frac{r_{b2}}{r_{b1}} = \mathrm{Constant}$$
+Even if center distance $a$ varies due to manufacturing tolerances or thermal growth, the velocity ratio remains exactly constant ($0.000000$ deviation).
+
+---
+
+## 5. Three Fundamental Design Parameters: $z$, $\alpha$, $m$
+
+### 5.1 Number of Teeth ($z$)
+
+Ratio of teeth dictates transmission ratio:
+
+$$u = \frac{\omega_1}{\omega_2} = \frac{z_2}{z_1}$$
+
+Standard full-depth gears require $z \ge 17$ at $\alpha = 20^\circ$ to avoid undercutting.
+
+### 5.2 Standard Pressure Angle ($\alpha$)
+
+ISO 53 and global standards adopt $\alpha = 20^\circ$:
+
+$$F_t = F_n \cos\alpha, \quad F_r = F_n \sin\alpha = F_t \tan\alpha$$
+
+### 5.3 Module ($m$) and Circular Pitch ($p$)
+
+Module represents tooth size (mm):
+
+$$m = \frac{d}{z} \quad [\mathrm{mm}]$$
+
+Circular pitch $p$:
+
+$$p = \frac{\pi d}{z} = \pi \cdot m \quad [\mathrm{mm}]$$
+
+Standard Module Series (ISO 54 / KS B 0102):
+- **Series 1**: 0.5, 0.8, 1.0, 1.25, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 6.0, 8.0, 10.0, 12.0, 16.0, 20.0 mm.
+
+### 5.4 Standard Spur Geometry Equations
+
+1. Pitch Diameter: $d = m \cdot z$
+2. Base Diameter: $d_b = d \cos\alpha = m z \cos\alpha$
+3. Tip Diameter: $d_a = d + 2h_a = m(z + 2)$
+4. Root Diameter: $d_f = d - 2h_f = m(z - 2.5)$
+5. Standard Center Distance: $a = m(z_1 + z_2)/2$
+6. Tooth Thickness: $s = \pi m / 2$
+
+---
+
+## 6. Summary Equations and Step-by-Step Verification Example
+
+### 6.1 Standard Spur Gear Formulas
+
+| Parameter | Symbol | Formula | Standard Default |
+| :--- | :---: | :--- | :--- |
+| Module | $m$ | $m = d / z$ | Standard Series |
+| Pressure Angle | $\alpha$ | Pitch Circle Angle | $20.0^\circ$ |
+| Number of Teeth | $z$ | $z = d / m$ | Integer ($z \ge 17$) |
+| Circular Pitch | $p$ | $p = \pi m$ | — |
+| Pitch Diameter | $d$ | $d = m z$ | — |
+| Base Diameter | $d_b$ | $d_b = m z \cos\alpha$ | — |
+| Addendum | $h_a$ | $h_a = 1.0 m$ | $h_a^* = 1.0$ |
+| Dedendum | $h_f$ | $h_f = 1.25 m$ | $c^* = 0.25$ |
+| Tip Diameter | $d_a$ | $d_a = d + 2m$ | — |
+| Root Diameter | $d_f$ | $d_f = d - 2.5m$ | — |
+| Center Distance | $a$ | $a = m(z_1 + z_2)/2$ | — |
+| Tooth Thickness | $s$ | $s = \pi m / 2$ | Zero backlash |
+
+---
+
+### 6.2 Hand Calculation Example
+
+**[Design Specifications]**
+- Module: $m = 4.0\text{ mm}$
+- Pressure Angle: $\alpha = 20.0^\circ$ ($\cos 20^\circ \approx 0.9396926$)
+- Pinion Teeth: $z_1 = 19$
+- Gear Teeth: $z_2 = 57$
+- Profile Shift: $x_1 = x_2 = 0.000$
+
+#### Step 1: Ratio and Pitch
+- Speed Ratio:
+  $$u = \frac{z_2}{z_1} = \frac{57}{19} = 3.000000$$
+- Circular Pitch:
+  $$p = \pi \cdot m = 12.566371\text{ mm}$$
+- Tooth Thickness:
+  $$s = \frac{p}{2} = 6.283185\text{ mm}$$
+
+#### Step 2: Pitch and Base Diameters
+- Pinion Pitch Diameter:
+  $$d_1 = 4.0 \times 19 = 76.000000\text{ mm}$$
+- Gear Pitch Diameter:
+  $$d_2 = 4.0 \times 57 = 228.000000\text{ mm}$$
+- Pinion Base Diameter:
+  $$d_{b1} = 76.0 \times \cos 20^\circ = 71.416639\text{ mm}$$
+- Gear Base Diameter:
+  $$d_{b2} = 228.0 \times \cos 20^\circ = 214.249918\text{ mm}$$
+
+#### Step 3: Tip and Root Diameters
+- Addendum: $h_a = 4.000000\text{ mm}$, Dedendum: $h_f = 5.000000\text{ mm}$
+- Pinion Tip Diameter:
+  $$d_{a1} = 76.0 + 8.0 = 84.000000\text{ mm}$$
+- Gear Tip Diameter:
+  $$d_{a2} = 228.0 + 8.0 = 236.000000\text{ mm}$$
+- Pinion Root Diameter:
+  $$d_{f1} = 76.0 - 10.0 = 66.000000\text{ mm}$$
+- Gear Root Diameter:
+  $$d_{f2} = 228.0 - 10.0 = 218.000000\text{ mm}$$
+
+#### Step 4: Center Distance and Radius Ratio Verification
+- Center Distance:
+  $$a = \frac{76.000000 + 228.000000}{2} = 152.000000\text{ mm}$$
+- Base Radius Ratio vs Pitch Radius Ratio:
+  $$\frac{r_{b2}}{r_{b1}} = \frac{107.124959}{35.708320} = 3.000000$$
+  $$\frac{r_2}{r_1} = \frac{114.000000}{38.000000} = 3.000000$$
+
+The base radius ratio exactly matches the pitch radius ratio with zero deviation ($0.000000\text{ mm}$).

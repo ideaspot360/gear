@@ -10,6 +10,7 @@ import { docsSchema } from '@astrojs/starlight/schema';
  * 2. 기술 백서(part 또는 gear_type이 선언된 문서)에 대해서는 .superRefine()을 통해 학술 필수 필드를 100% 엄격 강제.
  */
 const technicalPaperSchema = z.object({
+  series: z.enum(['theory', 'architecture']).default('theory').describe('발행 시리즈 구분 (theory: 순수 기어 공학, architecture: CAE/CAD 개발자 아키텍처)'),
   part: z.number().int().min(1).optional().describe('도서 Part 번호 (예: 1)'),
   chapter: z.number().int().min(1).optional().describe('도서 Chapter 번호 (예: 1)'),
   gear_type: z.enum([
@@ -47,8 +48,8 @@ const technicalPaperSchema = z.object({
     if (!data.equations_hash || data.equations_hash.length !== 64) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, message: "기술 백서는 64자리 SHA-256 'equations_hash'가 필수입니다.", path: ['equations_hash'] });
     }
-    if (data.kernel_verified !== true) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "기술 백서는 백엔드 profile_service 검증 완료 플래그('kernel_verified: true')가 필수입니다.", path: ['kernel_verified'] });
+    if (data.series === 'architecture' && data.kernel_verified !== true) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "아키텍처 기술 백서는 백엔드 profile_service 검증 완료 플래그('kernel_verified: true')가 필수입니다.", path: ['kernel_verified'] });
     }
     if (!data.review_date) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, message: "기술 백서는 최종 공학 감사 일자('review_date': YYYY-MM-DD)가 필수입니다.", path: ['review_date'] });
