@@ -454,19 +454,19 @@ def draw_leader_annotation(ax, pt, text_pos, text, color=COLOR_TEXT_MAIN,
 # Save Diagram Helper
 # ---------------------------------------------------------------------------
 def save_diagram(fig, base_name, output_dir, dpi, formats):
-    """Saves figure in requested formats with tight bounds and white background."""
+    """Saves figure in requested formats with tight bounds, generous padding, and white background."""
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     
     saved_paths = []
     if formats in ('all', 'svg'):
         svg_path = output_dir / f"{base_name}.svg"
-        fig.savefig(svg_path, format='svg', bbox_inches='tight', pad_inches=0.15,
+        fig.savefig(svg_path, format='svg', bbox_inches='tight', pad_inches=0.25,
                     facecolor=COLOR_BG, edgecolor='none')
         saved_paths.append(svg_path)
     if formats in ('all', 'png'):
         png_path = output_dir / f"{base_name}.png"
-        fig.savefig(png_path, format='png', dpi=dpi, bbox_inches='tight', pad_inches=0.15,
+        fig.savefig(png_path, format='png', dpi=dpi, bbox_inches='tight', pad_inches=0.25,
                     facecolor=COLOR_BG, edgecolor='none')
         saved_paths.append(png_path)
     
@@ -561,7 +561,7 @@ def create_diagram_1a(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lan
             fontweight='normal', color="#7F1D1D", ha='center', va='center', zorder=4)
     
     ax.set_xlim(-4.3, 4.3)
-    ax.set_ylim(-5.75, 4.65)
+    ax.set_ylim(-6.00, 4.65)
     ax.set_title(tr('fig1a_title'), fontsize=16.0, fontweight='normal', pad=14, color=COLOR_TEXT_MAIN)
     
     save_diagram(fig, "fig1a_friction_drive", output_dir, dpi, formats)
@@ -677,7 +677,7 @@ def create_diagram_1b(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lan
             fontsize=10.5, fontweight='normal', color="#166534", ha='center', va='center', zorder=6)
     
     ax.set_xlim(-5.9, 5.9)
-    ax.set_ylim(-6.95, 4.45)
+    ax.set_ylim(-7.20, 4.45)
     ax.set_title(tr('fig1b_title'), fontsize=16.0, fontweight='normal', pad=14, color=COLOR_TEXT_MAIN)
     
     save_diagram(fig, "fig1b_gear_drive", output_dir, dpi, formats)
@@ -886,7 +886,7 @@ def create_diagram_2(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
             fontsize=10.5, fontweight='normal', color="#15803D", ha='center', va='center', zorder=6)
     
     ax.set_xlim(-6.2, 6.2)
-    ax.set_ylim(-6.65, 4.75)
+    ax.set_ylim(-7.00, 4.75)
     ax.set_title(tr('fig2_title'), fontsize=16.0, fontweight='normal', pad=18, color=COLOR_TEXT_MAIN)
     ax.legend(loc="upper left", fontsize=10.5, framealpha=0.95, edgecolor=COLOR_AXIS)
     
@@ -1015,7 +1015,7 @@ def create_diagram_3(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
             fontsize=10.2, fontweight='normal', color="#B91C1C", ha='center', va='center', zorder=4)
     
     ax.set_xlim(-5.0, 5.0)
-    ax.set_ylim(-5.35, 3.85)
+    ax.set_ylim(-5.70, 3.85)
     title_text = tr('fig3_title')
     if lang in ['de', 'en']:
         title_text = title_text.replace(": ", ":\n")
