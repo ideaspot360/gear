@@ -149,7 +149,7 @@ TRANSLATIONS = {
         'fig2_proof_title': "★ 윌리스(Willis) 맞물림 기본 법칙의 기하학적 닫힌 해 수식",
         'fig2_proof_formula': r"$\Delta O_1 N_1 P \sim \Delta O_2 N_2 P$ (닮은꼴 직각삼각형)"
                               r" $\;\Longrightarrow\; \frac{\omega_1}{\omega_2} = \frac{O_2 P}{O_1 P} = \frac{r_2}{r_1} = \frac{O_2 N_2}{O_1 N_1} = \frac{r_{b2}}{r_{b1}} = \mathrm{Constant}$",
-        'fig2_proof_desc': "치면 접촉점 K의 이동과 무관하게, 공통 법선(Line of Action)이 중심선상의 고정된 피치점 P를 관통해야만 일정한 속도비가 보존된다.",
+        'fig2_proof_desc': "치면 접촉점 K의 이동과 무관하게, 공통 법선(Line of Action)이\n중심선상의 고정된 피치점 P를 관통해야만 일정한 속도비가 보존된다.",
         # Fig 3
         'fig3_title': "접촉점(K)의 기구학적 속도 분해: 법선 연속성 vs 상대 미끄럼",
         'fig3_tangent': r"공통 접선 ($t-t$)",
@@ -164,8 +164,8 @@ TRANSLATIONS = {
         'fig3_vs': r"$\vec{v}_s = \vec{v}_{t1} - \vec{v}_{t2}$" "\n(상대 미끄럼 속도, Sliding)",
         'fig3_k': r"$K$ (치면 접촉점)",
         'fig3_summary_title': "★ 접촉점(K) 기구학의 2대 절대 물리 법칙",
-        'fig3_rule1': r"1. 법선 방향 연속 접촉 조건: $v_{n1} = v_{n2}$ $\;\longrightarrow\;$ 파고듦(Interpenetration) 및 들뜸(Separation) 방지",
-        'fig3_rule2': r"2. 접선 방향 상대 미끄럼 발생: $\vec{v}_s = \vec{v}_{t1} - \vec{v}_{t2} \neq \vec{0}$ $\;\longrightarrow\;$ 치면 마찰열, 스커핑(Scuffing), EHL 마모의 근원",
+        'fig3_rule1': "1. 법선 방향 연속 접촉 조건: $v_{n1} = v_{n2}$\n   " r"$\longrightarrow$ 치면 파고듦(Interpenetration) 및 들뜸(Separation) 방지",
+        'fig3_rule2': r"2. 접선 방향 상대 미끄럼 발생: $\vec{v}_s = \vec{v}_{t1} - \vec{v}_{t2} \neq \vec{0}$" "\n   " r"$\longrightarrow$ 치면 마찰열, 스커핑(Scuffing), EHL 마모의 근원",
     },
     'en': {
         # Fig 1A
@@ -191,8 +191,8 @@ TRANSLATIONS = {
         'p_pitch': r"$P$ (Pitch Point)",
         'banner_title': "[First Principle of Gearing: Constant Angular Velocity Ratio]",
         'banner_formula': r"$u = \frac{\omega_1}{\omega_2} = \frac{z_2}{z_1} = \frac{33}{17} \approx 1.9412 = \mathrm{Constant} \quad (\Delta u \equiv 0.000000)$",
-        'banner_desc': "1. Positive Mechanical Interlock: Mesh load strictly proportional to transmitted torque without preload\n"
-                       r"2. Closed-form Contact: Pure conjugate motion with zero interference (0.000 mm) & 98-99.5% efficiency",
+        'banner_desc': "1. Positive Mechanical Interlock: Mesh load proportional to torque without preload\n"
+                       r"2. Closed-form Contact: Pure rolling-sliding with zero interference (0.000 mm)",
         # Fig 2
         'fig2_title': "Fundamental Law of Gearing: Willis' Law of Conjugate Action",
         'fig2_centerline': "Line of Centers",
@@ -215,7 +215,7 @@ TRANSLATIONS = {
         'fig2_proof_title': "[Geometric Closed-Form Formulation of Willis' Law of Gearing]",
         'fig2_proof_formula': r"$\Delta O_1 N_1 P \sim \Delta O_2 N_2 P$ (Similar Right Triangles)"
                               r" $\;\Longrightarrow\; \frac{\omega_1}{\omega_2} = \frac{O_2 P}{O_1 P} = \frac{r_2}{r_1} = \frac{O_2 N_2}{O_1 N_1} = \frac{r_{b2}}{r_{b1}} = \mathrm{Constant}$",
-        'fig2_proof_desc': "Constant velocity ratio is maintained if and only if the common normal passes through the fixed pitch point P along the line of centers.",
+        'fig2_proof_desc': "Constant velocity ratio is maintained if and only if the common normal\npasses through the fixed pitch point P along the line of centers.",
         # Fig 3
         'fig3_title': "Kinematic Velocity Decomposition at Contact Point K: Normal Continuity vs Relative Sliding",
         'fig3_tangent': r"Common Tangent ($t-t$)",
@@ -230,8 +230,8 @@ TRANSLATIONS = {
         'fig3_vs': r"$\vec{v}_s = \vec{v}_{t1} - \vec{v}_{t2}$" "\n(Relative Sliding Velocity)",
         'fig3_k': r"$K$ (Contact Point)",
         'fig3_summary_title': "[Two Fundamental Kinematic Laws at Contact Point K]",
-        'fig3_rule1': r"1. Normal Continuity Condition: $v_{n1} = v_{n2}$ $\;\longrightarrow\;$ Prevents interpenetration and contact loss",
-        'fig3_rule2': r"2. Tangential Relative Sliding: $\vec{v}_s = \vec{v}_{t1} - \vec{v}_{t2} \neq \vec{0}$ $\;\longrightarrow\;$ Source of frictional heat, scuffing, and EHL wear",
+        'fig3_rule1': "1. Normal Continuity Condition: $v_{n1} = v_{n2}$\n   " r"$\longrightarrow$ Prevents interpenetration and contact loss",
+        'fig3_rule2': r"2. Tangential Relative Sliding: $\vec{v}_s = \vec{v}_{t1} - \vec{v}_{t2} \neq \vec{0}$" "\n   " r"$\longrightarrow$ Source of frictional heat, scuffing, and EHL wear",
     },
     'de': {
         # Fig 1A
@@ -279,9 +279,9 @@ TRANSLATIONS = {
         'fig2_omega1': r"$\omega_1$",
         'fig2_omega2': r"$\omega_2$",
         'fig2_proof_title': "[Geometrische geschlossene Formulierung des Verzahnungsgesetzes (Willis)]",
-        'fig2_proof_formula': r"$\Delta O_1 N_1 P \sim \Delta O_2 N_2 P$ (Ähnliche rechtwinklige Dreiecke)"
+        'fig2_proof_formula': r"$\Delta O_1 N_1 P \sim \Delta O_2 N_2 P$"
                               r" $\;\Longrightarrow\; \frac{\omega_1}{\omega_2} = \frac{O_2 P}{O_1 P} = \frac{r_2}{r_1} = \frac{O_2 N_2}{O_1 N_1} = \frac{r_{b2}}{r_{b1}} = \mathrm{Constant}$",
-        'fig2_proof_desc': "Das Übersetzungsverhältnis ist genau dann konstant, wenn die gemeinsame Normale stets den festen Wälzpunkt P auf der Zentrallinie schneidet.",
+        'fig2_proof_desc': "Das Übersetzungsverhältnis ist genau dann konstant, wenn die gemeinsame Normale\nstets den festen Wälzpunkt P auf der Zentrallinie schneidet.",
         # Fig 3
         'fig3_title': "Kinematische Geschwindigkeitszerlegung im Kontaktpunkt K: Normalkontinuität vs. Relativgleiten",
         'fig3_tangent': r"Gemeinsame Tangente ($t-t$)",
@@ -296,8 +296,8 @@ TRANSLATIONS = {
         'fig3_vs': r"$\vec{v}_s = \vec{v}_{t1} - \vec{v}_{t2}$" "\n(Relativ-Gleitgeschwindigkeit)",
         'fig3_k': r"$K$ (Zahnkontaktpunkt)",
         'fig3_summary_title': "[Zwei fundamentale kinematische Gesetzmässigkeiten im Kontaktpunkt K]",
-        'fig3_rule1': r"1. Kontaktbedingung in Normalenrichtung: $v_{n1} = v_{n2}$ $\;\longrightarrow\;$ Verhindert Eindringen und Abheben",
-        'fig3_rule2': r"2. Relativgleiten in Tangentialrichtung: $\vec{v}_s = \vec{v}_{t1} - \vec{v}_{t2} \neq \vec{0}$ $\;\longrightarrow\;$ Ursache für Reibungswärme, Fressen und EHL-Verschleiss",
+        'fig3_rule1': "1. Kontaktbedingung in Normalenrichtung: $v_{n1} = v_{n2}$\n   " r"$\longrightarrow$ Verhindert Eindringen und Abheben der Zahnflanken",
+        'fig3_rule2': r"2. Relativgleiten in Tangentialrichtung: $\vec{v}_s = \vec{v}_{t1} - \vec{v}_{t2} \neq \vec{0}$" "\n   " r"$\longrightarrow$ Ursache für Reibungswärme, Fressen und EHL-Verschleiss",
     },
     'ja': {
         # Fig 1A
@@ -347,7 +347,7 @@ TRANSLATIONS = {
         'fig2_proof_title': "★ ウィリス (Willis) のかみ合い基本法則の幾何学的厳密解",
         'fig2_proof_formula': r"$\Delta O_1 N_1 P \sim \Delta O_2 N_2 P$ (相似な直角三角形)"
                               r" $\;\Longrightarrow\; \frac{\omega_1}{\omega_2} = \frac{O_2 P}{O_1 P} = \frac{r_2}{r_1} = \frac{O_2 N_2}{O_1 N_1} = \frac{r_{b2}}{r_{b1}} = \mathrm{Constant}$",
-        'fig2_proof_desc': "歯面接触点 K の移動にかかわらず、共通法線がかみ合い中心線上の固定ピッチ点 P を常に通過して初めて一定の速度比が維持される。",
+        'fig2_proof_desc': "歯面接触点 K の移動にかかわらず、共通法線がかみ合い中心線上の\n固定ピッチ点 P を常に通過して初めて一定の速度比が維持される。",
         # Fig 3
         'fig3_title': "接触点 (K) における機構学的速度分解: 法線方向連続性 vs 相対すべり",
         'fig3_tangent': r"共通接線 ($t-t$)",
@@ -362,8 +362,8 @@ TRANSLATIONS = {
         'fig3_vs': r"$\vec{v}_s = \vec{v}_{t1} - \vec{v}_{t2}$" "\n(相対すべり速度, Sliding)",
         'fig3_k': r"$K$ (歯面接触点)",
         'fig3_summary_title': "★ 接触点 (K) における機構学の2大絶対物理法則",
-        'fig3_rule1': r"1. 法線方向連続接触条件: $v_{n1} = v_{n2}$ $\;\longrightarrow\;$ 食い込み (Interpenetration) および離脱 (Separation) の防止",
-        'fig3_rule2': r"2. 接線方向相対すべり発生: $\vec{v}_s = \vec{v}_{t1} - \vec{v}_{t2} \neq \vec{0}$ $\;\longrightarrow\;$ 歯面摩擦熱, スカッフィング (Scuffing), EHL 摩耗の根源",
+        'fig3_rule1': "1. 法線方向連続接触条件: $v_{n1} = v_{n2}$\n   " r"$\longrightarrow$ 食い込み (Interpenetration) および離脱 (Separation) の防止",
+        'fig3_rule2': r"2. 接線方向相対すべり発生: $\vec{v}_s = \vec{v}_{t1} - \vec{v}_{t2} \neq \vec{0}$" "\n   " r"$\longrightarrow$ 歯面摩擦熱, スカッフィング (Scuffing), EHL 摩耗の根源",
     }
 }
 
@@ -633,7 +633,7 @@ def create_diagram_1b(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lan
     loa_x = np.array([-np.cos(alpha_rad), np.cos(alpha_rad)]) * loa_len
     loa_y = np.array([np.sin(alpha_rad), -np.sin(alpha_rad)]) * loa_len
     ax.plot(loa_x, loa_y, color=COLOR_NORMAL, lw=1.3, linestyle="-", zorder=3)
-    ax.text(2.7, -1.60, tr('loa_label'), fontsize=12.0, fontweight='normal',
+    ax.text(2.0, -1.60, tr('loa_label'), fontsize=11.5, fontweight='normal',
             color=COLOR_NORMAL, ha='left', va='center',
             bbox=dict(boxstyle="round,pad=0.18", fc="white", ec="none", alpha=0.92))
     
@@ -645,28 +645,28 @@ def create_diagram_1b(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lan
             bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_PITCH, lw=0.8, alpha=0.90))
     
     # Top-Left Engineering Specification Badge (10.5 pt)
-    ax.text(-5.4, 3.85, tr('spec_badge'), fontsize=10.5, fontweight='normal',
+    ax.text(-5.4, 3.90, tr('spec_badge'), fontsize=10.5, fontweight='normal',
             color=COLOR_TEXT_MAIN, va='top',
             bbox=dict(boxstyle="round,pad=0.25", fc="#F8FAFC", ec=COLOR_AXIS, lw=0.8))
     
     # Clearance and Top Land Leader Annotations (10.5 pt)
     ax.annotate(tr('clearance_label'),
-                xy=(0.0, 2.5), xytext=(2.2, 2.8),
+                xy=(0.0, 2.5), xytext=(2.5, 3.0), ha='left', va='center',
                 arrowprops=dict(arrowstyle="-|>,head_length=0.45,head_width=0.22",
                                 color=COLOR_GEAR, lw=1.0),
                 fontsize=10.5, fontweight='normal', color=COLOR_GEAR,
                 bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_GEAR, lw=0.8))
     
     ax.annotate(tr('topland_label'),
-                xy=(1.40, 1.94), xytext=(-1.50, 2.25),
-                ha='center', va='center',
+                xy=(1.40, 1.94), xytext=(-2.0, 2.05),
+                ha='right', va='center',
                 arrowprops=dict(arrowstyle="-|>,head_length=0.45,head_width=0.22",
                                 color=COLOR_PINION, lw=1.0, shrinkA=0, shrinkB=0),
                 fontsize=10.5, fontweight='normal', color=COLOR_PINION,
                 bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_PINION, lw=0.8))
     
-    # Bottom Callout Card: Willis First Principle & Constant Velocity Ratio Banner (y in [-6.3, -4.15])
-    banner_box = patches.FancyBboxPatch((-5.4, -6.3), 10.8, 2.15, boxstyle="round,pad=0.2",
+    # Bottom Callout Card: Willis First Principle & Constant Velocity Ratio Banner (y in [-6.35, -4.15])
+    banner_box = patches.FancyBboxPatch((-5.5, -6.35), 11.0, 2.20, boxstyle="round,pad=0.2",
                                         fc="#F0FDF4", ec="#86EFAC", lw=1.1, zorder=5)
     ax.add_patch(banner_box)
     ax.text(0.0, -4.40, tr('banner_title'),
@@ -677,7 +677,7 @@ def create_diagram_1b(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lan
             fontsize=10.5, fontweight='normal', color="#166534", ha='center', va='center', zorder=6)
     
     ax.set_xlim(-5.8, 5.8)
-    ax.set_ylim(-6.5, 4.4)
+    ax.set_ylim(-6.55, 4.4)
     ax.set_title(tr('fig1b_title'), fontsize=16.0, fontweight='normal', pad=14, color=COLOR_TEXT_MAIN)
     
     save_diagram(fig, "fig1b_gear_drive", output_dir, dpi, formats)
@@ -764,7 +764,7 @@ def create_diagram_2(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
             label=tr('fig2_pitch_tangent'))
     
     # Position pitch tangent label
-    ax.text(-2.4, 0.18, tr('fig2_pitch_tangent'), fontsize=11.0, fontweight='normal',
+    ax.text(-2.5, 0.18, tr('fig2_pitch_tangent'), fontsize=11.0, fontweight='normal',
             color=COLOR_TANGENT, ha='center', va='bottom',
             bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.90))
     
@@ -827,14 +827,14 @@ def create_diagram_2(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
             color=COLOR_GEAR, va='center', ha='left',
             bbox=dict(boxstyle="round,pad=0.2", fc="white", ec="none", alpha=0.90))
     
-    # Pitch Point P: Leader line to Upper-Left (-1.8, 0.7)
-    draw_leader_annotation(ax, pt=P, text_pos=(-1.8, 0.7),
+    # Pitch Point P: Leader line to Upper-Left (-1.6, 1.40) - Safe vertical separation from pitch tangent text
+    draw_leader_annotation(ax, pt=P, text_pos=(-1.6, 1.40),
                            text=tr('fig2_p'), color=COLOR_PITCH,
                            box_ec=COLOR_PITCH, fontsize=12.0, fontweight='normal',
                            ha='right', va='center')
     
-    # Contact Point K: Leader line to Lower-Right (2.2, -0.4)
-    draw_leader_annotation(ax, pt=K, text_pos=(2.2, -0.4),
+    # Contact Point K: Leader line to Lower-Right (2.4, -0.4)
+    draw_leader_annotation(ax, pt=K, text_pos=(2.4, -0.4),
                            text=tr('fig2_k'), color="#B45309",
                            box_ec=COLOR_CONTACT, fontsize=12.0, fontweight='normal',
                            ha='left', va='center')
@@ -874,19 +874,19 @@ def create_diagram_2(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
     draw_circular_arrow(ax, O2, 1.85, 240, 330, color=COLOR_GEAR, lw=1.1, mutation_scale=11)
     ax.text(1.15, O2[1] - 0.5, tr('fig2_omega2'), fontsize=12.0, fontweight='normal', color=COLOR_GEAR)
     
-    # Proof Box: Scaled Typography (Header 13pt, Formula 12.5pt, Desc 10.5pt)
-    proof_box = patches.FancyBboxPatch((-5.6, -5.85), 11.2, 2.15, boxstyle="round,pad=0.25",
+    # Proof Box: Scaled Typography (Header 13pt, Formula 11.4pt, Desc 10.5pt, Box expanded to 11.4 x 2.35)
+    proof_box = patches.FancyBboxPatch((-5.7, -6.15), 11.4, 2.35, boxstyle="round,pad=0.22",
                                        fc="#F0FDF4", ec="#86EFAC", lw=1.0, zorder=4)
     ax.add_patch(proof_box)
     ax.text(0, -4.00, tr('fig2_proof_title'),
             fontsize=13.0, fontweight='normal', color="#166534", ha='center', va='center', zorder=6)
-    ax.text(0, -4.65, tr('fig2_proof_formula'),
-            fontsize=12.5, fontweight='normal', color="#14532D", ha='center', va='center', zorder=6)
-    ax.text(0, -5.35, tr('fig2_proof_desc'),
+    ax.text(0, -4.68, tr('fig2_proof_formula'),
+            fontsize=11.4, fontweight='normal', color="#14532D", ha='center', va='center', zorder=6)
+    ax.text(0, -5.45, tr('fig2_proof_desc'),
             fontsize=10.5, fontweight='normal', color="#15803D", ha='center', va='center', zorder=6)
     
-    ax.set_xlim(-6.0, 6.0)
-    ax.set_ylim(-6.1, 4.8)
+    ax.set_xlim(-6.1, 6.1)
+    ax.set_ylim(-6.35, 4.7)
     ax.set_title(tr('fig2_title'), fontsize=16.0, fontweight='normal', pad=18, color=COLOR_TEXT_MAIN)
     ax.legend(loc="upper left", fontsize=10.5, framealpha=0.95, edgecolor=COLOR_AXIS)
     
@@ -906,7 +906,7 @@ def create_diagram_3(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
     tr = lambda k: get_tr(k, lang)
     print(f"\nGenerating Fig 3: fig3_contact_velocity_vectors [{lang.upper()}] (8.5 x 7.5 in, 300 DPI)...")
     
-    fig, ax = plt.subplots(figsize=(8.5, 7.5), dpi=dpi)
+    fig, ax = plt.subplots(figsize=(8.5, 7.8), dpi=dpi)
     fig.patch.set_facecolor(COLOR_BG)
     ax.set_facecolor(COLOR_BG)
     ax.set_aspect('equal')
@@ -961,11 +961,17 @@ def create_diagram_3(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
             fontweight='normal', color=COLOR_VELOCITY_2,
             bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.90))
     
-    # Identical Normal Velocity Vector vn (1.5 pt, fontsize 12.0 pt)
+    # Identical Normal Velocity Vector vn (1.5 pt, fontsize 11.0 pt, 2-line clean placement)
     draw_vector(ax, (0, 0), vn_vec, color=COLOR_NORMAL, lw=1.5, mutation_scale=14, zorder=7)
-    ax.text(vn_vec[0] + 0.20, vn_vec[1] - 0.18, tr('fig3_vn'),
-            fontsize=12.0, fontweight='normal', color=COLOR_NORMAL,
-            bbox=dict(boxstyle="round,pad=0.2", fc="#FEF2F2", ec=COLOR_NORMAL, lw=0.9, alpha=0.95))
+    vn_multiline = {
+        'ko': r"$\vec{v}_{n1} = \vec{v}_{n2}$" "\n(법선 속도 완전 일치!)",
+        'en': r"$\vec{v}_{n1} = \vec{v}_{n2}$" "\n(Strict Normal Continuity)",
+        'de': r"$\vec{v}_{n1} = \vec{v}_{n2}$" "\n(Identische Normalkomponente)",
+        'ja': r"$\vec{v}_{n1} = \vec{v}_{n2}$" "\n(法線速度の完全一致!)"
+    }
+    ax.text(vn_vec[0] + 0.15, vn_vec[1] - 0.05, vn_multiline.get(lang, vn_multiline['en']),
+            fontsize=11.0, fontweight='normal', color=COLOR_NORMAL, ha='left', va='center',
+            bbox=dict(boxstyle="round,pad=0.20", fc="#FEF2F2", ec=COLOR_NORMAL, lw=0.9, alpha=0.95))
     
     # Orthogonal Projections (Slim 0.7 pt dotted)
     ax.plot([v1[0], vn_vec[0]], [v1[1], vn_vec[1]], color=COLOR_AXIS, linestyle=":", lw=0.7, zorder=4)
@@ -973,16 +979,18 @@ def create_diagram_3(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
     ax.plot([v1[0], vt1_vec[0]], [v1[1], vt1_vec[1]], color=COLOR_AXIS, linestyle=":", lw=0.7, zorder=4)
     ax.plot([v2[0], vt2_vec[0]], [v2[1], vt2_vec[1]], color=COLOR_AXIS, linestyle=":", lw=0.7, zorder=4)
     
-    # Tangential Velocity Components (Slim 0.9 pt dash-dot, fontsize 11.0 pt)
+    # Tangential Velocity Components (Slim 0.9 pt dash-dot, fontsize 11.0 pt, protective bbox)
     draw_vector(ax, (0, 0), vt1_vec, color=COLOR_VELOCITY_1, lw=0.9, mutation_scale=10,
                 linestyle="-.", zorder=5)
     ax.text(vt1_vec[0] - 0.40, vt1_vec[1] + 0.10, tr('fig3_vt1'), fontsize=11.0,
-            fontweight='normal', color=COLOR_VELOCITY_1)
+            fontweight='normal', color=COLOR_VELOCITY_1,
+            bbox=dict(boxstyle="round,pad=0.12", fc="white", ec="none", alpha=0.90))
     
     draw_vector(ax, (0, 0), vt2_vec, color=COLOR_VELOCITY_2, lw=0.9, mutation_scale=10,
                 linestyle="-.", zorder=5)
     ax.text(vt2_vec[0] - 0.38, vt2_vec[1] - 0.20, tr('fig3_vt2'), fontsize=11.0,
-            fontweight='normal', color=COLOR_VELOCITY_2)
+            fontweight='normal', color=COLOR_VELOCITY_2,
+            bbox=dict(boxstyle="round,pad=0.12", fc="white", ec="none", alpha=0.90))
     
     # Relative Sliding Velocity Vector (1.3 pt, fontsize 11.0 pt)
     draw_vector(ax, vt2_vec, vt1_vec, color=COLOR_SLIP, lw=1.3, mutation_scale=12, zorder=6)
@@ -995,20 +1003,23 @@ def create_diagram_3(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
     ax.text(0.12, -0.32, tr('fig3_k'), fontsize=12.0, fontweight='normal', color=COLOR_TEXT_MAIN,
             bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.85))
     
-    # Summary Box: Header 13pt, Body 10.5pt
-    summary_box = patches.FancyBboxPatch((-4.8, -4.35), 9.6, 1.80, boxstyle="round,pad=0.2",
+    # Summary Box: Header 13pt, Structured 4-line rules (10.2pt, 66.9 px margin guaranteed)
+    summary_box = patches.FancyBboxPatch((-4.6, -4.75), 9.2, 2.05, boxstyle="round,pad=0.22",
                                          fc="#F8FAFC", ec=COLOR_AXIS, lw=1.0, zorder=3)
     ax.add_patch(summary_box)
-    ax.text(0, -2.85, tr('fig3_summary_title'),
+    ax.text(0, -2.95, tr('fig3_summary_title'),
             fontsize=13.0, fontweight='normal', color=COLOR_TEXT_MAIN, ha='center', va='center', zorder=4)
-    ax.text(0, -3.40, tr('fig3_rule1'),
-            fontsize=10.5, fontweight='normal', color="#1E293B", ha='center', va='center', zorder=4)
-    ax.text(0, -3.90, tr('fig3_rule2'),
-            fontsize=10.5, fontweight='normal', color="#B91C1C", ha='center', va='center', zorder=4)
+    ax.text(0, -3.55, tr('fig3_rule1'),
+            fontsize=10.2, fontweight='normal', color="#1E293B", ha='center', va='center', zorder=4)
+    ax.text(0, -4.25, tr('fig3_rule2'),
+            fontsize=10.2, fontweight='normal', color="#B91C1C", ha='center', va='center', zorder=4)
     
-    ax.set_xlim(-5.0, 5.0)
-    ax.set_ylim(-4.6, 4.0)
-    ax.set_title(tr('fig3_title'), fontsize=16.0, fontweight='normal', pad=18, color=COLOR_TEXT_MAIN)
+    ax.set_xlim(-4.9, 4.9)
+    ax.set_ylim(-5.0, 3.8)
+    title_text = tr('fig3_title')
+    if lang in ['de', 'en']:
+        title_text = title_text.replace(": ", ":\n")
+    ax.set_title(title_text, fontsize=14.5, fontweight='normal', pad=14, color=COLOR_TEXT_MAIN)
     ax.legend(loc="upper left", fontsize=10.5, framealpha=0.95, edgecolor=COLOR_AXIS)
     
     save_diagram(fig, "fig3_contact_velocity_vectors", output_dir, dpi, formats)
