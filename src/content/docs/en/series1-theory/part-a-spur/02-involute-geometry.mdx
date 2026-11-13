@@ -1,0 +1,318 @@
+---
+title: Chapter 2. Involute Tooth Geometry and Mathematical Framework of Fundamental Gear Dimensions
+description: From differential geometry of base circle unwinding and closed-form involute series reversion to the 4 fundamental circles, ISO 53 rack proportions, and transverse contact ratio ε_α derivation along the line of action.
+series: theory
+part: 1
+chapter: 2
+gear_type: spur
+standards:
+  - "ISO 53:1998"
+  - "ISO 21771:2007"
+  - "DIN 3960"
+  - "AGMA 9005-F16"
+required_diagrams:
+  - "fig1_involute_generation"
+  - "fig2_involute_function_geometry"
+  - "fig3_spur_gear_four_circles"
+  - "fig4_line_of_action_contact_path"
+academic_level: undergraduate
+equations_hash: "0f42aa8ed3a8e7425e6ff328b30f6afe22192e81292ef345d63f3286df78369c"
+review_date: "2026-11-13"
+sidebar:
+  order: 2
+---
+
+## 1. Differential Geometry of Involute Tooth Profile and Curve Generation
+
+The fundamental reason the involute curve is universally adopted as the standard profile for spur gear teeth in mechanical engineering is that the common normal at any instantaneous contact point consistently follows the common internal tangent of the two base circles, ensuring an invariant velocity ratio regardless of center distance variations.
+
+### Base Circle Cord Unwinding Kinematics
+
+Consider a base circle of radius $r_b$ centered at origin $O(0, 0)$ in the Cartesian plane. When a taut string is unwound counterclockwise from the circumference through roll angle $\theta$ (in radians), the position vector of the tangency point $T(\theta)$ on the base circle is defined as:
+
+$$
+\mathbf{r}_T(\theta) = \begin{bmatrix} r_b \cos\theta \\ r_b \sin\theta \end{bmatrix}, \quad L(\theta) = r_b \theta
+$$
+
+The length of the unwound cord $L(\theta)$ matches the circular arc length of the base circle without slip. Because the string extends along the tangent direction at point $T$, the position vector $\mathbf{r}_K(\theta)$ of the curve tracing end point $K(\theta)$ is derived by vector addition:
+
+$$
+\mathbf{r}_K(\theta) = \mathbf{r}_T(\theta) + L(\theta)\begin{bmatrix} \sin\theta \\ -\cos\theta \end{bmatrix} = \begin{bmatrix} r_b(\cos\theta + \theta\sin\theta) \\ r_b(\sin\theta - \theta\cos\theta) \end{bmatrix}
+$$
+
+These equations constitute the Cartesian parametric equations of the circular involute curve.
+
+### Differential Properties: Tangent, Normal, and Radius of Curvature
+
+Differentiating $\mathbf{r}_K(\theta)$ with respect to roll angle $\theta$ gives the velocity vector $\mathbf{v}_K(\theta)$ and unit normal vector $\mathbf{n}(\theta)$:
+
+$$
+\mathbf{v}_K(\theta) = \frac{d\mathbf{r}_K}{d\theta} = r_b \theta \begin{bmatrix} \cos\theta \\ \sin\theta \end{bmatrix}, \quad \mathbf{n}(\theta) = \begin{bmatrix} -\sin\theta \\ \cos\theta \end{bmatrix}
+$$
+
+The unit normal vector $\mathbf{n}(\theta)$ aligns precisely with segment $TK$ and remains perpetually tangent to the base circle. Applying the differential curvature relation $\kappa = |d\mathbf{t}/ds|$, the radius of curvature $\rho_K(\theta)$ equals the instantaneous unwound cord length $L(\theta)$:
+
+$$
+\rho_K(\theta) = \frac{1}{\kappa(\theta)} = r_b \theta = r_b \tan\alpha_K
+$$
+
+At the base circle origin ($\theta = 0$), the curvature radius vanishes ($\rho_K = 0$), forming a geometric cusp. Consequently, an involute profile cannot physically exist inside its base circle.
+
+### Relation Between Roll Angle $\theta$ and Pressure Angle $\alpha_K$ in Polar Coordinates
+
+The radial distance $r_K$ from origin $O$ to point $K$ is obtained from right triangle $\Delta OTK$:
+
+$$
+r_K = |\mathbf{r}_K| = r_b \sqrt{1 + \theta^2} = \frac{r_b}{\cos\alpha_K} \quad \Longleftrightarrow \quad \theta = \tan\alpha_K
+$$
+
+Defining the pressure angle $\alpha_K$ as the angle between the tooth profile normal and the circumferential velocity vector (perpendicular to radius $OK$), the relationship $\cos\alpha_K = r_b / r_K$ holds, yielding $\theta = \tan\alpha_K$. The polar angle $\theta_k$ relative to the start of the involute is given in closed form:
+
+$$
+\begin{cases} r(\alpha) = \dfrac{r_b}{\cos\alpha} \\ \theta_k(\alpha) = \tan\alpha - \alpha = \mathrm{inv}\,\alpha \end{cases}
+$$
+
+![Figure 1: Differential Geometry of Base Circle Cord Unwinding and Involute Curve Generation](/images/part2/en/fig1_involute_generation.png)
+
+---
+
+## 2. Involute Function $\mathrm{inv}\,\alpha$ and Analytical Series Reversion
+
+### Physical and Mathematical Definition
+
+The involute function is an indispensable transcendental function in gear mathematics:
+
+$$
+\mathrm{inv}\,\alpha \equiv \tan\alpha - \alpha
+$$
+
+Geometrically, $\tan\alpha$ represents the dimensionless unwound cord length $L / r_b$, whereas $\alpha$ denotes the angular offset between tangent radius $OT$ and position vector $OK$. Therefore, $\mathrm{inv}\,\alpha$ represents the net polar angle traversed by the involute curve.
+
+### Strict Monotonicity and Bijective Invertibility
+
+The first derivative of the involute function is strictly positive for all working pressure angles:
+
+$$
+\frac{d}{d\alpha}(\mathrm{inv}\,\alpha) = \sec^2\alpha - 1 = \tan^2\alpha > 0 \quad \left(\forall \alpha \in \left(0, \frac{\pi}{2}\right)\right)
+$$
+
+Because $d(\mathrm{inv}\,\alpha)/d\alpha = \tan^2\alpha > 0$ for all $\alpha \in (0, \pi/2)$, the function is strictly monotonically increasing, guaranteeing that the inverse $\alpha = \mathrm{inv}^{-1}(\theta_k)$ is unique and well-defined.
+
+### Analytical Series Reversion up to $\mathcal{O}(z^9)$
+
+Expanding $\tan\alpha$ into its Maclaurin series yields the series for $\mathrm{inv}\,\alpha$:
+
+$$
+\mathrm{inv}\,\alpha = \frac{1}{3}\alpha^3 + \frac{2}{15}\alpha^5 + \frac{17}{315}\alpha^7 + \frac{62}{2835}\alpha^9 + \mathcal{O}(\alpha^{11})
+$$
+
+To compute pressure angle $\alpha$ directly from a given polar angle $\theta_k$ without iterative root-finding, substituting $z = (3\theta_k)^{1/3}$ and performing analytical series reversion yields:
+
+$$
+\alpha(z) = z - \frac{2}{15}z^3 + \frac{3}{175}z^5 - \frac{2}{1575}z^7 + \mathcal{O}(z^9), \quad z = (3\theta_k)^{1/3}
+$$
+
+This analytical closed-form reversion achieves an absolute angular accuracy of better than $10^{-8}\text{ rad}$ across practical gearing pressure angles ($10^\circ \sim 35^\circ$).
+
+### 1-Step Newton-Raphson Machine-Epsilon Precision
+
+In commercial engineering software kernels such as H-GEAR STUDIO, seeding the Newton-Raphson scheme with the reversion formula achieves 64-bit machine-epsilon precision ($< 10^{-15}\text{ rad}$) in a single update step:
+
+$$
+\alpha_{n+1} = \alpha_n - \frac{\tan\alpha_n - \alpha_n - \theta_k}{\tan^2\alpha_n}
+$$
+
+![Figure 2: Geometric Interpretation of Involute Function inv α and Arc-Tangent Length Equivalence](/images/part2/en/fig2_involute_function_geometry.png)
+
+---
+
+## 3. Four Fundamental Circles of Spur Gears and ISO 53 Rack Proportions
+
+The individual geometry of a standard spur gear is governed by four concentric circles parameterized by module $m$, tooth count $z$, and reference pressure angle $\alpha = 20^\circ$.
+
+### The Four Fundamental Circles
+
+1. **Reference Pitch Circle**: Kinematic reference cylinder of diameter $d$:
+$$
+d = m \cdot z, \quad r = \frac{d}{2} = \frac{m z}{2}
+$$
+2. **Base Circle**: Generating origin of the involute tooth profile of diameter $d_b$:
+$$
+d_b = d \cos\alpha = m z \cos\alpha, \quad r_b = \frac{d_b}{2} = \frac{m z \cos\alpha}{2}
+$$
+3. **Tip Circle (Addendum Circle)**: Outermost boundary circle of diameter $d_a$:
+$$
+d_a = d + 2h_a = m(z + 2h_a^*), \quad r_a = r + h_a^* m
+$$
+4. **Root Circle (Dedendum Circle)**: Bottom boundary cylinder of diameter $d_f$:
+$$
+d_f = d - 2h_f = m(z - 2(h_a^* + c^*)), \quad r_f = r - (h_a^* + c^*)m
+$$
+
+### ISO 53 Standard Basic Rack Tooth Profile Proportions
+
+In accordance with ISO 53 (Profile A) and ISO 21771 standard rack parameters:
+- Module: $m$
+- Reference pressure angle: $\alpha = 20.0^\circ$
+- Addendum coefficient: $h_a^* = 1.000 \implies h_a = 1.000 m$
+- Bottom clearance coefficient: $c^* = 0.250 \implies c = 0.250 m$
+- Dedendum coefficient: $h_f^* = h_a^* + c^* = 1.250 \implies h_f = 1.250 m$
+- Whole depth coefficient: $h^* = h_a^* + h_f^* = 2.250 \implies h = 2.250 m$
+- Tool tip radius coefficient: $\rho_f^* = 0.380 \implies \rho_f = 0.380 m$
+
+### Pitches and Arc Tooth Thickness Formulation
+
+The circular pitch $p$, standard tooth thickness $s$, and space width $e$ along the pitch circle are:
+
+$$
+p = \pi m = s + e, \quad s = e = \frac{\pi m}{2}
+$$
+
+The base pitch $p_b$ along the base circle corresponds to the distance between consecutive profiles along the line of action:
+
+$$
+p_b = p \cos\alpha = \pi m \cos\alpha
+$$
+
+At an arbitrary radius $r \ge r_b$ with local pressure angle $\alpha_r = \arccos(r_b / r)$, the tooth half-angle $\psi_r$ and circular tooth thickness $s_r$ are:
+
+$$
+\psi_r = \frac{s}{2r} + \mathrm{inv}\,\alpha - \mathrm{inv}\,\alpha_r \quad \Longrightarrow \quad s_r = 2r \psi_r = r \left[ \frac{s}{r} + 2(\mathrm{inv}\,\alpha - \mathrm{inv}\,\alpha_r) \right]
+$$
+
+### Top Land Thickness and Pointed Tooth Prevention Invariant
+
+At the tip circle radius $r_a$, the tooth crest thickness $s_a$ (top land width) must satisfy the strict structural integrity invariant to prevent brittle failure:
+
+$$
+s_a = r_a \left[ \frac{s}{r} + 2(\mathrm{inv}\,\alpha - \mathrm{inv}\,\alpha_a) \right] \ge 0.25 m, \quad \alpha_a = \arccos\left(\frac{r_b}{r_a}\right)
+$$
+
+Any design violating $s_a \ge 0.25m$ creates a sharp knife-edge condition prone to quench cracking and impact flaking.
+
+![Figure 3: Four Fundamental Circles of Spur Gears and ISO 53 Standard Basic Rack Dimensions](/images/part2/en/fig3_spur_gear_four_circles.png)
+
+---
+
+## 4. Line of Action Contact Path and Closed-Form Transverse Contact Ratio $\epsilon_\alpha$
+
+### Action Path Kinematics and Critical Contact Singularities
+
+During conjugate gear rotation, the instantaneous point of contact moves along the **line of action**, which forms the common internal tangent to both base circles. For center distance $a = r_1 + r_2$, the tangent distance is:
+
+$$
+a = r_1 + r_2 = \frac{m(z_1 + z_2)}{2}, \quad \overline{T_1 T_2} = (r_{b1} + r_{b2})\tan\alpha = a \sin\alpha
+$$
+
+The active contact path $\overline{AE}$ is bounded by three critical points:
+- **Point A (Start of Active Profile, SAP)**: Intersection of the driven gear tip circle ($r_{a2}$) with the line of action. Distance to pitch point $P$ is the approach path length $g_f$:
+$$
+g_f = \overline{AP} = \sqrt{r_{a2}^2 - r_{b2}^2} - r_{b2}\tan\alpha
+$$
+- **Point E (End of Active Profile, EAP)**: Intersection of the driving pinion tip circle ($r_{a1}$) with the line of action. Distance from $P$ is the recess path length $g_a$:
+$$
+g_a = \overline{PE} = \sqrt{r_{a1}^2 - r_{b1}^2} - r_{b1}\tan\alpha
+$$
+- **Pitch Point P**: Instantaneous rolling contact point where the pitch circles meet.
+
+### Total Path of Contact $g_\alpha$ and Transverse Contact Ratio $\epsilon_\alpha$
+
+The total active path of contact $g_\alpha$ is the sum of recess and approach lengths:
+
+$$
+g_\alpha = g_a + g_f = \sqrt{r_{a1}^2 - r_{b1}^2} + \sqrt{r_{a2}^2 - r_{b2}^2} - a \sin\alpha
+$$
+
+The transverse contact ratio $\epsilon_\alpha$ expresses the ratio of active contact length to the base pitch $p_b$:
+
+$$
+\epsilon_\alpha = \frac{g_\alpha}{p_b} = \frac{\sqrt{r_{a1}^2 - r_{b1}^2} + \sqrt{r_{a2}^2 - r_{b2}^2} - a \sin\alpha}{\pi m \cos\alpha} \ge 1.20
+$$
+
+### Engineering Necessity of $\epsilon_\alpha \ge 1.20$ and Load Sharing Partitioning
+
+The contact ratio quantifies the angular overlap between successive tooth pairs:
+1. **Single-Tooth ($g_1$) and Double-Tooth ($g_2$) Contact Zone Partitioning**:
+$$
+g_1 = (2 - \epsilon_\alpha)p_b = 2p_b - g_\alpha, \quad g_2 = 2(\epsilon_\alpha - 1)p_b = 2(g_\alpha - p_b)
+$$
+$$
+g_1 + g_2 = (2 - \epsilon_\alpha)p_b + 2(\epsilon_\alpha - 1)p_b = g_\alpha
+$$
+2. **Kinematic Continuity**: When $\epsilon_\alpha < 1.0$, a discontinuity occurs where the leading tooth disengages before the trailing tooth engages, producing severe shock loading and tooth breakage.
+3. **NVH and Fatigue Attenuation**: Maintaining $\epsilon_\alpha \ge 1.20$ guarantees that dual pairs share transmission loads over at least 40% of the mesh cycle, significantly lowering tooth bending stresses and operational vibration.
+
+![Figure 4: Line of Action Contact Path and Closed-Form Transverse Contact Ratio ε_α Derivation](/images/part2/en/fig4_line_of_action_contact_path.png)
+
+---
+
+## 5. Closed-Form Exact Math Benchmark Verification
+
+This section validates the analytical closed-form equations across 38 fundamental gear parameters to 6 decimal places for an industrial standard spur gear set.
+
+### Benchmark Gear Set Parameters
+
+$$
+m = 3.000000\text{ mm}, \quad \alpha = 20.000000^\circ, \quad z_1 = 19, \quad z_2 = 47, \quad a = 99.000000\text{ mm}
+$$
+- Tooth profile standard: ISO 53 Profile A ($h_a^* = 1.000000, c^* = 0.250000, h_f^* = 1.250000, \rho_f^* = 0.380000$)
+- Profile shift coefficients: $x_1 = 0.000000, x_2 = 0.000000$ (Standard unmodified gearing)
+
+The tip pressure angles and tip involute values are computed analytically:
+
+$$
+\alpha_{a1} = \arccos\left(\frac{r_{b1}}{r_{a1}}\right) = 31.766779^\circ, \quad \alpha_{a2} = \arccos\left(\frac{r_{b2}}{r_{a2}}\right) = 25.665521^\circ
+$$
+
+The resulting contact path lengths and transverse contact ratio evaluate to:
+
+$$
+g_\alpha = 14.557670\text{ mm}, \quad p_b = 8.856394\text{ mm}, \quad \epsilon_\alpha = \frac{14.557670}{8.856394} = 1.643747
+$$
+
+### 38-Parameter Closed-Form Ground Truth Benchmark Table
+
+The following table presents the exact theoretical values verified by `blog/tests/test_chapter02_math.py` and the H-GEAR STUDIO geometry kernel:
+
+| No. | Geometric Parameter | Symbol | Formula | Theoretical Exact Value (Closed-form) | Unit |
+| :---: | :--- | :---: | :--- | :---: | :---: |
+| 1 | Gear ratio | $u$ | $z_2 / z_1$ | 2.473684 | — |
+| 2 | Pinion reference pitch diameter | $d_1$ | $m \cdot z_1$ | 57.000000 | mm |
+| 3 | Pinion reference pitch radius | $r_1$ | $d_1 / 2$ | 28.500000 | mm |
+| 4 | Gear reference pitch diameter | $d_2$ | $m \cdot z_2$ | 141.000000 | mm |
+| 5 | Gear reference pitch radius | $r_2$ | $d_2 / 2$ | 70.500000 | mm |
+| 6 | Standard center distance | $a$ | $(d_1 + d_2) / 2$ | 99.000000 | mm |
+| 7 | Circular pitch | $p$ | $\pi m$ | 9.424778 | mm |
+| 8 | Standard tooth thickness and space width | $s, e$ | $p / 2$ | 4.712389 | mm |
+| 9 | Base pitch (normal pitch) | $p_b$ | $\pi m \cos\alpha$ | 8.856394 | mm |
+| 10 | Pinion base diameter | $d_{b1}$ | $d_1 \cos\alpha$ | 53.562479 | mm |
+| 11 | Pinion base radius | $r_{b1}$ | $d_{b1} / 2$ | 26.781240 | mm |
+| 12 | Gear base diameter | $d_{b2}$ | $d_2 \cos\alpha$ | 132.496660 | mm |
+| 13 | Gear base radius | $r_{b2}$ | $d_{b2} / 2$ | 66.248330 | mm |
+| 14 | Addendum | $h_a$ | $h_a^* \cdot m$ | 3.000000 | mm |
+| 15 | Dedendum | $h_f$ | $(h_a^* + c^*) m$ | 3.750000 | mm |
+| 16 | Whole depth | $h$ | $h_a + h_f$ | 6.750000 | mm |
+| 17 | Bottom clearance | $c$ | $c^* \cdot m$ | 0.750000 | mm |
+| 18 | Pinion tip diameter | $d_{a1}$ | $d_1 + 2h_a$ | 63.000000 | mm |
+| 19 | Pinion tip radius | $r_{a1}$ | $d_{a1} / 2$ | 31.500000 | mm |
+| 20 | Gear tip diameter | $d_{a2}$ | $d_2 + 2h_a$ | 147.000000 | mm |
+| 21 | Gear tip radius | $r_{a2}$ | $d_{a2} / 2$ | 73.500000 | mm |
+| 22 | Pinion root diameter | $d_{f1}$ | $d_1 - 2h_f$ | 49.500000 | mm |
+| 23 | Pinion root radius | $r_{f1}$ | $d_{f1} / 2$ | 24.750000 | mm |
+| 24 | Gear root diameter | $d_{f2}$ | $d_2 - 2h_f$ | 133.500000 | mm |
+| 25 | Gear root radius | $r_{f2}$ | $d_{f2} / 2$ | 66.750000 | mm |
+| 26 | Reference pressure angle involute | $\mathrm{inv}\,\alpha$ | $\tan 20^\circ - 20^\circ\frac{\pi}{180}$ | 0.014904 | rad |
+| 27 | Pinion tip pressure angle | $\alpha_{a1}$ | $\arccos(r_{b1} / r_{a1})$ | 31.766779 | deg |
+| 28 | Gear tip pressure angle | $\alpha_{a2}$ | $\arccos(r_{b2} / r_{a2})$ | 25.665521 | deg |
+| 29 | Pinion tip involute | $\mathrm{inv}\,\alpha_{a1}$ | $\tan\alpha_{a1} - \alpha_{a1}$ | 0.064789 | rad |
+| 30 | Gear tip involute | $\mathrm{inv}\,\alpha_{a2}$ | $\tan\alpha_{a2} - \alpha_{a2}$ | 0.032579 | rad |
+| 31 | Pinion top land thickness | $s_{a1}$ | $2 r_{a1} \psi_{a1}$ | 2.065702 | mm |
+| 32 | Gear top land thickness | $s_{a2}$ | $2 r_{a2} \psi_{a2}$ | 2.314789 | mm |
+| 33 | Recess path length | $g_a$ | $\sqrt{r_{a1}^2 - r_{b1}^2} - r_{b1}\tan\alpha$ | 6.836008 | mm |
+| 34 | Approach path length | $g_f$ | $\sqrt{r_{a2}^2 - r_{b2}^2} - r_{b2}\tan\alpha$ | 7.721662 | mm |
+| 35 | Total active path of contact | $g_\alpha$ | $g_a + g_f$ | 14.557670 | mm |
+| 36 | Transverse contact ratio | $\epsilon_\alpha$ | $g_\alpha / p_b$ | 1.643747 | — |
+| 37 | Single-tooth contact length | $g_1$ | $2 p_b - g_\alpha$ | 3.155118 | mm |
+| 38 | Double-tooth contact length | $g_2$ | $2(g_\alpha - p_b)$ | 11.402552 | mm |
+
+In this benchmark, both the pinion and gear top lands ($s_{a1} = 2.065702\text{ mm}$, $s_{a2} = 2.314789\text{ mm}$) safely surpass the pointed tooth threshold of $0.25m = 0.750000\text{ mm}$. The transverse contact ratio of $\epsilon_\alpha = 1.643747$ comfortably exceeds the minimum requirement of $1.200000$, ensuring smooth, shock-free continuous power transmission with $78.33\%$ double-tooth load sharing.

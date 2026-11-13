@@ -1,0 +1,318 @@
+---
+title: 第2章. インボリュート歯形曲線の幾何学と基本諸元数学体系
+description: 基礎円伸開線の微分幾何学軌跡、インボリュート関数 inv αの閉形式逆展開、4大基本円とISO 53標準ラック諸元、そして作用線上の正面かみ合い率 ε_α 閉形式導出までを網羅する平歯車幾何学理論第2編
+series: theory
+part: 1
+chapter: 2
+gear_type: spur
+standards:
+  - "JIS B 0102"
+  - "JIS B 1701"
+  - "ISO 53:1998"
+  - "ISO 21771:2007"
+required_diagrams:
+  - "fig1_involute_generation"
+  - "fig2_involute_function_geometry"
+  - "fig3_spur_gear_four_circles"
+  - "fig4_line_of_action_contact_path"
+academic_level: undergraduate
+equations_hash: "0f42aa8ed3a8e7425e6ff328b30f6afe22192e81292ef345d63f3286df78369c"
+review_date: "2026-11-13"
+sidebar:
+  order: 2
+---
+
+## 1. インボリュート歯形曲線の微分幾何学的定義と創成原理
+
+機械工学において平歯車の歯形曲線としてインボリュート（Involute、伸開線）が採用される根本的な理由は、歯車が回転するとき接触点の共通法線が常に2つの基礎円の共通内接線と一致し、中心距離の変動に対しても角速度比を完全に一定に保つことができるためです。
+
+### 基礎円伸開線の幾何学
+
+半径 $r_b$ の基礎円（Base Circle）の中心を直交座標系の原点 $O(0, 0)$ に配置します。基礎円の周囲に巻き付けられた張った糸（Taut String）を展開角（ロール角、Roll Angle） $\theta$ （単位: $\text{rad}$）だけ反時計回りにほどくとき、基礎円上で糸が接線方向に離れる接点 $T(\theta)$ の位置ベクトルは次のように定義されます。
+
+$$
+\mathbf{r}_T(\theta) = \begin{bmatrix} r_b \cos\theta \\ r_b \sin\theta \end{bmatrix}, \quad L(\theta) = r_b \theta
+$$
+
+ほどけた糸の長さ $L(\theta)$ は基礎円の円弧長さと滑りなく完全に一致します。糸は接点 $T$ において基礎円の接線方向に緊張しているため、糸の端点 $K(\theta)$ の位置ベクトル $\mathbf{r}_K(\theta)$ は基礎円接点ベクトルと接線方向ベクトルの合成によって導かれます。
+
+$$
+\mathbf{r}_K(\theta) = \mathbf{r}_T(\theta) + L(\theta)\begin{bmatrix} \sin\theta \\ -\cos\theta \end{bmatrix} = \begin{bmatrix} r_b(\cos\theta + \theta\sin\theta) \\ r_b(\sin\theta - \theta\cos\theta) \end{bmatrix}
+$$
+
+これがインボリュート曲線の直交座標媒介変数方程式（Cartesian Parametric Equations）です。
+
+### 微分幾何学的接線・法線および曲率半径
+
+媒介変数 $\theta$ に関する1階導関数を計算すると、インボリュート曲線の速度ベクトル $\mathbf{v}_K(\theta)$ と単位法線ベクトル $\mathbf{n}(\theta)$ が得られます。
+
+$$
+\mathbf{v}_K(\theta) = \frac{d\mathbf{r}_K}{d\theta} = r_b \theta \begin{bmatrix} \cos\theta \\ \sin\theta \end{bmatrix}, \quad \mathbf{n}(\theta) = \begin{bmatrix} -\sin\theta \\ \cos\theta \end{bmatrix}
+$$
+
+単位法線ベクトル $\mathbf{n}(\theta)$ は線分 $TK$ と同一直線上にあり、常に基礎円に接します。微分幾何学の曲率公式 $\kappa = |d\mathbf{t}/ds|$ より、曲率半径 $\rho_K(\theta)$ はほどけた糸の長さ $L(\theta)$ と完全に一致します。
+
+$$
+\rho_K(\theta) = \frac{1}{\kappa(\theta)} = r_b \theta = r_b \tan\alpha_K
+$$
+
+基礎円上の開始点（$\theta=0$）において曲率半径は $\rho_K = 0$ となり尖点（Cusp）を形成するため、インボリュート歯形は基礎円の内側領域には幾何学的に決して存在できません。
+
+### 展開角 $\theta$ と圧力角 $\alpha_K$ の関係および極座標方程式
+
+原点から点 $K$ までの半径距離 $r_K$ は直角三角形 $\Delta OTK$ からピタゴラスの定理により導かれます。
+
+$$
+r_K = |\mathbf{r}_K| = r_b \sqrt{1 + \theta^2} = \frac{r_b}{\cos\alpha_K} \quad \Longleftrightarrow \quad \theta = \tan\alpha_K
+$$
+
+点 $K$ における歯形法線と円周速度ベクトル（半径線 $OK$ に垂直）とのなす角を圧力角（Pressure Angle） $\alpha_K$ と定義すると、 $\cos\alpha_K = r_b / r_K$ が成り立ち、展開角 $\theta$ は圧力角の正接値 $\theta = \tan\alpha_K$ に帰着します。基準半径線からの極角（Polar Angle） $\theta_k$ は次のような閉形式極座標方程式で表されます。
+
+$$
+\begin{cases} r(\alpha) = \dfrac{r_b}{\cos\alpha} \\ \theta_k(\alpha) = \tan\alpha - \alpha = \mathrm{inv}\,\alpha \end{cases}
+$$
+
+![図 1: 基礎円伸開線幾何学とインボリュート曲線の微分幾何学的創成原理](/images/part2/ja/fig1_involute_generation.png)
+
+---
+
+## 2. インボリュート関数 $\mathrm{inv}\,\alpha$ の物理的・幾何学的意味と数値演算
+
+### インボリュート関数の定義
+
+歯車工学の基礎となる超越関数であるインボリュート関数（Involute Function）は次のように定義されます。
+
+$$
+\mathrm{inv}\,\alpha \equiv \tan\alpha - \alpha
+$$
+
+幾何学的に $\tan\alpha$ は基礎円半径で無次元化された接線長さ $L / r_b$ を表し、 $\alpha$ は接点半径線 $OT$ と半径線 $OK$ との位相差角（$\text{rad}$）を表します。したがって $\mathrm{inv}\,\alpha$ は、糸がほどけることによって形成される純粋な角度位相変位を意味します。
+
+### 厳密な単調増加性と1対1全単射
+
+インボリュート関数の導関数は実用圧力角の範囲で常に正の値を取ります。
+
+$$
+\frac{d}{d\alpha}(\mathrm{inv}\,\alpha) = \sec^2\alpha - 1 = \tan^2\alpha > 0 \quad \left(\forall \alpha \in \left(0, \frac{\pi}{2}\right)\right)
+$$
+
+$0 < \alpha < \pi/2$ の区間において $d(\mathrm{inv}\,\alpha)/d\alpha = \tan^2\alpha > 0$ であるため、インボリュート関数は厳密に単調増加（Strictly Monotonic Increasing）します。これにより逆関数 $\alpha = \mathrm{inv}^{-1}(\theta_k)$ が一意に存在します。
+
+### テーラー級数逆展開（Series Reversion）による解析的閉形式解
+
+$\tan\alpha$ のマクローリン展開から $\mathrm{inv}\,\alpha$ の級数展開が導かれます。
+
+$$
+\mathrm{inv}\,\alpha = \frac{1}{3}\alpha^3 + \frac{2}{15}\alpha^5 + \frac{17}{315}\alpha^7 + \frac{62}{2835}\alpha^9 + \mathcal{O}(\alpha^{11})
+$$
+
+極角 $\theta_k$ から圧力角 $\alpha$ を直接解析的に求めるため、 $z = (3\theta_k)^{1/3}$ を導入して級数逆展開（Series Reversion）を行うと、 $\mathcal{O}(z^9)$ までの高精度な閉形式解が得られます。
+
+$$
+\alpha(z) = z - \frac{2}{15}z^3 + \frac{3}{175}z^5 - \frac{2}{1575}z^7 + \mathcal{O}(z^9), \quad z = (3\theta_k)^{1/3}
+$$
+
+この解析的逆展開式は、実用歯車の圧力角範囲（$10^\circ \sim 35^\circ$）において反復計算なしで誤差 $10^{-8}\text{ rad}$ 以下の精度を保証します。
+
+### 1回反復ニュートン・ラフソン法によるマシンイプシロン収束
+
+商用CAEエンジニアリングカーネル（H-GEAR STUDIO）では、この級数逆展開値を初期値 $\alpha_0$ として採用し、わずか1回のニュートン・ラフソン反復を行うことで64ビット倍精度マシンイプシロン（$< 10^{-15}\text{ rad}$）へと収束させます。
+
+$$
+\alpha_{n+1} = \alpha_n - \frac{\tan\alpha_n - \alpha_n - \theta_k}{\tan^2\alpha_n}
+$$
+
+![図 2: インボリュート関数 inv α の幾何学的定義と弧・接線長さ一致関係](/images/part2/ja/fig2_involute_function_geometry.png)
+
+---
+
+## 3. 標準平歯車の4大基本円とISO 53 / JIS B 1701 歯形諸元体系
+
+平歯車の幾何形状は、モジュール $m$、歯数 $z$、基準圧力角 $\alpha=20^\circ$ を基準とする4つの同心円によって完全に規定されます。
+
+### 4大基本円の定義
+
+1. **基準ピッチ円（Reference Pitch Circle）**: かみ合いの基準となる直径 $d$ の円筒面。
+$$
+d = m \cdot z, \quad r = \frac{d}{2} = \frac{m z}{2}
+$$
+2. **基礎円（Base Circle）**: インボリュート曲線が発生する直径 $d_b$ の幾何学的基準円。
+$$
+d_b = d \cos\alpha = m z \cos\alpha, \quad r_b = \frac{d_b}{2} = \frac{m z \cos\alpha}{2}
+$$
+3. **歯先円（Tip / Addendum Circle）**: 歯の最外径を形成する直径 $d_a$ の円。
+$$
+d_a = d + 2h_a = m(z + 2h_a^*), \quad r_a = r + h_a^* m
+$$
+4. **歯底円（Root / Dedendum Circle）**: 歯溝底面を形成する直径 $d_f$ の円。
+$$
+d_f = d - 2h_f = m(z - 2(h_a^* + c^*)), \quad r_f = r - (h_a^* + c^*)m
+$$
+
+### ISO 53 / JIS B 1701 標準基本ラック歯形諸元
+
+国際規格 ISO 53（Profile A）および JIS B 1701 における標準基本ラック諸元係数は次の通りです。
+- モジュール: $m$
+- 基準圧力角: $\alpha = 20.0^\circ$
+- 歯先たけ係数: $h_a^* = 1.000 \implies h_a = 1.000 m$
+- 頂げき係数: $c^* = 0.250 \implies c = 0.250 m$
+- 歯底たけ係数: $h_f^* = h_a^* + c^* = 1.250 \implies h_f = 1.250 m$
+- 全歯たけ係数: $h^* = h_a^* + h_f^* = 2.250 \implies h = 2.250 m$
+- 工具歯先丸み半径係数: $\rho_f^* = 0.380 \implies \rho_f = 0.380 m$
+
+### ピッチおよび任意半径における歯厚計算式
+
+ピッチ円上の円周ピッチ $p$、歯厚 $s$、および歯溝の幅 $e$ は次の関係を満たします。
+
+$$
+p = \pi m = s + e, \quad s = e = \frac{\pi m}{2}
+$$
+
+基礎円ピッチ（法線ピッチ） $p_b$ は、かみ合い作用線上における隣接歯面の法線方向間隔に一致します。
+
+$$
+p_b = p \cos\alpha = \pi m \cos\alpha
+$$
+
+任意半径 $r \ge r_b$ における局所圧力角を $\alpha_r = \arccos(r_b / r)$ とすると、インボリュート曲線の広がり角を考慮した半歯角 $\psi_r$ および円弧歯厚 $s_r$ は次式で計算されます。
+
+$$
+\psi_r = \frac{s}{2r} + \mathrm{inv}\,\alpha - \mathrm{inv}\,\alpha_r \quad \Longrightarrow \quad s_r = 2r \psi_r = r \left[ \frac{s}{r} + 2(\mathrm{inv}\,\alpha - \mathrm{inv}\,\alpha_r) \right]
+$$
+
+### 歯先頂幅（Top Land）と尖頭化防止条件
+
+歯先円半径 $r_a$ における歯先頂幅 $s_a$（Top Land）は、熱処理硬化時の焼割れや衝撃チッピングを防止するため、次の不変条件を満たす必要があります。
+
+$$
+s_a = r_a \left[ \frac{s}{r} + 2(\mathrm{inv}\,\alpha - \mathrm{inv}\,\alpha_a) \right] \ge 0.25 m, \quad \alpha_a = \arccos\left(\frac{r_b}{r_a}\right)
+$$
+
+$s_a < 0.25m$ となると歯先がナイフエッジ状に尖る尖頭化（Pointed Tooth）現象が生じ、歯先の強度低下と熱処理欠陥を招きます。
+
+![図 3: 標準平歯車の4大基本円とISO 53基本ラック歯形諸元体系](/images/part2/ja/fig3_spur_gear_four_circles.png)
+
+---
+
+## 4. かみ合い作用線上の接触軌跡と正面かみ合い率 $\epsilon_\alpha$ 閉形式導出
+
+### 作用線とかみ合い特異点
+
+歯車が回転して動力を伝達するとき、接触点の幾何学的軌跡は2つの基礎円の共通内接線である**かみ合い線（作用線、Line of Action）**を形成します。中心距離を $a = r_1 + r_2$ とするとき、接線線分の長さは次式で表されます。
+
+$$
+a = r_1 + r_2 = \frac{m(z_1 + z_2)}{2}, \quad \overline{T_1 T_2} = (r_{b1} + r_{b2})\tan\alpha = a \sin\alpha
+$$
+
+作用線上の有効接触区間は次の3大特異点によって規定されます。
+- **かみ合い開始点 A（SAP）**: 被動歯車（Gear 2）の歯先円（$r_{a2}$）が作用線と交差する点。ピッチ点 $P$ までの長さを接近かみ合い長さ $g_f$ と呼びます。
+$$
+g_f = \overline{AP} = \sqrt{r_{a2}^2 - r_{b2}^2} - r_{b2}\tan\alpha
+$$
+- **かみ合い終了点 E（EAP）**: 駆動歯車（Pinion 1）の歯先円（$r_{a1}$）が作用線と交差する点。ピッチ点 $P$ からの長さを遠退かみ合い長さ $g_a$ と呼びます。
+$$
+g_a = \overline{PE} = \sqrt{r_{a1}^2 - r_{b1}^2} - r_{b1}\tan\alpha
+$$
+- **ピッチ点 P**: 2つのピッチ円が接する瞬間中心点。
+
+### 全かみ合い長さ $g_\alpha$ および正面かみ合い率 $\epsilon_\alpha$
+
+全かみ合い長さ $g_\alpha$ は、接近かみ合い長さと遠退かみ合い長さの和として定義されます。
+
+$$
+g_\alpha = g_a + g_f = \sqrt{r_{a1}^2 - r_{b1}^2} + \sqrt{r_{a2}^2 - r_{b2}^2} - a \sin\alpha
+$$
+
+正面かみ合い率（Transverse Contact Ratio） $\epsilon_\alpha$ は、全かみ合い長さ $g_\alpha$ を基礎円ピッチ $p_b$ で除した無次元幾何学的比率です。
+
+$$
+\epsilon_\alpha = \frac{g_\alpha}{p_b} = \frac{\sqrt{r_{a1}^2 - r_{b1}^2} + \sqrt{r_{a2}^2 - r_{b2}^2} - a \sin\alpha}{\pi m \cos\alpha} \ge 1.20
+$$
+
+### $\epsilon_\alpha \ge 1.20$ 保持の力学的必然性と荷重分担
+
+かみ合い率は連続した歯車の円滑な動力伝達度合いを定量化する指標です。
+1. **単一歯かみ合い区間（$g_1$）と2歯かみ合い区間（$g_2$）の分割**:
+$$
+g_1 = (2 - \epsilon_\alpha)p_b = 2p_b - g_\alpha, \quad g_2 = 2(\epsilon_\alpha - 1)p_b = 2(g_\alpha - p_b)
+$$
+$$
+g_1 + g_2 = (2 - \epsilon_\alpha)p_b + 2(\epsilon_\alpha - 1)p_b = g_\alpha
+$$
+2. **動力伝達の連続性**: $\epsilon_\alpha < 1.0$ の場合、先行する歯がかみ合いを離脱してから後続の歯がかみ合うまでに接触の途切れが生じ、致命的な衝撃衝突と歯の折損が発生します。
+3. **振動・騒音（NVH）の抑制**: $\epsilon_\alpha \ge 1.20$ を確保することにより、全かみ合い区間の40%以上において2対の歯が荷重を均等に分担（Load Sharing）し、歯元曲げ応力と接触面圧を大幅に低減できます。
+
+![図 4: かみ合い作用線上の接触軌跡と正面かみ合い率 ε_α 閉形式導出](/images/part2/ja/fig4_line_of_action_contact_path.png)
+
+---
+
+## 5. 実務計算例題（Closed-Form Exact Math Benchmark）
+
+本節では、産業用標準減速機諸元を想定した平歯車対に対し、連続微分幾何学の閉形式数式を用いて38個の幾何パラメータの理論的真値を小数点以下6桁で厳密に計算・検証します。
+
+### ベンチマーク歯車対仕様
+
+$$
+m = 3.000000\text{ mm}, \quad \alpha = 20.000000^\circ, \quad z_1 = 19, \quad z_2 = 47, \quad a = 99.000000\text{ mm}
+$$
+- 歯形規格: ISO 53 Profile A（$h_a^* = 1.000000, c^* = 0.250000, h_f^* = 1.250000, \rho_f^* = 0.380000$）
+- 転位係数: $x_1 = 0.000000, x_2 = 0.000000$（標準無転位歯車）
+
+歯先円圧力角および歯先インボリュート値は次のように厳密に算出されます。
+
+$$
+\alpha_{a1} = \arccos\left(\frac{r_{b1}}{r_{a1}}\right) = 31.766779^\circ, \quad \alpha_{a2} = \arccos\left(\frac{r_{b2}}{r_{a2}}\right) = 25.665521^\circ
+$$
+
+作用線長さおよび正面かみ合い率の計算結果は次の通りです。
+
+$$
+g_\alpha = 14.557670\text{ mm}, \quad p_b = 8.856394\text{ mm}, \quad \epsilon_\alpha = \frac{14.557670}{8.856394} = 1.643747
+$$
+
+### 38パラメータ閉形式理論的真値計算表
+
+以下の表は `blog/tests/test_chapter02_math.py` によって小数点以下6桁まで完全に立証された38パラメータの基準計算表です。
+
+| 番号 | 幾何学的パラメータ | 記号 | 算出数式 | 理論的真値 (Closed-form) | 単位 |
+| :---: | :--- | :---: | :--- | :---: | :---: |
+| 1 | 減速比 | $u$ | $z_2 / z_1$ | 2.473684 | — |
+| 2 | ピニオン基準ピッチ円直径 | $d_1$ | $m \cdot z_1$ | 57.000000 | mm |
+| 3 | ピニオン基準ピッチ円半径 | $r_1$ | $d_1 / 2$ | 28.500000 | mm |
+| 4 | 歯車基準ピッチ円直径 | $d_2$ | $m \cdot z_2$ | 141.000000 | mm |
+| 5 | 歯車基準ピッチ円半径 | $r_2$ | $d_2 / 2$ | 70.500000 | mm |
+| 6 | 標準中心距離 | $a$ | $(d_1 + d_2) / 2$ | 99.000000 | mm |
+| 7 | 円周ピッチ | $p$ | $\pi m$ | 9.424778 | mm |
+| 8 | 基準歯厚および歯溝の幅 | $s, e$ | $p / 2$ | 4.712389 | mm |
+| 9 | 基礎円ピッチ (法線ピッチ) | $p_b$ | $\pi m \cos\alpha$ | 8.856394 | mm |
+| 10 | ピニオン基礎円直径 | $d_{b1}$ | $d_1 \cos\alpha$ | 53.562479 | mm |
+| 11 | ピニオン基礎円半径 | $r_{b1}$ | $d_{b1} / 2$ | 26.781240 | mm |
+| 12 | 歯車基礎円直径 | $d_{b2}$ | $d_2 \cos\alpha$ | 132.496660 | mm |
+| 13 | 歯車基礎円半径 | $r_{b2}$ | $d_{b2} / 2$ | 66.248330 | mm |
+| 14 | 歯先たけ | $h_a$ | $h_a^* \cdot m$ | 3.000000 | mm |
+| 15 | 歯底たけ | $h_f$ | $(h_a^* + c^*) m$ | 3.750000 | mm |
+| 16 | 全歯たけ | $h$ | $h_a + h_f$ | 6.750000 | mm |
+| 17 | 頂げき (隙間) | $c$ | $c^* \cdot m$ | 0.750000 | mm |
+| 18 | ピニオン歯先円直径 | $d_{a1}$ | $d_1 + 2h_a$ | 63.000000 | mm |
+| 19 | ピニオン歯先円半径 | $r_{a1}$ | $d_{a1} / 2$ | 31.500000 | mm |
+| 20 | 歯車歯先円直径 | $d_{a2}$ | $d_2 + 2h_a$ | 147.000000 | mm |
+| 21 | 歯車歯先円半径 | $r_{a2}$ | $d_{a2} / 2$ | 73.500000 | mm |
+| 22 | ピニオン歯底円直径 | $d_{f1}$ | $d_1 - 2h_f$ | 49.500000 | mm |
+| 23 | ピニオン歯底円半径 | $r_{f1}$ | $d_{f1} / 2$ | 24.750000 | mm |
+| 24 | 歯車歯底円直径 | $d_{f2}$ | $d_2 - 2h_f$ | 133.500000 | mm |
+| 25 | 歯車歯底円半径 | $r_{f2}$ | $d_{f2} / 2$ | 66.750000 | mm |
+| 26 | 基準圧力角インボリュート値 | $\mathrm{inv}\,\alpha$ | $\tan 20^\circ - 20^\circ\frac{\pi}{180}$ | 0.014904 | rad |
+| 27 | ピニオン歯先円圧力角 | $\alpha_{a1}$ | $\arccos(r_{b1} / r_{a1})$ | 31.766779 | deg |
+| 28 | 歯車歯先円圧力角 | $\alpha_{a2}$ | $\arccos(r_{b2} / r_{a2})$ | 25.665521 | deg |
+| 29 | ピニオン歯先インボリュート値 | $\mathrm{inv}\,\alpha_{a1}$ | $\tan\alpha_{a1} - \alpha_{a1}$ | 0.064789 | rad |
+| 30 | 歯車歯先インボリュート値 | $\mathrm{inv}\,\alpha_{a2}$ | $\tan\alpha_{a2} - \alpha_{a2}$ | 0.032579 | rad |
+| 31 | ピニオン歯先頂幅 | $s_{a1}$ | $2 r_{a1} \psi_{a1}$ | 2.065702 | mm |
+| 32 | 歯車歯先頂幅 | $s_{a2}$ | $2 r_{a2} \psi_{a2}$ | 2.314789 | mm |
+| 33 | 遠退かみ合い長さ | $g_a$ | $\sqrt{r_{a1}^2 - r_{b1}^2} - r_{b1}\tan\alpha$ | 6.836008 | mm |
+| 34 | 接近かみ合い長さ | $g_f$ | $\sqrt{r_{a2}^2 - r_{b2}^2} - r_{b2}\tan\alpha$ | 7.721662 | mm |
+| 35 | 全かみ合い長さ | $g_\alpha$ | $g_a + g_f$ | 14.557670 | mm |
+| 36 | 正面かみ合い率 | $\epsilon_\alpha$ | $g_\alpha / p_b$ | 1.643747 | — |
+| 37 | 単一歯かみ合い長さ | $g_1$ | $2 p_b - g_\alpha$ | 3.155118 | mm |
+| 38 | 2歯かみ合い長さ | $g_2$ | $2(g_\alpha - p_b)$ | 11.402552 | mm |
+
+本計算結果より、ピニオンおよび大歯車の歯先頂幅（$s_{a1} = 2.065702\text{ mm}$、$s_{a2} = 2.314789\text{ mm}$）は、安全限界である $0.25m = 0.750000\text{ mm}$ を十分に上回り、尖頭化が完全に防止されていることが証明されました。また正面かみ合い率は $\epsilon_\alpha = 1.643747$ となり、推奨値 $1.200000$ を大きく超えて全かみ合い区間の78.33%において2対の歯による安定した荷重分担が実現されています。
