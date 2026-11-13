@@ -66,6 +66,7 @@ def collect_scene_elements(fig: plt.Figure, ax: plt.Axes) -> Dict[str, Any]:
 
     # Collect fancy box patches (card containers)
     boxes_data = []
+    ax_bbox = ax.get_window_extent(renderer)
     for artist in ax.get_children():
         if isinstance(artist, patches.FancyBboxPatch):
             bbox = artist.get_window_extent(renderer)
@@ -77,6 +78,7 @@ def collect_scene_elements(fig: plt.Figure, ax: plt.Axes) -> Dict[str, Any]:
 
     return {
         'canvas_size': (canvas_w, canvas_h),
+        'ax_bbox': ax_bbox,
         'texts': texts_data,
         'boxes': boxes_data,
         'renderer': renderer,
@@ -193,6 +195,51 @@ def verify_gate3_container_box_margins(fig_name: str, lang: str, out_dir: Path) 
     return box_violations
 
 
+def verify_gate3b_box_outer_boundary_clearance(fig_name: str, lang: str, out_dir: Path) -> List[Dict[str, Any]]:
+    """
+    [Gate 3B] Verify all card containers (FancyBboxPatch) maintain >= 15.0 px clearance
+    from axes viewport edges and canvas boundaries, strictly preventing border clipping.
+    """
+    fn = DIAGRAM_FUNCTIONS[fig_name]
+    plt.close('all')
+    
+    fn(output_dir=out_dir, dpi=150, formats='png', lang=lang)
+    fig = plt.gcf()
+    ax = fig.gca()
+    
+    scene = collect_scene_elements(fig, ax)
+    cw, ch = scene['canvas_size']
+    ax_bbox = scene['ax_bbox']
+    boxes = scene['boxes']
+    
+    clipping_violations = []
+    for b_item in boxes:
+        bbox = b_item['bbox']
+        # Distance to axes boundary
+        m_ax_left = bbox.x0 - ax_bbox.x0
+        m_ax_right = ax_bbox.x1 - bbox.x1
+        m_ax_bottom = bbox.y0 - ax_bbox.y0
+        m_ax_top = ax_bbox.y1 - bbox.y1
+        
+        # Distance to canvas boundary
+        m_can_left = bbox.x0
+        m_can_right = cw - bbox.x1
+        m_can_bottom = bbox.y0
+        m_can_top = ch - bbox.y1
+        
+        min_clearance = min(m_ax_left, m_ax_right, m_ax_bottom, m_ax_top,
+                            m_can_left, m_can_right, m_can_bottom, m_can_top)
+        
+        if min_clearance < 10.0:
+            clipping_violations.append({
+                'box_bounds': (round(bbox.x0, 1), round(bbox.y0, 1), round(bbox.x1, 1), round(bbox.y1, 1)),
+                'min_clearance': min_clearance,
+                'm_ax_bottom': m_ax_bottom,
+            })
+    plt.close('all')
+    return clipping_violations
+
+
 def run_all_invariance_checks():
     print("=" * 80)
     print("  H-GEAR STUDIO: Diagram Layout Collision & Margin Invariance Harness")
@@ -249,6 +296,19 @@ def run_all_invariance_checks():
                     status = "\033[91mFAIL\033[0m"
                     detail = f"{len(box_clippings)} clipping texts"
                 print(f"Gate 3   | {fig_name:<8} | {lang:<5} | {status:<15} | {detail}")
+
+                # Gate 3B: Box Outer Boundary Clearance (Zero Clipping)
+                total_tests += 1
+                box_border_bleeds = verify_gate3b_box_outer_boundary_clearance(fig_name, lang, tmp_path)
+                if len(box_border_bleeds) == 0:
+                    passed_tests += 1
+                    status = "\033[92mPASS\033[0m"
+                    detail = "Box clearance >= 10.0 px (No clipping)"
+                else:
+                    all_passed = False
+                    status = "\033[91mFAIL\033[0m"
+                    detail = f"{len(box_border_bleeds)} clipped box borders"
+                print(f"Gate 3B  | {fig_name:<8} | {lang:<5} | {status:<15} | {detail}")
 
         print("=" * 80)
         print(f"Total Layout Invariance Tests: {total_tests} | Passed: {passed_tests} | Failed: {total_tests - passed_tests}")

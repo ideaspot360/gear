@@ -461,12 +461,12 @@ def save_diagram(fig, base_name, output_dir, dpi, formats):
     saved_paths = []
     if formats in ('all', 'svg'):
         svg_path = output_dir / f"{base_name}.svg"
-        fig.savefig(svg_path, format='svg', bbox_inches='tight', pad_inches=0.08,
+        fig.savefig(svg_path, format='svg', bbox_inches='tight', pad_inches=0.15,
                     facecolor=COLOR_BG, edgecolor='none')
         saved_paths.append(svg_path)
     if formats in ('all', 'png'):
         png_path = output_dir / f"{base_name}.png"
-        fig.savefig(png_path, format='png', dpi=dpi, bbox_inches='tight', pad_inches=0.08,
+        fig.savefig(png_path, format='png', dpi=dpi, bbox_inches='tight', pad_inches=0.15,
                     facecolor=COLOR_BG, edgecolor='none')
         saved_paths.append(png_path)
     
@@ -560,8 +560,8 @@ def create_diagram_1a(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lan
     ax.text(0, -4.70, tr('slip_box_body'), fontsize=10.5,
             fontweight='normal', color="#7F1D1D", ha='center', va='center', zorder=4)
     
-    ax.set_xlim(-4.2, 4.2)
-    ax.set_ylim(-5.4, 4.6)
+    ax.set_xlim(-4.3, 4.3)
+    ax.set_ylim(-5.75, 4.65)
     ax.set_title(tr('fig1a_title'), fontsize=16.0, fontweight='normal', pad=14, color=COLOR_TEXT_MAIN)
     
     save_diagram(fig, "fig1a_friction_drive", output_dir, dpi, formats)
@@ -676,8 +676,8 @@ def create_diagram_1b(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lan
     ax.text(0.0, -5.75, tr('banner_desc'),
             fontsize=10.5, fontweight='normal', color="#166534", ha='center', va='center', zorder=6)
     
-    ax.set_xlim(-5.8, 5.8)
-    ax.set_ylim(-6.55, 4.4)
+    ax.set_xlim(-5.9, 5.9)
+    ax.set_ylim(-6.95, 4.45)
     ax.set_title(tr('fig1b_title'), fontsize=16.0, fontweight='normal', pad=14, color=COLOR_TEXT_MAIN)
     
     save_diagram(fig, "fig1b_gear_drive", output_dir, dpi, formats)
@@ -875,18 +875,18 @@ def create_diagram_2(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
     ax.text(1.15, O2[1] - 0.5, tr('fig2_omega2'), fontsize=12.0, fontweight='normal', color=COLOR_GEAR)
     
     # Proof Box: Scaled Typography (Header 13pt, Formula 11.4pt, Desc 10.5pt, Box expanded to 11.4 x 2.35)
-    proof_box = patches.FancyBboxPatch((-5.7, -6.15), 11.4, 2.35, boxstyle="round,pad=0.22",
+    proof_box = patches.FancyBboxPatch((-5.7, -6.05), 11.4, 2.35, boxstyle="round,pad=0.22",
                                        fc="#F0FDF4", ec="#86EFAC", lw=1.0, zorder=4)
     ax.add_patch(proof_box)
-    ax.text(0, -4.00, tr('fig2_proof_title'),
+    ax.text(0, -3.95, tr('fig2_proof_title'),
             fontsize=13.0, fontweight='normal', color="#166534", ha='center', va='center', zorder=6)
-    ax.text(0, -4.68, tr('fig2_proof_formula'),
+    ax.text(0, -4.63, tr('fig2_proof_formula'),
             fontsize=11.4, fontweight='normal', color="#14532D", ha='center', va='center', zorder=6)
-    ax.text(0, -5.45, tr('fig2_proof_desc'),
+    ax.text(0, -5.40, tr('fig2_proof_desc'),
             fontsize=10.5, fontweight='normal', color="#15803D", ha='center', va='center', zorder=6)
     
-    ax.set_xlim(-6.1, 6.1)
-    ax.set_ylim(-6.35, 4.7)
+    ax.set_xlim(-6.2, 6.2)
+    ax.set_ylim(-6.65, 4.75)
     ax.set_title(tr('fig2_title'), fontsize=16.0, fontweight='normal', pad=18, color=COLOR_TEXT_MAIN)
     ax.legend(loc="upper left", fontsize=10.5, framealpha=0.95, edgecolor=COLOR_AXIS)
     
@@ -1014,8 +1014,8 @@ def create_diagram_3(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
     ax.text(0, -4.25, tr('fig3_rule2'),
             fontsize=10.2, fontweight='normal', color="#B91C1C", ha='center', va='center', zorder=4)
     
-    ax.set_xlim(-4.9, 4.9)
-    ax.set_ylim(-5.0, 3.8)
+    ax.set_xlim(-5.0, 5.0)
+    ax.set_ylim(-5.35, 3.85)
     title_text = tr('fig3_title')
     if lang in ['de', 'en']:
         title_text = title_text.replace(": ", ":\n")
