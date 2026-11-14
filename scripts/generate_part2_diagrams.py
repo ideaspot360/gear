@@ -1120,14 +1120,14 @@ def create_diagram_4(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
     O2 = np.array([0.0, -r2])
     P = np.array([0.0, 0.0])
 
-    # Line of centers (Slim 0.7 pt dashdot)
-    ax.plot([0, 0], [-13.0, 13.0], color=COLOR_AXIS, linestyle="-.", lw=0.7, zorder=1)
+    # Line of centers (Slim 0.7 pt dashdot, pitch region)
+    ax.plot([0, 0], [-5.5, 7.5], color=COLOR_AXIS, linestyle="-.", lw=0.7, zorder=1)
 
     # Pitch Tangent line (t_P - t_P)
     ax.plot([-28.0, 36.0], [0, 0], color=COLOR_TANGENT, linestyle="--", lw=0.8, zorder=1)
-    ax.text(35.0, -2.5, tr('fig4_pitch_line'), fontsize=9.2, color=COLOR_TANGENT,
-            va='top', ha='right',
-            bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.90))
+    ax.text(24.5, 0.6, tr('fig4_pitch_line'), fontsize=8.5, color=COLOR_TANGENT,
+            va='bottom', ha='left',
+            bbox=dict(boxstyle="round,pad=0.14", fc="white", ec="none", alpha=1.0), zorder=6)
 
     # Circular Arcs around Pitch Point:
     # Pinion 1 (top): arc around downward direction -90 deg
@@ -1191,159 +1191,174 @@ def create_diagram_4(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
     # Zone 3: Double-tooth contact D -> E (g2'' = 5.701 mm) - Soft Cyan/Sky Blue
     ax.plot([D[0], E[0]], [D[1], E[1]], color='#0284C7', lw=3.6, alpha=0.75, zorder=4)
 
-    # Tangent rays from O1 to N1 and O2 to N2
-    ax.plot([O1[0], N1[0]], [O1[1], N1[1]], color=COLOR_AXIS, linestyle=":", lw=0.8, zorder=2)
-    ax.plot([O2[0], N2[0]], [O2[1], N2[1]], color=COLOR_AXIS, linestyle=":", lw=0.8, zorder=2)
+    # Tangent rays from O1 to N1 and O2 to N2 (bounded local normal segments)
+    ray1_dir = (O1 - N1) / np.linalg.norm(O1 - N1)
+    ray1_start = N1 + ray1_dir * 8.0
+    ax.plot([ray1_start[0], N1[0]], [ray1_start[1], N1[1]], color=COLOR_AXIS, linestyle=":", lw=0.8, zorder=2)
+
+    ray2_dir = (O2 - N2) / np.linalg.norm(O2 - N2)
+    ray2_start = N2 + ray2_dir * 5.0
+    ax.plot([ray2_start[0], N2[0]], [ray2_start[1], N2[1]], color=COLOR_AXIS, linestyle=":", lw=0.8, zorder=2)
     draw_right_angle(ax, N1, O1 - N1, u_loa, size=0.8, color=COLOR_TEXT_MUTED, lw=0.8)
     draw_right_angle(ax, N2, O2 - N2, -u_loa, size=0.8, color=COLOR_TEXT_MUTED, lw=0.8)
 
     # Markers for All Critical Contact Points (A, B, P, D, E, N1, N2)
-    ax.scatter([N1[0], N2[0]], [N1[1], N2[1]], color=COLOR_PINION, s=45, zorder=6)
-    ax.scatter([A[0], E[0]], [A[1], E[1]], color=COLOR_NORMAL, s=65, zorder=8, edgecolors=COLOR_TEXT_MAIN, lw=0.8)
-    ax.scatter([B[0], D[0]], [B[1], D[1]], color='#7C3AED', s=55, zorder=8, edgecolors=COLOR_TEXT_MAIN, lw=0.8)
-    ax.scatter([P[0]], [P[1]], color=COLOR_NORMAL, s=70, zorder=9, edgecolors=COLOR_TEXT_MAIN, lw=1.0)
+    ax.scatter([N1[0], N2[0]], [N1[1], N2[1]], color=COLOR_PINION, s=40, zorder=7)
+    ax.scatter([A[0], E[0]], [A[1], E[1]], color=COLOR_NORMAL, s=55, zorder=8, edgecolors=COLOR_TEXT_MAIN, lw=0.8)
+    ax.scatter([B[0], D[0]], [B[1], D[1]], color='#7C3AED', s=50, zorder=8, edgecolors=COLOR_TEXT_MAIN, lw=0.8)
+    ax.scatter([P[0]], [P[1]], color=COLOR_NORMAL, s=60, zorder=9, edgecolors=COLOR_TEXT_MAIN, lw=1.0)
 
-    # Text Annotations for Critical Points (Cascading Layout, 0 Collision Guarantee!)
-    # Point P: Directly above P(0, 0)
+    # Text Annotations for Critical Points (Refined Cascading Layout, CAD Whitespace Guaranteed)
+    # Point P: Directly above P(0, 0) (Tier 1: y=3.5)
     ax.annotate(tr('fig4_point_p'),
-                xy=(P[0], P[1]), xytext=(0.0, 4.2),
-                fontsize=10.5, color=COLOR_NORMAL, ha='center', va='bottom',
-                arrowprops=dict(arrowstyle="-|>", color=COLOR_NORMAL, lw=0.9),
-                bbox=dict(boxstyle="round,pad=0.20", fc="white", ec=COLOR_NORMAL, lw=0.8, alpha=0.95))
+                xy=(P[0], P[1]), xytext=(0.0, 3.5),
+                fontsize=8.5, color=COLOR_NORMAL, ha='center', va='bottom',
+                arrowprops=dict(arrowstyle="-|>", color=COLOR_NORMAL, lw=0.8),
+                bbox=dict(boxstyle="round,pad=0.14", fc="white", ec=COLOR_NORMAL, lw=0.8, alpha=1.0),
+                zorder=7)
 
     # Point A: South-West leader
     ax.annotate(tr('fig4_point_a'),
-                xy=(A[0], A[1]), xytext=(A[0] - 4.5, A[1] - 4.5),
-                fontsize=10.0, color=COLOR_NORMAL, ha='right', va='top',
-                arrowprops=dict(arrowstyle="-|>", color=COLOR_NORMAL, lw=0.9),
-                bbox=dict(boxstyle="round,pad=0.20", fc="white", ec=COLOR_NORMAL, lw=0.8, alpha=0.95))
+                xy=(A[0], A[1]), xytext=(A[0] - 5.5, A[1] - 4.2),
+                fontsize=8.5, color=COLOR_NORMAL, ha='right', va='top',
+                arrowprops=dict(arrowstyle="-|>", color=COLOR_NORMAL, lw=0.8),
+                bbox=dict(boxstyle="round,pad=0.14", fc="white", ec=COLOR_NORMAL, lw=0.8, alpha=1.0),
+                zorder=7)
 
-    # Point E: East-North-East leader (Cascading tier 3: y ~ -1.5)
+    # Point E: South-East leader (Clean below LOA, clear of pitch tangent line)
     ax.annotate(tr('fig4_point_e'),
-                xy=(E[0], E[1]), xytext=(E[0] + 3.2, E[1] + 0.8),
-                fontsize=9.2, color=COLOR_NORMAL, ha='left', va='bottom',
-                arrowprops=dict(arrowstyle="-|>", color=COLOR_NORMAL, lw=0.9),
-                bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_NORMAL, lw=0.8, alpha=0.95))
+                xy=(E[0], E[1]), xytext=(E[0] + 4.5, E[1] - 2.5),
+                fontsize=8.5, color=COLOR_NORMAL, ha='left', va='top',
+                arrowprops=dict(arrowstyle="-|>", color=COLOR_NORMAL, lw=0.8),
+                bbox=dict(boxstyle="round,pad=0.14", fc="white", ec=COLOR_NORMAL, lw=0.8, alpha=1.0),
+                zorder=7)
 
-    # Point B: North-West leader
+    # Point B: North-West leader (High Tier y=6.8, clear of Point P and extension line)
     ax.annotate(tr('fig4_point_b'),
-                xy=(B[0], B[1]), xytext=(B[0] - 4.5, B[1] + 2.2),
-                fontsize=9.2, color='#7C3AED', ha='right', va='bottom',
+                xy=(B[0], B[1]), xytext=(-3.5, 6.8),
+                fontsize=8.5, color='#7C3AED', ha='right', va='bottom',
                 arrowprops=dict(arrowstyle="-|>", color='#7C3AED', lw=0.8),
-                bbox=dict(boxstyle="round,pad=0.18", fc="white", ec='#7C3AED', lw=0.8, alpha=0.95))
+                bbox=dict(boxstyle="round,pad=0.14", fc="white", ec='#7C3AED', lw=0.8, alpha=1.0),
+                zorder=7)
 
-    # Point D: North-East leader (Cascading tier 2: y ~ +1.8)
+    # Point D: North-East leader (Tiered height y=2.2, clear of Point P and E)
     ax.annotate(tr('fig4_point_d'),
-                xy=(D[0], D[1]), xytext=(D[0] + 3.2, D[1] + 1.8),
-                fontsize=9.2, color='#7C3AED', ha='left', va='bottom',
+                xy=(D[0], D[1]), xytext=(D[0] + 5.0, D[1] + 2.4),
+                fontsize=8.5, color='#7C3AED', ha='left', va='bottom',
                 arrowprops=dict(arrowstyle="-|>", color='#7C3AED', lw=0.8),
-                bbox=dict(boxstyle="round,pad=0.18", fc="white", ec='#7C3AED', lw=0.8, alpha=0.95))
+                bbox=dict(boxstyle="round,pad=0.14", fc="white", ec='#7C3AED', lw=0.8, alpha=1.0),
+                zorder=7)
 
-    # N1 on Pinion base circle (North-West of N1)
+    # N1 on Pinion base circle (North-West of N1, below B tier)
     ax.annotate(tr('fig4_point_n1'),
-                xy=(N1[0], N1[1]), xytext=(N1[0] - 3.2, N1[1] + 2.5),
-                fontsize=9.8, color=COLOR_PINION, ha='right', va='bottom',
+                xy=(N1[0], N1[1]), xytext=(N1[0] - 4.5, N1[1] + 0.8),
+                fontsize=8.5, color=COLOR_PINION, ha='right', va='bottom',
                 arrowprops=dict(arrowstyle="-|>", color=COLOR_PINION, lw=0.7),
-                bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_PINION, lw=0.7, alpha=0.92))
+                bbox=dict(boxstyle="round,pad=0.14", fc="white", ec=COLOR_PINION, lw=0.7, alpha=1.0),
+                zorder=7)
 
     # N2 on Gear base circle (East / South-East of N2)
     ax.annotate(tr('fig4_point_n2'),
-                xy=(N2[0], N2[1]), xytext=(N2[0] + 2.5, N2[1] - 1.0),
-                fontsize=9.8, color=COLOR_PINION, ha='left', va='center',
+                xy=(N2[0], N2[1]), xytext=(N2[0] + 3.5, N2[1] - 0.5),
+                fontsize=8.5, color=COLOR_PINION, ha='left', va='center',
                 arrowprops=dict(arrowstyle="-|>", color=COLOR_PINION, lw=0.7),
-                bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_PINION, lw=0.7, alpha=0.92))
+                bbox=dict(boxstyle="round,pad=0.14", fc="white", ec=COLOR_PINION, lw=0.7, alpha=1.0),
+                zorder=7)
 
     # Line of action label (Top-Left clear margin, isolated from pb bar)
     ax.text(-36.0, 17.5, tr('fig4_loa'),
-            fontsize=10.5, color=COLOR_NORMAL, ha='left', va='bottom',
-            bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_NORMAL, lw=0.8, alpha=0.90))
+            fontsize=9.0, color=COLOR_NORMAL, ha='left', va='bottom',
+            bbox=dict(boxstyle="round,pad=0.14", fc="white", ec=COLOR_NORMAL, lw=0.8, alpha=1.0),
+            zorder=7)
 
     # Tip Circle identification labels (Outside active contact zone!)
     # Gear tip circle (ra2) passing through Point A
-    ra2_pt_x = -14.0
+    ra2_pt_x = -17.0
     ra2_pt_y = -r2 + np.sqrt(ra2**2 - ra2_pt_x**2)
     ax.annotate(tr('fig4_gear_tip'),
-                xy=(ra2_pt_x, ra2_pt_y), xytext=(-22.0, 0.5),
-                fontsize=10.0, color=COLOR_GEAR, ha='right', va='top',
-                arrowprops=dict(arrowstyle="-|>", color=COLOR_GEAR, lw=0.8),
-                bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_GEAR, lw=0.8, alpha=0.92))
+                xy=(ra2_pt_x, ra2_pt_y), xytext=(-24.0, 1.2),
+                fontsize=8.5, color=COLOR_GEAR, ha='right', va='bottom',
+                arrowprops=dict(arrowstyle="-|>", color=COLOR_GEAR, lw=0.7),
+                bbox=dict(boxstyle="round,pad=0.14", fc="white", ec=COLOR_GEAR, lw=0.7, alpha=1.0),
+                zorder=7)
 
     # Pinion tip circle (ra1) passing through Point E
-    ra1_pt_x = 16.0
+    ra1_pt_x = 15.0
     ra1_pt_y = r1 - np.sqrt(ra1**2 - ra1_pt_x**2)
     ax.annotate(tr('fig4_pinion_tip'),
-                xy=(ra1_pt_x, ra1_pt_y), xytext=(19.0, 4.5),
-                fontsize=10.0, color=COLOR_GEAR, ha='left', va='bottom',
-                arrowprops=dict(arrowstyle="-|>", color=COLOR_GEAR, lw=0.8),
-                bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_GEAR, lw=0.8, alpha=0.92))
+                xy=(ra1_pt_x, ra1_pt_y), xytext=(18.5, 4.6),
+                fontsize=8.5, color=COLOR_GEAR, ha='left', va='bottom',
+                arrowprops=dict(arrowstyle="-|>", color=COLOR_GEAR, lw=0.7),
+                bbox=dict(boxstyle="round,pad=0.14", fc="white", ec=COLOR_GEAR, lw=0.7, alpha=1.0),
+                zorder=7)
 
     # =======================================================================
     # Rigorous Standard Dimensioning (ISO 129-1 Hierarchy: Shorter Inside, Longer Outside)
     # =======================================================================
-    # Layer 1: Base Pitch pb = segment AD (Shorter dimension: 8.856 mm at Offset +8.5 mm)
-    bar1_offset = norm_loa * 8.5
+    # Layer 1: Base Pitch pb = segment AD (Shorter dimension: 8.856 mm at Offset +9.5 mm)
+    bar1_offset = norm_loa * 9.5
     bar_A1 = A + bar1_offset
     bar_D1 = D + bar1_offset
     ax.annotate('', xy=bar_A1, xytext=bar_D1,
                 arrowprops=dict(arrowstyle='<->,head_length=0.35,head_width=0.18',
                                 color=COLOR_PINION, lw=1.1))
     mid_bar1 = (bar_A1 + bar_D1) * 0.5
-    ax.text(mid_bar1[0], mid_bar1[1] + 0.55, tr('fig4_base_pitch_bar'),
-            fontsize=9.8, color=COLOR_PINION, ha='center', va='bottom',
-            bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.92))
+    ax.text(mid_bar1[0], mid_bar1[1] + 0.60, tr('fig4_base_pitch_bar'),
+            fontsize=8.5, color=COLOR_PINION, ha='center', va='bottom',
+            bbox=dict(boxstyle="round,pad=0.14", fc="white", ec="none", alpha=1.0), zorder=6)
 
-    # Layer 2: Total Path of Contact AE = g_alpha (Longer dimension: 14.558 mm at Offset +15.2 mm)
-    bar2_offset = norm_loa * 15.2
+    # Layer 2: Total Path of Contact AE = g_alpha (Longer dimension: 14.558 mm at Offset +16.5 mm)
+    bar2_offset = norm_loa * 16.5
     bar_A2 = A + bar2_offset
     bar_E2 = E + bar2_offset
     ax.annotate('', xy=bar_A2, xytext=bar_E2,
                 arrowprops=dict(arrowstyle='<->,head_length=0.35,head_width=0.18',
                                 color=COLOR_CONTACT, lw=1.2))
     mid_bar2 = (bar_A2 + bar_E2) * 0.5
-    ax.text(mid_bar2[0], mid_bar2[1] + 0.55, tr('fig4_active_path'),
-            fontsize=10.0, color=COLOR_CONTACT, ha='center', va='bottom',
-            bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.92))
+    ax.text(mid_bar2[0], mid_bar2[1] + 0.60, tr('fig4_active_path'),
+            fontsize=8.8, color=COLOR_CONTACT, ha='center', va='bottom',
+            bbox=dict(boxstyle="round,pad=0.14", fc="white", ec="none", alpha=1.0), zorder=6)
 
-    # Layer -1 (Bottom): Single-Tooth Contact Zone BD = g1 (3.155 mm at Offset -7.5 mm)
-    bar_sub_offset = -norm_loa * 7.5
+    # Layer -1 (Bottom): Single-Tooth Contact Zone BD = g1 (3.155 mm at Offset -8.0 mm)
+    bar_sub_offset = -norm_loa * 8.0
     bar_B_sub = B + bar_sub_offset
     bar_D_sub = D + bar_sub_offset
     ax.annotate('', xy=bar_B_sub, xytext=bar_D_sub,
                 arrowprops=dict(arrowstyle='<->,head_length=0.30,head_width=0.16',
                                 color='#7C3AED', lw=1.0))
     mid_bar_sub = (bar_B_sub + bar_D_sub) * 0.5
-    ax.text(mid_bar_sub[0], mid_bar_sub[1] - 0.50, tr('fig4_single_zone'),
-            fontsize=9.2, color='#7C3AED', ha='center', va='top',
-            bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.92))
+    ax.text(mid_bar_sub[0], mid_bar_sub[1] - 0.60, tr('fig4_single_zone'),
+            fontsize=8.5, color='#7C3AED', ha='center', va='top',
+            bbox=dict(boxstyle="round,pad=0.14", fc="white", ec="none", alpha=1.0), zorder=6)
 
     # Perpendicular Extension Lines (치수 보조선) - 0 Crossing Architecture!
     # 1. Point A extension: reaches up to Layer 2 bar_A2
-    ext_A_start = A + norm_loa * 0.3
-    ext_A_end = bar_A2 + norm_loa * 1.0
+    ext_A_start = A + norm_loa * 0.4
+    ext_A_end = bar_A2 + norm_loa * 0.8
     ax.plot([ext_A_start[0], ext_A_end[0]], [ext_A_start[1], ext_A_end[1]],
             color=COLOR_AXIS, lw=0.75, linestyle="-", zorder=3)
 
     # 2. Point D extension (Upward): terminates just above Layer 1 bar_D1 (no crossing Layer 2!)
-    ext_D_up_start = D + norm_loa * 0.3
-    ext_D_up_end = bar_D1 + norm_loa * 1.0
+    ext_D_up_start = D + norm_loa * 0.4
+    ext_D_up_end = bar_D1 + norm_loa * 0.8
     ax.plot([ext_D_up_start[0], ext_D_up_end[0]], [ext_D_up_start[1], ext_D_up_end[1]],
             color=COLOR_AXIS, lw=0.75, linestyle="-", zorder=3)
 
     # 3. Point E extension: reaches up to Layer 2 bar_E2
-    ext_E_start = E + norm_loa * 0.3
-    ext_E_end = bar_E2 + norm_loa * 1.0
+    ext_E_start = E + norm_loa * 0.4
+    ext_E_end = bar_E2 + norm_loa * 0.8
     ax.plot([ext_E_start[0], ext_E_end[0]], [ext_E_start[1], ext_E_end[1]],
             color=COLOR_AXIS, lw=0.75, linestyle="-", zorder=3)
 
     # 4. Point B extension (Downward): reaches down to Layer -1 bar_B_sub
-    ext_B_down_start = B - norm_loa * 0.3
-    ext_B_down_end = bar_B_sub - norm_loa * 1.0
+    ext_B_down_start = B - norm_loa * 0.4
+    ext_B_down_end = bar_B_sub - norm_loa * 0.8
     ax.plot([ext_B_down_start[0], ext_B_down_end[0]], [ext_B_down_start[1], ext_B_down_end[1]],
             color='#8B5CF6', lw=0.70, linestyle="-", alpha=0.70, zorder=3)
 
     # 5. Point D extension (Downward): reaches down to Layer -1 bar_D_sub
-    ext_D_down_start = D - norm_loa * 0.3
-    ext_D_down_end = bar_D_sub - norm_loa * 1.0
+    ext_D_down_start = D - norm_loa * 0.4
+    ext_D_down_end = bar_D_sub - norm_loa * 0.8
     ax.plot([ext_D_down_start[0], ext_D_down_end[0]], [ext_D_down_start[1], ext_D_down_end[1]],
             color='#8B5CF6', lw=0.70, linestyle="-", alpha=0.70, zorder=3)
 
