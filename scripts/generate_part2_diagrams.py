@@ -1111,8 +1111,9 @@ def create_diagram_4(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
     eps_alpha = g_alpha / pb                                 # 1.643747
 
     # Center coordinates: Pitch point P at (0, 0)
-    O1 = np.array([0.0, -r1])
-    O2 = np.array([0.0, r2])
+    # Pinion 1 center at (0, +r1), Gear 2 center at (0, -r2)
+    O1 = np.array([0.0, r1])
+    O2 = np.array([0.0, -r2])
     P = np.array([0.0, 0.0])
 
     # Line of centers (Slim 0.7 pt dashdot)
@@ -1120,13 +1121,15 @@ def create_diagram_4(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
 
     # Pitch Tangent line (t_P - t_P)
     ax.plot([-28.0, 28.0], [0, 0], color=COLOR_TANGENT, linestyle="--", lw=0.8, zorder=1)
-    ax.text(26.0, -2.0, tr('fig4_pitch_line'), fontsize=10.0, color=COLOR_TANGENT,
+    ax.text(26.0, -1.8, tr('fig4_pitch_line'), fontsize=10.0, color=COLOR_TANGENT,
             va='top', ha='center',
             bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.90))
 
     # Circular Arcs around Pitch Point:
-    thetas_p = np.linspace(np.radians(90 - 24), np.radians(90 + 24), 140)
-    thetas_g = np.linspace(np.radians(-90 - 15), np.radians(-90 + 15), 140)
+    # Pinion 1 (top): arc around downward direction -90 deg
+    # Gear 2 (bottom): arc around upward direction +90 deg
+    thetas_p = np.linspace(np.radians(-90 - 24), np.radians(-90 + 24), 140)
+    thetas_g = np.linspace(np.radians(90 - 15), np.radians(90 + 15), 140)
 
     # Pitch circles (tangent at P)
     ax.plot(O1[0] + r1 * np.cos(thetas_p), O1[1] + r1 * np.sin(thetas_p),
@@ -1140,40 +1143,37 @@ def create_diagram_4(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
     ax.plot(O2[0] + rb2 * np.cos(thetas_g), O2[1] + rb2 * np.sin(thetas_g),
             color=COLOR_PINION, linestyle="--", lw=0.9, zorder=2)
 
-    # Tip circles
-    ax.plot(O1[0] + ra1 * np.cos(thetas_p), O1[1] + ra1 * np.sin(thetas_p),
-            color=COLOR_GEAR, linestyle="-", lw=1.1, zorder=2)
-    ax.plot(O2[0] + ra2 * np.cos(thetas_g), O2[1] + ra2 * np.sin(thetas_g),
-            color=COLOR_GEAR, linestyle="-", lw=1.1, zorder=2)
-
-    # Line of Action Unit Vector: tilted by -alpha from horizontal
-    u_loa = np.array([np.cos(alpha_rad), -np.sin(alpha_rad)])
-
-    # Tangency Points on Base Circles:
-    t_N2 = -r2 * np.sin(alpha_rad)
-    t_N1 = r1 * np.sin(alpha_rad)
-    N2 = t_N2 * u_loa
-    N1 = t_N1 * u_loa
-
     # Contact Intersections:
-    # Point A (SAP): Gear 2 tip circle intersection, t_A = -gf
-    # Point E (EAP): Pinion 1 tip circle intersection, t_E = +ga
+    # Point A (SAP): Gear 2 tip circle (ra2 = 73.5 mm) intersection, t_A = -gf
+    # Point E (EAP): Pinion 1 tip circle (ra1 = 31.5 mm) intersection, t_E = +ga
     t_A = -gf
     t_E = ga
+    u_loa = np.array([np.cos(alpha_rad), -np.sin(alpha_rad)])
+    norm_loa = np.array([np.sin(alpha_rad), np.cos(alpha_rad)])
     A = t_A * u_loa
     E = t_E * u_loa
 
-    # Single-tooth contact limits B and D:
-    # Point B: ga - pb
-    # Point D: -gf + pb
+    # Exact theoretical tip circles (ra2 exactly passes through A, ra1 exactly passes through E)
+    ax.plot(O2[0] + ra2 * np.cos(thetas_g), O2[1] + ra2 * np.sin(thetas_g),
+            color=COLOR_GEAR, linestyle="-", lw=1.1, zorder=2)
+    ax.plot(O1[0] + ra1 * np.cos(thetas_p), O1[1] + ra1 * np.sin(thetas_p),
+            color=COLOR_GEAR, linestyle="-", lw=1.1, zorder=2)
+
+    # Tangency Points on Base Circles:
+    # N1 on Pinion 1 base circle (t_N1 = -r1 * sin(alpha))
+    # N2 on Gear 2 base circle (t_N2 = +r2 * sin(alpha))
+    t_N1 = -r1 * np.sin(alpha_rad)
+    t_N2 = r2 * np.sin(alpha_rad)
+    N1 = t_N1 * u_loa
+    N2 = t_N2 * u_loa
+
+    # Single-tooth contact theoretical limits:
     t_B = ga - pb
     t_D = -gf + pb
-    B = t_B * u_loa
-    D = t_D * u_loa
 
-    # Draw Full Line of Action N2 -> N1 (Crimson, lw=1.2)
-    loa_ext_start = (t_N2 - 1.5) * u_loa
-    loa_ext_end = (t_N1 + 2.0) * u_loa
+    # Draw Full Line of Action N1 -> N2 (Crimson, lw=1.2)
+    loa_ext_start = (t_N1 - 2.0) * u_loa
+    loa_ext_end = (t_N2 + 2.0) * u_loa
     ax.plot([loa_ext_start[0], loa_ext_end[0]], [loa_ext_start[1], loa_ext_end[1]],
             color=COLOR_NORMAL, lw=1.2, linestyle="-", zorder=3)
 
@@ -1184,20 +1184,19 @@ def create_diagram_4(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
     # Tangent rays from O1 to N1 and O2 to N2
     ax.plot([O1[0], N1[0]], [O1[1], N1[1]], color=COLOR_AXIS, linestyle=":", lw=0.8, zorder=2)
     ax.plot([O2[0], N2[0]], [O2[1], N2[1]], color=COLOR_AXIS, linestyle=":", lw=0.8, zorder=2)
-    draw_right_angle(ax, N1, O1 - N1, -u_loa, size=0.8, color=COLOR_TEXT_MUTED, lw=0.8)
-    draw_right_angle(ax, N2, O2 - N2, u_loa, size=0.8, color=COLOR_TEXT_MUTED, lw=0.8)
+    draw_right_angle(ax, N1, O1 - N1, u_loa, size=0.8, color=COLOR_TEXT_MUTED, lw=0.8)
+    draw_right_angle(ax, N2, O2 - N2, -u_loa, size=0.8, color=COLOR_TEXT_MUTED, lw=0.8)
 
-    # Markers for Critical Contact Points
+    # Markers for Critical Contact Points (B and D removed to eliminate crowding around pitch point P)
     ax.scatter([N1[0], N2[0]], [N1[1], N2[1]], color=COLOR_PINION, s=45, zorder=6)
     ax.scatter([A[0], E[0]], [A[1], E[1]], color=COLOR_NORMAL, s=65, zorder=7, edgecolors=COLOR_TEXT_MAIN, lw=0.8)
-    ax.scatter([B[0], D[0]], [B[1], D[1]], color=COLOR_TEXT_MUTED, s=45, zorder=6)
     ax.scatter([P[0]], [P[1]], color=COLOR_NORMAL, s=70, zorder=8, edgecolors=COLOR_TEXT_MAIN, lw=1.0)
 
     # Text Annotations for Points (Smart Leader Annotations, 0 Collision with LOA!)
-    # Point P: North-West leader to top clear space between LOA and Centerline
+    # Point P: Relocated directly above P(0, 0) with a clean vertical leader line
     ax.annotate(tr('fig4_point_p'),
-                xy=(P[0], P[1]), xytext=(-3.5, 4.5),
-                fontsize=11.0, color=COLOR_NORMAL, ha='right', va='bottom',
+                xy=(P[0], P[1]), xytext=(0.0, 3.8),
+                fontsize=11.0, color=COLOR_NORMAL, ha='center', va='bottom',
                 arrowprops=dict(arrowstyle="-|>", color=COLOR_NORMAL, lw=0.9),
                 bbox=dict(boxstyle="round,pad=0.20", fc="white", ec=COLOR_NORMAL, lw=0.8, alpha=0.95))
 
@@ -1208,24 +1207,24 @@ def create_diagram_4(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
                 arrowprops=dict(arrowstyle="-|>", color=COLOR_NORMAL, lw=0.9),
                 bbox=dict(boxstyle="round,pad=0.20", fc="white", ec=COLOR_NORMAL, lw=0.8, alpha=0.95))
 
-    # Point E: North-East leader into clear space above LOA
+    # Point E: South-West leader into clear space between LOA and bottom card
     ax.annotate(tr('fig4_point_e'),
-                xy=(E[0], E[1]), xytext=(E[0] + 3.5, E[1] + 3.2),
-                fontsize=10.5, color=COLOR_NORMAL, ha='left', va='bottom',
+                xy=(E[0], E[1]), xytext=(E[0] - 2.5, E[1] - 4.5),
+                fontsize=10.5, color=COLOR_NORMAL, ha='right', va='top',
                 arrowprops=dict(arrowstyle="-|>", color=COLOR_NORMAL, lw=0.9),
                 bbox=dict(boxstyle="round,pad=0.20", fc="white", ec=COLOR_NORMAL, lw=0.8, alpha=0.95))
 
-    # N2 (North-West, well clear of LOA text)
-    ax.annotate(tr('fig4_point_n2'),
-                xy=(N2[0], N2[1]), xytext=(N2[0] - 1.5, N2[1] + 2.8),
+    # N1 on Pinion base circle (North-West of N1)
+    ax.annotate(tr('fig4_point_n1'),
+                xy=(N1[0], N1[1]), xytext=(N1[0] - 3.2, N1[1] + 2.5),
                 fontsize=10.0, color=COLOR_PINION, ha='right', va='bottom',
                 arrowprops=dict(arrowstyle="-|>", color=COLOR_PINION, lw=0.7),
                 bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_PINION, lw=0.7, alpha=0.92))
 
-    # N1 (Far East / North-East of N1)
-    ax.annotate(tr('fig4_point_n1'),
-                xy=(N1[0], N1[1]), xytext=(N1[0] + 3.2, N1[1] + 1.8),
-                fontsize=10.0, color=COLOR_PINION, ha='left', va='bottom',
+    # N2 on Gear base circle (East / South-East of N2)
+    ax.annotate(tr('fig4_point_n2'),
+                xy=(N2[0], N2[1]), xytext=(N2[0] + 2.5, N2[1] - 1.0),
+                fontsize=10.0, color=COLOR_PINION, ha='left', va='center',
                 arrowprops=dict(arrowstyle="-|>", color=COLOR_PINION, lw=0.7),
                 bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_PINION, lw=0.7, alpha=0.92))
 
@@ -1235,20 +1234,25 @@ def create_diagram_4(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
             bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_NORMAL, lw=0.8, alpha=0.90))
 
     # Tip Circle identification labels (Outside active contact zone!)
+    # Gear tip circle (ra2) passing through Point A
+    ra2_pt_x = -14.0
+    ra2_pt_y = -r2 + np.sqrt(ra2**2 - ra2_pt_x**2)
     ax.annotate(tr('fig4_gear_tip'),
-                xy=(-16.5, -2.2), xytext=(-26.0, 2.5),
-                fontsize=10.0, color=COLOR_GEAR, ha='right', va='center',
+                xy=(ra2_pt_x, ra2_pt_y), xytext=(-22.0, 0.5),
+                fontsize=10.0, color=COLOR_GEAR, ha='right', va='top',
                 arrowprops=dict(arrowstyle="-|>", color=COLOR_GEAR, lw=0.8),
                 bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_GEAR, lw=0.8, alpha=0.92))
 
+    # Pinion tip circle (ra1) passing through Point E
+    ra1_pt_x = 16.0
+    ra1_pt_y = r1 - np.sqrt(ra1**2 - ra1_pt_x**2)
     ax.annotate(tr('fig4_pinion_tip'),
-                xy=(14.0, -5.2), xytext=(18.0, -9.5),
-                fontsize=10.0, color=COLOR_GEAR, ha='left', va='center',
+                xy=(ra1_pt_x, ra1_pt_y), xytext=(19.0, 4.5),
+                fontsize=10.0, color=COLOR_GEAR, ha='left', va='bottom',
                 arrowprops=dict(arrowstyle="-|>", color=COLOR_GEAR, lw=0.8),
                 bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_GEAR, lw=0.8, alpha=0.92))
 
     # Path of Contact Dimension Bar (Layer 1 Offset: 8.5 mm)
-    norm_loa = np.array([np.sin(alpha_rad), np.cos(alpha_rad)])
     bar_offset = norm_loa * 8.5
     bar_A = A + bar_offset
     bar_E = E + bar_offset
@@ -1271,6 +1275,25 @@ def create_diagram_4(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
     ax.text(mid_p[0] + 3.0, mid_p[1] + 0.45, tr('fig4_base_pitch_bar'),
             fontsize=10.0, color=COLOR_PINION, ha='center', va='bottom',
             bbox=dict(boxstyle="round,pad=0.18", fc="white", ec="none", alpha=0.92))
+
+    # Perpendicular Extension Lines (치수 보조선)
+    # Extension Line at Point A (starts from Point A, extends past Layer 2 bar_p1)
+    ext_A_start = A + norm_loa * 0.3
+    ext_A_end = bar_p1 + norm_loa * 1.2
+    ax.plot([ext_A_start[0], ext_A_end[0]], [ext_A_start[1], ext_A_end[1]],
+            color=COLOR_AXIS, lw=0.75, linestyle="-", zorder=3)
+
+    # Extension Line at Point E (starts from Point E, extends past Layer 1 bar_E)
+    ext_E_start = E + norm_loa * 0.3
+    ext_E_end = bar_E + norm_loa * 1.2
+    ax.plot([ext_E_start[0], ext_E_end[0]], [ext_E_start[1], ext_E_end[1]],
+            color=COLOR_AXIS, lw=0.75, linestyle="-", zorder=3)
+
+    # Extension Line for bar_p2 (drops from Layer 2 bar_p2 down to Layer 1)
+    p2_base = (t_A + pb) * u_loa + norm_loa * 8.5
+    ext_p2_end = bar_p2 + norm_loa * 1.2
+    ax.plot([p2_base[0], ext_p2_end[0]], [p2_base[1], ext_p2_end[1]],
+            color=COLOR_AXIS, lw=0.75, linestyle="-", zorder=3)
 
     # Bottom Contact Ratio Summary Card
     card_x, card_y, card_w, card_h = -37.5, -31.5, 75.0, 17.5
