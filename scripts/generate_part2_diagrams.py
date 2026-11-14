@@ -881,7 +881,7 @@ def create_diagram_3(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
     O_gear = np.array([0.0, -r])
 
     # Plot 4 Concentric Circle Arcs across angular span (-28 deg to +28 deg)
-    span_deg = 26.0
+    span_deg = 28.0
     thetas = np.linspace(np.radians(90 - span_deg), np.radians(90 + span_deg), 240)
 
     # Tip Circle da (Teal, solid, lw=1.3)
@@ -952,36 +952,39 @@ def create_diagram_3(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
     ax.fill(t2_x, t2_y, color=COLOR_PINION, alpha=0.08, zorder=2)
 
     # Pitch point P
-    ax.scatter([0.0], [0.0], color=COLOR_NORMAL, s=50, zorder=6)
-    ax.text(0.35, -0.45, r"$P$", fontsize=12.0, color=COLOR_NORMAL, ha='left', va='center')
+    ax.scatter([0.0], [0.0], color=COLOR_NORMAL, s=55, zorder=7)
+    ax.annotate(r"$P$", xy=(0.0, 0.0), xytext=(1.5, 1.2),
+                fontsize=12.0, color=COLOR_NORMAL, ha='left', va='bottom',
+                arrowprops=dict(arrowstyle="-", color=COLOR_NORMAL, lw=0.6),
+                bbox=dict(boxstyle="circle,pad=0.15", fc="white", ec=COLOR_NORMAL, lw=0.7, alpha=0.92))
 
-    # Left Leader Annotations for the 4 Fundamental Circles
+    # Left Leader Annotations for the 4 Fundamental Circles (Monotonic Stack outside tooth profile)
     ax.annotate(tr('fig3_tip_circle'),
-                xy=(-19.5, -r + ra * np.cos(np.radians(20))), xytext=(-38.5, 7.8),
+                xy=(-21.5, -r + ra * np.cos(np.radians(22))), xytext=(-38.5, 8.5),
                 fontsize=10.0, color=COLOR_GEAR, ha='left', va='center',
                 arrowprops=dict(arrowstyle="-|>", color=COLOR_GEAR, lw=0.8),
                 bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_GEAR, lw=0.8, alpha=0.90))
 
     ax.annotate(tr('fig3_pitch_circle'),
-                xy=(-21.5, -r + r * np.cos(np.radians(22))), xytext=(-38.5, 2.2),
+                xy=(-23.5, -r + r * np.cos(np.radians(24))), xytext=(-38.5, 3.2),
                 fontsize=10.0, color=COLOR_TANGENT, ha='left', va='center',
                 arrowprops=dict(arrowstyle="-|>", color=COLOR_TANGENT, lw=0.8),
                 bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_TANGENT, lw=0.8, alpha=0.90))
 
     ax.annotate(tr('fig3_base_circle'),
-                xy=(-21.0, -r + rb * np.cos(np.radians(23))), xytext=(-38.5, -3.2),
+                xy=(-22.5, -r + rb * np.cos(np.radians(25))), xytext=(-38.5, -2.2),
                 fontsize=10.0, color=COLOR_PINION, ha='left', va='center',
                 arrowprops=dict(arrowstyle="-|>", color=COLOR_PINION, lw=0.8),
                 bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_PINION, lw=0.8, alpha=0.90))
 
     ax.annotate(tr('fig3_root_circle'),
-                xy=(-19.5, -r + rf * np.cos(np.radians(24))), xytext=(-38.5, -8.6),
+                xy=(-20.0, -r + rf * np.cos(np.radians(26))), xytext=(-38.5, -7.8),
                 fontsize=10.0, color=COLOR_NORMAL, ha='left', va='center',
                 arrowprops=dict(arrowstyle="-|>", color=COLOR_NORMAL, lw=0.8),
                 bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_NORMAL, lw=0.8, alpha=0.90))
 
-    # Right Radial Dimension Bars (ha, hf, c, h)
-    dim_x = 16.0
+    # Right Radial Dimension Bars (ha, hf, c, h) - Clean offset from tooth profile
+    dim_x = 16.5
     y_tip = ra - r
     y_pitch = 0.0
     y_root = rf - r
@@ -989,36 +992,51 @@ def create_diagram_3(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
     # Addendum ha: pitch to tip
     ax.plot([dim_x, dim_x], [y_pitch, y_tip], color=COLOR_GEAR, lw=1.2, zorder=5)
     ax.scatter([dim_x, dim_x], [y_pitch, y_tip], marker='_', color=COLOR_GEAR, s=60, zorder=5)
-    ax.text(dim_x + 0.6, (y_pitch + y_tip) * 0.5, tr('fig3_ha'),
+    ax.text(dim_x + 0.5, (y_pitch + y_tip) * 0.5, tr('fig3_ha'),
             fontsize=9.8, color=COLOR_GEAR, va='center', ha='left',
             bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.90))
 
     # Dedendum hf: root to pitch
     ax.plot([dim_x, dim_x], [y_root, y_pitch], color=COLOR_NORMAL, lw=1.2, zorder=5)
     ax.scatter([dim_x, dim_x], [y_root, y_pitch], marker='_', color=COLOR_NORMAL, s=60, zorder=5)
-    ax.text(dim_x + 0.6, (y_root + y_pitch) * 0.5, tr('fig3_hf'),
+    ax.text(dim_x + 0.5, (y_root + y_pitch) * 0.5, tr('fig3_hf'),
             fontsize=9.8, color=COLOR_NORMAL, va='center', ha='left',
             bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.90))
 
     # Whole depth h: root to tip (further right at dim_x2)
-    dim_x2 = 23.5
+    dim_x2 = 22.8
     ax.plot([dim_x2, dim_x2], [y_root, y_tip], color=COLOR_TEXT_MAIN, lw=1.2, zorder=5)
     ax.scatter([dim_x2, dim_x2], [y_root, y_tip], marker='_', color=COLOR_TEXT_MAIN, s=60, zorder=5)
-    ax.text(dim_x2 + 0.6, (y_root + y_tip) * 0.5, tr('fig3_h'),
+    ax.text(dim_x2 + 0.5, (y_root + y_tip) * 0.5, tr('fig3_h'),
             fontsize=9.8, color=COLOR_TEXT_MAIN, va='center', ha='left',
             bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.90))
 
-    # Circumferential dimensions along pitch circle (s, e, p)
-    # Tooth thickness s on Tooth 1
-    t1_center_x = O_gear[0] + r * np.sin(-pitch_ang * 0.5)
-    ax.text(t1_center_x, 1.35, tr('fig3_thick_s'),
-            fontsize=10.0, color=COLOR_TANGENT, ha='center', va='bottom',
-            bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_TANGENT, lw=0.7, alpha=0.92))
+    # Tooth thickness s on Tooth 1 (Dimension arc + Leader to clear top margin!)
+    ang_t1_c = -pitch_ang * 0.5
+    th_s_span = np.linspace(np.radians(90 - np.degrees(ang_t1_c + tooth_half_ang)),
+                            np.radians(90 - np.degrees(ang_t1_c - tooth_half_ang)), 30)
+    ax.plot(O_gear[0] + r * np.cos(th_s_span), O_gear[1] + r * np.sin(th_s_span),
+            color=COLOR_TANGENT, lw=2.2, zorder=5)
 
-    # Tooth space width e between Tooth 1 and Tooth 2
-    ax.text(0.0, -2.50, tr('fig3_space_e'),
-            fontsize=10.0, color=COLOR_TANGENT, ha='center', va='top',
-            bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_TANGENT, lw=0.7, alpha=0.92))
+    t1_mid_x = O_gear[0] + r * np.sin(ang_t1_c)
+    t1_mid_y = O_gear[1] + r * np.cos(ang_t1_c)
+    ax.annotate(tr('fig3_thick_s'),
+                xy=(t1_mid_x, t1_mid_y), xytext=(t1_mid_x, 11.2),
+                fontsize=10.0, color=COLOR_TANGENT, ha='center', va='bottom',
+                arrowprops=dict(arrowstyle="-|>", color=COLOR_TANGENT, lw=0.9),
+                bbox=dict(boxstyle="round,pad=0.20", fc="white", ec=COLOR_TANGENT, lw=0.8, alpha=0.95))
+
+    # Tooth space width e (Dimension arc + Leader to bottom margin!)
+    th_e_span = np.linspace(np.radians(90 - np.degrees(pitch_ang * 0.5 - tooth_half_ang)),
+                            np.radians(90 - np.degrees(-pitch_ang * 0.5 + tooth_half_ang)), 30)
+    ax.plot(O_gear[0] + r * np.cos(th_e_span), O_gear[1] + r * np.sin(th_e_span),
+            color=COLOR_TANGENT, lw=2.2, zorder=5)
+
+    ax.annotate(tr('fig3_space_e'),
+                xy=(0.0, 0.0), xytext=(0.0, -11.5),
+                fontsize=10.0, color=COLOR_TANGENT, ha='center', va='top',
+                arrowprops=dict(arrowstyle="-|>", color=COLOR_TANGENT, lw=0.9),
+                bbox=dict(boxstyle="round,pad=0.20", fc="white", ec=COLOR_TANGENT, lw=0.8, alpha=0.95))
 
     # Bottom Standard Rack Proportions Callout Card
     card_x, card_y, card_w, card_h = -37.5, -32.0, 75.0, 16.5
@@ -1030,8 +1048,8 @@ def create_diagram_3(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
             fontsize=9.5, color=COLOR_TEXT_MAIN, ha='center', va='center',
             linespacing=1.30, zorder=4)
 
-    ax.set_xlim(-40.0, 40.0)
-    ax.set_ylim(-34.0, 14.5)
+    ax.set_xlim(-41.0, 41.0)
+    ax.set_ylim(-34.0, 15.5)
     ax.set_title(tr('fig3_title'), fontsize=15.0, fontweight='normal', pad=16, color=COLOR_TEXT_MAIN)
 
     save_diagram(fig, "fig3_spur_gear_four_circles", output_dir, dpi, formats)
@@ -1089,9 +1107,9 @@ def create_diagram_4(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
     ax.plot([0, 0], [-13.0, 13.0], color=COLOR_AXIS, linestyle="-.", lw=0.7, zorder=1)
 
     # Pitch Tangent line (t_P - t_P)
-    ax.plot([-25.0, 25.0], [0, 0], color=COLOR_TANGENT, linestyle="--", lw=0.8, zorder=1)
-    ax.text(22.0, 0.55, tr('fig4_pitch_line'), fontsize=10.0, color=COLOR_TANGENT,
-            va='bottom', ha='center',
+    ax.plot([-28.0, 28.0], [0, 0], color=COLOR_TANGENT, linestyle="--", lw=0.8, zorder=1)
+    ax.text(26.0, -2.0, tr('fig4_pitch_line'), fontsize=10.0, color=COLOR_TANGENT,
+            va='top', ha='center',
             bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.90))
 
     # Circular Arcs around Pitch Point:
@@ -1163,72 +1181,97 @@ def create_diagram_4(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
     ax.scatter([B[0], D[0]], [B[1], D[1]], color=COLOR_TEXT_MUTED, s=45, zorder=6)
     ax.scatter([P[0]], [P[1]], color=COLOR_NORMAL, s=70, zorder=8, edgecolors=COLOR_TEXT_MAIN, lw=1.0)
 
-    # Text Annotations for Points (Separated coordinates to guarantee 0 collision)
-    ax.text(P[0] + 0.35, P[1] + 0.75, tr('fig4_point_p'), fontsize=12.0, color=COLOR_NORMAL,
-            ha='left', va='bottom',
-            bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_NORMAL, lw=0.8, alpha=0.92))
+    # Text Annotations for Points (Smart Leader Annotations, 0 Collision with LOA!)
+    # Point P: North-West leader to top clear space between LOA and Centerline
+    ax.annotate(tr('fig4_point_p'),
+                xy=(P[0], P[1]), xytext=(-3.5, 4.5),
+                fontsize=11.0, color=COLOR_NORMAL, ha='right', va='bottom',
+                arrowprops=dict(arrowstyle="-|>", color=COLOR_NORMAL, lw=0.9),
+                bbox=dict(boxstyle="round,pad=0.20", fc="white", ec=COLOR_NORMAL, lw=0.8, alpha=0.95))
 
-    ax.text(A[0] - 0.45, A[1] - 0.45, tr('fig4_point_a'), fontsize=10.5, color=COLOR_NORMAL,
-            ha='right', va='top',
-            bbox=dict(boxstyle="round,pad=0.18", fc="white", ec="none", alpha=0.90))
+    # Point A: South-West leader
+    ax.annotate(tr('fig4_point_a'),
+                xy=(A[0], A[1]), xytext=(A[0] - 4.5, A[1] - 4.5),
+                fontsize=10.5, color=COLOR_NORMAL, ha='right', va='top',
+                arrowprops=dict(arrowstyle="-|>", color=COLOR_NORMAL, lw=0.9),
+                bbox=dict(boxstyle="round,pad=0.20", fc="white", ec=COLOR_NORMAL, lw=0.8, alpha=0.95))
 
-    ax.text(E[0] + 0.35, E[1] + 0.65, tr('fig4_point_e'), fontsize=10.5, color=COLOR_NORMAL,
-            ha='left', va='bottom',
-            bbox=dict(boxstyle="round,pad=0.18", fc="white", ec="none", alpha=0.90))
+    # Point E: North-East leader into clear space above LOA
+    ax.annotate(tr('fig4_point_e'),
+                xy=(E[0], E[1]), xytext=(E[0] + 3.5, E[1] + 3.2),
+                fontsize=10.5, color=COLOR_NORMAL, ha='left', va='bottom',
+                arrowprops=dict(arrowstyle="-|>", color=COLOR_NORMAL, lw=0.9),
+                bbox=dict(boxstyle="round,pad=0.20", fc="white", ec=COLOR_NORMAL, lw=0.8, alpha=0.95))
 
-    ax.text(N2[0] - 0.45, N2[1] + 0.45, tr('fig4_point_n2'), fontsize=10.0, color=COLOR_PINION,
-            ha='right', va='bottom')
-    ax.text(N1[0] + 0.45, N1[1] - 0.65, tr('fig4_point_n1'), fontsize=10.0, color=COLOR_PINION,
-            ha='left', va='top')
+    # N2 (North-West, well clear of LOA text)
+    ax.annotate(tr('fig4_point_n2'),
+                xy=(N2[0], N2[1]), xytext=(N2[0] - 1.5, N2[1] + 2.8),
+                fontsize=10.0, color=COLOR_PINION, ha='right', va='bottom',
+                arrowprops=dict(arrowstyle="-|>", color=COLOR_PINION, lw=0.7),
+                bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_PINION, lw=0.7, alpha=0.92))
 
-    # Line of action label
-    ax.text(-25.0, 11.5, tr('fig4_loa'),
+    # N1 (Far East / North-East of N1)
+    ax.annotate(tr('fig4_point_n1'),
+                xy=(N1[0], N1[1]), xytext=(N1[0] + 3.2, N1[1] + 1.8),
+                fontsize=10.0, color=COLOR_PINION, ha='left', va='bottom',
+                arrowprops=dict(arrowstyle="-|>", color=COLOR_PINION, lw=0.7),
+                bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_PINION, lw=0.7, alpha=0.92))
+
+    # Line of action label (Top-Left clear margin, isolated from pb bar)
+    ax.text(-36.0, 17.5, tr('fig4_loa'),
             fontsize=10.5, color=COLOR_NORMAL, ha='left', va='bottom',
             bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_NORMAL, lw=0.8, alpha=0.90))
 
-    # Tip Circle identification labels
-    ax.text(-10.0, -1.8, tr('fig4_gear_tip'), fontsize=10.0, color=COLOR_GEAR, ha='center',
-            bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.90))
-    ax.text(5.5, -7.5, tr('fig4_pinion_tip'), fontsize=10.0, color=COLOR_GEAR, ha='center',
-            bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.90))
+    # Tip Circle identification labels (Outside active contact zone!)
+    ax.annotate(tr('fig4_gear_tip'),
+                xy=(-16.5, -2.2), xytext=(-26.0, 2.5),
+                fontsize=10.0, color=COLOR_GEAR, ha='right', va='center',
+                arrowprops=dict(arrowstyle="-|>", color=COLOR_GEAR, lw=0.8),
+                bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_GEAR, lw=0.8, alpha=0.92))
 
-    # Path of Contact Dimension Bar (Parallel offset)
+    ax.annotate(tr('fig4_pinion_tip'),
+                xy=(14.0, -5.2), xytext=(18.0, -9.5),
+                fontsize=10.0, color=COLOR_GEAR, ha='left', va='center',
+                arrowprops=dict(arrowstyle="-|>", color=COLOR_GEAR, lw=0.8),
+                bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_GEAR, lw=0.8, alpha=0.92))
+
+    # Path of Contact Dimension Bar (Layer 1 Offset: 8.5 mm)
     norm_loa = np.array([np.sin(alpha_rad), np.cos(alpha_rad)])
-    bar_offset = norm_loa * 4.5
+    bar_offset = norm_loa * 8.5
     bar_A = A + bar_offset
     bar_E = E + bar_offset
     ax.annotate('', xy=bar_A, xytext=bar_E,
                 arrowprops=dict(arrowstyle='<->,head_length=0.35,head_width=0.18',
                                 color=COLOR_CONTACT, lw=1.1))
     mid_bar = (bar_A + bar_E) * 0.5
-    ax.text(mid_bar[0] + 0.2, mid_bar[1] + 0.35, tr('fig4_active_path'),
+    ax.text(mid_bar[0] - 0.5, mid_bar[1] + 0.45, tr('fig4_active_path'),
             fontsize=10.2, color=COLOR_CONTACT, ha='center', va='bottom',
-            bbox=dict(boxstyle="round,pad=0.18", fc="white", ec="none", alpha=0.90))
+            bbox=dict(boxstyle="round,pad=0.18", fc="white", ec="none", alpha=0.92))
 
-    # Base pitch pb indicator bar
-    bar2_offset = norm_loa * 6.8
+    # Base pitch pb indicator bar (Layer 2 Offset: 14.0 mm)
+    bar2_offset = norm_loa * 14.0
     bar_p1 = A + bar2_offset
     bar_p2 = (t_A + pb) * u_loa + bar2_offset
     ax.annotate('', xy=bar_p1, xytext=bar_p2,
                 arrowprops=dict(arrowstyle='<->,head_length=0.35,head_width=0.18',
                                 color=COLOR_PINION, lw=1.0))
     mid_p = (bar_p1 + bar_p2) * 0.5
-    ax.text(mid_p[0], mid_p[1] + 0.35, tr('fig4_base_pitch_bar'),
+    ax.text(mid_p[0] + 3.0, mid_p[1] + 0.45, tr('fig4_base_pitch_bar'),
             fontsize=10.0, color=COLOR_PINION, ha='center', va='bottom',
-            bbox=dict(boxstyle="round,pad=0.18", fc="white", ec="none", alpha=0.90))
+            bbox=dict(boxstyle="round,pad=0.18", fc="white", ec="none", alpha=0.92))
 
     # Bottom Contact Ratio Summary Card
-    card_x, card_y, card_w, card_h = -32.0, -28.0, 64.0, 16.5
+    card_x, card_y, card_w, card_h = -37.5, -31.5, 75.0, 17.5
     card_patch = patches.FancyBboxPatch((card_x, card_y), card_w, card_h, boxstyle="round,pad=0.35",
                                         fc="#F8FAFC", ec=COLOR_AXIS, lw=1.0, zorder=2)
     ax.add_patch(card_patch)
     card_full_text = f"{tr('fig4_card_title')}\n\n{tr('fig4_card_body')}"
     ax.text(card_x + card_w * 0.5, card_y + card_h * 0.5, card_full_text,
-            fontsize=9.0, color=COLOR_TEXT_MAIN, ha='center', va='center',
+            fontsize=8.8, color=COLOR_TEXT_MAIN, ha='center', va='center',
             linespacing=1.30, zorder=4)
 
-    ax.set_xlim(-38.0, 36.0)
-    ax.set_ylim(-30.5, 16.0)
+    ax.set_xlim(-41.0, 41.0)
+    ax.set_ylim(-33.5, 21.5)
     ax.set_title(tr('fig4_title'), fontsize=15.0, fontweight='normal', pad=16, color=COLOR_TEXT_MAIN)
 
     save_diagram(fig, "fig4_line_of_action_contact_path", output_dir, dpi, formats)

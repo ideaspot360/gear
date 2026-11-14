@@ -11,7 +11,8 @@ standards:
   - "AGMA 9005-F16"
   - "JIS B 1701"
 required_diagrams:
-  - "fig1_friction_vs_gear"
+  - "fig1a_friction_drive"
+  - "fig1b_gear_drive"
   - "fig2_willis_law_geometry"
   - "fig3_contact_velocity_vectors"
 academic_level: graduate
@@ -77,10 +78,13 @@ $$
 
 この摩擦伝動の限界を打破するため、機械工学は接触面に歯形突起を設けて幾何学的に回転を強制する**噛み合い伝動（Form-closed Positive Mesh）**へと進化しました。
 
-![Figure 1: Friction Drive vs Conjugate Gear Involute Action](/images/part1/fig1_friction_vs_gear.png)
+![図 1A: 摩擦車の動力伝達機構と力学的限界](/images/part1/ja/fig1a_friction_drive.png)
 
-* **(A) 摩擦車伝動（左）**：接線伝達力は $F_t \le \mu F_N$ に縛られ、過負荷時にすべりが発生。
-* **(B) インボリュート歯車噛み合い（右）**：モジュール $m = 2.0\text{ mm}$, 歯数 $z_1 = 17, z_2 = 33$, 圧力角 $\alpha_n = 20.0^\circ$。摩擦係数がゼロ（$\mu \equiv 0$）であっても、歯面の法線抗力によって確実に動力を伝達し、速度比 $u = 33 / 17 \approx 1.941176$ を厳密に維持します。
+* **(A) 摩擦車伝動**：接線伝達力は $F_t \le \mu F_N$ に縛られ、過負荷時にすべりが発生。
+
+![図 1B: インボリュート歯車の正確なかみ合い](/images/part1/ja/fig1b_gear_drive.png)
+
+* **(B) インボリュート歯車噛み合い**：モジュール $m = 2.0\text{ mm}$, 歯数 $z_1 = 17, z_2 = 33$, 圧力角 $\alpha_n = 20.0^\circ$。摩擦係数がゼロ（$\mu \equiv 0$）であっても、歯面の法線抗力によって確実に動力を伝達し、速度比 $u = 33 / 17 \approx 1.941176$ を厳密に維持します。
 
 ---
 
@@ -133,7 +137,7 @@ $$
 > **[ウィリスの噛み合い基本法則 (Willis' Law)]**  
 > 歯面が常に一定の角速度比を伝達するための必要十分条件は、**接触点における共通法線が2つの回転中心を結ぶ中心線上の固定点（ピッチ点 $P$）を常に通過すること**である。
 
-![Figure 2: Willis Law Geometry and Involute Normal Action](/images/part1/fig2_willis_law_geometry.png)
+![図 2: ウィリスのかみ合いの法則の幾何学的証明](/images/part1/ja/fig2_willis_law_geometry.png)
 
 ---
 
@@ -185,7 +189,7 @@ $$
 
 ピッチ点 $P$ ($g = 0$) では純粋転がり接触（$v_s = 0$）となります。
 
-![Figure 3: Instantaneous Contact Velocity Vectors and Sliding Velocity](/images/part1/fig3_contact_velocity_vectors.png)
+![図 3: 接触点における速度ベクトルの分解](/images/part1/ja/fig3_contact_velocity_vectors.png)
 
 比すべり（Specific Sliding）$\sigma_1, \sigma_2$ は歯面の摩耗およびスコーフィングリスクを決定します：
 
