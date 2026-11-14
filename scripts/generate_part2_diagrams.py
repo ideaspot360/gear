@@ -943,13 +943,15 @@ def create_diagram_3(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
 
     # Tooth 1 (Left, centered at -pitch_ang / 2)
     t1_x, t1_y = get_tooth_contour(-pitch_ang * 0.5)
+    ax.fill(t1_x, t1_y, color="white", zorder=3)
+    ax.fill(t1_x, t1_y, color=COLOR_PINION, alpha=0.10, zorder=3)
     ax.plot(t1_x, t1_y, color=COLOR_TEXT_MAIN, lw=1.3, zorder=4)
-    ax.fill(t1_x, t1_y, color=COLOR_PINION, alpha=0.08, zorder=2)
 
     # Tooth 2 (Right, centered at +pitch_ang / 2)
     t2_x, t2_y = get_tooth_contour(pitch_ang * 0.5)
+    ax.fill(t2_x, t2_y, color="white", zorder=3)
+    ax.fill(t2_x, t2_y, color=COLOR_PINION, alpha=0.10, zorder=3)
     ax.plot(t2_x, t2_y, color=COLOR_TEXT_MAIN, lw=1.3, zorder=4)
-    ax.fill(t2_x, t2_y, color=COLOR_PINION, alpha=0.08, zorder=2)
 
     # Pitch point P
     ax.scatter([0.0], [0.0], color=COLOR_NORMAL, s=55, zorder=7)
@@ -985,9 +987,19 @@ def create_diagram_3(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
 
     # Right Radial Dimension Bars (ha, hf, c, h) - Clean offset from tooth profile
     dim_x = 16.5
+    dim_x2 = 22.8
     y_tip = ra - r
     y_pitch = 0.0
     y_root = rf - r
+
+    # Method A: Horizontal Extension Lines (from circle apexes at x = 0 to dim_x2 + 1.2)
+    ext_end_x = dim_x2 + 1.2
+    # 1. Tip extension line (y = y_tip = +3.0)
+    ax.plot([0.0, ext_end_x], [y_tip, y_tip], color=COLOR_GEAR, linestyle=":", lw=0.75, alpha=0.60, zorder=2)
+    # 2. Pitch extension line (y = y_pitch = 0.0)
+    ax.plot([0.0, ext_end_x], [y_pitch, y_pitch], color=COLOR_TANGENT, linestyle=":", lw=0.75, alpha=0.60, zorder=2)
+    # 3. Root extension line (y = y_root = -3.75)
+    ax.plot([0.0, ext_end_x], [y_root, y_root], color=COLOR_NORMAL, linestyle=":", lw=0.75, alpha=0.60, zorder=2)
 
     # Addendum ha: pitch to tip
     ax.plot([dim_x, dim_x], [y_pitch, y_tip], color=COLOR_GEAR, lw=1.2, zorder=5)
