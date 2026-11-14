@@ -170,7 +170,8 @@ TRANSLATIONS = {
         'fig4_gear_tip': r"기어 이끝원 ($r_{a2}$)",
         'fig4_active_path': r"실제 접촉 궤적 $\overline{AE}$ ($g_\alpha = g_a + g_f$)",
         'fig4_ga_gf': r"$g_f = \overline{AP}$ (접근 물림길이),  $g_a = \overline{PE}$ (후퇴 물림길이)",
-        'fig4_base_pitch_bar': r"기초원 피치 $p_b = \pi m \cos\alpha$",
+        'fig4_base_pitch_bar': r"기초원 피치 $p_b = \overline{AD} = \pi m \cos\alpha$",
+        'fig4_single_zone': r"단일 치 접촉 구간 $\overline{BD}$ ($g_1 = 3.16\text{ mm}$)",
         'fig4_single_pair': "단일 접촉 (100% 하중)",
         'fig4_double_pair': "이중 접촉 (50% 분담)",
         'fig4_card_title': "[물림선 접촉 궤적 및 정면 물림률 닫힌 해 수식]",
@@ -262,7 +263,8 @@ TRANSLATIONS = {
         'fig4_gear_tip': r"Gear Tip Circle ($r_{a2}$)",
         'fig4_active_path': r"Path of Contact $\overline{AE}$ ($g_\alpha = g_a + g_f$)",
         'fig4_ga_gf': r"$g_f = \overline{AP}$ (Approach Path),  $g_a = \overline{PE}$ (Recess Path)",
-        'fig4_base_pitch_bar': r"Base Pitch $p_b = \pi m \cos\alpha$",
+        'fig4_base_pitch_bar': r"Base Pitch $p_b = \overline{AD} = \pi m \cos\alpha$",
+        'fig4_single_zone': r"Single-Tooth Zone $\overline{BD}$ ($g_1 = 3.16\text{ mm}$)",
         'fig4_single_pair': "Single Pair (100% Load)",
         'fig4_double_pair': "Double Pair (50% Shared)",
         'fig4_card_title': "[Closed-Form Formulation of Path of Contact & Contact Ratio]",
@@ -354,7 +356,8 @@ TRANSLATIONS = {
         'fig4_gear_tip': r"Rad-Kopfkreis ($r_{a2}$)",
         'fig4_active_path': r"Eingriffsstrecke $\overline{AE}$ ($g_\alpha = g_a + g_f$)",
         'fig4_ga_gf': r"$g_f = \overline{AP}$ (Vor-Eingriffsstrecke),  $g_a = \overline{PE}$ (Nach-Eingriffsstrecke)",
-        'fig4_base_pitch_bar': r"Eingriffsteilung $p_b = \pi m \cos\alpha$",
+        'fig4_base_pitch_bar': r"Eingriffsteilung $p_b = \overline{AD} = \pi m \cos\alpha$",
+        'fig4_single_zone': r"Einzeleingriffsstrecke $\overline{BD}$ ($g_1 = 3{,}16\text{ mm}$)",
         'fig4_single_pair': "Einzeleingriff (100% Last)",
         'fig4_double_pair': "Doppeleingriff (50% Lastteilung)",
         'fig4_card_title': "[Geschlossene Formulierung der Eingriffsstrecke & Profilüberdeckung]",
@@ -446,7 +449,8 @@ TRANSLATIONS = {
         'fig4_gear_tip': r"ギヤ歯先円 ($r_{a2}$)",
         'fig4_active_path': r"実かみ合い長さ $\overline{AE}$ ($g_\alpha = g_a + g_f$)",
         'fig4_ga_gf': r"$g_f = \overline{AP}$ (接近かみ合い長さ),  $g_a = \overline{PE}$ (遠退かみ合い長さ)",
-        'fig4_base_pitch_bar': r"基礎円ピッチ $p_b = \pi m \cos\alpha$",
+        'fig4_base_pitch_bar': r"基礎円ピッチ $p_b = \overline{AD} = \pi m \cos\alpha$",
+        'fig4_single_zone': r"単一歯接触区間 $\overline{BD}$ ($g_1 = 3.16\text{ mm}$)",
         'fig4_single_pair': "単一歯接触 (100% 負荷)",
         'fig4_double_pair': "2歯接触 (50% 分担)",
         'fig4_card_title': "[かみ合い長さ及び正面かみ合い率の厳密閉形式]",
@@ -1120,9 +1124,9 @@ def create_diagram_4(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
     ax.plot([0, 0], [-13.0, 13.0], color=COLOR_AXIS, linestyle="-.", lw=0.7, zorder=1)
 
     # Pitch Tangent line (t_P - t_P)
-    ax.plot([-28.0, 28.0], [0, 0], color=COLOR_TANGENT, linestyle="--", lw=0.8, zorder=1)
-    ax.text(26.0, -1.8, tr('fig4_pitch_line'), fontsize=10.0, color=COLOR_TANGENT,
-            va='top', ha='center',
+    ax.plot([-28.0, 36.0], [0, 0], color=COLOR_TANGENT, linestyle="--", lw=0.8, zorder=1)
+    ax.text(35.0, -2.5, tr('fig4_pitch_line'), fontsize=9.2, color=COLOR_TANGENT,
+            va='top', ha='right',
             bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.90))
 
     # Circular Arcs around Pitch Point:
@@ -1168,8 +1172,10 @@ def create_diagram_4(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
     N2 = t_N2 * u_loa
 
     # Single-tooth contact theoretical limits:
-    t_B = ga - pb
-    t_D = -gf + pb
+    t_B = ga - pb   # -2.020386 mm
+    t_D = -gf + pb  # +1.134732 mm
+    B = t_B * u_loa
+    D = t_D * u_loa
 
     # Draw Full Line of Action N1 -> N2 (Crimson, lw=1.2)
     loa_ext_start = (t_N1 - 2.0) * u_loa
@@ -1177,9 +1183,13 @@ def create_diagram_4(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
     ax.plot([loa_ext_start[0], loa_ext_end[0]], [loa_ext_start[1], loa_ext_end[1]],
             color=COLOR_NORMAL, lw=1.2, linestyle="-", zorder=3)
 
-    # Highlight Active Path of Contact AE with Glowing Amber Band (lw=3.2, alpha=0.6)
-    ax.plot([A[0], E[0]], [A[1], E[1]], color=COLOR_HIGHLIGHT, lw=3.2, alpha=0.65, zorder=4)
-    ax.plot([A[0], E[0]], [A[1], E[1]], color=COLOR_CONTACT, lw=1.5, zorder=5)
+    # 3-Zone Contact Bands along Line of Action (Engineering Ground Truth):
+    # Zone 1: Double-tooth contact A -> B (g2' = 5.701 mm) - Soft Cyan/Sky Blue
+    ax.plot([A[0], B[0]], [A[1], B[1]], color='#0284C7', lw=3.6, alpha=0.75, zorder=4)
+    # Zone 2: Single-tooth contact B -> D (g1 = 3.155 mm) - Intense Amber Highlight
+    ax.plot([B[0], D[0]], [B[1], D[1]], color='#EA580C', lw=4.6, alpha=0.90, zorder=5)
+    # Zone 3: Double-tooth contact D -> E (g2'' = 5.701 mm) - Soft Cyan/Sky Blue
+    ax.plot([D[0], E[0]], [D[1], E[1]], color='#0284C7', lw=3.6, alpha=0.75, zorder=4)
 
     # Tangent rays from O1 to N1 and O2 to N2
     ax.plot([O1[0], N1[0]], [O1[1], N1[1]], color=COLOR_AXIS, linestyle=":", lw=0.8, zorder=2)
@@ -1187,44 +1197,59 @@ def create_diagram_4(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
     draw_right_angle(ax, N1, O1 - N1, u_loa, size=0.8, color=COLOR_TEXT_MUTED, lw=0.8)
     draw_right_angle(ax, N2, O2 - N2, -u_loa, size=0.8, color=COLOR_TEXT_MUTED, lw=0.8)
 
-    # Markers for Critical Contact Points (B and D removed to eliminate crowding around pitch point P)
+    # Markers for All Critical Contact Points (A, B, P, D, E, N1, N2)
     ax.scatter([N1[0], N2[0]], [N1[1], N2[1]], color=COLOR_PINION, s=45, zorder=6)
-    ax.scatter([A[0], E[0]], [A[1], E[1]], color=COLOR_NORMAL, s=65, zorder=7, edgecolors=COLOR_TEXT_MAIN, lw=0.8)
-    ax.scatter([P[0]], [P[1]], color=COLOR_NORMAL, s=70, zorder=8, edgecolors=COLOR_TEXT_MAIN, lw=1.0)
+    ax.scatter([A[0], E[0]], [A[1], E[1]], color=COLOR_NORMAL, s=65, zorder=8, edgecolors=COLOR_TEXT_MAIN, lw=0.8)
+    ax.scatter([B[0], D[0]], [B[1], D[1]], color='#7C3AED', s=55, zorder=8, edgecolors=COLOR_TEXT_MAIN, lw=0.8)
+    ax.scatter([P[0]], [P[1]], color=COLOR_NORMAL, s=70, zorder=9, edgecolors=COLOR_TEXT_MAIN, lw=1.0)
 
-    # Text Annotations for Points (Smart Leader Annotations, 0 Collision with LOA!)
-    # Point P: Relocated directly above P(0, 0) with a clean vertical leader line
+    # Text Annotations for Critical Points (Cascading Layout, 0 Collision Guarantee!)
+    # Point P: Directly above P(0, 0)
     ax.annotate(tr('fig4_point_p'),
-                xy=(P[0], P[1]), xytext=(0.0, 3.8),
-                fontsize=11.0, color=COLOR_NORMAL, ha='center', va='bottom',
+                xy=(P[0], P[1]), xytext=(0.0, 4.2),
+                fontsize=10.5, color=COLOR_NORMAL, ha='center', va='bottom',
                 arrowprops=dict(arrowstyle="-|>", color=COLOR_NORMAL, lw=0.9),
                 bbox=dict(boxstyle="round,pad=0.20", fc="white", ec=COLOR_NORMAL, lw=0.8, alpha=0.95))
 
     # Point A: South-West leader
     ax.annotate(tr('fig4_point_a'),
                 xy=(A[0], A[1]), xytext=(A[0] - 4.5, A[1] - 4.5),
-                fontsize=10.5, color=COLOR_NORMAL, ha='right', va='top',
+                fontsize=10.0, color=COLOR_NORMAL, ha='right', va='top',
                 arrowprops=dict(arrowstyle="-|>", color=COLOR_NORMAL, lw=0.9),
                 bbox=dict(boxstyle="round,pad=0.20", fc="white", ec=COLOR_NORMAL, lw=0.8, alpha=0.95))
 
-    # Point E: South-West leader into clear space between LOA and bottom card
+    # Point E: East-North-East leader (Cascading tier 3: y ~ -1.5)
     ax.annotate(tr('fig4_point_e'),
-                xy=(E[0], E[1]), xytext=(E[0] - 2.5, E[1] - 4.5),
-                fontsize=10.5, color=COLOR_NORMAL, ha='right', va='top',
+                xy=(E[0], E[1]), xytext=(E[0] + 3.2, E[1] + 0.8),
+                fontsize=9.2, color=COLOR_NORMAL, ha='left', va='bottom',
                 arrowprops=dict(arrowstyle="-|>", color=COLOR_NORMAL, lw=0.9),
-                bbox=dict(boxstyle="round,pad=0.20", fc="white", ec=COLOR_NORMAL, lw=0.8, alpha=0.95))
+                bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_NORMAL, lw=0.8, alpha=0.95))
+
+    # Point B: North-West leader
+    ax.annotate(tr('fig4_point_b'),
+                xy=(B[0], B[1]), xytext=(B[0] - 4.5, B[1] + 2.2),
+                fontsize=9.2, color='#7C3AED', ha='right', va='bottom',
+                arrowprops=dict(arrowstyle="-|>", color='#7C3AED', lw=0.8),
+                bbox=dict(boxstyle="round,pad=0.18", fc="white", ec='#7C3AED', lw=0.8, alpha=0.95))
+
+    # Point D: North-East leader (Cascading tier 2: y ~ +1.8)
+    ax.annotate(tr('fig4_point_d'),
+                xy=(D[0], D[1]), xytext=(D[0] + 3.2, D[1] + 1.8),
+                fontsize=9.2, color='#7C3AED', ha='left', va='bottom',
+                arrowprops=dict(arrowstyle="-|>", color='#7C3AED', lw=0.8),
+                bbox=dict(boxstyle="round,pad=0.18", fc="white", ec='#7C3AED', lw=0.8, alpha=0.95))
 
     # N1 on Pinion base circle (North-West of N1)
     ax.annotate(tr('fig4_point_n1'),
                 xy=(N1[0], N1[1]), xytext=(N1[0] - 3.2, N1[1] + 2.5),
-                fontsize=10.0, color=COLOR_PINION, ha='right', va='bottom',
+                fontsize=9.8, color=COLOR_PINION, ha='right', va='bottom',
                 arrowprops=dict(arrowstyle="-|>", color=COLOR_PINION, lw=0.7),
                 bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_PINION, lw=0.7, alpha=0.92))
 
     # N2 on Gear base circle (East / South-East of N2)
     ax.annotate(tr('fig4_point_n2'),
                 xy=(N2[0], N2[1]), xytext=(N2[0] + 2.5, N2[1] - 1.0),
-                fontsize=10.0, color=COLOR_PINION, ha='left', va='center',
+                fontsize=9.8, color=COLOR_PINION, ha='left', va='center',
                 arrowprops=dict(arrowstyle="-|>", color=COLOR_PINION, lw=0.7),
                 bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_PINION, lw=0.7, alpha=0.92))
 
@@ -1252,48 +1277,75 @@ def create_diagram_4(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
                 arrowprops=dict(arrowstyle="-|>", color=COLOR_GEAR, lw=0.8),
                 bbox=dict(boxstyle="round,pad=0.18", fc="white", ec=COLOR_GEAR, lw=0.8, alpha=0.92))
 
-    # Path of Contact Dimension Bar (Layer 1 Offset: 8.5 mm)
-    bar_offset = norm_loa * 8.5
-    bar_A = A + bar_offset
-    bar_E = E + bar_offset
-    ax.annotate('', xy=bar_A, xytext=bar_E,
+    # =======================================================================
+    # Rigorous Standard Dimensioning (ISO 129-1 Hierarchy: Shorter Inside, Longer Outside)
+    # =======================================================================
+    # Layer 1: Base Pitch pb = segment AD (Shorter dimension: 8.856 mm at Offset +8.5 mm)
+    bar1_offset = norm_loa * 8.5
+    bar_A1 = A + bar1_offset
+    bar_D1 = D + bar1_offset
+    ax.annotate('', xy=bar_A1, xytext=bar_D1,
                 arrowprops=dict(arrowstyle='<->,head_length=0.35,head_width=0.18',
-                                color=COLOR_CONTACT, lw=1.1))
-    mid_bar = (bar_A + bar_E) * 0.5
-    ax.text(mid_bar[0] - 0.5, mid_bar[1] + 0.45, tr('fig4_active_path'),
-            fontsize=10.2, color=COLOR_CONTACT, ha='center', va='bottom',
-            bbox=dict(boxstyle="round,pad=0.18", fc="white", ec="none", alpha=0.92))
+                                color=COLOR_PINION, lw=1.1))
+    mid_bar1 = (bar_A1 + bar_D1) * 0.5
+    ax.text(mid_bar1[0], mid_bar1[1] + 0.55, tr('fig4_base_pitch_bar'),
+            fontsize=9.8, color=COLOR_PINION, ha='center', va='bottom',
+            bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.92))
 
-    # Base pitch pb indicator bar (Layer 2 Offset: 14.0 mm)
-    bar2_offset = norm_loa * 14.0
-    bar_p1 = A + bar2_offset
-    bar_p2 = (t_A + pb) * u_loa + bar2_offset
-    ax.annotate('', xy=bar_p1, xytext=bar_p2,
+    # Layer 2: Total Path of Contact AE = g_alpha (Longer dimension: 14.558 mm at Offset +15.2 mm)
+    bar2_offset = norm_loa * 15.2
+    bar_A2 = A + bar2_offset
+    bar_E2 = E + bar2_offset
+    ax.annotate('', xy=bar_A2, xytext=bar_E2,
                 arrowprops=dict(arrowstyle='<->,head_length=0.35,head_width=0.18',
-                                color=COLOR_PINION, lw=1.0))
-    mid_p = (bar_p1 + bar_p2) * 0.5
-    ax.text(mid_p[0] + 3.0, mid_p[1] + 0.45, tr('fig4_base_pitch_bar'),
-            fontsize=10.0, color=COLOR_PINION, ha='center', va='bottom',
-            bbox=dict(boxstyle="round,pad=0.18", fc="white", ec="none", alpha=0.92))
+                                color=COLOR_CONTACT, lw=1.2))
+    mid_bar2 = (bar_A2 + bar_E2) * 0.5
+    ax.text(mid_bar2[0], mid_bar2[1] + 0.55, tr('fig4_active_path'),
+            fontsize=10.0, color=COLOR_CONTACT, ha='center', va='bottom',
+            bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.92))
 
-    # Perpendicular Extension Lines (치수 보조선)
-    # Extension Line at Point A (starts from Point A, extends past Layer 2 bar_p1)
+    # Layer -1 (Bottom): Single-Tooth Contact Zone BD = g1 (3.155 mm at Offset -7.5 mm)
+    bar_sub_offset = -norm_loa * 7.5
+    bar_B_sub = B + bar_sub_offset
+    bar_D_sub = D + bar_sub_offset
+    ax.annotate('', xy=bar_B_sub, xytext=bar_D_sub,
+                arrowprops=dict(arrowstyle='<->,head_length=0.30,head_width=0.16',
+                                color='#7C3AED', lw=1.0))
+    mid_bar_sub = (bar_B_sub + bar_D_sub) * 0.5
+    ax.text(mid_bar_sub[0], mid_bar_sub[1] - 0.50, tr('fig4_single_zone'),
+            fontsize=9.2, color='#7C3AED', ha='center', va='top',
+            bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.92))
+
+    # Perpendicular Extension Lines (치수 보조선) - 0 Crossing Architecture!
+    # 1. Point A extension: reaches up to Layer 2 bar_A2
     ext_A_start = A + norm_loa * 0.3
-    ext_A_end = bar_p1 + norm_loa * 1.2
+    ext_A_end = bar_A2 + norm_loa * 1.0
     ax.plot([ext_A_start[0], ext_A_end[0]], [ext_A_start[1], ext_A_end[1]],
             color=COLOR_AXIS, lw=0.75, linestyle="-", zorder=3)
 
-    # Extension Line at Point E (starts from Point E, extends past Layer 1 bar_E)
+    # 2. Point D extension (Upward): terminates just above Layer 1 bar_D1 (no crossing Layer 2!)
+    ext_D_up_start = D + norm_loa * 0.3
+    ext_D_up_end = bar_D1 + norm_loa * 1.0
+    ax.plot([ext_D_up_start[0], ext_D_up_end[0]], [ext_D_up_start[1], ext_D_up_end[1]],
+            color=COLOR_AXIS, lw=0.75, linestyle="-", zorder=3)
+
+    # 3. Point E extension: reaches up to Layer 2 bar_E2
     ext_E_start = E + norm_loa * 0.3
-    ext_E_end = bar_E + norm_loa * 1.2
+    ext_E_end = bar_E2 + norm_loa * 1.0
     ax.plot([ext_E_start[0], ext_E_end[0]], [ext_E_start[1], ext_E_end[1]],
             color=COLOR_AXIS, lw=0.75, linestyle="-", zorder=3)
 
-    # Extension Line for bar_p2 (drops from Layer 2 bar_p2 down to Layer 1)
-    p2_base = (t_A + pb) * u_loa + norm_loa * 8.5
-    ext_p2_end = bar_p2 + norm_loa * 1.2
-    ax.plot([p2_base[0], ext_p2_end[0]], [p2_base[1], ext_p2_end[1]],
-            color=COLOR_AXIS, lw=0.75, linestyle="-", zorder=3)
+    # 4. Point B extension (Downward): reaches down to Layer -1 bar_B_sub
+    ext_B_down_start = B - norm_loa * 0.3
+    ext_B_down_end = bar_B_sub - norm_loa * 1.0
+    ax.plot([ext_B_down_start[0], ext_B_down_end[0]], [ext_B_down_start[1], ext_B_down_end[1]],
+            color='#8B5CF6', lw=0.70, linestyle="-", alpha=0.70, zorder=3)
+
+    # 5. Point D extension (Downward): reaches down to Layer -1 bar_D_sub
+    ext_D_down_start = D - norm_loa * 0.3
+    ext_D_down_end = bar_D_sub - norm_loa * 1.0
+    ax.plot([ext_D_down_start[0], ext_D_down_end[0]], [ext_D_down_start[1], ext_D_down_end[1]],
+            color='#8B5CF6', lw=0.70, linestyle="-", alpha=0.70, zorder=3)
 
     # Bottom Contact Ratio Summary Card
     card_x, card_y, card_w, card_h = -37.5, -31.5, 75.0, 17.5
