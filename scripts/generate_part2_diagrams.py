@@ -1125,8 +1125,8 @@ def create_diagram_4(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
 
     # Pitch Tangent line (t_P - t_P)
     ax.plot([-28.0, 36.0], [0, 0], color=COLOR_TANGENT, linestyle="--", lw=0.8, zorder=1)
-    ax.text(24.5, 0.6, tr('fig4_pitch_line'), fontsize=8.5, color=COLOR_TANGENT,
-            va='bottom', ha='left',
+    ax.text(26.0, 1.5, tr('fig4_pitch_line'), fontsize=8.5, color=COLOR_TANGENT,
+            va='center', ha='left',
             bbox=dict(boxstyle="round,pad=0.14", fc="white", ec="none", alpha=1.0), zorder=6)
 
     # Circular Arcs around Pitch Point:
@@ -1208,88 +1208,102 @@ def create_diagram_4(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
     ax.scatter([B[0], D[0]], [B[1], D[1]], color='#7C3AED', s=50, zorder=8, edgecolors=COLOR_TEXT_MAIN, lw=0.8)
     ax.scatter([P[0]], [P[1]], color=COLOR_NORMAL, s=60, zorder=9, edgecolors=COLOR_TEXT_MAIN, lw=1.0)
 
-    # Text Annotations for Critical Points (Refined Cascading Layout, CAD Whitespace Guaranteed)
-    # Point P: Directly above P(0, 0) (Tier 1: y=3.5)
-    ax.annotate(tr('fig4_point_p'),
-                xy=(P[0], P[1]), xytext=(0.0, 3.5),
-                fontsize=8.5, color=COLOR_NORMAL, ha='center', va='bottom',
-                arrowprops=dict(arrowstyle="-|>", color=COLOR_NORMAL, lw=0.8),
-                bbox=dict(boxstyle="round,pad=0.14", fc="white", ec=COLOR_NORMAL, lw=0.8, alpha=1.0),
-                zorder=7)
+    # =======================================================================
+    # Text Annotations: Dispersed Outer Margin Layout with Clean Elbow Lines
+    # Guaranteed Zero Overlap, Clear Central Geometry (ISO 129-1 Compliant)
+    # =======================================================================
 
-    # Point A: South-West leader
-    ax.annotate(tr('fig4_point_a'),
-                xy=(A[0], A[1]), xytext=(A[0] - 5.5, A[1] - 4.2),
-                fontsize=8.5, color=COLOR_NORMAL, ha='right', va='top',
-                arrowprops=dict(arrowstyle="-|>", color=COLOR_NORMAL, lw=0.8),
-                bbox=dict(boxstyle="round,pad=0.14", fc="white", ec=COLOR_NORMAL, lw=0.8, alpha=1.0),
-                zorder=7)
-
-    # Point E: South-East leader (Clean below LOA, clear of pitch tangent line)
-    ax.annotate(tr('fig4_point_e'),
-                xy=(E[0], E[1]), xytext=(E[0] + 4.5, E[1] - 2.5),
-                fontsize=8.5, color=COLOR_NORMAL, ha='left', va='top',
-                arrowprops=dict(arrowstyle="-|>", color=COLOR_NORMAL, lw=0.8),
-                bbox=dict(boxstyle="round,pad=0.14", fc="white", ec=COLOR_NORMAL, lw=0.8, alpha=1.0),
-                zorder=7)
-
-    # Point B: North-West leader (High Tier y=6.8, clear of Point P and extension line)
-    ax.annotate(tr('fig4_point_b'),
-                xy=(B[0], B[1]), xytext=(-3.5, 6.8),
-                fontsize=8.5, color='#7C3AED', ha='right', va='bottom',
-                arrowprops=dict(arrowstyle="-|>", color='#7C3AED', lw=0.8),
-                bbox=dict(boxstyle="round,pad=0.14", fc="white", ec='#7C3AED', lw=0.8, alpha=1.0),
-                zorder=7)
-
-    # Point D: North-East leader (Tiered height y=2.2, clear of Point P and E)
-    ax.annotate(tr('fig4_point_d'),
-                xy=(D[0], D[1]), xytext=(D[0] + 5.0, D[1] + 2.4),
-                fontsize=8.5, color='#7C3AED', ha='left', va='bottom',
-                arrowprops=dict(arrowstyle="-|>", color='#7C3AED', lw=0.8),
-                bbox=dict(boxstyle="round,pad=0.14", fc="white", ec='#7C3AED', lw=0.8, alpha=1.0),
-                zorder=7)
-
-    # N1 on Pinion base circle (North-West of N1, below B tier)
-    ax.annotate(tr('fig4_point_n1'),
-                xy=(N1[0], N1[1]), xytext=(N1[0] - 4.5, N1[1] + 0.8),
-                fontsize=8.5, color=COLOR_PINION, ha='right', va='bottom',
-                arrowprops=dict(arrowstyle="-|>", color=COLOR_PINION, lw=0.7),
-                bbox=dict(boxstyle="round,pad=0.14", fc="white", ec=COLOR_PINION, lw=0.7, alpha=1.0),
-                zorder=7)
-
-    # N2 on Gear base circle (East / South-East of N2)
-    ax.annotate(tr('fig4_point_n2'),
-                xy=(N2[0], N2[1]), xytext=(N2[0] + 3.5, N2[1] - 0.5),
-                fontsize=8.5, color=COLOR_PINION, ha='left', va='center',
-                arrowprops=dict(arrowstyle="-|>", color=COLOR_PINION, lw=0.7),
-                bbox=dict(boxstyle="round,pad=0.14", fc="white", ec=COLOR_PINION, lw=0.7, alpha=1.0),
-                zorder=7)
-
-    # Line of action label (Top-Left clear margin, isolated from pb bar)
-    ax.text(-36.0, 17.5, tr('fig4_loa'),
+    # --- WEST MARGIN (Left: LOA, N1, ra2, A) ---
+    # 1. Line of Action Label: Top-Left clear margin
+    ax.text(-38.0, 23.0, tr('fig4_loa'),
             fontsize=9.0, color=COLOR_NORMAL, ha='left', va='bottom',
             bbox=dict(boxstyle="round,pad=0.14", fc="white", ec=COLOR_NORMAL, lw=0.8, alpha=1.0),
             zorder=7)
 
-    # Tip Circle identification labels (Outside active contact zone!)
-    # Gear tip circle (ra2) passing through Point A
+    # 2. Point N1: North-West margin
+    ax.annotate(tr('fig4_point_n1'),
+                xy=(N1[0], N1[1]), xytext=(-26.0, 8.5),
+                fontsize=8.5, color=COLOR_PINION, ha='right', va='center',
+                arrowprops=dict(arrowstyle="-|>", color=COLOR_PINION, lw=0.8,
+                                connectionstyle="angle,angleA=180,angleB=90,rad=0"),
+                bbox=dict(boxstyle="round,pad=0.14", fc="white", ec=COLOR_PINION, lw=0.8, alpha=1.0),
+                zorder=7)
+
+    # 3. Gear Tip Circle (ra2): West margin
     ra2_pt_x = -17.0
     ra2_pt_y = -r2 + np.sqrt(ra2**2 - ra2_pt_x**2)
     ax.annotate(tr('fig4_gear_tip'),
-                xy=(ra2_pt_x, ra2_pt_y), xytext=(-24.0, 1.2),
-                fontsize=8.5, color=COLOR_GEAR, ha='right', va='bottom',
-                arrowprops=dict(arrowstyle="-|>", color=COLOR_GEAR, lw=0.7),
-                bbox=dict(boxstyle="round,pad=0.14", fc="white", ec=COLOR_GEAR, lw=0.7, alpha=1.0),
+                xy=(ra2_pt_x, ra2_pt_y), xytext=(-26.0, 2.5),
+                fontsize=8.5, color=COLOR_GEAR, ha='right', va='center',
+                arrowprops=dict(arrowstyle="-|>", color=COLOR_GEAR, lw=0.8,
+                                connectionstyle="angle,angleA=180,angleB=90,rad=0"),
+                bbox=dict(boxstyle="round,pad=0.14", fc="white", ec=COLOR_GEAR, lw=0.8, alpha=1.0),
                 zorder=7)
 
-    # Pinion tip circle (ra1) passing through Point E
-    ra1_pt_x = 15.0
+    # 4. Point A (SAP): South-West margin
+    ax.annotate(tr('fig4_point_a'),
+                xy=(A[0], A[1]), xytext=(-26.0, -3.5),
+                fontsize=8.5, color=COLOR_NORMAL, ha='right', va='center',
+                arrowprops=dict(arrowstyle="-|>", color=COLOR_NORMAL, lw=0.8,
+                                connectionstyle="angle,angleA=180,angleB=90,rad=0"),
+                bbox=dict(boxstyle="round,pad=0.14", fc="white", ec=COLOR_NORMAL, lw=0.8, alpha=1.0),
+                zorder=7)
+
+    # --- EAST MARGIN (Right: ra1, Pitch Tangent, E, N2) ---
+    # 5. Pinion Tip Circle (ra1): North-East margin
+    ra1_pt_x = 23.0
     ra1_pt_y = r1 - np.sqrt(ra1**2 - ra1_pt_x**2)
     ax.annotate(tr('fig4_pinion_tip'),
-                xy=(ra1_pt_x, ra1_pt_y), xytext=(18.5, 4.6),
-                fontsize=8.5, color=COLOR_GEAR, ha='left', va='bottom',
-                arrowprops=dict(arrowstyle="-|>", color=COLOR_GEAR, lw=0.7),
-                bbox=dict(boxstyle="round,pad=0.14", fc="white", ec=COLOR_GEAR, lw=0.7, alpha=1.0),
+                xy=(ra1_pt_x, ra1_pt_y), xytext=(26.0, 6.8),
+                fontsize=8.5, color=COLOR_GEAR, ha='left', va='center',
+                arrowprops=dict(arrowstyle="-|>", color=COLOR_GEAR, lw=0.8,
+                                connectionstyle="angle,angleA=0,angleB=90,rad=0"),
+                bbox=dict(boxstyle="round,pad=0.14", fc="white", ec=COLOR_GEAR, lw=0.8, alpha=1.0),
+                zorder=7)
+
+    # 6. Point E (EAP): East-South margin
+    ax.annotate(tr('fig4_point_e'),
+                xy=(E[0], E[1]), xytext=(26.0, -3.5),
+                fontsize=8.5, color=COLOR_NORMAL, ha='left', va='center',
+                arrowprops=dict(arrowstyle="-|>", color=COLOR_NORMAL, lw=0.8,
+                                connectionstyle="angle,angleA=0,angleB=90,rad=0"),
+                bbox=dict(boxstyle="round,pad=0.14", fc="white", ec=COLOR_NORMAL, lw=0.8, alpha=1.0),
+                zorder=7)
+
+    # 7. Point N2: East-South lower margin
+    ax.annotate(tr('fig4_point_n2'),
+                xy=(N2[0], N2[1]), xytext=(26.0, -8.5),
+                fontsize=8.5, color=COLOR_PINION, ha='left', va='center',
+                arrowprops=dict(arrowstyle="-|>", color=COLOR_PINION, lw=0.8,
+                                connectionstyle="angle,angleA=0,angleB=90,rad=0"),
+                bbox=dict(boxstyle="round,pad=0.14", fc="white", ec=COLOR_PINION, lw=0.8, alpha=1.0),
+                zorder=7)
+
+    # --- NORTH & SOUTH MARGINS (B, D above Layer 2, P below LOA) ---
+    # 8. Point B: North-West margin above Layer 2 (Separated from Layer 1 & 2 text bboxes)
+    ax.annotate(tr('fig4_point_b'),
+                xy=(B[0], B[1]), xytext=(-5.0, 20.8),
+                fontsize=8.5, color='#7C3AED', ha='center', va='bottom',
+                arrowprops=dict(arrowstyle="-|>", color='#7C3AED', lw=0.8,
+                                connectionstyle="angle,angleA=90,angleB=0,rad=0"),
+                bbox=dict(boxstyle="round,pad=0.14", fc="white", ec='#7C3AED', lw=0.8, alpha=1.0),
+                zorder=7)
+
+    # 9. Point D: North-East margin above Layer 2 (Separated from Layer 2 text and ra1 leader)
+    ax.annotate(tr('fig4_point_d'),
+                xy=(D[0], D[1]), xytext=(20.0, 20.8),
+                fontsize=8.5, color='#7C3AED', ha='center', va='bottom',
+                arrowprops=dict(arrowstyle="-|>", color='#7C3AED', lw=0.8,
+                                connectionstyle="angle,angleA=90,angleB=0,rad=0"),
+                bbox=dict(boxstyle="round,pad=0.14", fc="white", ec='#7C3AED', lw=0.8, alpha=1.0),
+                zorder=7)
+
+    # 10. Point P: South margin (below pitch point and clear of Layer -1)
+    ax.annotate(tr('fig4_point_p'),
+                xy=(P[0], P[1]), xytext=(0.0, -13.5),
+                fontsize=8.5, color=COLOR_NORMAL, ha='center', va='center',
+                arrowprops=dict(arrowstyle="-|>", color=COLOR_NORMAL, lw=0.8),
+                bbox=dict(boxstyle="round,pad=0.14", fc="white", ec=COLOR_NORMAL, lw=0.8, alpha=1.0),
                 zorder=7)
 
     # =======================================================================
@@ -1302,7 +1316,7 @@ def create_diagram_4(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
     ax.annotate('', xy=bar_A1, xytext=bar_D1,
                 arrowprops=dict(arrowstyle='<->,head_length=0.35,head_width=0.18',
                                 color=COLOR_PINION, lw=1.1))
-    mid_bar1 = (bar_A1 + bar_D1) * 0.5
+    mid_bar1 = (bar_A1 + bar_D1) * 0.5 + u_loa * 7.7
     ax.text(mid_bar1[0], mid_bar1[1] + 0.60, tr('fig4_base_pitch_bar'),
             fontsize=8.5, color=COLOR_PINION, ha='center', va='bottom',
             bbox=dict(boxstyle="round,pad=0.14", fc="white", ec="none", alpha=1.0), zorder=6)
@@ -1314,21 +1328,21 @@ def create_diagram_4(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
     ax.annotate('', xy=bar_A2, xytext=bar_E2,
                 arrowprops=dict(arrowstyle='<->,head_length=0.35,head_width=0.18',
                                 color=COLOR_CONTACT, lw=1.2))
-    mid_bar2 = (bar_A2 + bar_E2) * 0.5
+    mid_bar2 = (bar_A2 + bar_E2) * 0.5 + u_loa * 2.3
     ax.text(mid_bar2[0], mid_bar2[1] + 0.60, tr('fig4_active_path'),
             fontsize=8.8, color=COLOR_CONTACT, ha='center', va='bottom',
             bbox=dict(boxstyle="round,pad=0.14", fc="white", ec="none", alpha=1.0), zorder=6)
 
-    # Layer -1 (Bottom): Single-Tooth Contact Zone BD = g1 (3.155 mm at Offset -8.0 mm)
-    bar_sub_offset = -norm_loa * 8.0
+    # Layer -1 (Bottom): Single-Tooth Contact Zone BD = g1 (3.155 mm at Offset -9.0 mm)
+    bar_sub_offset = -norm_loa * 9.0
     bar_B_sub = B + bar_sub_offset
     bar_D_sub = D + bar_sub_offset
     ax.annotate('', xy=bar_B_sub, xytext=bar_D_sub,
                 arrowprops=dict(arrowstyle='<->,head_length=0.30,head_width=0.16',
                                 color='#7C3AED', lw=1.0))
-    mid_bar_sub = (bar_B_sub + bar_D_sub) * 0.5
-    ax.text(mid_bar_sub[0], mid_bar_sub[1] - 0.60, tr('fig4_single_zone'),
-            fontsize=8.5, color='#7C3AED', ha='center', va='top',
+    # Place text aligned under BD dimension line, clear of Point P leader at x=0
+    ax.text(bar_D_sub[0] - 0.5, bar_D_sub[1] - 0.60, tr('fig4_single_zone'),
+            fontsize=8.5, color='#7C3AED', ha='right', va='top',
             bbox=dict(boxstyle="round,pad=0.14", fc="white", ec="none", alpha=1.0), zorder=6)
 
     # Perpendicular Extension Lines (치수 보조선) - 0 Crossing Architecture!
@@ -1373,7 +1387,7 @@ def create_diagram_4(output_dir=DEFAULT_OUTPUT_DIR, dpi=300, formats='all', lang
             linespacing=1.30, zorder=4)
 
     ax.set_xlim(-41.0, 41.0)
-    ax.set_ylim(-33.5, 21.5)
+    ax.set_ylim(-33.5, 24.5)
     ax.set_title(tr('fig4_title'), fontsize=15.0, fontweight='normal', pad=16, color=COLOR_TEXT_MAIN)
 
     save_diagram(fig, "fig4_line_of_action_contact_path", output_dir, dpi, formats)
