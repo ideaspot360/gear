@@ -1,0 +1,23 @@
+{
+  "fig1_title": "Abb. 1: Fünf singuläre Punkte der Eingriffslinie und Geometrie der Eingriffsstrecke",
+  "fig1_point_a": "A (Eingriffsbeginn, SAP)",
+  "fig1_point_b": "B (Unterer Einzeleingriffspunkt, LPSTC)",
+  "fig1_point_p": "P (Wälzpunkt, Reines Rollen vg = 0)",
+  "fig1_point_d": "D (Oberer Einzeleingriffspunkt, HPSTC)",
+  "fig1_point_e": "E (Eingriffsende, EAP)",
+  "fig1_point_n1": "T1 (Grundkreis Ritzel Berührung)",
+  "fig1_point_n2": "T2 (Grundkreis Rad Berührung)",
+  "fig1_loa": "Eingriffslinie (n-n)",
+  "fig1_pitch_line": "Wälztangente (tP - tP)",
+  "fig1_pinion_tip": "Ritzel-Kopfkreis (ra1 = 30.0 mm)",
+  "fig1_gear_tip": "Rad-Kopfkreis (ra2 = 84.0 mm)",
+  "fig1_dim_pb": "Eingriffsteilung pb = AD = π·m·cos α = 8.856 mm",
+  "fig1_dim_ga": "Aktive Eingriffsstrecke AE (ga = gf + ga = 14.602 mm)",
+  "fig1_dim_bd": "Einzeleingriffsstrecke BD (g1 = 3.111 mm)",
+  "summary_card_title": "[Zusammenfassung: Fünf singuläre Eingriffspunkte & Profilüberdeckung]",
+  "summary_formula_1": "(1) Singuläre Punkte: Punkt A (SAP) ➔ Punkt B (LPSTC) ➔ Punkt P (Wälzpunkt) ➔ Punkt D (HPSTC) ➔ Punkt E (EAP)",
+  "summary_formula_2": "(2) Eingriffsstrecken: gf = 7.828 mm, ga = 6.774 mm ➔ ga = 14.602 mm, pb = 8.856 mm",
+  "summary_formula_3": "(3) Profilüberdeckung: εα = ga / pb = 14.602 / 8.856 = 1.649 ≥ 1.200 (Auslegung qualifiziert)",
+  "summary_formula_note": "[Ingenieurtechnische Bedeutung] Einzeleingriff 21.3% (g1 = 3.111 mm), Doppeleingriff 78.7% (g2 = 11.491 mm)",
+  "summary_params_header": "[Auslegungsparameter]"
+}

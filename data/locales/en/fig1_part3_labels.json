@@ -1,0 +1,23 @@
+{
+  "fig1_title": "Fig 1: Line of Action Five Singular Points and Meshing Path Geometry",
+  "fig1_point_a": "A (Start of Active Profile, SAP)",
+  "fig1_point_b": "B (Lowest Point Single Contact, LPSTC)",
+  "fig1_point_p": "P (Pitch Point, Pure Rolling vg = 0)",
+  "fig1_point_d": "D (Highest Point Single Contact, HPSTC)",
+  "fig1_point_e": "E (End of Active Profile, EAP)",
+  "fig1_point_n1": "T1 (Pinion Base Circle Tangency)",
+  "fig1_point_n2": "T2 (Gear Base Circle Tangency)",
+  "fig1_loa": "Line of Action (n-n)",
+  "fig1_pitch_line": "Pitch Tangent (tP - tP)",
+  "fig1_pinion_tip": "Pinion Tip Circle (ra1 = 30.0 mm)",
+  "fig1_gear_tip": "Gear Tip Circle (ra2 = 84.0 mm)",
+  "fig1_dim_pb": "Base Pitch pb = AD = π·m·cos α = 8.856 mm",
+  "fig1_dim_ga": "Active Contact Path AE (ga = gf + ga = 14.602 mm)",
+  "fig1_dim_bd": "Single Contact Zone BD (g1 = 3.111 mm)",
+  "summary_card_title": "[Summary: Line of Action Five Singular Points & Contact Ratio]",
+  "summary_formula_1": "(1) Singular Points: Point A (SAP) ➔ Point B (LPSTC) ➔ Point P (Pitch) ➔ Point D (HPSTC) ➔ Point E (EAP)",
+  "summary_formula_2": "(2) Path Lengths: gf = 7.828 mm, ga = 6.774 mm ➔ ga = 14.602 mm, pb = 8.856 mm",
+  "summary_formula_3": "(3) Transverse Contact Ratio: εα = ga / pb = 14.602 / 8.856 = 1.649 ≥ 1.200 (Design Qualified)",
+  "summary_formula_note": "[Engineering Significance] Single Contact 21.3% (g1 = 3.111 mm), Double Contact 78.7% (g2 = 11.491 mm)",
+  "summary_params_header": "[Design Parameters]"
+}
