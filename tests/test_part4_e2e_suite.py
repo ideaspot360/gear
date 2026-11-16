@@ -505,16 +505,70 @@ class TestTier1FeatureCoverage:
         ("Gate 4", ("Marker Integrity", 0, "missing")),
     ])
     def test_f7_01_four_gate_threshold_constants_defined(self, gate_name: str, threshold_spec: Tuple[str, float, str]):
-        """[F7] Verify 4-Gate automated diagram verification criteria contracts."""
-        metric, val, unit = threshold_spec
+        """[F7] Verify 4-Gate automated diagram verification criteria contracts in test files or specs."""
+        metric_name, contract_val, contract_unit = threshold_spec
+
+        # Inspect candidate gate definition sources (actual files)
+        gate_sources = [
+            _BLOG_DIR / "tests" / "test_part4_geometry_and_occlusion.py",
+            _BLOG_DIR / "tests" / "test_fig4_geometry_and_occlusion.py",
+            _PROJECT_ROOT / "PROJECT.md",
+        ]
+        parsed_val: Optional[float] = None
+        parsed_unit: Optional[str] = None
+        found_source = False
+
+        for src in gate_sources:
+            if not src.is_file():
+                continue
+            text = src.read_text(encoding="utf-8")
+            if gate_name == "Gate 1":
+                # Contact error: <= 0.5 px
+                m = re.search(r"Gate 1.*?([0-9\.]+)\s*(px|px\b)", text, re.IGNORECASE)
+                if m:
+                    parsed_val = float(m.group(1))
+                    parsed_unit = "px"
+                    found_source = True
+                    break
+            elif gate_name == "Gate 2":
+                # Occlusion count: 0 collisions
+                m = re.search(r"Gate 2.*?(0)\s*(collisions?|count)", text, re.IGNORECASE)
+                if m:
+                    parsed_val = float(m.group(1))
+                    parsed_unit = "count"
+                    found_source = True
+                    break
+            elif gate_name == "Gate 3":
+                # Text margin: >= 6.0 px
+                m = re.search(r"Gate 3.*?([0-9\.]+)\s*(px|px\b)", text, re.IGNORECASE)
+                if m:
+                    parsed_val = float(m.group(1))
+                    parsed_unit = "px"
+                    found_source = True
+                    break
+            elif gate_name == "Gate 4":
+                # Marker integrity: 0 missing
+                m = re.search(r"Gate 4.*?(0)\s*(missing|unrendered)", text, re.IGNORECASE)
+                if m:
+                    parsed_val = float(m.group(1))
+                    parsed_unit = "missing"
+                    found_source = True
+                    break
+
+        assert found_source, f"Gate contract definition for {gate_name} not found in {[str(s) for s in gate_sources]}"
+        assert parsed_val is not None
+
+        # Assert parsed threshold from project files conforms to the gate contract specification
         if gate_name == "Gate 1":
-            assert val <= 0.5 and unit == "px"
+            assert parsed_val <= contract_val, f"Gate 1 parsed threshold {parsed_val} exceeds contract {contract_val}"
+            assert parsed_unit == contract_unit
         elif gate_name == "Gate 2":
-            assert val == 0 and unit == "count"
+            assert parsed_val == contract_val, f"Gate 2 parsed collisions {parsed_val} != {contract_val}"
         elif gate_name == "Gate 3":
-            assert val >= 6.0 and unit == "px"
+            assert parsed_val >= contract_val, f"Gate 3 parsed margin {parsed_val} below contract {contract_val}"
+            assert parsed_unit == contract_unit
         elif gate_name == "Gate 4":
-            assert val == 0 and unit == "missing"
+            assert parsed_val == contract_val, f"Gate 4 parsed missing {parsed_val} != {contract_val}"
 
     # --- F10: Image Reference Markdown Syntax ---
     @pytest.mark.parametrize("lang", LANGUAGES)
@@ -548,10 +602,25 @@ class TestTier1FeatureCoverage:
 
     # --- F13: Remote Git Deployment & Live Production URL Target ---
     def test_f13_01_production_target_url_specification(self):
-        """[F13] Verify official live production deployment URL specification."""
-        target_url = "https://gear.ideaspot360.com"
-        assert target_url.startswith("https://")
-        assert "gear.ideaspot360.com" in target_url
+        """[F13] Verify official live production deployment URL specification in astro.config.mjs and CNAME."""
+        astro_config = _BLOG_DIR / "astro.config.mjs"
+        assert astro_config.is_file(), f"astro.config.mjs missing at {astro_config}"
+        content = astro_config.read_text(encoding="utf-8")
+
+        # Parse site property from astro.config.mjs
+        m = re.search(r"site:\s*['\"]([^'\"]+)['\"]", content)
+        assert m is not None, "site configuration missing in astro.config.mjs"
+        site_url = m.group(1)
+
+        assert site_url.startswith("https://"), f"Production site URL must use HTTPS: {site_url}"
+        assert site_url == "https://gear.ideaspot360.com", f"Expected https://gear.ideaspot360.com, got {site_url}"
+
+        # Cross-verify matching domain in CNAME if present
+        cname_file = _BLOG_DIR / "public" / "CNAME"
+        if cname_file.is_file():
+            cname_domain = cname_file.read_text(encoding="utf-8").strip()
+            assert cname_domain == "gear.ideaspot360.com", f"CNAME mismatch: {cname_domain}"
+            assert cname_domain in site_url, f"CNAME {cname_domain} not contained in site URL {site_url}"
 
 
 # =============================================================================
@@ -631,8 +700,41 @@ class TestTier2BoundaryAndCornerCases:
         ("sum_shift", 56, 0.50, 0.0),
     ])
     def test_b2_03_benchmark_shift_margin_over_xmin(self, role: str, z: int, x: float, req_min: float):
-        """[B2] Verify benchmark shift margins satisfy positive clearances."""
-        assert x > req_min, f"{role}: x={x} does not clear {req_min}"
+        """[B2] Verify benchmark shift margins satisfy positive clearances over theoretical x_min."""
+        spec_path = _BLOG_DIR / "data" / "fig2_part4_spec.json"
+        if not spec_path.is_file():
+            spec_path = _BLOG_DIR / "data" / "specs" / "fig2_part4_spec.json"
+        assert spec_path.is_file(), f"Specification file missing: {spec_path}"
+        spec = json.loads(spec_path.read_text(encoding="utf-8"))
+        params = spec["parameters"]
+
+        alpha_0 = math.radians(params["alpha0_deg"])
+        ha_star = params.get("ha_star", 1.0)
+
+        if role == "pinion_theory" or role == "pinion_margin":
+            z1 = params["z1"]
+            x1 = params["x1"]
+            xmin1 = calc_min_shift(z1, alpha_0, ha_star)
+            margin = x1 - xmin1
+            assert margin > 0.0, f"Pinion x1={x1} fails to clear x_min={xmin1}"
+            assert x1 >= 0.35, f"Pinion x1={x1} must be >= 0.35"
+            assert abs(xmin1 - 0.181156) < 1e-4, f"Theoretical x_min mismatch: {xmin1}"
+            if role == "pinion_margin":
+                assert margin >= 0.10, f"Pinion safety margin {margin} below 0.10"
+        elif role == "gear_theory":
+            z2 = params["z2"]
+            x2 = params["x2"]
+            xmin2 = calc_min_shift(z2, alpha_0, ha_star)
+            margin = x2 - xmin2
+            assert margin > 0.0, f"Gear x2={x2} fails to clear x_min={xmin2}"
+            assert x2 >= 0.15, f"Gear x2={x2} must be >= 0.15"
+            assert xmin2 < 0.0, f"Gear x_min expected negative for z={z2}, got {xmin2}"
+        elif role == "sum_shift":
+            x1 = params["x1"]
+            x2 = params["x2"]
+            sigma_x = params["sigma_x"]
+            assert abs((x1 + x2) - sigma_x) < 1e-6, f"Sum mismatch: {x1}+{x2} != {sigma_x}"
+            assert sigma_x > 0.0, f"Benchmark total profile shift must be positive: {sigma_x}"
 
     # --- B3: Top Land Thickness Constraint s_a >= 0.25*m (헌법 제10조 제2항, 제3항) ---
     def test_b3_01_top_land_pinion_sa1_margin(self):
@@ -768,19 +870,42 @@ class TestTier2BoundaryAndCornerCases:
     # --- B6: Frontmatter Zod Schema Validation Limits ---
     @pytest.mark.parametrize("invalid_date", ["2026/11/16", "26-11-16", "2026-1-1", "invalid", "2026-13-45"])
     def test_b6_01_review_date_regex_validation(self, invalid_date: str):
-        """[B6] Verify review_date regex strictly enforces YYYY-MM-DD pattern."""
-        pattern = r"^\d{4}-\d{2}-\d{2}$"
-        if re.match(pattern, invalid_date):
-            parts = [int(p) for p in invalid_date.split("-")]
-            assert not (1 <= parts[1] <= 12 and 1 <= parts[2] <= 31), f"Expected reject for {invalid_date}"
+        """[B6] Verify review_date regex strictly enforces YYYY-MM-DD pattern from content.config.ts."""
+        config_ts = _BLOG_DIR / "src" / "content.config.ts"
+        assert config_ts.is_file(), f"content.config.ts missing at {config_ts}"
+        content = config_ts.read_text(encoding="utf-8")
+
+        # Extract review_date regex pattern: regex(/^\d{4}-\d{2}-\d{2}$/)
+        m = re.search(r"review_date:\s*z\.string\(\)\.regex\(/\^(\\d\{4\}-\\d\{2\}-\\d\{2\})\$/\)", content)
+        assert m is not None, "review_date regex definition not found in content.config.ts"
+        pattern = "^" + m.group(1) + "$"
+
+        match = re.match(pattern, invalid_date)
+        if match is None:
+            # Genuine failure to match date regex format
+            assert match is None, f"Expected regex failure for {invalid_date}"
         else:
-            assert True
+            # Format matched regex, verify semantic calendar bounds rejection (e.g. 2026-13-45)
+            parts = [int(p) for p in invalid_date.split("-")]
+            is_valid_calendar = (1 <= parts[1] <= 12 and 1 <= parts[2] <= 31)
+            assert not is_valid_calendar, f"Expected reject for {invalid_date} but calendar range is valid"
 
     @pytest.mark.parametrize("invalid_level", ["freshman", "master", "phd", "expert", "doctoral"])
     def test_b6_02_academic_level_enum_rejection(self, invalid_level: str):
-        """[B6] Verify academic_level rejects non-enumerated strings."""
-        allowed = {"undergraduate", "graduate", "industrial_expert"}
-        assert invalid_level not in allowed
+        """[B6] Verify academic_level rejects non-enumerated strings against content.config.ts schema."""
+        config_ts = _BLOG_DIR / "src" / "content.config.ts"
+        assert config_ts.is_file(), f"content.config.ts missing at {config_ts}"
+        content = config_ts.read_text(encoding="utf-8")
+
+        # Extract academic_level enum list: z.enum(['undergraduate', 'graduate', 'industrial_expert'])
+        m = re.search(r"academic_level:\s*z\.enum\(\[([^\]]+)\]\)", content)
+        assert m is not None, "academic_level enum definition not found in content.config.ts"
+        allowed_levels = set(re.findall(r"['\"]([^'\"]+)['\"]", m.group(1)))
+
+        assert len(allowed_levels) >= 3, f"Expected at least 3 academic levels in schema, found {allowed_levels}"
+        assert invalid_level not in allowed_levels, (
+            f"Invalid level '{invalid_level}' unexpectedly found in schema allowed levels: {allowed_levels}"
+        )
 
     # --- B7: Article 12 Banned Clichés Check Across 4 Languages ---
     @pytest.mark.parametrize("lang", LANGUAGES)
