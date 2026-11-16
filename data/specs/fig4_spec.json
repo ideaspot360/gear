@@ -1,0 +1,358 @@
+{
+  "schema_version": "1.0.0",
+  "diagram_id": "fig4_line_of_action_contact_path",
+  "title_key": "fig4_title",
+  "parameters": {
+    "module": 3.0,
+    "z1": 19,
+    "z2": 47,
+    "alpha_deg": 20.0,
+    "center_distance": 99.0,
+    "r1": 28.5,
+    "r2": 70.5,
+    "rb1": 26.78124,
+    "rb2": 66.24833,
+    "ra1": 31.5,
+    "ra2": 73.5,
+    "rf1": 24.75,
+    "rf2": 66.75,
+    "gf": 7.721662,
+    "ga": 6.836008,
+    "g_alpha": 14.55767,
+    "pb": 8.856394,
+    "g1": 3.155118,
+    "g2_total": 11.402552,
+    "contact_ratio_transverse": 1.643747,
+    "ratio_single_percent": 21.7,
+    "ratio_double_percent": 78.3
+  },
+  "viewport": {
+    "x_min": -32.0,
+    "x_max": 34.0,
+    "y_min": -22.0,
+    "y_max": 24.0,
+    "aspect_ratio": "equal"
+  },
+  "landmarks": {
+    "N1": {
+      "coord": [
+        -9.159723,
+        3.333867
+      ],
+      "t": -9.747574,
+      "label_key": "fig4_point_n1",
+      "preferred_side": "west",
+      "marker_style": "square",
+      "color_role": "base_circle"
+    },
+    "ra2_arc": {
+      "coord": [
+        -14.0,
+        1.654348
+      ],
+      "label_key": "fig4_gear_tip",
+      "preferred_side": "west",
+      "marker_style": "arrow_to_curve",
+      "target_curve": "tip_circle_gear",
+      "color_role": "gear"
+    },
+    "A": {
+      "coord": [
+        -7.255989,
+        2.640964
+      ],
+      "t": -7.721662,
+      "label_key": "fig4_point_a",
+      "preferred_side": "west",
+      "marker_style": "circle",
+      "color_role": "contact_point"
+    },
+    "loa_label": {
+      "coord": [
+        -24.0,
+        12.0
+      ],
+      "label_key": "fig4_loa",
+      "preferred_side": "west",
+      "marker_style": "none",
+      "color_role": "action_line"
+    },
+    "B": {
+      "coord": [
+        -1.898542,
+        0.691013
+      ],
+      "t": -2.020386,
+      "label_key": "fig4_point_b",
+      "preferred_side": "north_west",
+      "marker_style": "circle",
+      "color_role": "contact_limit"
+    },
+    "P": {
+      "coord": [
+        0.0,
+        0.0
+      ],
+      "t": 0.0,
+      "label_key": "fig4_point_p",
+      "preferred_side": "south",
+      "marker_style": "circle",
+      "color_role": "pitch_point"
+    },
+    "D": {
+      "coord": [
+        1.066299,
+        -0.388101
+      ],
+      "t": 1.134732,
+      "label_key": "fig4_point_d",
+      "preferred_side": "north_east",
+      "marker_style": "circle",
+      "color_role": "contact_limit"
+    },
+    "ra1_arc": {
+      "coord": [
+        14.0,
+        0.282098
+      ],
+      "label_key": "fig4_pinion_tip",
+      "preferred_side": "east",
+      "marker_style": "arrow_to_curve",
+      "target_curve": "tip_circle_pinion",
+      "color_role": "pinion"
+    },
+    "pitch_tangent_label": {
+      "coord": [
+        28.0,
+        0.5
+      ],
+      "label_key": "fig4_pitch_line",
+      "preferred_side": "east",
+      "marker_style": "none",
+      "color_role": "pitch_line"
+    },
+    "E": {
+      "coord": [
+        6.423746,
+        -2.338052
+      ],
+      "t": 6.836008,
+      "label_key": "fig4_point_e",
+      "preferred_side": "east",
+      "marker_style": "circle",
+      "color_role": "contact_point"
+    },
+    "N2": {
+      "coord": [
+        22.658263,
+        -8.246933
+      ],
+      "t": 24.11242,
+      "label_key": "fig4_point_n2",
+      "preferred_side": "east",
+      "marker_style": "square",
+      "color_role": "base_circle"
+    }
+  },
+  "curves": {
+    "line_of_action": {
+      "type": "segment",
+      "start": [
+        -11.508955,
+        4.188917
+      ],
+      "end": [
+        25.007495,
+        -9.101984
+      ],
+      "style": "solid",
+      "color_role": "action_line",
+      "stroke_width": 1.4
+    },
+    "pitch_tangent": {
+      "type": "segment",
+      "start": [
+        -28.0,
+        0.0
+      ],
+      "end": [
+        30.0,
+        0.0
+      ],
+      "style": "dashed",
+      "color_role": "pitch_line",
+      "stroke_width": 0.9
+    },
+    "line_of_centers": {
+      "type": "segment",
+      "start": [
+        0.0,
+        -8.0
+      ],
+      "end": [
+        0.0,
+        8.0
+      ],
+      "style": "dashdot",
+      "color_role": "axis_line",
+      "stroke_width": 0.8
+    },
+    "tip_circle_gear": {
+      "type": "arc",
+      "center": [
+        0.0,
+        -70.5
+      ],
+      "radius": 73.5,
+      "start_angle_deg": 75.0,
+      "end_angle_deg": 105.0,
+      "style": "solid",
+      "color_role": "gear_body",
+      "stroke_width": 1.2
+    },
+    "tip_circle_pinion": {
+      "type": "arc",
+      "center": [
+        0.0,
+        28.5
+      ],
+      "radius": 31.5,
+      "start_angle_deg": 255.0,
+      "end_angle_deg": 305.0,
+      "style": "solid",
+      "color_role": "pinion_body",
+      "stroke_width": 1.2
+    },
+    "pitch_circle_pinion": {
+      "type": "arc",
+      "center": [
+        0.0,
+        28.5
+      ],
+      "radius": 28.5,
+      "start_angle_deg": 255.0,
+      "end_angle_deg": 285.0,
+      "style": "dashdot",
+      "color_role": "reference_circle",
+      "stroke_width": 0.8
+    },
+    "pitch_circle_gear": {
+      "type": "arc",
+      "center": [
+        0.0,
+        -70.5
+      ],
+      "radius": 70.5,
+      "start_angle_deg": 75.0,
+      "end_angle_deg": 105.0,
+      "style": "dashdot",
+      "color_role": "reference_circle",
+      "stroke_width": 0.8
+    },
+    "active_contact_band": {
+      "type": "segment",
+      "start": [
+        -7.255989,
+        2.640964
+      ],
+      "end": [
+        6.423746,
+        -2.338052
+      ],
+      "style": "solid",
+      "color_role": "active_band",
+      "stroke_width": 4.5
+    },
+    "single_contact_band": {
+      "type": "segment",
+      "start": [
+        -1.898542,
+        0.691013
+      ],
+      "end": [
+        1.066299,
+        -0.388101
+      ],
+      "style": "solid",
+      "color_role": "single_contact_band",
+      "stroke_width": 4.5
+    }
+  },
+  "dimensions": [
+    {
+      "id": "dim_pb_ad",
+      "type": "linear_aligned",
+      "start_point": [
+        -7.255989094728089,
+        2.640964050641192
+      ],
+      "end_point": [
+        1.0662992778954001,
+        -0.3881011979734712
+      ],
+      "direction": [
+        0.9396926207859084,
+        -0.3420201433256687
+      ],
+      "normal": [
+        0.3420201433256687,
+        0.9396926207859084
+      ],
+      "layer": 1,
+      "offset_normal": 8.0,
+      "label_key": "fig4_dim_pb",
+      "color_role": "dimension_pb",
+      "value_mm": 8.856
+    },
+    {
+      "id": "dim_g_alpha",
+      "type": "linear_aligned",
+      "start_point": [
+        -7.255989094728089,
+        2.640964050641192
+      ],
+      "end_point": [
+        6.423746436868307,
+        -2.33805249549364
+      ],
+      "direction": [
+        0.9396926207859084,
+        -0.3420201433256687
+      ],
+      "normal": [
+        0.3420201433256687,
+        0.9396926207859084
+      ],
+      "layer": 2,
+      "offset_normal": 14.5,
+      "label_key": "fig4_dim_ga",
+      "color_role": "dimension_ga",
+      "value_mm": 14.558
+    },
+    {
+      "id": "dim_g1_bd",
+      "type": "linear_aligned",
+      "start_point": [
+        -1.8985419357551818,
+        0.6910127531210227
+      ],
+      "end_point": [
+        1.0662992778954001,
+        -0.3881011979734712
+      ],
+      "direction": [
+        0.9396926207859084,
+        -0.3420201433256687
+      ],
+      "normal": [
+        -0.3420201433256687,
+        -0.9396926207859084
+      ],
+      "layer": 1,
+      "offset_normal": 7.5,
+      "label_key": "fig4_dim_bd",
+      "color_role": "dimension_bd",
+      "value_mm": 3.155
+    }
+  ]
+}
