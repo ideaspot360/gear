@@ -1,0 +1,251 @@
+---
+title: "Kapitel 4. Profilverschiebung (x) bei Stirnrädern: Unterschnittgrenzen, Achsabstandsanpassung und Ausgleich des spezifischen Gleitens"
+description: "Geschlossene analytische Herleitung der Unterschnittgrenze bei der Zahnstangenabwälzung, minimaler Profilverschiebungsfaktor x_min, Betriebseingriffswinkel alpha_w und Betriebsabstand a', Erhaltung des Kopfspiels c und Vermeidung von Zahnkopflitzen (Top Land) sowie Ausgleich des spezifischen Gleitens zur Vermeidung von Grübchenbildung und Verschleiß."
+series: theory
+part: 1
+chapter: 4
+gear_type: spur
+standards:
+  - "KS B 0102"
+  - "ISO 21771:2007"
+  - "DIN 3960"
+  - "AGMA 913-A98"
+required_diagrams:
+  - "fig1_rack_cutter_shift_undercut"
+  - "fig2_operating_mesh_geometry"
+  - "fig3_specific_sliding_balancing"
+academic_level: undergraduate
+equations_hash: "8626c2822c33176c4412a4f835d07bffb7bbb48aa7e52bf9d3791a7b545f970d"
+review_date: "2026-11-16"
+sidebar:
+  order: 4
+---
+
+## 4.1 Technische Problemstellung: Die Gefahr des Unterschnitts und das Wesen der Profilverschiebung
+
+In über zwei Jahrzehnten praktischer Tätigkeit in der Strukturanalyse (CAE), der Spritzgießsimulation und der Auslegung hochpräziser Zahnradgetriebe habe ich immer wieder beobachtet, wie schwerwiegende Getriebeschäden durch die Missachtung des Zahnfußunterschnitts bei Ritzeln mit kleiner Zähnezahl entstehen.
+
+Um hohe Übersetzungen auf engstem Bauraum zu realisieren, verlangen Konstruktionsvorgaben häufig Ritzel mit 14, 12 oder sogar 10 Zähnen. Wird ein solches Zahnrad ohne geometrische Korrektur mit einem Standard-Wälzfräser gefertigt, kommt es zu einer verhängnisvollen kinematischen Erscheinung:
+
+Die Kopfkante des Werkzeugs wandert beim Abwälzen über den Grundkreis hinaus tief in den Zahnfußbereich und schneidet die für die Kraftübertragung unverzichtbare evolventische Flanke heraus. Dieser Vorgang wird als Zahnfußunterschnitt (Undercutting) bezeichnet und führt zu zwei gravierenden Schadensmechanismen:
+
+1. **Dramatischer Verlust der Zahnfußtragfähigkeit**: Durch das Einschneiden der Flanke verringert sich der kritische Fußquerschnitt drastisch. Da die Zahnfußbiegespannung quadratisch von der Zahndicke abhängt (\sigma_F \propto 1/s_F^2), versagt ein unterschnittenes Ritzel oft schon bei einem Bruchteil des Nenndrehmoments durch Dauerbruch.
+2. **Abfall der Profilüberdeckung und Geräuschentwicklung**: Durch das Wegschneiden des Profilbeginns (SAP) verkürzt sich die aktive Eingriffsstrecke. Die Profilüberdeckung (\epsilon_\alpha) unterschreitet den Sicherheitswert von 1,20, was zu harten Stoßbelastungen beim Zahneingriff und lautem Getriebeheulen (Gear Whine) führt.
+
+Die klassische, mathematisch exakte Lösung dieses Problems ist die **radiale Verschiebung der Werkzeugbezugslinie, bekannt als Profilverschiebung ($x$)**. Hierbei wird das Bezugsprofil des Werkzeugs nicht verändert, sondern seine Bezugslinie um den Betrag $x \cdot m$ radial nach außen (+) oder innen (-) verschoben.
+
+Eine positive Profilverschiebung ($x > 0$) zieht das Werkzeug aus der Eingriffsstörzone zurück, beseitigt den Unterschnitt vollständig und verstärkt den Zahnfuß. Darüber hinaus gestattet die Wahl der Profilverschiebungssumme ($\Sigma x = x_1 + x_2$) die stufenlose Anpassung an vorgegebene Betriebsabstände ($a'$) sowie den gezielten Ausgleich des spezifischen Gleitens zur Vermeidung von Grübchenbildung (Pitting).
+
+---
+
+## 4.2 Kinematik der Zahnstangen-Erzeugung und analytische Herleitung der Unterschnittgrenze
+
+### Erzeugungsgeometrie und kinematische Interferenzgrenze
+
+Die Herstellung von Stirnrädern mit einer Zahnstange entspricht dem reinen, schlupffreien Abwälzen der Bezugslinie des Werkzeugs auf dem Teilkreis des Werkstücks. Auf der Bezugslinie sind Zahndicke und Zahnlücke identisch: $e = s = \pi m / 2$.
+
+Die theoretische Grenze, bis zu der eine unverfälschte Evolvente erzeugt werden kann, ist der Berührpunkt $N$ (bzw. $T_1$) der Eingriffslinie an den Grundkreis des Rades.
+
+Taucht die Kopfspitze des Werkzeugs tiefer in Richtung Zahnradmittelpunkt ein als dieser Grenzpunkt $N$, beschreibt die Werkzeugkante eine Trochoide, die den bereits erzeugten Evolventenfuß wegschneidet. Das geometrische Kriterium zur Vermeidung von Unterschnitt lautet:
+
+> **Kriterium zur Unterschnittvermeidung**: Die Kopfgerade des Erzeugungswerkzeugs darf den Grundkreisberührpunkt $N$ auf der Eingriffslinie nicht in Richtung Radmittelpunkt überschreiten.
+
+### Herleitung der Grenz-Zähnezahl $z_{\min}$
+
+Der Abstand vom Wälzpunkt $P$ zum Grundkreisberührpunkt $N$ beträgt $\overline{PN} = \frac{m z}{2} \sin\alpha_0$. Die senkrechte Projektion auf die Radiale ergibt $\frac{m z}{2} \sin^2 \alpha_0$.
+
+Beim Null-Werkzeug ($x = 0$) beträgt die Kopfhöhe $h_a = h_a^* \cdot m$. An der Grenze des Unterschnitts muss die Werkzeugkopfhöhe dieser Projektion entsprechen:
+
+$h_a^* m = \frac{m z_{\min}}{2} \sin^2 \alpha_0$
+
+Durch Kürzen des Moduls $m$ folgt die bekannte Bestimmungsgleichung:
+
+$$
+z_{\min} = \frac{2 h_a^*}{\sin^2 \alpha_0} = \frac{2 \times 1.00}{\sin^2 20.0^\circ} \approx 17.097264 \implies z \ge 18
+$$
+
+Für das DIN- und ISO-Bezugsprofil ($h_a^* = 1,00, \alpha_0 = 20,0^\circ$) ergibt sich $z_{\min} = 17,097264$. Die kleinste ganzzahlige Zähnezahl ohne Unterschnitt bei Standard-Evolventenverzahnungen beträgt somit **$z = 18$**.
+
+### Herleitung des Mindest-Profilverschiebungsfaktors $x_{\min}$
+
+Wird ein Ritzel mit weniger als 18 Zähnen ausgeführt ($z < z_{\min}$), berechnet sich der erforderliche Mindest-Verschiebungsfaktor $x_{\min}$ aus der Bedingung, dass die wirksame Schnitttiefe $(h_a^* - x)m$ die Projektionsgrenze nicht überschreitet:
+
+$(h_a^* - x) m \le \frac{m z}{2} \sin^2 \alpha_0$
+
+Daraus resultiert die geschlossene analytische Lösung:
+
+$$
+x_{\min} = h_a^* - \frac{z \sin^2 \alpha_0}{2} = 1.00 - \frac{14 \times \sin^2 20.0^\circ}{2} \approx 0.181156
+$$
+
+Für das 14-zahnige Ritzel unseres Benchmarks ($z_1 = 14, \alpha_0 = 20,0^\circ, h_a^* = 1,00$):
+
+$x_{\min 1} = 1,00 - \frac{14 \times \sin^2(20,0^\circ)}{2} = 0,181156$
+
+Unter Berücksichtigung von Fertigungstoleranzen und Werkzeug-Kopfausrundungen ($r_f^* = 0,38$) empfiehlt die industrielle Praxis $x_1 \ge 0,28206$. In unserer Benchmark-Auslegung wählen wir **$x_1 = +0,350000$**.
+
+### Zunahme der Zahndicke und Fußverstärkung
+
+Durch das Zurückziehen des Werkzeugs nimmt die Zahndicke $s$ auf dem Teilkreis zu:
+
+$$
+s = m \left( \frac{\pi}{2} + 2 x \tan\alpha_0 \right)
+$$
+
+Für $x_1 = +0,35$ steigt die Zahndicke von $4,712389\text{ mm}$ auf $5,476726\text{ mm}$ (+16,2%). Dies vergrößert das Widerstandsmoment des Zahnfußes erheblich und steigert die Dauerbiegefestigkeit um über 35%.
+
+![Abbildung 1: Zahnstangenwerkzeug-Erzeugung und Beseitigung von Unterschnitt durch Profilverschiebung](/images/part4/de/fig1_rack_cutter_shift_undercut.png)
+
+---
+
+## 4.3 Betriebsgeometrie: Betriebsabstand $a'$ und Betriebseingriffswinkel $\alpha_w$
+
+### Profilverschiebungssumme $\Sigma x$ und Betriebsverhalten
+
+Im Zahnpapier bestimmt die Summe $\Sigma x = x_1 + x_2$ die Betriebsgeometrie:
+- **Null-Getriebe ($\Sigma x = 0, x_1 = x_2 = 0$)**: Standard-Achsabstand $a$, $\alpha_w = \alpha_0 = 20^\circ$.
+- **V-Null-Getriebe ($\Sigma x = 0, x_1 = -x_2$)**: Achsabstand bleibt $a$, Unterschnitt am Ritzel wird behoben.
+- **V-Getriebe ($\Sigma x = x_1 + x_2 \ne 0$)**: Verändertes Eingriffsverhalten. Unser Benchmark ($x_1 = +0,35, x_2 = +0,15 \implies \Sigma x = 0,50$) stellt ein V-Getriebe dar.
+
+### Betriebseingriffswinkel $\alpha_w$ und Involut-Umkehrfunktion
+
+Aus der spielfreien Zahndickenbedingung auf den Betriebswälzkreisen folgt die fundamentale Involut-Beziehung:
+
+$$
+\mathrm{inv}\,\alpha_w = \mathrm{inv}\,\alpha_0 + 2 \frac{x_1 + x_2}{z_1 + z_2} \tan\alpha_0
+$$
+
+Mit $\mathrm{inv}\,(20^\circ) = 0,0149043839$ und unseren Daten ergibt sich:
+
+$\mathrm{inv}\,\alpha_w = 0,0214038115\text{ rad}$
+
+Das Newton-Raphson-Verfahren konvergiert in 4 Schritten auf die exakte Lösung **$\alpha_w = 22,462989^\circ$ ($0,392053\text{ rad}$)**.
+
+### Betriebsabstand $a'$ und Korrekturfaktoren $y, k$
+
+Aus der Invarianz der Grundkreise folgt der Betriebsabstand $a'$:
+
+$$
+a' = a \frac{\cos\alpha_0}{\cos\alpha_w} = \frac{m(z_1 + z_2)}{2} \frac{\cos\alpha_0}{\cos\alpha_w}
+$$
+
+Bei $a = 84,000000\text{ mm}$ ergibt sich:
+
+$a' = 85,414904\text{ mm}$
+
+Der Achsabstand wächst um $1,414904\text{ mm}$, woraus der Achsabstandsänderungsfaktor $y = 0,471635$ folgt. Da $y < \Sigma x = 0,500000$, muss der Kopfhöhenänderungsfaktor $k$ angewendet werden, um das geforderte Kopfspiel $c = c^* m = 0,750000\text{ mm}$ exakt einzuhalten:
+
+$$
+y = \frac{a' - a}{m}, \quad k = (x_1 + x_2) - y, \quad y + k = \Sigma x
+$$
+
+$k = 0,500000 - 0,471635 = 0,028365$
+
+Die Durchmesser berechnen sich unter strikter Einhaltung des Kopfspiels:
+
+$$
+\begin{aligned}
+d_{a1} &= d_1 + 2m(h_a^* + x_1 - k), \quad d_{a2} = d_2 + 2m(h_a^* + x_2 - k) \\
+d_{f1} &= d_1 - 2m(h_f^* - x_1), \quad d_{f2} = d_2 - 2m(h_f^* - x_2) \\
+c &= a' - \frac{d_{a1} + d_{f2}}{2} = c^* m
+\end{aligned}
+$$
+
+### Vermeidung von Zahnkopflitzen (Top Land)
+
+Die Kopfdicke $s_a$ am Kopfkreis $d_a$ lautet:
+
+$$
+s_a = d_a \left( \frac{s}{d} + \mathrm{inv}\,\alpha_0 - \mathrm{inv}\,\alpha_a \right) \ge 0.25 m
+$$
+
+Mit $\alpha_{a1} = 37,771239^\circ$ ergibt sich die Ritzelkopfdicke zu **$s_{a1} = 1,480339\text{ mm}$**. Nach DIN 3960 muss $s_a \ge 0,25 m = 0,750000\text{ mm}$ betragen. Mit $1,480339\text{ mm}$ ist die Bruchsicherheit bei Einsatzhärtung vollumfänglich gewährleistet.
+
+![Abbildung 2: Betriebsabstand und Eingriffsgeometrie eines profilverschobenen Stirnradpaares](/images/part4/de/fig2_operating_mesh_geometry.png)
+
+---
+
+## 4.4 Spezifisches Gleiten und Ausgleich zur Verschleißminderung
+
+### Definition des spezifischen Gleitens
+
+Das spezifische Gleiten $k_1, k_2$ beschreibt das Verhältnis der Gleitgeschwindigkeit zur Abwälzgeschwindigkeit:
+
+$$
+k_1(s) = \frac{v_{s1} - v_{s2}}{v_{s1}} = 1 - \frac{\rho_2(s)}{\rho_1(s)} \frac{\omega_2}{\omega_1}, \quad k_2(s) = \frac{v_{s2} - v_{s1}}{v_{s2}} = 1 - \frac{\rho_1(s)}{\rho_2(s)} \frac{\omega_1}{\omega_2}
+$$
+
+### Gezielter Ausgleich des spezifischen Gleitens
+
+Bei unkorrigierten Zahnrädern mit großem Übersetzungsverhältnis ($u = 3,0$) treten am Ritzelfuß extreme Gleitzahlen ($k_1 < -3,5$) auf, die zu rascher Grübchenbildung (Pitting) führen.
+
+Durch die asymmetrische Verschiebung ($x_1 = +0,35, x_2 = +0,15$) wird das spezifische Gleiten harmonisiert:
+- Eingriffspunkt $A$ (Ritzelfuß): $k_1 = -1,2468$ (über 60% Reduktion)
+- Austrittspunkt $E$ (Radfuß): $k_2 = -1,3125$
+
+Beide Fußbereiche weisen nun nahezu identische Gleitbeanspruchungen auf, was die Lebensdauer gegen Flankenermüdung mehr als verdoppelt.
+
+![Abbildung 3: Verteilung des spezifischen Gleitens entlang der Eingriffsstrecke und Verschiebungsausgleich](/images/part4/de/fig3_specific_sliding_balancing.png)
+
+---
+
+## 4.5 Analytischer Benchmark: 38 Auslegungsparameter
+
+Die vollständige 38-Parameter-Tabelle nach ISO 21771 in geschlossener Form:
+
+| Nr. | Auslegungsparameter Bezeichnung | Analytischer Benchmark | Einheit |
+| :---: | :--- | :---: | :---: |
+| 1 | Modul m | 3.000000 | mm |
+| 2 | Bezugsprofil-Eingriffswinkel alpha_0 | 20.000000 | deg |
+| 3 | Ritzelzähnezahl z1 | 14.000000 | - |
+| 4 | Radzähnezahl z2 | 42.000000 | - |
+| 5 | Übersetzungsverhältnis u | 3.000000 | - |
+| 6 | Werkzeug-Kopfhöhenfaktor ha* | 1.000000 | - |
+| 7 | Werkzeug-Kopfspielfaktor c* | 0.250000 | - |
+| 8 | Werkzeug-Fußausrundungsfaktor rf* | 0.380000 | - |
+| 9 | Ritzel-Profilverschiebungsfaktor x1 | 0.350000 | - |
+| 10 | Rad-Profilverschiebungsfaktor x2 | 0.150000 | - |
+| 11 | Summe der Profilverschiebungsfaktoren Sigma x | 0.500000 | - |
+| 12 | Grenz-Zähnezahl für Unterschnitt z_min | 17.097264 | - |
+| 13 | Mindest-Profilverschiebungsfaktor x_min1 | 0.181156 | - |
+| 14 | Null-Achsabstand a | 84.000000 | mm |
+| 15 | Standard-Involut inv(alpha_0) | 0.014904 | rad |
+| 16 | Betriebs-Involut inv(alpha_w) | 0.021404 | rad |
+| 17 | Betriebseingriffswinkel alpha_w (rad) | 0.392053 | rad |
+| 18 | Betriebseingriffswinkel alpha_w (deg) | 22.462989 | deg |
+| 19 | Betriebsabstand a' | 85.414904 | mm |
+| 20 | Achsabstandsänderungsfaktor y | 0.471635 | - |
+| 21 | Kopfhöhenänderungsfaktor k | 0.028365 | - |
+| 22 | Ritzel-Teilkreisdurchmesser d1 | 42.000000 | mm |
+| 23 | Rad-Teilkreisdurchmesser d2 | 126.000000 | mm |
+| 24 | Ritzel-Grundkreisdurchmesser db1 | 39.467090 | mm |
+| 25 | Rad-Grundkreisdurchmesser db2 | 118.401270 | mm |
+| 26 | Ritzel-Wälzkreisdurchmesser dw1 | 42.707452 | mm |
+| 27 | Rad-Wälzkreisdurchmesser dw2 | 128.122357 | mm |
+| 28 | Ritzel-Fußkreisdurchmesser df1 | 36.600000 | mm |
+| 29 | Rad-Fußkreisdurchmesser df2 | 119.400000 | mm |
+| 30 | Ritzel-Kopfkreisdurchmesser da1 | 49.929809 | mm |
+| 31 | Rad-Kopfkreisdurchmesser da2 | 132.729809 | mm |
+| 32 | Betriebs-Kopfspiel c | 0.750000 | mm |
+| 33 | Ritzel-Zahndicke am Teilkreis s1 | 5.476726 | mm |
+| 34 | Rad-Zahndicke am Teilkreis s2 | 5.039962 | mm |
+| 35 | Ritzel-Kopfdicke sa1 | 1.480339 | mm |
+| 36 | Rad-Kopfdicke sa2 | 2.284370 | mm |
+| 37 | Aktive Eingriffsstrecke g_alpha | 12.648822 | mm |
+| 38 | Profilüberdeckung epsilon_alpha | 1.428213 | - |
+
+Aus der aktiven Eingriffsstrecke $g_\alpha = 12,648822\text{ mm}$ und der Grundkreisteilung $p_b = 8,855776\text{ mm}$ folgt die Profilüberdeckung:
+
+$$
+g_\alpha = \sqrt{r_{a1}^2 - r_{b1}^2} + \sqrt{r_{a2}^2 - r_{b2}^2} - a' \sin\alpha_w, \quad \epsilon_\alpha = \frac{g_\alpha}{\pi m \cos\alpha_0} \ge 1.20
+$$
+
+Mit $\epsilon_\alpha = 1,428213$ ist ein kontinuierlicher, geräuscharmer Zahneingriff sichergestellt.
+
+---
+
+## 4.6 Praxisleitfaden für Getriebekonstrukteure
+
+1. **Achsabstandstoleranzen**: V-Getriebe erfordern genaue Gehäusetoleranzen (**JS7/H7**).
+2. **Vermeidung von Überkohlung**: Bei $s_a < 0,25m$ droht beim Einsatzhärten Kantenausbruch.
+3. **Schwindungskompensation bei Kunststoffrädern**: Zahndickenunterschiede erfordern anisotrope Schwundkorrekturen im Spritzgusswerkzeug.

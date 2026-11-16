@@ -1,0 +1,367 @@
+{
+  "schema_version": "1.0.0",
+  "diagram_id": "fig2_operating_mesh_geometry",
+  "title_key": "fig2_title",
+  "parameters": {
+    "module": 3.0,
+    "z1": 14,
+    "z2": 42,
+    "u": 3.0,
+    "alpha0_deg": 20.0,
+    "alpha0_rad": 0.349066,
+    "x1": 0.35,
+    "x2": 0.15,
+    "sigma_x": 0.5,
+    "ha_star": 1.0,
+    "c_star": 0.25,
+    "hf_star": 1.25,
+    "rho_f_star": 0.38,
+    "d1": 42.0,
+    "r1": 21.0,
+    "d2": 126.0,
+    "r2": 63.0,
+    "a": 84.0,
+    "p": 9.424778,
+    "pb": 8.856394,
+    "db1": 39.46709,
+    "rb1": 19.733545,
+    "db2": 118.40127,
+    "rb2": 59.200635,
+    "inv_a0": 0.014904,
+    "inv_aw": 0.021404,
+    "aw": 0.392053,
+    "aw_deg": 22.462989,
+    "a_prime": 85.414904,
+    "delta_a": 1.414904,
+    "y": 0.471635,
+    "k": 0.028365,
+    "dw1": 42.707452,
+    "rw1": 21.353726,
+    "dw2": 128.122357,
+    "rw2": 64.061178,
+    "s1": 5.476726,
+    "e1": 3.948051,
+    "s2": 5.039962,
+    "e2": 4.384816,
+    "sw1": 5.291401,
+    "sw2": 4.292129,
+    "ha1": 3.964904,
+    "ha2": 3.364904,
+    "hf1": 2.7,
+    "hf2": 3.3,
+    "h": 6.664904,
+    "da1": 49.929809,
+    "ra1": 24.964904,
+    "da2": 132.729809,
+    "ra2": 66.364904,
+    "df1": 36.6,
+    "rf1": 18.3,
+    "df2": 119.4,
+    "rf2": 59.7,
+    "c": 0.75,
+    "alpha_a1_deg": 37.772279,
+    "alpha_a2_deg": 26.86835,
+    "inv_aa1": 0.115654,
+    "inv_aa2": 0.037693,
+    "sa1": 1.480339,
+    "sa2": 2.28437,
+    "T1T2": 32.635887,
+    "ga": 7.132649,
+    "gf": 5.516173,
+    "g_alpha": 12.648822,
+    "eps_alpha": 1.428213,
+    "g1": 5.063967,
+    "g2": 7.584855,
+    "ratio_single_percent": 40.035087,
+    "ratio_double_percent": 59.964913,
+    "t_N1": -8.158972,
+    "t_A": -5.516173,
+    "t_B": -1.723746,
+    "t_P": 0.0,
+    "t_D": 3.340221,
+    "t_E": 7.132649,
+    "t_N2": 24.476915,
+    "s_T1": 0.0,
+    "s_A": 2.642798,
+    "s_B": 6.435226,
+    "s_P": 8.158972,
+    "s_D": 11.499193,
+    "s_E": 15.29162,
+    "s_T2": 32.635887,
+    "k1_A": -2.782996,
+    "k2_A": 0.735659,
+    "k1_B": -0.357148,
+    "k2_B": 0.263161,
+    "k1_P": 0.0,
+    "k2_P": 0.0,
+    "k1_D": 0.387299,
+    "k2_D": -0.632118,
+    "k1_E": 0.621922,
+    "k2_E": -1.644958,
+    "sliding_ratio": 1.691834,
+    "z_min": 17.097264,
+    "x_min1": 0.181156,
+    "x_min2": -1.456533
+  },
+  "viewport": {
+    "x_min": -45.0,
+    "x_max": 45.0,
+    "y_min": -25.0,
+    "y_max": 30.0,
+    "aspect_ratio": "equal"
+  },
+  "landmarks": {
+    "T1": {
+      "coord": [
+        -7.539922,
+        3.117433
+      ],
+      "t": -8.158972,
+      "label_key": "fig2_point_t1",
+      "preferred_side": "west",
+      "marker_style": "square",
+      "color_role": "base_circle"
+    },
+    "A": {
+      "coord": [
+        -5.097642,
+        2.107656
+      ],
+      "t": -5.516173,
+      "label_key": "fig2_point_a",
+      "preferred_side": "west",
+      "marker_style": "circle",
+      "color_role": "contact_point"
+    },
+    "B": {
+      "coord": [
+        -1.592959,
+        0.65862
+      ],
+      "t": -1.723746,
+      "label_key": "fig2_point_b",
+      "preferred_side": "north_west",
+      "marker_style": "circle",
+      "color_role": "contact_limit"
+    },
+    "P": {
+      "coord": [
+        0.0,
+        0.0
+      ],
+      "t": 0.0,
+      "label_key": "fig2_point_p",
+      "preferred_side": "south",
+      "marker_style": "circle",
+      "color_role": "pitch_point"
+    },
+    "D": {
+      "coord": [
+        3.086787,
+        -1.276254
+      ],
+      "t": 3.340221,
+      "label_key": "fig2_point_d",
+      "preferred_side": "north_east",
+      "marker_style": "circle",
+      "color_role": "contact_limit"
+    },
+    "E": {
+      "coord": [
+        6.59147,
+        -2.725289
+      ],
+      "t": 7.132649,
+      "label_key": "fig2_point_e",
+      "preferred_side": "east",
+      "marker_style": "circle",
+      "color_role": "contact_point"
+    },
+    "T2": {
+      "coord": [
+        22.619767,
+        -9.3523
+      ],
+      "t": 24.476915,
+      "label_key": "fig2_point_t2",
+      "preferred_side": "east",
+      "marker_style": "square",
+      "color_role": "base_circle"
+    }
+  },
+  "curves": {
+    "line_of_action": {
+      "type": "segment",
+      "start": [
+        -10.312302,
+        4.263693
+      ],
+      "end": [
+        25.392146,
+        -10.49856
+      ],
+      "style": "solid",
+      "color_role": "action_line",
+      "stroke_width": 1.4
+    },
+    "active_contact_path": {
+      "type": "segment",
+      "start": [
+        -5.097642,
+        2.107656
+      ],
+      "end": [
+        6.59147,
+        -2.725289
+      ],
+      "style": "solid",
+      "color_role": "active_path",
+      "stroke_width": 2.5
+    },
+    "single_contact_zone": {
+      "type": "segment",
+      "start": [
+        -1.592959,
+        0.65862
+      ],
+      "end": [
+        3.086787,
+        -1.276254
+      ],
+      "style": "solid",
+      "color_role": "single_contact",
+      "stroke_width": 3.8
+    },
+    "operating_pitch_tangent": {
+      "type": "segment",
+      "start": [
+        -35.0,
+        0.0
+      ],
+      "end": [
+        35.0,
+        0.0
+      ],
+      "style": "dashed",
+      "color_role": "pitch_line",
+      "stroke_width": 1.0
+    },
+    "operating_pitch_pinion": {
+      "type": "arc",
+      "center": [
+        0.0,
+        21.353726093840663
+      ],
+      "radius": 21.353726093840663,
+      "start_angle_deg": 240.0,
+      "end_angle_deg": 300.0,
+      "style": "dashed",
+      "color_role": "operating_pitch",
+      "stroke_width": 1.2
+    },
+    "operating_pitch_gear": {
+      "type": "arc",
+      "center": [
+        0.0,
+        -64.06117828152199
+      ],
+      "radius": 64.06117828152199,
+      "start_angle_deg": 65.0,
+      "end_angle_deg": 115.0,
+      "style": "dashed",
+      "color_role": "operating_pitch",
+      "stroke_width": 1.2
+    },
+    "standard_pitch_pinion": {
+      "type": "arc",
+      "center": [
+        0.0,
+        21.353726093840663
+      ],
+      "radius": 21.0,
+      "start_angle_deg": 240.0,
+      "end_angle_deg": 300.0,
+      "style": "dotted",
+      "color_role": "standard_pitch",
+      "stroke_width": 0.9
+    },
+    "standard_pitch_gear": {
+      "type": "arc",
+      "center": [
+        0.0,
+        -64.06117828152199
+      ],
+      "radius": 63.0,
+      "start_angle_deg": 65.0,
+      "end_angle_deg": 115.0,
+      "style": "dotted",
+      "color_role": "standard_pitch",
+      "stroke_width": 0.9
+    },
+    "base_circle_pinion": {
+      "type": "arc",
+      "center": [
+        0.0,
+        21.353726093840663
+      ],
+      "radius": 19.733545036504076,
+      "start_angle_deg": 245.0,
+      "end_angle_deg": 295.0,
+      "style": "solid",
+      "color_role": "base_circle",
+      "stroke_width": 1.1
+    },
+    "base_circle_gear": {
+      "type": "arc",
+      "center": [
+        0.0,
+        -64.06117828152199
+      ],
+      "radius": 59.200635109512234,
+      "start_angle_deg": 70.0,
+      "end_angle_deg": 110.0,
+      "style": "solid",
+      "color_role": "base_circle",
+      "stroke_width": 1.1
+    },
+    "tip_circle_pinion": {
+      "type": "arc",
+      "center": [
+        0.0,
+        21.353726093840663
+      ],
+      "radius": 24.964904375362654,
+      "start_angle_deg": 250.0,
+      "end_angle_deg": 300.0,
+      "style": "solid",
+      "color_role": "tip_circle",
+      "stroke_width": 1.3
+    },
+    "tip_circle_gear": {
+      "type": "arc",
+      "center": [
+        0.0,
+        -64.06117828152199
+      ],
+      "radius": 66.36490437536266,
+      "start_angle_deg": 72.0,
+      "end_angle_deg": 108.0,
+      "style": "solid",
+      "color_role": "tip_circle",
+      "stroke_width": 1.3
+    }
+  },
+  "dimensions": {
+    "ga": 7.132649,
+    "gf": 5.516173,
+    "g_alpha": 12.648822,
+    "pb": 8.856394,
+    "g1": 5.063967,
+    "g2": 7.584855,
+    "a_prime": 85.414904,
+    "a_standard": 84.0,
+    "delta_a": 1.414904,
+    "bottom_clearance": 0.75,
+    "working_pressure_angle_deg": 22.462989
+  }
+}
