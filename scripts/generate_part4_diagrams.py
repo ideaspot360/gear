@@ -373,28 +373,9 @@ def create_diagram_1(output_dir: Path, dpi: int = 300, formats: str = 'all', lan
         ])
         ax.fill(poly_full_x, poly_full_y, color='#DBEAFE', alpha=0.35, zorder=2)
 
-        # Rack Cutter Tool in Physical Engagement
+        # Rack Cutter Datum Line (shifted by x*m from pitch tangent)
         y_rack_datum = r_pitch + shift_mm
         ax.axhline(y=y_rack_datum, color=COLOR_RACK, lw=1.1, linestyle='-', alpha=0.85, gid=f"rack_datum_{pid}", label=tr.get('fig1_rack_datum_line', 'Rack Datum Line') if p == panel_configs[0] else None)
-
-        # Draw Rack Cutter Teeth (Trapezoidal cutting tool engaging the spaces)
-        y_tip_rack = y_rack_datum - 1.25 * m
-        y_root_rack = y_rack_datum + 1.0 * m
-        for xc in [-pitch / 2.0, pitch / 2.0]:
-            w_tip = pitch / 4.0 - (y_tip_rack - y_rack_datum) * math.tan(alpha0)
-            w_root = pitch / 4.0 - (y_root_rack - y_rack_datum) * math.tan(alpha0)
-            rack_poly = [
-                (xc - w_root, y_root_rack),
-                (xc + w_root, y_root_rack),
-                (xc + w_tip, y_tip_rack),
-                (xc - w_tip, y_tip_rack)
-            ]
-            rack_patch = patches.Polygon(rack_poly, closed=True, facecolor='#FEF3C7', edgecolor='#D97706',
-                                         lw=1.1, alpha=0.40, linestyle='--', zorder=1)
-            ax.add_patch(rack_patch)
-
-        # Mark rack tip line
-        ax.plot([-5.5, 5.5], [y_tip_rack, y_tip_rack], ':', color='#D97706', lw=0.9, alpha=0.8)
 
         # Critical root thickness dimension (sF)
         sF_y = p['rf'] + 1.25
