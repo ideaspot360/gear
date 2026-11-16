@@ -1,0 +1,84 @@
+---
+import Default from '@astrojs/starlight/components/Head.astro';
+---
+
+<Default><slot /></Default>
+
+<script>
+  import PhotoSwipe from 'photoswipe';
+
+  function initEngineeringViewer() {
+    const images = document.querySelectorAll<HTMLImageElement>('.sl-markdown-content img');
+    if (!images || images.length === 0) return;
+
+    images.forEach((img) => {
+      // Prevent duplicate bindings
+      if (img.dataset.pswpBound === 'true') return;
+      img.dataset.pswpBound = 'true';
+
+      img.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        // Determine natural dimensions for crisp 1:1 pixel rendering
+        const width = img.naturalWidth || 5250;
+        const height = img.naturalHeight || 3833;
+        const src = img.currentSrc || img.src;
+        const alt = img.alt || '';
+
+        // Collect all images in the document for gallery navigation
+        const allImgs = Array.from(document.querySelectorAll<HTMLImageElement>('.sl-markdown-content img'));
+        const dataSource = allImgs.map((target) => ({
+          src: target.currentSrc || target.src,
+          width: target.naturalWidth || 5250,
+          height: target.naturalHeight || 3833,
+          alt: target.alt || '',
+        }));
+
+        const currentIndex = allImgs.indexOf(img);
+
+        const pswp = new PhotoSwipe({
+          dataSource,
+          index: currentIndex >= 0 ? currentIndex : 0,
+          bgOpacity: 0.94,
+          wheelToZoom: true,
+          maxSpreadZoom: 4,
+          pinchToClose: false,
+          closeOnVerticalDrag: true,
+          padding: { top: 30, bottom: 40, left: 30, right: 30 },
+        });
+
+        // Add engineering caption
+        pswp.on('uiRegister', () => {
+          pswp.ui?.registerElement({
+            name: 'engineering-caption',
+            order: 9,
+            isButton: false,
+            appendTo: 'root',
+            html: '',
+            onInit: (el, pswpInstance) => {
+              pswpInstance.on('change', () => {
+                const currSlide = pswpInstance.currSlide;
+                const captionText = currSlide?.data?.alt || '';
+                el.innerHTML = captionText
+                  ? `<div class="pswp__caption" style="position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); max-width: 90%; z-index: 10000;">${captionText}</div>`
+                  : '';
+              });
+            },
+          });
+        });
+
+        pswp.init();
+      });
+    });
+  }
+
+  // Bind on initial load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initEngineeringViewer);
+  } else {
+    initEngineeringViewer();
+  }
+
+  // Re-bind on Astro client-side navigation
+  document.addEventListener('astro:page-load', initEngineeringViewer);
+</script>

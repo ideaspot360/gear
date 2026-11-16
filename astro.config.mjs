@@ -31,6 +31,9 @@ export default defineConfig({
 			description: 'Official Multi-Language Technical Whitepaper & Gear Engineering Knowledge Base',
 			defaultLocale: 'en',
 			customCss: ['./src/styles/custom.css'],
+			components: {
+				Head: './src/components/CustomHead.astro',
+			},
 			locales: {
 				en: {
 					label: 'English',

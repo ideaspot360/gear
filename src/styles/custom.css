@@ -3,7 +3,11 @@
    - High-readability KaTeX display math container with horizontal scroll guards
    - Clean regular typography for formulas and tables
    - Responsive figures and diagram bounding
+   - PhotoSwipe 5 Ultra-High-Resolution Engineering Viewer Integration
    ========================================================================== */
+
+/* PhotoSwipe Core CSS */
+@import 'photoswipe/style.css';
 
 /* KaTeX Display Math: Responsive overflow protection */
 .katex-display {
@@ -45,7 +49,7 @@
   }
 }
 
-/* Diagram styling: center-aligned with soft frame */
+/* Diagram styling: center-aligned with soft frame & interactive zoom cursor */
 .sl-markdown-content img {
   display: block;
   margin: 1.5rem auto;
@@ -53,6 +57,29 @@
   height: auto;
   border-radius: 8px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  cursor: zoom-in;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sl-markdown-content img:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* PhotoSwipe Engineering Viewer Custom Overrides */
+.pswp {
+  --pswp-bg: rgba(15, 23, 42, 0.94); /* Deep engineering slate backdrop */
+}
+
+.pswp__caption {
+  background: rgba(15, 23, 42, 0.85);
+  color: #f8fafc;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  padding: 10px 20px;
+  border-radius: 6px;
+  margin-bottom: 12px;
 }
 
 /* ASCII diagram code blocks */
