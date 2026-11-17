@@ -24,3 +24,4 @@ pnpm-debug.log*
 __pycache__/
 *.pyc
 tests/crop_*.png
+scratch/
