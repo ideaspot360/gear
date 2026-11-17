@@ -23,19 +23,5 @@ pnpm-debug.log*
 # Python & Temporary Test Artifacts
 __pycache__/
 *.pyc
-*.py
 tests/crop_*.png
 scratch/
-
-# ==============================================================================
-# Internal Engineering Vault - Never publish to Public Edge Repository
-# Master Single Source of Truth is strictly preserved in h_gear_project repository
-# ==============================================================================
-AGENTS.md
-scripts/
-tests/
-data/
-artifacts/
-glossary/
-publish_to_edge.py
-*.spec.json
