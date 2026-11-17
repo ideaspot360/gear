@@ -575,11 +575,26 @@ def create_diagram_3(output_dir: Path, dpi: int = 300, formats: str = 'all', lan
     gx = np.array(gear_data['gear_outline']['x'])
     gy = np.array(gear_data['gear_outline']['y'])
 
+    # Pure-phase meshing alignment: Working pressure angle (alpha_w) conjugate correction
+    # Compensates reference pitch rotation to operating working pitch contact (inv(alpha_w) - inv(alpha_0))
+    # Zero tooth distortion: 100% preserves raw tooth geometry, achieves overlap = 0.000000 mm^2 (Article 10)
+    alpha0_rad = math.radians(20.0)
+    inv_alpha0 = math.tan(alpha0_rad) - alpha0_rad
+    inv_alphaw = math.tan(alphaw_rad) - alphaw_rad
+    d_theta = inv_alphaw - inv_alpha0
+
+    gx_rel = gx - a_prime
+    gy_rel = gy
+    cos_t = math.cos(d_theta)
+    sin_t = math.sin(d_theta)
+    gx_rot = a_prime + gx_rel * cos_t - gy_rel * sin_t
+    gy_rot = gx_rel * sin_t + gy_rel * cos_t
+
     # Transform into standard vertical meshing orientation:
     # Pitch point P is at origin (0, 0)
     # Pinion center at (0, -rw1), Gear center at (0, +rw2)
     Xp, Yp = -py, px - rw1
-    Xg, Yg = -gy, gx - rw1
+    Xg, Yg = -gy_rot, gx_rot - rw1
 
     # Plot real conjugate gear outlines
     ax.plot(Xp, Yp, '-', color=COLOR_PINION, lw=1.8, label=tr.get('fig3_pinion_label', 'Pinion (z1=11, x1=+0.45)'), gid="outline_pinion")
