@@ -8,7 +8,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "lint:images": "python scripts/lint_image_references.py"
+    "lint:images": "python scripts/lint_image_references.py",
+    "gate": "blog-gatekeeper --dir src/content/docs --platform gear",
+    "gate:self": "blog-gatekeeper --self-test"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.3.6",
