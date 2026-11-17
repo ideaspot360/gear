@@ -10,7 +10,8 @@
     "astro": "astro",
     "lint:images": "python scripts/lint_image_references.py",
     "gate": "blog-gatekeeper --dir src/content/docs --platform gear",
-    "gate:self": "blog-gatekeeper --self-test"
+    "gate:self": "blog-gatekeeper --self-test",
+    "publish:edge": "python publish_to_edge.py"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.3.6",
