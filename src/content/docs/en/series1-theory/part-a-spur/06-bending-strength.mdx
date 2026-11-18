@@ -1,0 +1,284 @@
+---
+title: "Chapter 6. Strength Evaluation of Spur Gears (I): Tooth Root Bending Strength - Lewis Beam Formula & ISO 6336-3 Method B Form Factor (YF) and Stress Correction Factor (YS)"
+description: "Tooth root breakage mechanics, analytical derivation of Wilfred Lewis constant-stress parabolic beam, ISO 6336-3 Method B 30-degree tangent method closed-form geometry for critical section chord (sFn) and moment arm (hF), highest point of single tooth contact (HPSTC) load angle (alpha_Fen), tooth form factor YF, Dolan-Broghamer stress correction factor YS, and industrial strength evaluation Chapter 6"
+series: theory
+part: 1
+chapter: 6
+gear_type: spur
+standards:
+  - "KS B 0102"
+  - "ISO 6336-1:2019"
+  - "ISO 6336-3:2019"
+  - "DIN 3990"
+  - "AGMA 2001-D04"
+required_diagrams:
+  - "fig1_lewis_parabolic_beam"
+  - "fig2_iso6336_tangent_method"
+  - "fig3_tooth_form_factor_chart"
+academic_level: undergraduate
+equations_hash: "faf09d51e24761203bac2834d656ef612f5c5d91e732e92ffc41158b8fd57e83"
+review_date: "2026-11-18"
+sidebar:
+  order: 6
+---
+
+## 6.1 Physical Background & Problem Statement: Tooth Breakage Mechanics and Evolution of the Beam Model
+
+Throughout more than two decades in powertrain CAE structural simulation and failure troubleshooting—ranging from heavy off-highway equipment to electric vehicle transmissions and robotic actuators—the most catastrophic failure mode has consistently been tooth root breakage. While surface pitting and progressive scuffing provide early warning indicators through rising vibration and acoustic signatures, tooth root fatigue breakage strikes without warning: a tooth fractures at its root, breaches the gearbox casing, and locks the rotating drivetrain, inducing catastrophic system failure.
+
+When meshing gears transmit mechanical torque, enormous normal contact forces ($F_{bn}$)—often reaching tens of kilonewtons—are exerted along the active profile. This contact force converts each gear tooth into a short cantilever beam subjected to combined bending and compression. Because metallic alloys exhibit far lower fatigue thresholds under cyclical tension than compression, the pulsating tensile bending stresses concentrated at the root fillet initiate micro-cracks at metallurgical or geometrical notches. Under millions of load cycles, these cracks propagate across the critical section, creating characteristic beach marks until the residual ligament undergoes sudden plastic rupture.
+
+![Fig 1: Wilfred Lewis Parabolic Constant-Stress Cantilever Beam & Critical Section Geometry](/images/part6/en/fig1_lewis_parabolic_beam.png)
+
+In 1892, Wilfred Lewis introduced the first rational engineering framework to quantify tooth root strength by modeling the tooth as an inscribed cantilever beam of uniform bending strength (a parabola). By inscribing a parabolic profile tangent to the internal root fillet, Lewis identified the critical section where surface bending stress reaches its peak.
+
+However, while Lewis's formulation was adequate for 19th-century cast-iron gears operating at low pitch-line velocities, it presents three fundamental limitations in modern high-power case-hardened gear drives:
+1. **Severe Over-Conservatism in Load Application**: It assumes that the total transmitted tangential load is concentrated solely at the tooth tip (Tip Load), ignoring the fact that contact ratios ($\epsilon_\alpha > 1.0$) allow load sharing across multiple tooth pairs.
+2. **Total Neglect of Stress Concentration**: It treats the root fillet as an idealized smooth beam, completely ignoring the notch stress concentration factor ($K_t \approx 1.5 \sim 2.5$) caused by the sharp curvature ($\rho_F$) of the generating rack tool.
+3. **Disregard of Radial Compressive Stresses**: The radial force component ($F_r$) induces direct compressive stress along the tooth axis, partially alleviating peak tensile stresses on the loaded side while intensifying compression on the trailing side.
+
+To overcome these classical limitations, the global gear industry established **ISO 6336-3 (Method B)**. By applying the $30^\circ$ tangent method to the exact trochoidal root fillet and evaluating the 100% normal load at the Highest Point of Single Tooth Contact (HPSTC / Point D), ISO 6336-3 provides an exact, experimentally verified closed-form methodology for root bending strength.
+
+---
+
+## 6.2 Rigorous Mathematical Derivation: Lewis Parabolic Beam & ISO 6336-3 Method B
+
+### 6.2.1 Wilfred Lewis (1892) Inscribed Parabolic Beam Derivation
+
+Consider a cantilever beam of face width $b$ and variable thickness $t(x)$ loaded at its tip by tangential working force $W_t$. At any cross-section located at distance $x$ from the load line, the bending moment $M(x)$ and section modulus $Z(x)$ are given by:
+
+$$
+\sigma(x) = \frac{M(x)}{Z(x)} = \frac{W_t \cdot x}{\frac{1}{6} b [t(x)]^2} = \frac{6 W_t x}{b [t(x)]^2} = \text{const}
+$$
+
+For the surface bending stress to remain strictly uniform along the entire cantilever length ($\sigma(x) = \sigma_b$), the square of the section thickness must be directly proportional to the moment arm distance $x$:
+
+$$
+[t(x)]^2 = \left( \frac{6 W_t}{\sigma_b b} \right) x \implies [t(x)]^2 = c \cdot x
+$$
+
+This defines a second-order parabola whose vertex coincides with the intersection of the load line and the tooth axis of symmetry. When this parabola is expanded within the tooth envelope, the points of tangency with the root fillet define the mechanically weakest **critical section**.
+
+Letting $t$ represent the chordal tooth thickness at this critical section and $h$ represent the vertical distance from the critical section to the parabola vertex, the fundamental relation between transmitted load $W_t$ and root bending stress $\sigma_b$ becomes:
+
+$$
+\sigma_b = \frac{6 W_t h}{b t^2} \implies W_t = \sigma_b \cdot b \cdot \frac{t^2}{6 h}
+$$
+
+Introducing circular pitch $p = \pi m$ to non-dimensionalize the geometric terms yields the classic Lewis bending formula:
+
+$$
+W_t = \sigma_b \cdot b \cdot p \cdot \left( \frac{t^2}{6 h p} \right) = \sigma_b \cdot b \cdot p \cdot y
+$$
+
+where $y = \frac{t^2}{6 h p}$ is the dimensionless **Lewis tooth form factor** based on circular pitch. In terms of module $m$, the equation is rewritten as:
+
+$$
+W_t = \sigma_b \cdot b \cdot m \cdot \left( \frac{t^2}{6 h m} \right) = \sigma_b \cdot b \cdot m \cdot Y_L,\quad Y_L = \pi y
+$$
+
+---
+
+### 6.2.2 ISO 6336-3 (Method B) 30° Tangent Method & Critical Section Geometry
+
+Extensive photoelastic stress investigations (Frocht, Dolan & Broghamer) and finite element studies confirmed that in standard involute gear teeth generated by rack-type cutters, the maximum principal tensile stress at the root occurs where the fillet tangent forms a $30^\circ$ angle with the tooth axis of symmetry.
+
+![Fig 2: ISO 6336-3 (Method B) 30° Tangent Method Critical Section (sFn) & HPSTC Load Geometry](/images/part6/en/fig2_iso6336_tangent_method.png)
+
+With respect to the rack-generated trochoidal fillet parameterized by rolling angle $t$, the tangent slope relative to the vertical tooth symmetry axis (Y-axis) satisfies:
+
+$$
+\left| \frac{dx(t)}{dy(t)} \right| = \tan 30^\circ = \frac{1}{\sqrt{3}} \approx 0.57735
+$$
+
+The chord connecting the two symmetric tangency points $F_1(-x_{30}, y_{30})$ and $F_2(x_{30}, y_{30})$ defines the **critical section chordal thickness $s_{Fn}$**:
+- Critical section thickness: $s_{Fn} = 2 \cdot x_{30}$
+- Height of critical section: $y_{Fn} = y_{30}$
+- Local fillet radius of curvature: $\rho_F = \frac{(x'^2 + y'^2)^{3/2}}{|x' y'' - y' x''|}$
+
+---
+
+### 6.2.3 Highest Point of Single Tooth Contact (HPSTC / Point D) & Load Direction Angle $\alpha_{Fen}$
+
+In spur gearing with contact ratio $1.0 < \epsilon_\alpha < 2.0$, dual-pair contact occurs near the outer boundaries of the active line of action $[A, E]$, dividing the normal load approximately 50/50 between two teeth.
+
+Consequently, the worst-case loading condition occurs when a single tooth carries 100% of the total mesh normal load $F_{bn}$ at the greatest possible moment arm: the **Highest Point of Single Tooth Contact (HPSTC / Point D)**, where the preceding tooth pair disengages.
+
+Along the line of action, the position $s_D$ of Point D is located exactly one base pitch $p_b$ ahead of the start of active profile $A$:
+
+$$
+s_D = s_A + p_b = s_A + \pi m \cos\alpha_0
+$$
+
+The radius $r_D$ and profile pressure angle $\alpha_D$ at Point D are given by:
+
+$$
+r_D = \sqrt{r_{b1}^2 + (s_D - s_{T1})^2},\quad \alpha_D = \arccos\left(\frac{r_{b1}}{r_D}\right)
+$$
+
+The tooth half-thickness angle $\psi_D$ and normal load inclination angle $\alpha_{Fen}$ relative to the normal to the tooth axis are derived from the involute polar equations:
+
+$$
+\alpha_{Fen} = \alpha_D - \psi_D = \alpha_D - \left( \frac{s_1}{2 r_1} + \text{inv}\,\alpha_0 - \text{inv}\,\alpha_D \right)
+$$
+
+The intersection height $y_{Fen}$ where the normal load vector crosses the tooth axis of symmetry is:
+
+$$
+y_{Fen} = y_D + x_D \tan\alpha_{Fen} = r_D \cos\psi_D + r_D \sin\psi_D \tan\alpha_{Fen}
+$$
+
+Thus, the bending moment arm $h_F$ measured from the critical section to the load intersection is:
+
+$$
+h_F = y_{Fen} - y_{Fn}
+$$
+
+---
+
+### 6.2.4 Closed-Form Tooth Form Factor $Y_F$ and Stress Correction Factor $Y_S$
+
+In ISO 6336-3 (Method B), the nominal tooth form factor $Y_F$ accounts for the combined bending and compressive stress geometry:
+
+$$
+Y_F = \frac{6 \frac{h_F}{m}}{\left(\frac{s_{Fn}}{m}\right)^2 \cos\alpha_{Fen}}
+$$
+
+To account for the local elastic stress concentration induced by the geometric notch of the trochoid fillet, ISO incorporates the empirical notch formula developed by Dolan & Broghamer. The notch parameter $q_s$ is:
+
+$$
+q_s = \frac{s_{Fn}}{2 \rho_F}
+$$
+
+$$
+Y_S = \left( 1.2 + 0.13 \frac{s_{Fn}}{h_F} \right) q_s^{\frac{1}{1.21 + 2.3 / q_s}}
+$$
+
+The nominal root bending stress $\sigma_{F0}$ under HPSTC loading is calculated as:
+
+$$
+\sigma_{F0} = \frac{F_t}{b m} Y_F Y_S
+$$
+
+The operational tooth root stress $\sigma_F$ accounts for application factor ($K_A$), internal dynamic factor ($K_v$), face load distribution factor ($K_{F\beta}$), and transverse load distribution factor ($K_{F\alpha}$):
+
+$$
+\sigma_F = \sigma_{F0} K_A K_v K_{F\beta} K_{F\alpha} = \frac{F_t}{b m} Y_F Y_S K_A K_v K_{F\beta} K_{F\alpha} \le \sigma_{FP}
+$$
+
+The permissible bending stress $\sigma_{FP}$ is established from the material bending fatigue limit $\sigma_{F\lim}$, life factor ($Y_{NT}$), relative notch sensitivity factor ($Y_{\delta\mathrm{rel}T}$), surface factor ($Y_{R\mathrm{rel}T}$), and size factor ($Y_X$):
+
+$$
+\sigma_{FP} = \frac{\sigma_{F\lim} Y_{ST} Y_{NT}}{S_{F\min}} Y_{\delta\mathrm{rel}T} Y_{R\mathrm{rel}T} Y_X
+$$
+
+The design safety factor $S_F$ against tooth root fatigue fracture must satisfy:
+
+$$
+S_F = \frac{\sigma_{FP}}{\sigma_F} \ge S_{F\min} = 1.25 \sim 1.50
+$$
+
+---
+
+## 6.3 Comprehensive Factor Summary & Step-by-Step Calculation Example
+
+![Fig 3: ISO 6336-3 Tooth Form Factor (YF) vs Number of Teeth & Profile Shift](/images/part6/en/fig3_tooth_form_factor_chart.png)
+
+### 6.3.1 ISO 6336-3 Method B Parameters Overview
+
+| Symbol | Parameter Name | Unit | Physical Engineering Definition |
+| :--- | :--- | :---: | :--- |
+| **$m$** | Module | $\text{mm}$ | Primary gear scale parameter ($d = z \cdot m$) |
+| **$s_{Fn}$** | Critical Section Chord Thickness | $\text{mm}$ | Chordal distance between symmetric $30^\circ$ fillet tangency points |
+| **$h_F$** | Bending Moment Arm | $\text{mm}$ | Vertical distance from critical section ($y_{Fn}$) to load axis intersection ($y_{Fen}$) |
+| **$\rho_F$** | Root Fillet Curvature Radius | $\text{mm}$ | Local radius of curvature at $30^\circ$ tangency point |
+| **$\alpha_{Fen}$** | HPSTC Load Angle | $\text{deg}$ | Normal load vector inclination relative to normal to tooth axis |
+| **$q_s$** | Notch Parameter | $-$ | Ratio of critical semi-thickness to root fillet radius ($s_{Fn} / (2\rho_F)$) |
+| **$Y_F$** | Tooth Form Factor | $-$ | Pure cantilever geometric shape factor |
+| **$Y_S$** | Stress Correction Factor | $-$ | Two-dimensional notch stress concentration factor |
+| **$\sigma_{F0}$** | Nominal Root Stress | $\text{MPa}$ | Nominal surface tensile bending stress |
+| **$S_F$** | Bending Safety Factor | $-$ | Ratio of permissible bending stress to operational stress ($\sigma_{FP} / \sigma_F$) |
+
+---
+
+### 6.3.2 Industrial Worked Example: Pinion ($z_1=17, x_1=+0.3$) vs Gear ($z_2=50, x_2=0.0$)
+
+Consider the first reduction stage of an industrial speed reducer:
+- Module: $m = 3.0\,\text{mm}$, Normal pressure angle: $\alpha_0 = 20.0^\circ$, Tool rack tip radius: $\rho_{a0} = 0.38 m = 1.14\,\text{mm}$
+- Pinion teeth: $z_1 = 17$, Profile shift: $x_1 = +0.30$
+- Gear teeth: $z_2 = 50$, Profile shift: $x_2 = 0.00$
+- Face width: $b = 30.0\,\text{mm}$, Pinion input torque: $T_1 = 150.0\,\text{N}\cdot\text{m}$
+- Pinion material: Case-carburized alloy steel SCM415 ($\sigma_{F\lim} = 430\,\text{MPa}$, $S_{F\min} = 1.30$)
+
+#### Step 1: Meshing Kinematics & Pinion HPSTC (Point D)
+- Pitch diameters: $d_1 = 51.0\,\text{mm}$, $d_2 = 150.0\,\text{mm}$
+- Base radii: $r_{b1} = 23.9622\,\text{mm}$, $r_{b2} = 70.4769\,\text{mm}$
+- Tip radii: $r_{a1} = 29.4\,\text{mm}$, $r_{a2} = 78.0\,\text{mm}$
+- Operating pressure angle: $\alpha_w = 21.0504^\circ$, Active start point $s_A = -5.9249\,\text{mm}$, Base pitch $p_b = 8.8564\,\text{mm}$
+- Point D position: $s_D = s_A + p_b = 2.9315\,\text{mm}$
+- Point D radius: $r_D = 26.9257\,\text{mm}$ ($d_D = 53.8513\,\text{mm}$)
+- Load inclination angle: $\alpha_{Fen} = 22.4793^\circ$
+- Load line axis intersection: $y_{Fen} = 27.7411\,\text{mm}$
+
+#### Step 2: 30° Tangent Critical Section Properties
+- $30^\circ$ tangent coordinates: $x_{30} = 3.1050\,\text{mm}$, $y_{Fn} = 22.9315\,\text{mm}$
+- Critical section thickness: $s_{Fn} = 2 \times 3.1050 = 6.2099\,\text{mm}$ ($s_{Fn}/m = 2.0700$)
+- Bending moment arm: $h_F = 27.7411 - 22.9315 = 4.8096\,\text{mm}$ ($h_F/m = 1.6032$)
+- Fillet radius of curvature: $\rho_F = 1.4307\,\text{mm}$
+
+#### Step 3: Calculation of $Y_F$ and $Y_S$
+- Tooth form factor:
+  $$Y_F = \frac{6 \times 1.6032}{2.0700^2 \times \cos 22.4793^\circ} = \frac{9.6192}{4.2849 \times 0.9240} = 2.4296$$
+- Notch parameter:
+  $$q_s = \frac{6.2099}{2 \times 1.4307} = 2.1702$$
+- Stress correction factor:
+  $$Y_S = \left(1.2 + 0.13 \times \frac{6.2099}{4.8096}\right) 2.1702^{\frac{1}{1.21 + 2.3 / 2.1702}} = 1.3678 \times 2.1702^{0.4406} = 1.9244$$
+- Combined form factor: $Y_F \cdot Y_S = 2.4296 \times 1.9244 = 4.6755$
+
+#### Step 4: Tooth Root Bending Stress & Safety Factor
+- Tangential working load: $F_t = \frac{2000 \times 150.0}{51.0} = 5882.35\,\text{N}$
+- Nominal bending stress:
+  $$\sigma_{F0} = \frac{5882.35}{30.0 \times 3.0} \times 4.6755 = 65.359 \times 4.6755 = 305.58\,\text{MPa}$$
+- Operational stress with derating factors ($K_A=1.25, K_v=1.08, K_{F\beta}=1.12, K_{F\alpha}=1.0$):
+  $$\sigma_F = 305.58 \times (1.25 \times 1.08 \times 1.12 \times 1.0) = 305.58 \times 1.512 = 462.04\,\text{MPa}$$
+- Permissible stress ($\sigma_{F\lim}=430\,\text{MPa}, Y_{NT}=1.0, Y_{\delta\mathrm{rel}T}=1.10, Y_{R\mathrm{rel}T}=1.05$):
+  $$\sigma_{FP} = 430 \times 1.10 \times 1.05 = 496.65\,\text{MPa}$$
+- Fatigue safety factor:
+  $$S_F = \frac{496.65}{462.04} = 1.075 < S_{F\min} = 1.30$$
+
+**Engineering Optimization Guidance**:
+Because the calculated safety factor $S_F = 1.075$ falls below the required threshold of $1.30$, three practical engineering modifications should be considered:
+1. Increase face width $b$ from $30\,\text{mm}$ to $38\,\text{mm}$ ($+26.7\%$).
+2. Increase module $m$ from $3.0\,\text{mm}$ to $3.5\,\text{mm}$.
+3. Increase pinion profile shift from $x_1 = +0.30$ to $+0.45$, thickening the root cross-section ($s_{Fn}$) and reducing $Y_F$ to achieve $S_F \ge 1.30$.
+
+---
+
+## 6.4 Manufacturing & Quality Engineering: Drawing Notes and Root Integrity
+
+When releasing production drawings under ISO 1328 or KS B 0002, the root fillet parameters and thermal processing specifications must be explicitly controlled. Grinding notches or untempered white layers will drastically reduce fatigue life regardless of base alloy quality.
+
+```text
+[Production Drawing Data Table: Root Bending Integrity Specifications]
+========================================================================
+Parameter                       Pinion                  Driven Gear
+------------------------------------------------------------------------
+Module (m)                      3.0 mm                  3.0 mm
+Number of Teeth (z)             17                      50
+Pressure Angle (alpha_n)        20.0°                   20.0°
+Profile Shift (x)               +0.3000                 0.0000
+Tool Tip Radius (rho_a0)        1.14 mm (0.38 m)        1.14 mm (0.38 m)
+Root Critical Thickness (sFn)   6.21 mm                 6.52 mm
+Form Factor (YF, ISO 6336)      2.43                    2.27
+Stress Factor (YS, ISO 6336)    1.92                    1.91
+Root Fillet Roughness (Ra)      Ra <= 0.8 um (Ground)   Ra <= 1.6 um
+Heat Treatment & Hardness       Case Carburized         Case Carburized
+                                (58 ~ 62 HRC)           (58 ~ 62 HRC)
+Effective Case Depth (ECD 550)  0.8 ~ 1.2 mm            0.8 ~ 1.2 mm
+Root Shot Peening               Mandatory (-600 MPa residual compressive)
+========================================================================
+```
+
+Critical shop-floor quality rules:
+1. **Elimination of Grinding Notches**: During profile grinding, wheels must not undercut the generating trochoidal fillet. A grinding step creates a notch factor $K_t > 3.0$, causing premature fatigue failure. Protuberance hobs should be used prior to heat treatment to leave an unground, smooth trochoid fillet.
+2. **Compressive Residual Stress via Shot Peening**: Blasting conditioned cut-wire steel shot onto the root fillet induces deep compressive residual stresses ($-600 \sim -800\,\text{MPa}$), directly offsetting tensile bending stresses and extending root fatigue life by $20 \sim 30\%$.
