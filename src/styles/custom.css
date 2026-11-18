@@ -268,8 +268,8 @@
 .series-hub-dashboard .card-grid,
 .series-hub-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.25rem;
   margin-top: 1.5rem;
 }
 
@@ -277,7 +277,7 @@
   transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
   border: 1px solid var(--sl-color-hairline);
   border-radius: 12px;
-  padding: 1.5rem;
+  padding: 1.25rem 1.4rem;
   background: var(--sl-color-bg-sidebar);
 }
 
@@ -294,9 +294,9 @@
 }
 
 .hub-part-desc {
-  font-size: 0.88rem;
+  font-size: 0.84rem;
   line-height: 1.5;
-  color: var(--sl-color-gray-3);
+  color: var(--sl-color-gray-2);
   margin-bottom: 0.85rem !important;
 }
 
@@ -383,11 +383,14 @@
 }
 
 .hub-chapter-item.upcoming {
-  color: var(--sl-color-gray-4);
+  color: #94a3b8;
+  font-weight: 400;
+  opacity: 0.85;
 }
 
 [data-theme='light'] .hub-chapter-item.upcoming {
-  color: #94a3b8;
+  color: #64748b;
+  opacity: 0.9;
 }
 
 .hub-badge-published {
@@ -396,28 +399,32 @@
   padding: 0.15rem 0.45rem;
   border-radius: 4px;
   background: rgba(16, 185, 129, 0.18);
-  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #34d399;
   white-space: nowrap;
 }
 
 [data-theme='light'] .hub-badge-published {
   background: rgba(5, 150, 105, 0.15);
+  border: 1px solid rgba(5, 150, 105, 0.3);
   color: #047857;
 }
 
 .hub-badge-upcoming {
   font-size: 0.68rem;
-  font-weight: 500;
+  font-weight: 600;
   padding: 0.15rem 0.45rem;
   border-radius: 4px;
-  background: rgba(148, 163, 184, 0.12);
-  color: var(--sl-color-gray-4);
+  background: rgba(148, 163, 184, 0.16);
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  color: #cbd5e1;
   white-space: nowrap;
 }
 
 [data-theme='light'] .hub-badge-upcoming {
   background: #f1f5f9;
-  color: #94a3b8;
+  border: 1px solid #cbd5e1;
+  color: #475569;
 }
 
 .hub-card-action {
@@ -446,4 +453,73 @@
   color: #60a5fa !important;
   transform: translateX(2px);
 }
+
+/* 7. 전역 Starlight On-This-Page (우측 목차 ToC) 타이포그래피 & 여백 최적화 */
+starlight-toc {
+  display: block;
+}
+
+starlight-toc h2#starlight__on-this-page {
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  color: var(--sl-color-gray-3) !important;
+  margin-top: 0 !important;
+  margin-bottom: 0.75rem !important;
+}
+
+starlight-toc ul {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+starlight-toc li {
+  margin: 0.15rem 0 !important;
+  line-height: 1.35 !important;
+}
+
+starlight-toc a {
+  display: block !important;
+  font-size: 0.8125rem !important; /* 좌측 사이드바 트리(0.82rem)와 조화 */
+  line-height: 1.4 !important;
+  color: var(--sl-color-gray-3) !important;
+  text-decoration: none !important; /* 밑줄 제거 */
+  padding: 0.25rem 0.4rem !important;
+  border-radius: 4px !important;
+  transition: all 0.15s ease !important;
+}
+
+starlight-toc a:hover {
+  color: var(--sl-color-white) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  text-decoration: none !important;
+}
+
+[data-theme='light'] starlight-toc a:hover {
+  color: #0f172a !important;
+  background: rgba(0, 0, 0, 0.04) !important;
+}
+
+starlight-toc a[aria-current='true'],
+starlight-toc a.current {
+  color: #3b82f6 !important;
+  font-weight: 600 !important;
+  background: rgba(59, 130, 246, 0.08) !important;
+  text-decoration: none !important;
+}
+
+[data-theme='light'] starlight-toc a[aria-current='true'],
+[data-theme='light'] starlight-toc a.current {
+  color: #2563eb !important;
+  background: rgba(37, 99, 235, 0.08) !important;
+}
+
+starlight-toc ul ul {
+  padding-left: 0.75rem !important;
+  border-left: 1px solid var(--sl-color-hairline) !important;
+  margin: 0.2rem 0 0.2rem 0.35rem !important;
+}
+
 
