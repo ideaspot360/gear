@@ -1,0 +1,230 @@
+---
+// src/components/CustomSidebar.astro
+import type { Props } from '@astrojs/starlight/props';
+import SidebarSublist from './CustomSidebarSublist.astro';
+import MobileMenuFooter from '@astrojs/starlight/components/MobileMenuFooter.astro';
+
+const starlightRoute = Astro.locals?.starlightRoute || (Astro.props as any);
+const sidebar = Astro.props.sidebar || starlightRoute?.sidebar || [];
+const pathname = Astro.url.pathname;
+const locale = Astro.props.locale || starlightRoute?.locale || 'ko';
+
+// 현재 URL 기반 활성 시리즈 결정
+const isSeries2 = pathname.includes('/series2-architecture/');
+const isSeries1 = pathname.includes('/series1-theory/') || (!isSeries2 && !pathname.includes('/series2'));
+const activeSeriesKeyword = isSeries2 ? 'series2-architecture' : 'series1-theory';
+
+const s1HubUrl = `/${locale}/series1-theory/`;
+const s2HubUrl = `/${locale}/series2-architecture/`;
+
+// 현재 활성 시리즈에 해당하는 사이드바 최상위 그룹 추출
+const filteredSidebar = sidebar.filter((group: any) => {
+  const str = JSON.stringify(group);
+  return str.includes(activeSeriesKeyword);
+});
+
+const displaySidebar = filteredSidebar.length > 0 ? filteredSidebar : sidebar;
+---
+
+<nav class="custom-sidebar" aria-label="Sidebar Navigation">
+  <!-- 1. 모바일 드로어 전용 시리즈 스위처 (50rem 이하 모바일 드로어에서만 표시) -->
+  <div class="mobile-series-switcher md:sl-hidden">
+    <div class="switcher-title">시리즈 선택 (Series Selection)</div>
+    <div class="switcher-buttons">
+      <a
+        href={s1HubUrl}
+        class:list={['mobile-switch-tab', { active: isSeries1 }]}
+      >
+        ⚙️ Series 1: 기어 (35)
+      </a>
+      <a
+        href={s2HubUrl}
+        class:list={['mobile-switch-tab', { active: isSeries2 }]}
+      >
+        💻 Series 2: CAE (20)
+      </a>
+    </div>
+  </div>
+
+  <!-- 2. 데스크톱 시리즈 헤더 뱃지 -->
+  <div class="sidebar-series-badge sl-hidden md:sl-block">
+    {isSeries2 ? '💻 SERIES 2: CAE/CAD ARCHITECTURE' : '⚙️ SERIES 1: PURE GEAR ENGINEERING'}
+  </div>
+
+  <!-- 3. Part별 지능형 독점 아코디언 컨테이너 -->
+  <div class="sidebar-accordion-container">
+    {displaySidebar.map((seriesGroup: any) => {
+      const hasAnyCurrent = JSON.stringify(seriesGroup).includes('"isCurrent":true');
+      return (
+        <div class="series-group-wrapper">
+          {seriesGroup.entries?.map((partGroup: any, partIndex: number) => {
+            if (partGroup.type === 'link') {
+              return <SidebarSublist sublist={[partGroup]} />;
+            }
+            // 활성 챕터가 이 Part에 속해 있는지 검사 (없으면 첫 번째 Part 기본 전개)
+            const hasCurrent = JSON.stringify(partGroup).includes('"isCurrent":true');
+            const shouldOpen = hasCurrent || (!hasAnyCurrent && partIndex === 0);
+
+            return (
+              <details class="part-accordion" open={shouldOpen} name="gear-part-accordion">
+                <summary class="part-summary">
+                  <span class="part-caret">▾</span>
+                  <span class="part-label">{partGroup.label}</span>
+                  {partGroup.badge && (
+                    <span class:list={['part-badge', partGroup.badge.variant]}>{partGroup.badge.text}</span>
+                  )}
+                </summary>
+                <div class="part-content">
+                  <SidebarSublist sublist={partGroup.entries} />
+                </div>
+              </details>
+            );
+          })}
+        </div>
+      );
+    })}
+  </div>
+
+  <!-- 4. 모바일 드로어 전용 언어/테마 푸터 -->
+  <div class="md:sl-hidden mobile-menu-footer-wrapper">
+    <MobileMenuFooter {...Astro.props} />
+  </div>
+</nav>
+
+<script>
+  // 활성 챕터로 사이드바 뷰포트 부드러운 자동 스크롤
+  function initSidebarScroll() {
+    const activeEl = document.querySelector('.custom-sidebar [aria-current="page"]');
+    if (activeEl) {
+      activeEl.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    }
+  }
+
+  // MPA 정적 사이트 라이프사이클 지원
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSidebarScroll);
+  } else {
+    initSidebarScroll();
+  }
+
+  // ViewTransitions 활성화 환경 대비 듀얼 바인딩
+  document.addEventListener('astro:page-load', initSidebarScroll);
+</script>
+
+<style>
+  .custom-sidebar {
+    padding: 1.5rem 1rem 3rem 1rem;
+    height: 100%;
+    overflow-y: auto;
+  }
+  /* 모바일 시리즈 스위처 (50rem 초과 데스크톱에서는 숨김) */
+  .mobile-series-switcher {
+    display: none;
+    margin-bottom: 1.25rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--sl-color-hairline);
+  }
+  .switcher-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--sl-color-gray-3);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+  }
+  .switcher-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+  .mobile-switch-tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 0.25rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border-radius: 6px;
+    text-decoration: none;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--sl-color-gray-3);
+    border: 1px solid var(--sl-color-hairline);
+    transition: all 0.2s ease;
+  }
+  .mobile-switch-tab.active {
+    background: #3b82f6;
+    color: #ffffff;
+    border-color: #3b82f6;
+  }
+  @media (max-width: 50rem) {
+    .mobile-series-switcher {
+      display: block;
+    }
+    .sidebar-series-badge {
+      display: none;
+    }
+  }
+  .sidebar-series-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--sl-color-gray-3);
+    letter-spacing: 0.05em;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--sl-color-hairline);
+    margin-bottom: 1rem;
+  }
+  .part-accordion {
+    margin-bottom: 0.5rem;
+    border-radius: 6px;
+    background: transparent;
+  }
+  .part-summary {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.6rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--sl-color-white);
+    cursor: pointer;
+    border-radius: 6px;
+    user-select: none;
+    list-style: none;
+    transition: background 0.15s ease;
+  }
+  .part-summary::-webkit-details-marker {
+    display: none;
+  }
+  .part-summary:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  .part-caret {
+    font-size: 0.75rem;
+    transition: transform 0.2s ease;
+  }
+  details[open] > summary .part-caret {
+    transform: rotate(0deg);
+  }
+  details:not([open]) > summary .part-caret {
+    transform: rotate(-90deg);
+  }
+  .part-badge {
+    margin-left: auto;
+    font-size: 0.7rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    background: rgba(59, 130, 246, 0.15);
+    color: #60a5fa;
+  }
+  .part-content {
+    padding-left: 0.75rem;
+    margin-top: 0.25rem;
+    border-left: 1px solid var(--sl-color-hairline);
+    margin-left: 0.75rem;
+  }
+  .mobile-menu-footer-wrapper {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--sl-color-hairline);
+  }
+</style>

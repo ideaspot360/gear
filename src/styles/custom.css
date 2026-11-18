@@ -88,3 +88,362 @@
   font-size: 0.88rem;
   line-height: 1.45;
 }
+
+/* ==========================================================================
+   H-GEAR STUDIO Hierarchical Navigation & Layout Enhancements
+   ========================================================================== */
+
+/* 1. 상단 GNB 헤더 이너 래퍼 (Starlight PageFrame 기본 header 슬롯 안착) */
+.header-inner {
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+}
+
+/* 2. 모바일 드로어 전용 시리즈 스위처 (50rem / 800px 이하 모바일 드로어에서만 노출) */
+.mobile-series-switcher {
+  display: none;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--sl-color-hairline);
+}
+@media (max-width: 50rem) {
+  .mobile-series-switcher {
+    display: block;
+  }
+}
+
+/* 3. 사이드바 스크롤바 미세화 */
+.custom-sidebar::-webkit-scrollbar {
+  width: 5px;
+}
+.custom-sidebar::-webkit-scrollbar-thumb {
+  background: var(--sl-color-hairline);
+  border-radius: 4px;
+}
+
+/* 4. 독점 아코디언 토글 부드러운 전환 */
+.part-accordion[open] > .part-content {
+  animation: accordionDown 0.22s ease-out;
+}
+
+@keyframes accordionDown {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 5. 본문 헤딩 상단 여백 (GNB 헤더 고정에 따른 가림 방지) */
+.sl-markdown-content h2,
+.sl-markdown-content h3,
+.sl-markdown-content h4 {
+  scroll-margin-top: calc(var(--sl-nav-height) + 1.5rem);
+}
+
+/* 6. 읽기 진행률 인디케이터 (우측 ToC 상단 바인딩) */
+.reading-progress-track {
+  width: 100%;
+  height: 4px;
+  background: var(--sl-color-hairline);
+  border-radius: 2px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+.reading-progress-fill {
+  height: 100%;
+  background: #3b82f6;
+  width: 0%;
+  transition: width 0.1s linear;
+}
+
+/* 7. 퀵 엔지니어링 툴즈 박스 */
+.quick-tools-box {
+  margin-top: 1.5rem;
+  padding: 0.85rem;
+  background: rgba(59, 130, 246, 0.05);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 8px;
+  font-size: 0.8rem;
+}
+.quick-tools-box a {
+  display: block;
+  margin-top: 0.35rem;
+  color: #60a5fa;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.15s ease;
+}
+.quick-tools-box a:hover {
+  color: #93c5fd;
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   8. 중앙 시리즈 인덱스 허브 (Series Hub Dashboard & Card View Grid)
+   ========================================================================== */
+.series-hub-dashboard {
+  margin-top: 0.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.series-hub-banner {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.95) 100%);
+  border: 1px solid var(--sl-color-hairline);
+  border-left: 4px solid #3b82f6;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme='light'] .series-hub-banner {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-color: #cbd5e1;
+  border-left: 4px solid #2563eb;
+}
+
+.series-hub-lead {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--sl-color-gray-2);
+  margin-bottom: 1.25rem;
+}
+
+[data-theme='light'] .series-hub-lead {
+  color: #334155;
+}
+
+.hub-stats-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.hub-stat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.4rem 0.85rem;
+  border-radius: 9999px;
+  background: rgba(59, 130, 246, 0.12);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+[data-theme='light'] .hub-stat-pill {
+  background: rgba(37, 99, 235, 0.1);
+  color: #1d4ed8;
+  border-color: rgba(37, 99, 235, 0.3);
+}
+
+.hub-stat-pill.success {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+[data-theme='light'] .hub-stat-pill.success {
+  background: rgba(5, 150, 105, 0.1);
+  color: #047857;
+  border-color: rgba(5, 150, 105, 0.3);
+}
+
+.hub-stat-pill.neutral {
+  background: rgba(148, 163, 184, 0.12);
+  color: var(--sl-color-gray-2);
+  border-color: var(--sl-color-hairline);
+}
+
+/* Starlight Card & Hub Card Enhancements */
+.series-hub-dashboard .card-grid,
+.series-hub-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.series-hub-dashboard .card {
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 12px;
+  padding: 1.5rem;
+  background: var(--sl-color-bg-sidebar);
+}
+
+.series-hub-dashboard .card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 12px 28px -10px rgba(59, 130, 246, 0.25);
+}
+
+.hub-part-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.hub-part-desc {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--sl-color-gray-3);
+  margin-bottom: 0.85rem !important;
+}
+
+[data-theme='light'] .hub-part-desc {
+  color: #64748b;
+}
+
+.hub-card-progress {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.15rem;
+}
+
+.hub-progress-track {
+  flex: 1;
+  height: 7px;
+  background: var(--sl-color-hairline);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+[data-theme='light'] .hub-progress-track {
+  background: #e2e8f0;
+}
+
+.hub-progress-fill {
+  height: 100%;
+  background: #3b82f6;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.hub-progress-fill.complete {
+  background: #10b981;
+}
+
+.hub-progress-text {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--sl-color-gray-3);
+  white-space: nowrap;
+}
+
+.hub-chapter-list {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 0 1.25rem 0 !important;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.hub-chapter-item {
+  font-size: 0.84rem;
+  line-height: 1.45;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.hub-chapter-item a {
+  color: #60a5fa !important;
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: color 0.15s ease;
+}
+
+[data-theme='light'] .hub-chapter-item a {
+  color: #2563eb !important;
+}
+
+.hub-chapter-item a:hover {
+  color: #93c5fd !important;
+  text-decoration: underline;
+}
+
+[data-theme='light'] .hub-chapter-item a:hover {
+  color: #1d4ed8 !important;
+}
+
+.hub-chapter-item.upcoming {
+  color: var(--sl-color-gray-4);
+}
+
+[data-theme='light'] .hub-chapter-item.upcoming {
+  color: #94a3b8;
+}
+
+.hub-badge-published {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  background: rgba(16, 185, 129, 0.18);
+  color: #10b981;
+  white-space: nowrap;
+}
+
+[data-theme='light'] .hub-badge-published {
+  background: rgba(5, 150, 105, 0.15);
+  color: #047857;
+}
+
+.hub-badge-upcoming {
+  font-size: 0.68rem;
+  font-weight: 500;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  background: rgba(148, 163, 184, 0.12);
+  color: var(--sl-color-gray-4);
+  white-space: nowrap;
+}
+
+[data-theme='light'] .hub-badge-upcoming {
+  background: #f1f5f9;
+  color: #94a3b8;
+}
+
+.hub-card-action {
+  margin-top: auto;
+  padding-top: 0.85rem;
+  border-top: 1px dashed var(--sl-color-hairline);
+}
+
+.hub-card-action a {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #3b82f6 !important;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 0.15s ease;
+}
+
+[data-theme='light'] .hub-card-action a {
+  color: #2563eb !important;
+}
+
+.hub-card-action a:hover {
+  text-decoration: underline;
+  color: #60a5fa !important;
+  transform: translateX(2px);
+}
+

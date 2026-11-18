@@ -1,0 +1,188 @@
+---
+title: シリーズ2. CAE/CAD開発者アーキテクチャ (全体ロードマップ)
+description: H-GEAR STUDIOを支える幾何学カーネル、微分幾何接触力学、C++ OpenCASCADE B-Repエンジン、非線形FEMおよびWebGL GPUパイプライン全20章
+readingTime: "全20章 (約12.0時間)"
+tableOfContents: false
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+<div class="series-hub-dashboard">
+  <div class="series-hub-banner">
+    <p class="series-hub-lead">
+      H-GEAR STUDIOの根幹を成すバックエンド幾何学カーネル、非線形クローズドフォームソルバー、C++ OpenCASCADEトポロジー縫合エンジン、Weber-Banaschek 3D LTCA弾性接触解析、およびWebGL GPUバッファ直接ストリーミングの核心数学モデルとソフトウェアアーキテクチャを大学院・開発者レベルで厳密に解説する専門シリーズです。
+    </p>
+    <div class="hub-stats-row">
+      <span class="hub-stat-pill success">📊 全体進捗: 1 / 20章 完了 (5.0%)</span>
+      <span class="hub-stat-pill">⏱ 総学習時間: 約12.0時間</span>
+      <span class="hub-stat-pill neutral">📚 核心技術: Litvin 4×4, OpenCASCADE B-Rep, Weber-Banaschek LTCA, Three.js GPU</span>
+    </div>
+  </div>
+
+  <CardGrid>
+    <Card title="Part 1. 計算歯形幾何学と微分幾何学 (第2-1章〜2-4章)" icon="puzzle">
+      <div class="hub-part-card">
+        <p class="hub-part-desc">Litvin 4×4同次変換行列体系、2パラメータ包絡面理論、Euler-Savary主曲率テンソルおよびSAP接続部C1滑らかさの解析的証明。</p>
+        <div class="hub-card-progress">
+          <div class="hub-progress-track">
+            <div class="hub-progress-fill" style="width: 25%;"></div>
+          </div>
+          <span class="hub-progress-text">1/4 完了 (25%)</span>
+        </div>
+        <ul class="hub-chapter-list">
+          <li class="hub-chapter-item">
+            <a href="/ja/series2-architecture/part01-diff-geom/01-litvin-kinematics/">第2-1章. Litvin 4×4同次座標変換行列体系と多体多軸座標系の展開</a>
+            <span class="hub-badge-published">公開完了</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>第2-2章. 2パラメータ包絡面生成理論とかみ合い基本方程式 (f = n·v = 0)</span>
+            <span class="hub-badge-upcoming">順次公開</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>第2-3章. Euler-Savary微分幾何接触線誘導、主曲率および測地曲率テンソル</span>
+            <span class="hub-badge-upcoming">順次公開</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>第2-4章. トロコイドフィレット包絡線とSAP接続部C1/G1連続性の証明</span>
+            <span class="hub-badge-upcoming">順次公開</span>
+          </li>
+        </ul>
+        <div class="hub-card-action">
+          <a href="/ja/series2-architecture/part01-diff-geom/01-litvin-kinematics/">➔ Part 1 第2-1章を読む</a>
+        </div>
+      </div>
+    </Card>
+
+    <Card title="Part 2. 数値解析と非線形ソルバー (第2-5章〜2-8章)" icon="setting">
+      <div class="hub-part-card">
+        <p class="hub-part-desc">多次元Brent-Dekker / Newtonハイブリッドソルバー、転位非単調性克服No-Fallback設計、111種マイクロ修整モデル。</p>
+        <div class="hub-card-progress">
+          <div class="hub-progress-track">
+            <div class="hub-progress-fill" style="width: 0%;"></div>
+          </div>
+          <span class="hub-progress-text">0/4 順次公開予定</span>
+        </div>
+        <ul class="hub-chapter-list">
+          <li class="hub-chapter-item upcoming">
+            <span>第2-5章. インボリュート・トロコイド交点(SAP)多次元Brent-Dekkerソルバー</span>
+            <span class="hub-badge-upcoming">順次公開</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>第2-6章. 転位かみ合い方程式の非単調性克服とNo-Fallback無欠陥設計</span>
+            <span class="hub-badge-upcoming">順次公開</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>第2-7章. 111種マイクロ歯形修整学の代数的・幾何学的数学モデリング</span>
+            <span class="hub-badge-upcoming">順次公開</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>第2-8章. 5重鉄壁検証ハーネスとゴールデンケース(L2 0.000000μm)パイプライン</span>
+            <span class="hub-badge-upcoming">順次公開</span>
+          </li>
+        </ul>
+        <div class="hub-card-action">
+          <span class="hub-badge-upcoming">順次公開予定</span>
+        </div>
+      </div>
+    </Card>
+
+    <Card title="Part 3. 3D OCC B-Rep ソリッドモデリング (第2-9章〜2-12章)" icon="open-book">
+      <div class="hub-part-card">
+        <p class="hub-part-desc">OpenCASCADE B-Repトポロジー階層、ねじれ歯形B-Spline曲面ロフティング、3大ハードゲート縫合およびSTEP AP214出力。</p>
+        <div class="hub-card-progress">
+          <div class="hub-progress-track">
+            <div class="hub-progress-fill" style="width: 0%;"></div>
+          </div>
+          <span class="hub-progress-text">0/4 順次公開予定</span>
+        </div>
+        <ul class="hub-chapter-list">
+          <li class="hub-chapter-item upcoming">
+            <span>第2-9章. OpenCASCADEトポロジーデータ構造 (Vertex-Edge-Wire-Face-Solid)</span>
+            <span class="hub-badge-upcoming">順次公開</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>第2-10章. 3次元ねじれはすば/かさ歯形B-Spline曲面フィッティングとロフト</span>
+            <span class="hub-badge-upcoming">順次公開</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>第2-11章. 3大ハードゲートに基づくソリッド縫合(Sewing)とC++幾何監査</span>
+            <span class="hub-badge-upcoming">順次公開</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>第2-12章. シャフトキー溝ブーリアン演算と無損失STEP AP214 / STL出力</span>
+            <span class="hub-badge-upcoming">順次公開</span>
+          </li>
+        </ul>
+        <div class="hub-card-action">
+          <span class="hub-badge-upcoming">順次公開予定</span>
+        </div>
+      </div>
+    </Card>
+
+    <Card title="Part 4. FEMおよびLTCA弾性接触解析 (第2-13章〜2-16章)" icon="star">
+      <div class="hub-part-card">
+        <p class="hub-part-desc">Weber-Banaschek柔軟度行列、作用面移動接触線離散化LTCAソルバー、静的伝達誤差(STE)およびQUAD8弾塑性FEM。</p>
+        <div class="hub-card-progress">
+          <div class="hub-progress-track">
+            <div class="hub-progress-fill" style="width: 0%;"></div>
+          </div>
+          <span class="hub-progress-text">0/4 順次公開予定</span>
+        </div>
+        <ul class="hub-chapter-list">
+          <li class="hub-chapter-item upcoming">
+            <span>第2-13章. Weber-Banaschek歯のコンプライアンス(曲げ・せん断・基礎)柔軟度行列</span>
+            <span class="hub-badge-upcoming">順次公開</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>第2-14章. 作用面移動接触線の離散化と複数歯対非線形荷重分配ソルバー</span>
+            <span class="hub-badge-upcoming">順次公開</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>第2-15章. 静的伝達誤差(STE)、歯幅荷重分布(KHβ)およびヘルツ接触応力</span>
+            <span class="hub-badge-upcoming">順次公開</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>第2-16章. QUAD8高次四角形要素と平面応力J2弾塑性FEMソルバー</span>
+            <span class="hub-badge-upcoming">順次公開</span>
+          </li>
+        </ul>
+        <div class="hub-card-action">
+          <span class="hub-badge-upcoming">順次公開予定</span>
+        </div>
+      </div>
+    </Card>
+
+    <Card title="Part 5. WebGL GPUレンダリングとフルスタック (第2-17章〜2-20章)" icon="laptop">
+      <div class="hub-part-card">
+        <p class="hub-part-desc">単一幾何学バッファ直接ストリーミング、Three.js応力ヒートマップシェーダ、Next.js 4分割HUDおよびFastAPIワーカー分離。</p>
+        <div class="hub-card-progress">
+          <div class="hub-progress-track">
+            <div class="hub-progress-fill" style="width: 0%;"></div>
+          </div>
+          <span class="hub-progress-text">0/4 順次公開予定</span>
+        </div>
+        <ul class="hub-chapter-list">
+          <li class="hub-chapter-item upcoming">
+            <span>第2-17章. バックエンド・フロントエンド単一幾何学エンジン (Float32Buffer)</span>
+            <span class="hub-badge-upcoming">順次公開</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>第2-18章. Three.js GPUレンダリング、接触応力シェーダと動的LOD</span>
+            <span class="hub-badge-upcoming">順次公開</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>第2-19章. Next.js 14 / React 4分割ネイティブHUDとモーダルゼロUI</span>
+            <span class="hub-badge-upcoming">順次公開</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>第2-20章. FastAPI非同期ワーカープロセス分離とWebSocketストリーミング</span>
+            <span class="hub-badge-upcoming">順次公開</span>
+          </li>
+        </ul>
+        <div class="hub-card-action">
+          <span class="hub-badge-upcoming">順次公開予定</span>
+        </div>
+      </div>
+    </Card>
+  </CardGrid>
+</div>

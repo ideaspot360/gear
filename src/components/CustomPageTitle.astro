@@ -1,0 +1,174 @@
+---
+// src/components/CustomPageTitle.astro
+import type { Props } from '@astrojs/starlight/props';
+
+const entry = Astro.props.entry || Astro.locals?.starlightRoute?.entry;
+const pathname = Astro.url.pathname;
+const locale = Astro.props.locale || Astro.locals?.starlightRoute?.locale || 'ko';
+
+const isSeries1 = pathname.includes('/series1-theory/');
+const isSeries2 = pathname.includes('/series2-architecture/');
+
+// 4개 국어 브레드크럼 다국어 레이블 및 링크 매핑
+const i18n = {
+  ko: {
+    home: '홈',
+    series1: '시리즈 1: 순수 기어 공학',
+    series2: '시리즈 2: CAE 아키텍처',
+    verified: '⚖️ 무결점 5중 검증',
+    defaultReadingTime: '15분 독서',
+  },
+  en: {
+    home: 'Home',
+    series1: 'Series 1: Pure Gear Engineering',
+    series2: 'Series 2: CAE Architecture',
+    verified: '⚖️ 5-Layer Verified',
+    defaultReadingTime: '15 min read',
+  },
+  de: {
+    home: 'Startseite',
+    series1: 'Serie 1: Reine Zahnradtechnik',
+    series2: 'Serie 2: CAE-Architektur',
+    verified: '⚖️ 5-stufig verifiziert',
+    defaultReadingTime: '15 Min. Lesezeit',
+  },
+  ja: {
+    home: 'ホーム',
+    series1: 'シリーズ1: 純粋歯車工学',
+    series2: 'シリーズ2: CAEアーキテクチャ',
+    verified: '⚖️ 無欠点5重検証',
+    defaultReadingTime: '15分 読了',
+  },
+}[locale] || {
+  home: 'Home',
+  series1: 'Series 1: Pure Gear Engineering',
+  series2: 'Series 2: CAE Architecture',
+  verified: '⚖️ 5-Layer Verified',
+  defaultReadingTime: '15 min read',
+};
+
+const homeUrl = `/${locale}/`;
+const s1HubUrl = `/${locale}/series1-theory/`;
+const s2HubUrl = `/${locale}/series2-architecture/`;
+
+// 허브 대시보드 URL 판정 (브레드크럼 시리즈 링크 자기참조/중복 방지)
+const cleanPath = pathname.replace(/\/$/, '');
+const isS1Hub = cleanPath === s1HubUrl.replace(/\/$/, '');
+const isS2Hub = cleanPath === s2HubUrl.replace(/\/$/, '');
+
+// 챕터별 표준 공학 규격 매핑
+const standardBadge = isSeries1 ? 'ISO 6336 / DIN 3960' : 'C++ OCC B-Rep & WebGL GPU';
+const readingTime = (entry?.data as any)?.readingTime || i18n.defaultReadingTime;
+const pageTitle = entry?.data?.title || '';
+
+// 파트 식별 및 다국어 매핑 (Home > Series > Part > Chapter 4단계 브레드크럼)
+let partLabel = '';
+if (pathname.includes('/part-a-spur/')) {
+  partLabel = {
+    ko: 'Part A. 평치차 공학',
+    en: 'Part A. Spur Gears',
+    de: 'Teil A. Stirnräder',
+    ja: 'Part A. 平歯車工学',
+  }[locale] || 'Part A. Spur Gears';
+} else if (pathname.includes('/part01-diff-geom/')) {
+  partLabel = {
+    ko: 'Part 1. 전산 치형 기하학',
+    en: 'Part 1. Differential Geometry',
+    de: 'Teil 1. Differentialgeometrie',
+    ja: 'Part 1. 計算歯形幾何学',
+  }[locale] || 'Part 1. Differential Geometry';
+}
+---
+
+<div class="custom-page-header">
+  <nav class="engineering-breadcrumb" aria-label="Breadcrumb">
+    <a href={homeUrl}>{i18n.home}</a>
+    <span class="sep">/</span>
+    {isSeries1 && !isS1Hub && (
+      <>
+        <a href={s1HubUrl}>{i18n.series1}</a>
+        <span class="sep">/</span>
+      </>
+    )}
+    {isSeries2 && !isS2Hub && (
+      <>
+        <a href={s2HubUrl}>{i18n.series2}</a>
+        <span class="sep">/</span>
+      </>
+    )}
+    {partLabel && (
+      <>
+        <span class="part-title">{partLabel}</span>
+        <span class="sep">/</span>
+      </>
+    )}
+    <span class="curr-title">{pageTitle}</span>
+  </nav>
+
+  <h1 id="_top" class="page-title-heading">{pageTitle}</h1>
+
+  <div class="page-meta-row">
+    <span class="badge badge-standard">{standardBadge}</span>
+    <span class="badge badge-time">⏱ {readingTime}</span>
+    <span class="badge badge-rigor">{i18n.verified}</span>
+  </div>
+</div>
+
+<style>
+  .custom-page-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--sl-color-hairline);
+  }
+  .engineering-breadcrumb {
+    font-size: 0.8rem;
+    color: var(--sl-color-gray-3);
+    margin-bottom: 0.75rem;
+  }
+  .engineering-breadcrumb a {
+    color: var(--sl-color-gray-3);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  .engineering-breadcrumb a:hover {
+    color: #3b82f6;
+  }
+  .engineering-breadcrumb .sep {
+    margin: 0 0.4rem;
+  }
+  .curr-title {
+    color: var(--sl-color-gray-2);
+  }
+  .page-title-heading {
+    font-size: 2.1rem;
+    font-weight: 800;
+    line-height: 1.25;
+    color: var(--sl-color-white);
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.015em;
+  }
+  .page-meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+  }
+  .badge-standard {
+    background: rgba(59, 130, 246, 0.15);
+    color: #60a5fa;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+  }
+  .badge-time {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--sl-color-gray-2);
+  }
+  .badge-rigor {
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+  }
+</style>

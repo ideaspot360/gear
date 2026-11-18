@@ -1,0 +1,114 @@
+---
+// src/components/CustomHeader.astro
+import type { Props } from '@astrojs/starlight/props';
+import SiteTitle from '@astrojs/starlight/components/SiteTitle.astro';
+import Search from '@astrojs/starlight/components/Search.astro';
+import LanguageSelect from '@astrojs/starlight/components/LanguageSelect.astro';
+import ThemeSelect from '@astrojs/starlight/components/ThemeSelect.astro';
+import SocialIcons from '@astrojs/starlight/components/SocialIcons.astro';
+
+const pathname = Astro.url.pathname;
+const locale = Astro.props.locale || Astro.locals?.starlightRoute?.locale || 'ko';
+
+// 현재 URL 기반 엄격한 활성 시리즈 판정 (루트 홈 /ko/ 진입 시 시리즈1 오작동 활성화 방지)
+const isSeries1 = pathname.includes('/series1-theory/');
+const isSeries2 = pathname.includes('/series2-architecture/');
+
+const s1HubUrl = `/${locale}/series1-theory/`;
+const s2HubUrl = `/${locale}/series2-architecture/`;
+
+// 다국어 탭 레이블 매핑
+const tabLabels = {
+  ko: { s1: '⚙️ 시리즈 1: 순수 기어 공학 (35)', s2: '💻 시리즈 2: CAE 아키텍처 (20)' },
+  en: { s1: '⚙️ Series 1: Pure Gear (35)', s2: '💻 Series 2: CAE Architecture (20)' },
+  de: { s1: '⚙️ Serie 1: Reine Zahnradtechnik (35)', s2: '💻 Serie 2: CAE-Architektur (20)' },
+  ja: { s1: '⚙️ シリーズ1: 純粋歯車工学 (35)', s2: '💻 シリーズ2: CAEアーキテクチャ (20)' },
+}[locale] || { s1: '⚙️ Series 1: Pure Gear (35)', s2: '💻 Series 2: CAE Architecture (20)' };
+---
+
+<!-- Starlight PageFrame.astro의 <header class="header"> 내부 슬롯이므로 루트는 div.header-inner 사용 (W3C landmark 중첩 방지) -->
+<div class="header-inner sl-flex">
+  <div class="sl-flex header-left">
+    <SiteTitle {...Astro.props} />
+  </div>
+
+  <nav class="series-nav-tabs sl-hidden md:sl-flex" aria-label="Series Selection">
+    <a
+      href={s1HubUrl}
+      class:list={['series-tab-item', { active: isSeries1 }]}
+      aria-current={isSeries1 ? 'page' : undefined}
+    >
+      {tabLabels.s1}
+    </a>
+    <a
+      href={s2HubUrl}
+      class:list={['series-tab-item', { active: isSeries2 }]}
+      aria-current={isSeries2 ? 'page' : undefined}
+    >
+      {tabLabels.s2}
+    </a>
+  </nav>
+
+  <div class="sl-flex header-right">
+    <Search {...Astro.props} />
+    <div class="sl-hidden md:sl-flex right-group">
+      <LanguageSelect {...Astro.props} />
+      <ThemeSelect {...Astro.props} />
+      <SocialIcons {...Astro.props} />
+    </div>
+  </div>
+</div>
+
+<style>
+  .header-inner {
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+  }
+  .header-left, .header-right {
+    align-items: center;
+    gap: 1rem;
+  }
+  .right-group {
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .series-nav-tabs {
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(0, 0, 0, 0.04);
+    padding: 0.25rem;
+    border-radius: 8px;
+    border: 1px solid var(--sl-color-hairline);
+  }
+  :global([data-theme='dark']) .series-nav-tabs {
+    background: rgba(255, 255, 255, 0.04);
+  }
+  .series-tab-item {
+    padding: 0.35rem 0.85rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--sl-color-gray-3);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+  .series-tab-item:hover {
+    color: var(--sl-color-white);
+    background: rgba(255, 255, 255, 0.08);
+  }
+  .series-tab-item.active {
+    color: #3b82f6;
+    background: var(--sl-color-bg);
+    font-weight: 600;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  /* Starlight 표준 대형 브레이크포인트(--sl-breakpoint-large: 50rem / 800px)와 동기화 */
+  @media (max-width: 50rem) {
+    .series-nav-tabs {
+      display: none; /* 모바일에서는 사이드바 드로어 내부의 모바일 시리즈 스위처로 대체 */
+    }
+  }
+</style>

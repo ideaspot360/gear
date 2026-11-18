@@ -1,0 +1,132 @@
+---
+// src/components/CustomSidebarSublist.astro
+interface Props {
+  sublist: any[];
+  nested?: boolean;
+}
+const { sublist, nested = false } = Astro.props;
+---
+
+<ul class:list={['sublist-tree', { 'is-nested': nested }]}>
+  {sublist?.map((entry) => {
+    if (entry.type === 'link') {
+      const isCurrent = entry.isCurrent;
+      const { class: customClass, ...restAttrs } = entry.attrs || {};
+      return (
+        <li class="sublist-leaf">
+          <a
+            href={entry.href}
+            class:list={['sublist-link', { 'active-leaf': isCurrent }, customClass]}
+            aria-current={isCurrent ? 'page' : undefined}
+            {...restAttrs}
+          >
+            {isCurrent && <span class="active-arrow">▶︎</span>}
+            <span class="leaf-label">{entry.label}</span>
+            {entry.badge && (
+              <span class:list={['entry-badge', entry.badge.variant]}>{entry.badge.text}</span>
+            )}
+          </a>
+        </li>
+      );
+    } else if (entry.type === 'group') {
+      // 중첩 서브그룹 재귀 렌더링 (하위 그룹 노드 누락 원천 방지)
+      const hasCurrent = JSON.stringify(entry).includes('"isCurrent":true');
+      return (
+        <li class="sublist-group-item">
+          <details class="nested-group-details" open={hasCurrent || !entry.collapsed}>
+            <summary class="nested-group-summary">
+              <span class="group-caret">▾</span>
+              <span class="group-label">{entry.label}</span>
+              {entry.badge && (
+                <span class:list={['entry-badge', entry.badge.variant]}>{entry.badge.text}</span>
+              )}
+            </summary>
+            <!-- 재귀 호출: Astro.self를 통해 임의 깊이의 중첩 그룹을 완전하게 렌더링 -->
+            <Astro.self sublist={entry.entries} nested={true} />
+          </details>
+        </li>
+      );
+    }
+    return null;
+  })}
+</ul>
+
+<style>
+  .sublist-tree {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .sublist-tree.is-nested {
+    padding-left: 0.75rem;
+    border-left: 1px solid var(--sl-color-hairline);
+    margin-left: 0.5rem;
+  }
+  .sublist-leaf {
+    margin: 0.2rem 0;
+  }
+  .sublist-link {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.5rem;
+    font-size: 0.82rem;
+    color: var(--sl-color-gray-3);
+    text-decoration: none;
+    border-radius: 4px;
+    line-height: 1.35;
+    transition: all 0.15s ease;
+  }
+  .sublist-link:hover {
+    color: var(--sl-color-white);
+    background: rgba(255, 255, 255, 0.04);
+  }
+  .sublist-link.active-leaf {
+    color: #3b82f6;
+    background: rgba(59, 130, 246, 0.08);
+    font-weight: 600;
+    border-left: 3px solid #3b82f6;
+    padding-left: 0.35rem;
+  }
+  .active-arrow {
+    font-size: 0.65rem;
+    color: #3b82f6;
+  }
+  .leaf-label {
+    flex: 1;
+  }
+  .entry-badge {
+    font-size: 0.65rem;
+    padding: 0.05rem 0.35rem;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--sl-color-gray-2);
+  }
+  .nested-group-details {
+    margin: 0.25rem 0;
+  }
+  .nested-group-summary {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--sl-color-gray-2);
+    cursor: pointer;
+    list-style: none;
+  }
+  .nested-group-summary::-webkit-details-marker {
+    display: none;
+  }
+  .group-caret {
+    font-size: 0.7rem;
+    transition: transform 0.2s ease;
+  }
+  details[open] > summary .group-caret {
+    transform: rotate(0deg);
+  }
+  details:not([open]) > summary .group-caret {
+    transform: rotate(-90deg);
+  }
+</style>

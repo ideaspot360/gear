@@ -1,0 +1,188 @@
+---
+title: 시리즈 2. CAE/CAD 개발자 아키텍처 (Developer Architecture)
+description: H-GEAR STUDIO의 기하학 커널, 미분기하 접촉 역학, C++ OpenCASCADE B-Rep 엔진, 비선형 FEM 및 WebGL GPU 파이프라인 총 20개 전문 챕터
+readingTime: "총 20개 장 (약 12.0시간)"
+tableOfContents: false
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+<div class="series-hub-dashboard">
+  <div class="series-hub-banner">
+    <p class="series-hub-lead">
+      H-GEAR STUDIO를 구동하는 백엔드 기하학 커널, 비선형 닫힌 해 솔버, C++ OpenCASCADE 토폴로지 엔진, Weber-Banaschek 3D LTCA 모듈, 그리고 WebGL GPU 버퍼 렌더링 파이프라인의 핵심 수학 모델과 아키텍처를 대학원·개발자 수준에서 엄밀히 해설하는 전문 개발자 시리즈입니다.
+    </p>
+    <div class="hub-stats-row">
+      <span class="hub-stat-pill success">📊 전체 진행률: 1 / 20 챕터 완료 (5.0%)</span>
+      <span class="hub-stat-pill">⏱ 총 학습 분량: 약 12.0시간</span>
+      <span class="hub-stat-pill neutral">📚 핵심 기술: Litvin 4×4, OpenCASCADE B-Rep, Weber-Banaschek LTCA, Three.js GPU</span>
+    </div>
+  </div>
+
+  <CardGrid>
+    <Card title="Part 1. 전산 치형 기하학 및 미분기하학 (Ch 2-1~2-4)" icon="puzzle">
+      <div class="hub-part-card">
+        <p class="hub-part-desc">Litvin 동차변환 행렬, 2매개변수 포락면 생성, Euler-Savary 주곡률 텐서 및 SAP 결합부 C1 매끄러움 해석적 증명</p>
+        <div class="hub-card-progress">
+          <div class="hub-progress-track">
+            <div class="hub-progress-fill" style="width: 25%;"></div>
+          </div>
+          <span class="hub-progress-text">1/4 완료 (25%)</span>
+        </div>
+        <ul class="hub-chapter-list">
+          <li class="hub-chapter-item">
+            <a href="/ko/series2-architecture/part01-diff-geom/01-litvin-kinematics/">Ch 2-1. Litvin 4×4 동차좌표변환 행렬 체계 및 다물체 다축 좌표계 전개</a>
+            <span class="hub-badge-published">발행완료</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>Ch 2-2. 2매개변수 포락면 생성 이론 및 맞물림 기본방정식 (f = n·v = 0)</span>
+            <span class="hub-badge-upcoming">순차발행</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>Ch 2-3. Euler-Savary 미분기하 접촉선 유도, 주곡률 및 측지곡률 텐서 해석</span>
+            <span class="hub-badge-upcoming">순차발행</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>Ch 2-4. 트로코이드 필렛 포락선 및 인볼류트 이음부 C1/G1 매끄러움 증명</span>
+            <span class="hub-badge-upcoming">순차발행</span>
+          </li>
+        </ul>
+        <div class="hub-card-action">
+          <a href="/ko/series2-architecture/part01-diff-geom/01-litvin-kinematics/">➔ Part 1 제1장 바로 읽기</a>
+        </div>
+      </div>
+    </Card>
+
+    <Card title="Part 2. 수치해석 및 비선형 닫힌 해 솔버 (Ch 2-5~2-8)" icon="setting">
+      <div class="hub-part-card">
+        <p class="hub-part-desc">다차원 Brent-Dekker 하이브리드 솔버, 전위 비단조성 No-Fallback 설계, 111종 마이크로 보정학 및 5중 검증 하네스</p>
+        <div class="hub-card-progress">
+          <div class="hub-progress-track">
+            <div class="hub-progress-fill" style="width: 0%;"></div>
+          </div>
+          <span class="hub-progress-text">0/4 순차 발행</span>
+        </div>
+        <ul class="hub-chapter-list">
+          <li class="hub-chapter-item upcoming">
+            <span>Ch 2-5. 인볼류트-트로코이드 교점(SAP) 다차원 Brent-Dekker / Newton 솔버</span>
+            <span class="hub-badge-upcoming">순차발행</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>Ch 2-6. 전위 맞물림 방정식의 비단조성 극복 및 No-Fallback 무결점 아키텍처</span>
+            <span class="hub-badge-upcoming">순차발행</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>Ch 2-7. 111종 마이크로 치형 보정학의 대수적·기하학적 수학 모델링</span>
+            <span class="hub-badge-upcoming">순차발행</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>Ch 2-8. 5중 다중 철벽 검증 하네스 및 골든 케이스(L2 0.000000 μm) 파이프라인</span>
+            <span class="hub-badge-upcoming">순차발행</span>
+          </li>
+        </ul>
+        <div class="hub-card-action">
+          <span class="hub-badge-upcoming">순차 발행 예정</span>
+        </div>
+      </div>
+    </Card>
+
+    <Card title="Part 3. 3D OCC B-Rep 솔리드 모델링 커널 (Ch 2-9~2-12)" icon="open-book">
+      <div class="hub-part-card">
+        <p class="hub-part-desc">OpenCASCADE 토폴로지 데이터 구조, 3D 트위스트 B-Spline 로프팅, 3대 하드 게이트 솔리드 봉합 및 무손실 STEP 직렬화</p>
+        <div class="hub-card-progress">
+          <div class="hub-progress-track">
+            <div class="hub-progress-fill" style="width: 0%;"></div>
+          </div>
+          <span class="hub-progress-text">0/4 순차 발행</span>
+        </div>
+        <ul class="hub-chapter-list">
+          <li class="hub-chapter-item upcoming">
+            <span>Ch 2-9. OpenCASCADE 토폴로지 데이터 구조 (Vertex-Edge-Wire-Face-Solid)</span>
+            <span class="hub-badge-upcoming">순차발행</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>Ch 2-10. 3차원 트위스트 헬리컬/베벨 치형 B-Spline 피팅 및 B-Rep 로프팅</span>
+            <span class="hub-badge-upcoming">순차발행</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>Ch 2-11. 3대 하드 게이트 기반 솔리드 봉합(Sewing) 및 C++ 커널 기하 감사</span>
+            <span class="hub-badge-upcoming">순차발행</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>Ch 2-12. 샤프트 키홈 불리언 연산 및 무손실 STEP AP214 / STL 직렬화</span>
+            <span class="hub-badge-upcoming">순차발행</span>
+          </li>
+        </ul>
+        <div class="hub-card-action">
+          <span class="hub-badge-upcoming">순차 발행 예정</span>
+        </div>
+      </div>
+    </Card>
+
+    <Card title="Part 4. FEM 및 LTCA 탄성 접촉 해석 엔진 (Ch 2-13~2-16)" icon="star">
+      <div class="hub-part-card">
+        <p class="hub-part-desc">Weber-Banaschek 유연도 행렬, 작용면 이동 접촉선 이산화 하중 분배 솔버, 정적 전달오차(STE) 및 QUAD8 J2 탄소성 FEM</p>
+        <div class="hub-card-progress">
+          <div class="hub-progress-track">
+            <div class="hub-progress-fill" style="width: 0%;"></div>
+          </div>
+          <span class="hub-progress-text">0/4 순차 발행</span>
+        </div>
+        <ul class="hub-chapter-list">
+          <li class="hub-chapter-item upcoming">
+            <span>Ch 2-13. Weber-Banaschek 치아 컴플라이언스(굽힘·전단·기초부) 유연도 행렬</span>
+            <span class="hub-badge-upcoming">순차발행</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>Ch 2-14. 작용면 이동 접촉선 이산화 및 다중 치아 쌍 비선형 하중 분배 솔버</span>
+            <span class="hub-badge-upcoming">순차발행</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>Ch 2-15. 정적 전달오차(STE), 치폭 하중분포(KHβ) 및 Hertz 접촉 압력 해석</span>
+            <span class="hub-badge-upcoming">순차발행</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>Ch 2-16. QUAD8 고차 사각 요소 및 평면응력 J2 혼합 경화 탄소성 FEM 솔버</span>
+            <span class="hub-badge-upcoming">순차발행</span>
+          </li>
+        </ul>
+        <div class="hub-card-action">
+          <span class="hub-badge-upcoming">순차 발행 예정</span>
+        </div>
+      </div>
+    </Card>
+
+    <Card title="Part 5. WebGL GPU 버퍼 렌더링 및 풀스택 인프라 (Ch 2-17~2-20)" icon="laptop">
+      <div class="hub-part-card">
+        <p class="hub-part-desc">백엔드-프론트 단일 기하학 버퍼 스트리밍, Three.js 응력 히트맵 셰이더, Next.js 4분할 네이티브 HUD 및 FastAPI 워커 격리</p>
+        <div class="hub-card-progress">
+          <div class="hub-progress-track">
+            <div class="hub-progress-fill" style="width: 0%;"></div>
+          </div>
+          <span class="hub-progress-text">0/4 순차 발행</span>
+        </div>
+        <ul class="hub-chapter-list">
+          <li class="hub-chapter-item upcoming">
+            <span>Ch 2-17. 백엔드-프론트엔드 단일 기하학 엔진 원천화 (Float32BufferGeometry)</span>
+            <span class="hub-badge-upcoming">순차발행</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>Ch 2-18. Three.js GPU 렌더링 파이프라인, 접촉 응력 히트맵 셰이더 및 동적 LOD</span>
+            <span class="hub-badge-upcoming">순차발행</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>Ch 2-19. Next.js 14 / React 4분할 네이티브 HUD 레이아웃 및 무모달 UI 거버넌스</span>
+            <span class="hub-badge-upcoming">순차발행</span>
+          </li>
+          <li class="hub-chapter-item upcoming">
+            <span>Ch 2-20. FastAPI 비동기 워커 프로세스 격리, 실시간 WebSocket 스트리밍</span>
+            <span class="hub-badge-upcoming">순차발행</span>
+          </li>
+        </ul>
+        <div class="hub-card-action">
+          <span class="hub-badge-upcoming">순차 발행 예정</span>
+        </div>
+      </div>
+    </Card>
+  </CardGrid>
+</div>

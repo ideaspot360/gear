@@ -10,6 +10,7 @@ import { docsSchema } from '@astrojs/starlight/schema';
  * 2. 기술 백서(part 또는 gear_type이 선언된 문서)에 대해서는 .superRefine()을 통해 학술 필수 필드를 100% 엄격 강제.
  */
 const technicalPaperSchema = z.object({
+  readingTime: z.string().optional().describe('문서 예상 독서 시간/분량 (예: 15분 독서 또는 총 35개 장)'),
   series: z.enum(['theory', 'architecture']).default('theory').describe('발행 시리즈 구분 (theory: 순수 기어 공학, architecture: CAE/CAD 개발자 아키텍처)'),
   part: z.number().int().min(1).optional().describe('도서 Part 번호 (예: 1)'),
   chapter: z.number().int().min(1).optional().describe('도서 Chapter 번호 (예: 1)'),

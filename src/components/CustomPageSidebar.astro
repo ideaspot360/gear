@@ -1,0 +1,164 @@
+---
+// src/components/CustomPageSidebar.astro
+import type { Props } from '@astrojs/starlight/props';
+import TableOfContents from '@astrojs/starlight/components/TableOfContents.astro';
+import MobileTableOfContents from '@astrojs/starlight/components/MobileTableOfContents.astro';
+
+const starlightRoute = Astro.locals?.starlightRoute || (Astro.props as any);
+const tocItems = starlightRoute?.toc?.items || [];
+const hasToc = Boolean(starlightRoute?.toc && tocItems.length > 0);
+const locale = Astro.props.locale || starlightRoute?.locale || 'ko';
+
+const toolsI18n = {
+  ko: {
+    title: '⚡️ H-GEAR Studio 빠른 연동',
+    sim: '📐 치형 기하학 실시간 시뮬레이터',
+    export: '📥 ISO 6336 계산서 내보내기',
+    cad: '⚙️ 3D B-Rep CAD STEP 검증기',
+  },
+  en: {
+    title: '⚡️ H-GEAR Studio Quick Tools',
+    sim: '📐 Flank Geometry Live Simulator',
+    export: '📥 Export ISO 6336 Calculation Sheet',
+    cad: '⚙️ 3D B-Rep CAD STEP Inspector',
+  },
+  de: {
+    title: '⚡️ H-GEAR Studio Schnellzugriff',
+    sim: '📐 Zahnflankengeometrie-Live-Simulator',
+    export: '📥 ISO 6336 Berechnungsblatt exportieren',
+    cad: '⚙️ 3D-B-Rep-CAD-STEP-Prüfer',
+  },
+  ja: {
+    title: '⚡️ H-GEAR Studio クイックツール',
+    sim: '📐 歯形幾何学リアルタイムシミュレータ',
+    export: '📥 ISO 6336 計算書エクスポート',
+    cad: '⚙️ 3D B-Rep CAD STEP 検証機',
+  },
+}[locale] || {
+  title: '⚡️ H-GEAR Studio Quick Tools',
+  sim: '📐 Flank Geometry Live Simulator',
+  export: '📥 Export ISO 6336 Calculation Sheet',
+  cad: '⚙️ 3D B-Rep CAD STEP Inspector',
+};
+---
+
+{hasToc && (
+  <div class="custom-page-sidebar-wrapper">
+    <!-- 모바일 On-This-Page 토글 (모바일 뷰포트) -->
+    <div class="lg:sl-hidden">
+      <MobileTableOfContents {...Astro.props} />
+    </div>
+
+    <!-- 데스크톱 우측 사이드바 패널 -->
+    <div class="right-sidebar-panel sl-hidden lg:sl-block">
+      <div class="sl-container custom-page-sidebar">
+        <!-- 1. 읽기 진행률 인디케이터 바 -->
+        <div class="reading-progress-container">
+          <div class="progress-label">
+            <span>Reading Progress</span>
+            <span id="reading-percent">0%</span>
+          </div>
+          <div class="reading-progress-track">
+            <div id="reading-progress-bar" class="reading-progress-fill"></div>
+          </div>
+        </div>
+
+        <!-- 2. 기본 Starlight On-This-Page Table of Contents -->
+        <TableOfContents {...Astro.props} />
+
+        <!-- 3. H-GEAR STUDIO 엔지니어링 퀵 툴즈 박스 -->
+        <div class="quick-tools-box">
+          <div class="quick-tools-title">{toolsI18n.title}</div>
+          <a href="https://gear.ideaspot360.com" target="_blank" rel="noopener">{toolsI18n.sim}</a>
+          <a href="https://gear.ideaspot360.com" target="_blank" rel="noopener">{toolsI18n.export}</a>
+          <a href="https://gear.ideaspot360.com" target="_blank" rel="noopener">{toolsI18n.cad}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
+<script>
+  function updateProgress() {
+    const bar = document.getElementById('reading-progress-bar');
+    const label = document.getElementById('reading-percent');
+    if (!bar || !label) return;
+
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    if (scrollHeight <= 0) {
+      bar.style.width = '0%';
+      label.textContent = '0%';
+      return;
+    }
+
+    const progress = Math.min(100, Math.max(0, Math.round((scrollTop / scrollHeight) * 100)));
+    bar.style.width = `${progress}%`;
+    label.textContent = `${progress}%`;
+  }
+
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', updateProgress);
+  } else {
+    updateProgress();
+  }
+  document.addEventListener('astro:page-load', updateProgress);
+</script>
+
+<style>
+  .custom-page-sidebar {
+    padding: 1rem 0;
+  }
+  .reading-progress-container {
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--sl-color-hairline);
+  }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--sl-color-gray-3);
+    margin-bottom: 0.35rem;
+    font-weight: 500;
+  }
+  .reading-progress-track {
+    width: 100%;
+    height: 4px;
+    background: var(--sl-color-hairline);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .reading-progress-fill {
+    height: 100%;
+    background: #3b82f6;
+    width: 0%;
+    transition: width 0.1s ease;
+  }
+  .quick-tools-box {
+    margin-top: 1.5rem;
+    padding: 0.85rem;
+    background: rgba(59, 130, 246, 0.05);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 8px;
+    font-size: 0.8rem;
+  }
+  .quick-tools-title {
+    font-weight: 700;
+    color: var(--sl-color-white);
+    margin-bottom: 0.5rem;
+  }
+  .quick-tools-box a {
+    display: block;
+    margin-top: 0.35rem;
+    color: #60a5fa;
+    text-decoration: none;
+    font-size: 0.78rem;
+    transition: color 0.15s ease;
+  }
+  .quick-tools-box a:hover {
+    color: #93c5fd;
+    text-decoration: underline;
+  }
+</style>

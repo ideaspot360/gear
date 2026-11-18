@@ -8,6 +8,16 @@ import rehypeKatex from 'rehype-katex';
 export default defineConfig({
 	site: 'https://gear.ideaspot360.com',
 	redirects: {
+		'/series1': '/en/series1-theory/',
+		'/series2': '/en/series2-architecture/',
+		'/ko/series1': '/ko/series1-theory/',
+		'/ko/series2': '/ko/series2-architecture/',
+		'/en/series1': '/en/series1-theory/',
+		'/en/series2': '/en/series2-architecture/',
+		'/de/series1': '/de/series1-theory/',
+		'/de/series2': '/de/series2-architecture/',
+		'/ja/series1': '/ja/series1-theory/',
+		'/ja/series2': '/ja/series2-architecture/',
 		'/ko/part1-kinematics/01-conjugate-action': '/ko/series1-theory/part-a-spur/01-why-gears',
 		'/ko/part1-kinematics/01-why-gears': '/ko/series1-theory/part-a-spur/01-why-gears',
 		'/en/part1-kinematics/01-conjugate-action': '/en/series1-theory/part-a-spur/01-why-gears',
@@ -33,6 +43,11 @@ export default defineConfig({
 			customCss: ['./src/styles/custom.css'],
 			components: {
 				Head: './src/components/CustomHead.astro',
+				Header: './src/components/CustomHeader.astro',
+				Sidebar: './src/components/CustomSidebar.astro',
+				PageTitle: './src/components/CustomPageTitle.astro',
+				PageSidebar: './src/components/CustomPageSidebar.astro',
+				Pagination: './src/components/CustomPagination.astro',
 			},
 			locales: {
 				en: {
@@ -86,6 +101,7 @@ export default defineConfig({
 			sidebar: [
 				{
 					label: 'Series 1: Pure Gear Engineering',
+					collapsed: true,
 					translations: {
 						ko: '시리즈 1: 순수 기어 공학',
 						de: 'Serie 1: Reine Zahnradtechnik',
@@ -94,6 +110,7 @@ export default defineConfig({
 					items: [
 						{
 							label: 'Part A. Spur Gears (Ch 1~9)',
+							collapsed: true,
 							translations: {
 								ko: 'Part A. 평치차 공학 체계 (제1장 ~ 제9장)',
 								de: 'Teil A. Stirnräder (Kapitel 1~9)',
@@ -107,6 +124,7 @@ export default defineConfig({
 				},
 				{
 					label: 'Series 2: Developer Architecture',
+					collapsed: true,
 					translations: {
 						ko: '시리즈 2: CAE/CAD 개발자 아키텍처',
 						de: 'Serie 2: Entwickler-Architektur',
@@ -115,6 +133,7 @@ export default defineConfig({
 					items: [
 						{
 							label: 'Part 1. Differential Geometry',
+							collapsed: true,
 							translations: {
 								ko: 'Part 1. 전산 치형 기하학 및 미분기하학 (Ch 2-1~2-4)',
 								de: 'Teil 1. Differentialgeometrie (Kapitel 2-1~2-4)',

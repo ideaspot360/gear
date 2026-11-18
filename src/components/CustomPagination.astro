@@ -1,0 +1,123 @@
+---
+// src/components/CustomPagination.astro
+import type { Props } from '@astrojs/starlight/props';
+
+const starlightRoute = Astro.locals?.starlightRoute || (Astro.props as any);
+const pagination = starlightRoute?.pagination || { prev: undefined, next: undefined };
+const { prev, next } = pagination;
+const locale = Astro.props.locale || starlightRoute?.locale || 'ko';
+
+const paginationLabels = {
+  ko: { prev: '← 이전 챕터 (PREVIOUS)', next: '다음 챕터 (NEXT) →' },
+  en: { prev: '← PREVIOUS CHAPTER', next: 'NEXT CHAPTER →' },
+  de: { prev: '← VORHERIGES KAPITEL', next: 'NÄCHSTES KAPITEL →' },
+  ja: { prev: '← 前の章 (PREVIOUS)', next: '次の章 (NEXT) →' },
+}[locale] || { prev: '← PREVIOUS CHAPTER', next: 'NEXT CHAPTER →' };
+---
+
+{(prev || next) && (
+  <nav class="custom-pagination-grid" aria-label="Pagination">
+    {prev ? (
+      <a href={prev.href} class="pagination-card pagination-prev" rel="prev">
+        <div class="card-direction">{paginationLabels.prev}</div>
+        <div class="card-title">{prev.label}</div>
+      </a>
+    ) : (
+      <div class="pagination-card pagination-placeholder"></div>
+    )}
+
+    {next && (
+      <a href={next.href} class="pagination-card pagination-next" rel="next">
+        <div class="card-direction">{paginationLabels.next}</div>
+        <div class="card-title">{next.label}</div>
+      </a>
+    )}
+  </nav>
+)}
+
+<script>
+  // 키보드 단축키 지원 (Alt + Left: 이전 챕터, Alt + Right: 다음 챕터)
+  function handleKeyDown(e: KeyboardEvent) {
+    const activeEl = document.activeElement;
+    const activeTag = activeEl?.tagName.toLowerCase();
+    if (activeTag === 'input' || activeTag === 'textarea' || activeTag === 'select') return;
+    if (activeEl?.getAttribute('contenteditable') === 'true') return;
+
+    if (e.altKey && e.key === 'ArrowLeft') {
+      const prevLink = document.querySelector<HTMLAnchorElement>('.pagination-prev');
+      if (prevLink) {
+        e.preventDefault();
+        prevLink.click();
+      }
+    } else if (e.altKey && e.key === 'ArrowRight') {
+      const nextLink = document.querySelector<HTMLAnchorElement>('.pagination-next');
+      if (nextLink) {
+        e.preventDefault();
+        nextLink.click();
+      }
+    }
+  }
+
+  function initKeyboardNav() {
+    window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initKeyboardNav);
+  } else {
+    initKeyboardNav();
+  }
+  document.addEventListener('astro:page-load', initKeyboardNav);
+</script>
+
+<style>
+  .custom-pagination-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--sl-color-hairline);
+  }
+  .pagination-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    border: 1px solid var(--sl-color-hairline);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .pagination-card:hover {
+    border-color: #3b82f6;
+    background: rgba(59, 130, 246, 0.05);
+    transform: translateY(-2px);
+  }
+  .pagination-next {
+    text-align: right;
+  }
+  .card-direction {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--sl-color-gray-3);
+    margin-bottom: 0.35rem;
+    letter-spacing: 0.05em;
+  }
+  .card-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--sl-color-white);
+    line-height: 1.35;
+  }
+  .pagination-placeholder {
+    border: none;
+    background: transparent;
+  }
+  @media (max-width: 50rem) {
+    .custom-pagination-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
