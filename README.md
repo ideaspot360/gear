@@ -1,49 +1,60 @@
-# Starlight Starter Kit: Basics
+# 01_GEAR_MANAGER
 
-[![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/tiny.svg)](https://starlight.astro.build)
+> **H-GEAR STUDIO 생태계 통합 매니저 & 다국어 엔지니어링 퍼블리싱 허브**
 
+본 프로젝트는 초정밀 공학 기어 설계 소프트웨어 **H-GEAR STUDIO**의 다국어(KO, EN, DE, JA) 기술 블로그, 공식 포털 웹사이트, 사용자 회원 관리, 라이선스 매니저를 총괄하는 독립 관리 프로젝트입니다.
+
+---
+
+## 🌟 주요 기능 및 구성
+
+1. **글로벌 4개 국어 공학 기술 블로그**:
+   - 프레임워크: Astro v5 + Starlight
+   - 수식 렌더링: KaTeX (Remark-Math / Rehype-KaTeX)
+   - 이미지 뷰어: PhotoSwipe 딥 줌 & 팬
+   - 32종 기하학 벡터 SVG 도안 및 44편 고품질 기술 백서
+
+2. **3대 품질 보증 게이트키퍼**:
+   - `npm run gate`: 마크다운 문체 및 휴먼 오리지널리티 감사 (`blog-gatekeeper`)
+   - `npm run lint:images`: 4개 국어 이미지 참조 및 언어 격리 무결성 5대 규칙 감사
+   - `npm run build`: 정적 사이트 완전 빌드 검증
+
+3. **Article 13 준수 엣지 배포 파이프라인**:
+   - `publish_to_edge.py`: 내부 도안 스크립트, 테스트 코드, 수치 스펙의 누출을 100% 차단하고 GitHub Pages 공개 저장소(`ideaspot360/gear.git`)로 안전하게 배포
+
+4. **차기 확장 로드맵**:
+   - H-GEAR 공식 브랜드 웹사이트
+   - 사용자 계정 및 라이선스 키 관리 포털
+   - 클라이언트 앱 업데이트 및 텔레메트리
+
+---
+
+## 🚀 빠른 시작 (Quick Start)
+
+### 의존성 설치
+```bash
+npm install
 ```
-npm create astro@latest -- --template starlight
+
+### 개발 서버 실행
+```bash
+npm run dev
+# 브라우저 접속: http://localhost:4321
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro + Starlight project, you'll see the following folders and files:
-
-```
-.
-├── public/
-├── src/
-│   ├── assets/
-│   ├── content/
-│   │   └── docs/
-│   └── content.config.ts
-├── astro.config.mjs
-├── package.json
-└── tsconfig.json
+### 3대 게이트 검증
+```bash
+npm run gate
+npm run lint:images
+npm run build
 ```
 
-Starlight looks for `.md` or `.mdx` files in the `src/content/docs/` directory. Each file is exposed as a route based on its file name.
+### 공개 엣지 배포
+```bash
+npm run publish:edge "chore: release updates"
+```
 
-Images can be added to `src/assets/` and embedded in Markdown with a relative link.
+---
 
-Static assets, like favicons, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Check out [Starlight’s docs](https://starlight.astro.build/), read [the Astro documentation](https://docs.astro.build), or jump into the [Astro Discord server](https://astro.build/chat).
+## 📖 상세 지침 및 헌법
+모든 개발 및 인수인계 지침은 [AGENTS.md](./AGENTS.md)를 참조하십시오.

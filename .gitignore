@@ -23,5 +23,9 @@ pnpm-debug.log*
 # Python & Temporary Test Artifacts
 __pycache__/
 *.pyc
+.pytest_cache/
 tests/crop_*.png
 scratch/
+
+# Edge Deployment Git Metadata
+.blog_edge_git/
