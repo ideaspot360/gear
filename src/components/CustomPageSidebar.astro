@@ -15,30 +15,36 @@ const toolsI18n = {
     sim: '📐 치형 기하학 실시간 시뮬레이터',
     export: '📥 ISO 6336 계산서 내보내기',
     cad: '⚙️ 3D B-Rep CAD STEP 검증기',
+    reading: '독서 진행률',
   },
   en: {
     title: '⚡️ H-GEAR Studio Quick Tools',
     sim: '📐 Flank Geometry Live Simulator',
     export: '📥 Export ISO 6336 Calculation Sheet',
     cad: '⚙️ 3D B-Rep CAD STEP Inspector',
+  reading: 'Reading Progress',
+    reading: 'Reading Progress',
   },
   de: {
     title: '⚡️ H-GEAR Studio Schnellzugriff',
     sim: '📐 Zahnflankengeometrie-Live-Simulator',
     export: '📥 ISO 6336 Berechnungsblatt exportieren',
     cad: '⚙️ 3D-B-Rep-CAD-STEP-Prüfer',
+    reading: 'Lesefortschritt',
   },
   ja: {
     title: '⚡️ H-GEAR Studio クイックツール',
     sim: '📐 歯形幾何学リアルタイムシミュレータ',
     export: '📥 ISO 6336 計算書エクスポート',
     cad: '⚙️ 3D B-Rep CAD STEP 検証機',
+    reading: '読書進捗',
   },
 }[locale] || {
   title: '⚡️ H-GEAR Studio Quick Tools',
   sim: '📐 Flank Geometry Live Simulator',
   export: '📥 Export ISO 6336 Calculation Sheet',
   cad: '⚙️ 3D B-Rep CAD STEP Inspector',
+  reading: 'Reading Progress',
 };
 ---
 
@@ -55,7 +61,7 @@ const toolsI18n = {
         <!-- 1. 읽기 진행률 인디케이터 바 -->
         <div class="reading-progress-container">
           <div class="progress-label">
-            <span>Reading Progress</span>
+            <span>{toolsI18n.reading}</span>
             <span id="reading-percent">0%</span>
           </div>
           <div class="reading-progress-track">
@@ -107,9 +113,27 @@ const toolsI18n = {
 </script>
 
 <style>
+  .right-sidebar-panel {
+    padding: 1rem var(--sl-sidebar-pad-x);
+  }
+  .right-sidebar-panel .sl-container {
+    width: calc(var(--sl-sidebar-width) - 2 * var(--sl-sidebar-pad-x));
+  }
+  @media (min-width: 72rem) {
+    .right-sidebar-panel .sl-container {
+      max-width: calc(
+        (
+          (
+            100vw - var(--sl-sidebar-width) - 2 * var(--sl-content-pad-x) - 2 *
+              var(--sl-sidebar-pad-x)
+          ) * 0.25
+        )
+      );
+    }
+  }
   .custom-page-sidebar {
-    padding: 1.25rem 0.5rem 1.5rem 1.25rem;
-    border-left: 1px solid var(--sl-color-hairline);
+    padding: 0;
+    border-left: none;
   }
   .reading-progress-container {
     margin-bottom: 1.25rem;
@@ -132,6 +156,7 @@ const toolsI18n = {
     background: var(--sl-color-hairline);
     border-radius: 2px;
     overflow: hidden;
+    margin-bottom: 0;
   }
   .reading-progress-fill {
     height: 100%;
@@ -210,16 +235,25 @@ const toolsI18n = {
     color: var(--sl-color-white);
     margin-bottom: 0.5rem;
   }
+  :global([data-theme='light']) .quick-tools-title {
+    color: #0f172a;
+  }
   .quick-tools-box a {
     display: block;
     margin-top: 0.35rem;
-    color: #60a5fa;
+    color: #3b82f6;
     text-decoration: none;
     font-size: 0.78rem;
     transition: color 0.15s ease;
   }
+  :global([data-theme='light']) .quick-tools-box a {
+    color: #2563eb;
+  }
   .quick-tools-box a:hover {
-    color: #93c5fd;
+    color: #60a5fa;
     text-decoration: underline;
+  }
+  :global([data-theme='light']) .quick-tools-box a:hover {
+    color: #1d4ed8;
   }
 </style>

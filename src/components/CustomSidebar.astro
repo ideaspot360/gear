@@ -24,31 +24,53 @@ const filteredSidebar = sidebar.filter((group: any) => {
 });
 
 const displaySidebar = filteredSidebar.length > 0 ? filteredSidebar : sidebar;
+
+// 다국어 지원: 모바일 스위처 타이틀 및 레이블, 데스크톱 배지
+const switcherTitles = {
+  ko: '시리즈 선택',
+  en: 'Series Selection',
+  de: 'Serienauswahl',
+  ja: 'シリーズ選択',
+}[locale] || 'Series Selection';
+
+const mobileTabLabels = {
+  ko: { s1: '⚙️ Series 1: 기어 (35)', s2: '💻 Series 2: CAE (20)' },
+  en: { s1: '⚙️ Series 1: Pure Gear (35)', s2: '💻 Series 2: CAE (20)' },
+  de: { s1: '⚙️ Serie 1: Zahnrad (35)', s2: '💻 Serie 2: CAE (20)' },
+  ja: { s1: '⚙️ シリーズ1: 歯車 (35)', s2: '💻 シリーズ2: CAE (20)' },
+}[locale] || { s1: '⚙️ Series 1: Gear (35)', s2: '💻 Series 2: CAE (20)' };
+
+const desktopBadgeLabels = {
+  ko: { s1: '⚙️ SERIES 1: 순수 기어 공학', s2: '💻 SERIES 2: CAE/CAD 아키텍처' },
+  en: { s1: '⚙️ SERIES 1: PURE GEAR ENGINEERING', s2: '💻 SERIES 2: CAE/CAD ARCHITECTURE' },
+  de: { s1: '⚙️ SERIE 1: REINE ZAHNRADTECHNIK', s2: '💻 SERIE 2: CAE/CAD-ARCHITEKTUR' },
+  ja: { s1: '⚙️ シリーズ1: 純粋歯車工学', s2: '💻 シリーズ2: CAE/CADアー키텍처' },
+}[locale] || { s1: '⚙️ SERIES 1: PURE GEAR ENGINEERING', s2: '💻 SERIES 2: CAE/CAD ARCHITECTURE' };
 ---
 
 <nav class="custom-sidebar" aria-label="Sidebar Navigation">
   <!-- 1. 모바일 드로어 전용 시리즈 스위처 (50rem 이하 모바일 드로어에서만 표시) -->
   <div class="mobile-series-switcher md:sl-hidden">
-    <div class="switcher-title">시리즈 선택 (Series Selection)</div>
+    <div class="switcher-title">{switcherTitles}</div>
     <div class="switcher-buttons">
       <a
         href={s1HubUrl}
         class:list={['mobile-switch-tab', { active: isSeries1 }]}
       >
-        ⚙️ Series 1: 기어 (35)
+        {mobileTabLabels.s1}
       </a>
       <a
         href={s2HubUrl}
         class:list={['mobile-switch-tab', { active: isSeries2 }]}
       >
-        💻 Series 2: CAE (20)
+        {mobileTabLabels.s2}
       </a>
     </div>
   </div>
 
   <!-- 2. 데스크톱 시리즈 헤더 뱃지 -->
   <div class="sidebar-series-badge sl-hidden md:sl-block">
-    {isSeries2 ? '💻 SERIES 2: CAE/CAD ARCHITECTURE' : '⚙️ SERIES 1: PURE GEAR ENGINEERING'}
+    {isSeries2 ? desktopBadgeLabels.s2 : desktopBadgeLabels.s1}
   </div>
 
   <!-- 3. Part별 지능형 독점 아코디언 컨테이너 -->
@@ -113,9 +135,7 @@ const displaySidebar = filteredSidebar.length > 0 ? filteredSidebar : sidebar;
 
 <style>
   .custom-sidebar {
-    padding: 1.5rem 1rem 3rem 1rem;
-    height: 100%;
-    overflow-y: auto;
+    padding: 0.5rem 0.5rem 2.5rem 0.5rem;
   }
   /* 모바일 시리즈 스위처 (50rem 초과 데스크톱에서는 숨김) */
   .mobile-series-switcher {
@@ -151,12 +171,21 @@ const displaySidebar = filteredSidebar.length > 0 ? filteredSidebar : sidebar;
     border: 1px solid var(--sl-color-hairline);
     transition: all 0.2s ease;
   }
+  :global([data-theme='light']) .mobile-switch-tab:not(.active) {
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #cbd5e1;
+  }
   .mobile-switch-tab.active {
     background: #3b82f6;
     color: #ffffff;
     border-color: #3b82f6;
   }
   @media (max-width: 50rem) {
+    .custom-sidebar {
+      padding: 0.75rem 0.5rem 2rem 0.5rem;
+      overflow-y: visible;
+    }
     .mobile-series-switcher {
       display: block;
     }
@@ -177,6 +206,12 @@ const displaySidebar = filteredSidebar.length > 0 ? filteredSidebar : sidebar;
     margin-bottom: 0.5rem;
     border-radius: 6px;
     background: transparent;
+  }
+  details[open].part-accordion {
+    margin-bottom: 0.85rem;
+  }
+  details:not([open]).part-accordion {
+    margin-bottom: 0.35rem;
   }
   .part-summary {
     display: flex;

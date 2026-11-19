@@ -93,13 +93,12 @@
    H-GEAR STUDIO Hierarchical Navigation & Layout Enhancements
    ========================================================================== */
 
-/* 1. 상단 GNB 헤더 이너 래퍼 (Starlight PageFrame 기본 header 슬롯 안착) */
+/* 1. 상단 GNB 헤더 이너 래퍼 (Starlight PageFrame 기본 header 슬롯 안착 - 이중 패딩 제거) */
 .header-inner {
   height: 100%;
   width: 100%;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 1.5rem;
+  padding: 0;
 }
 
 /* 2. 모바일 드로어 전용 시리즈 스위처 (50rem / 800px 이하 모바일 드로어에서만 노출) */
@@ -110,12 +109,24 @@
   border-bottom: 1px solid var(--sl-color-hairline);
 }
 @media (max-width: 50rem) {
+  .header-inner {
+    padding: 0;
+  }
   .mobile-series-switcher {
     display: block;
   }
 }
 
-/* 3. 사이드바 스크롤바 미세화 */
+/* 3. 사이드바 스크롤바 미세화 및 여백 정돈 */
+.custom-sidebar {
+  padding: 0.5rem 0.5rem 2.5rem 0.5rem;
+}
+@media (max-width: 50rem) {
+  .custom-sidebar {
+    padding: 0.75rem 0.5rem 2rem 0.5rem;
+    overflow-y: visible;
+  }
+}
 .custom-sidebar::-webkit-scrollbar {
   width: 5px;
 }
@@ -140,11 +151,14 @@
   }
 }
 
-/* 5. 본문 헤딩 상단 여백 (GNB 헤더 고정에 따른 가림 방지) */
+/* 5. 본문 헤딩 상단 여백 (GNB 헤더 고정에 따른 가림 방지) 및 한글 단어 줄바꿈 보장 */
+.sl-markdown-content h1,
 .sl-markdown-content h2,
 .sl-markdown-content h3,
 .sl-markdown-content h4 {
   scroll-margin-top: calc(var(--sl-nav-height) + 1.5rem);
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 /* 6. 읽기 진행률 인디케이터 (우측 ToC 상단 바인딩) */
@@ -153,7 +167,7 @@
   height: 4px;
   background: var(--sl-color-hairline);
   border-radius: 2px;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
   overflow: hidden;
 }
 .reading-progress-fill {
@@ -172,17 +186,31 @@
   border-radius: 8px;
   font-size: 0.8rem;
 }
+.quick-tools-title {
+  font-weight: 700;
+  color: var(--sl-color-white);
+  margin-bottom: 0.5rem;
+}
+[data-theme='light'] .quick-tools-title {
+  color: #0f172a;
+}
 .quick-tools-box a {
   display: block;
   margin-top: 0.35rem;
-  color: #60a5fa;
+  color: #3b82f6;
   text-decoration: none;
   font-weight: 500;
   transition: color 0.15s ease;
 }
+[data-theme='light'] .quick-tools-box a {
+  color: #2563eb;
+}
 .quick-tools-box a:hover {
-  color: #93c5fd;
+  color: #60a5fa;
   text-decoration: underline;
+}
+[data-theme='light'] .quick-tools-box a:hover {
+  color: #1d4ed8;
 }
 
 /* ==========================================================================
@@ -214,10 +242,27 @@
   line-height: 1.65;
   color: var(--sl-color-gray-2);
   margin-bottom: 1.25rem;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 [data-theme='light'] .series-hub-lead {
   color: #334155;
+}
+
+@media (max-width: 50rem) {
+  .series-hub-banner {
+    padding: 1.1rem 1.15rem;
+    margin-bottom: 1.5rem;
+  }
+  .hub-stat-pill {
+    font-size: 0.78rem !important;
+    padding: 0.3rem 0.65rem !important;
+    border-radius: 6px !important;
+  }
+  .hub-stats-row {
+    gap: 0.45rem !important;
+  }
 }
 
 .hub-stats-row {
@@ -268,17 +313,35 @@
 .series-hub-dashboard .card-grid,
 .series-hub-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
   gap: 1.25rem;
   margin-top: 1.5rem;
 }
 
 .series-hub-dashboard .card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
   border: 1px solid var(--sl-color-hairline);
   border-radius: 12px;
   padding: 1.25rem 1.4rem;
   background: var(--sl-color-bg-sidebar);
+}
+
+.series-hub-dashboard .card .body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+}
+
+.series-hub-dashboard .card .title {
+  font-size: 1.15rem !important;
+  line-height: 1.35 !important;
+  gap: 0.65rem !important;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 .series-hub-dashboard .card:hover {
@@ -298,6 +361,8 @@
   line-height: 1.5;
   color: var(--sl-color-gray-2);
   margin-bottom: 0.85rem !important;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 [data-theme='light'] .hub-part-desc {
@@ -347,7 +412,7 @@
   margin: 0 0 1.25rem 0 !important;
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
+  gap: 0.55rem;
 }
 
 .hub-chapter-item {
@@ -356,7 +421,9 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 0.5rem;
+  gap: 0.6rem;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 .hub-chapter-item a {
@@ -367,6 +434,8 @@
   align-items: center;
   gap: 0.3rem;
   transition: color 0.15s ease;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 [data-theme='light'] .hub-chapter-item a {
@@ -402,6 +471,8 @@
   border: 1px solid rgba(16, 185, 129, 0.35);
   color: #34d399;
   white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 0.15rem;
 }
 
 [data-theme='light'] .hub-badge-published {
@@ -419,6 +490,8 @@
   border: 1px solid rgba(148, 163, 184, 0.28);
   color: #cbd5e1;
   white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 0.15rem;
 }
 
 [data-theme='light'] .hub-badge-upcoming {
@@ -480,7 +553,8 @@ starlight-toc li {
   line-height: 1.35 !important;
 }
 
-starlight-toc a {
+starlight-toc a,
+mobile-starlight-toc a {
   display: block !important;
   font-size: 0.8125rem !important; /* 좌측 사이드바 트리(0.82rem)와 조화 */
   line-height: 1.4 !important;
@@ -489,21 +563,27 @@ starlight-toc a {
   padding: 0.25rem 0.4rem !important;
   border-radius: 4px !important;
   transition: all 0.15s ease !important;
+  word-break: keep-all !important;
+  overflow-wrap: break-word !important;
 }
 
-starlight-toc a:hover {
+starlight-toc a:hover,
+mobile-starlight-toc a:hover {
   color: var(--sl-color-white) !important;
   background: rgba(255, 255, 255, 0.05) !important;
   text-decoration: none !important;
 }
 
-[data-theme='light'] starlight-toc a:hover {
+[data-theme='light'] starlight-toc a:hover,
+[data-theme='light'] mobile-starlight-toc a:hover {
   color: #0f172a !important;
   background: rgba(0, 0, 0, 0.04) !important;
 }
 
 starlight-toc a[aria-current='true'],
-starlight-toc a.current {
+starlight-toc a.current,
+mobile-starlight-toc a[aria-current='true'],
+mobile-starlight-toc a.current {
   color: #3b82f6 !important;
   font-weight: 600 !important;
   background: rgba(59, 130, 246, 0.08) !important;
@@ -511,7 +591,9 @@ starlight-toc a.current {
 }
 
 [data-theme='light'] starlight-toc a[aria-current='true'],
-[data-theme='light'] starlight-toc a.current {
+[data-theme='light'] starlight-toc a.current,
+[data-theme='light'] mobile-starlight-toc a[aria-current='true'],
+[data-theme='light'] mobile-starlight-toc a.current {
   color: #2563eb !important;
   background: rgba(37, 99, 235, 0.08) !important;
 }

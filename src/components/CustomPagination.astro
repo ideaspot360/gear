@@ -76,8 +76,8 @@ const paginationLabels = {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
-    margin-top: 3rem;
-    padding-top: 2rem;
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
     border-top: 1px solid var(--sl-color-hairline);
   }
   .pagination-card {
@@ -89,6 +89,10 @@ const paginationLabels = {
     text-decoration: none;
     transition: all 0.2s ease;
     background: rgba(255, 255, 255, 0.02);
+  }
+  :global([data-theme='light']) .pagination-card {
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
   }
   .pagination-card:hover {
     border-color: #3b82f6;
@@ -110,14 +114,25 @@ const paginationLabels = {
     font-weight: 600;
     color: var(--sl-color-white);
     line-height: 1.35;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+  :global([data-theme='light']) .card-title {
+    color: #0f172a;
   }
   .pagination-placeholder {
     border: none;
     background: transparent;
+    padding: 0;
   }
   @media (max-width: 50rem) {
     .custom-pagination-grid {
       grid-template-columns: 1fr;
+      margin-top: 2rem;
+      padding-top: 1.25rem;
+    }
+    .pagination-placeholder {
+      display: none !important;
     }
   }
 </style>
