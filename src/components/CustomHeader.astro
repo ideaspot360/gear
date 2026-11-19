@@ -93,9 +93,14 @@ const tabLabelsCompact = {
     gap: 0.75rem;
   }
   .right-group {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    display: none;
+  }
+  @media (min-width: 50rem) {
+    .right-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
   }
   .social-divider {
     width: 1px;
@@ -147,6 +152,10 @@ const tabLabelsCompact = {
     font-weight: 600;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   }
+  :global([data-theme='light']) .series-tab-item.active,
+  [data-theme='light'] .series-tab-item.active {
+    color: #2563eb;
+  }
 
   /* 801px ~ 1200px 중간 뷰포트: 줄바꿈 방지 및 콤팩트 레이블 전환 */
   @media (min-width: 50.001rem) and (max-width: 75rem) {
@@ -173,6 +182,9 @@ const tabLabelsCompact = {
       padding: 0;
     }
     .series-nav-tabs {
+      display: none !important;
+    }
+    .right-group {
       display: none !important;
     }
   }
