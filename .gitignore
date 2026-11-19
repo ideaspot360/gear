@@ -26,6 +26,8 @@ __pycache__/
 .pytest_cache/
 tests/crop_*.png
 scratch/
+artifacts/
+**/visual_captures/
 
 # Edge Deployment Git Metadata
 .blog_edge_git/

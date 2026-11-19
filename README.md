@@ -14,10 +14,11 @@
    - 이미지 뷰어: PhotoSwipe 딥 줌 & 팬
    - 32종 기하학 벡터 SVG 도안 및 44편 고품질 기술 백서
 
-2. **3대 품질 보증 게이트키퍼**:
-   - `npm run gate`: 마크다운 문체 및 휴먼 오리지널리티 감사 (`blog-gatekeeper`)
-   - `npm run lint:images`: 4개 국어 이미지 참조 및 언어 격리 무결성 5대 규칙 감사
-   - `npm run build`: 정적 사이트 완전 빌드 검증
+2. **4대 철벽 품질 보증 게이트키퍼**:
+   - **Gate 1 (`npm run gate`)**: 마크다운 문체, 금지어 및 휴먼 오리지널리티 감사 (`blog-gatekeeper`)
+   - **Gate 2 (`npm run lint:images`)**: 4개 국어 이미지 참조 및 언어 격리 무결성 5대 규칙 감사
+   - **Gate 3 (도안 최종 육안검수 철벽게이트)**: 모든 공학 도안(KO/EN/DE/JA)에 대한 에이전트/서브에이전트 직접 육안검수 실시 및 지적 0건 무한 개선 루프 통과
+   - **Gate 4 (`npm run build`)**: 정적 사이트 완전 빌드 검증
 
 3. **Article 13 준수 엣지 배포 파이프라인**:
    - `publish_to_edge.py`: 내부 도안 스크립트, 테스트 코드, 수치 스펙의 누출을 100% 차단하고 GitHub Pages 공개 저장소(`ideaspot360/gear.git`)로 안전하게 배포
@@ -42,10 +43,11 @@ npm run dev
 # 브라우저 접속: http://localhost:4321
 ```
 
-### 3대 게이트 검증
+### 4대 철벽 게이트 검증
 ```bash
 npm run gate
 npm run lint:images
+# Gate 3: 도안 최종 육안검수 (에이전트/서브에이전트 지적 0건 PASS 확인)
 npm run build
 ```
 
