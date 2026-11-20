@@ -11,6 +11,16 @@
     "lint:images": "python scripts/lint_image_references.py",
     "gate": "blog-gatekeeper --dir src/content/docs --platform gear",
     "gate:self": "blog-gatekeeper --self-test",
+    "db:sync": "python scripts/sync_posts_db.py",
+    "db:summary": "python scripts/manage_posts_db.py --summary",
+    "db:list": "python scripts/manage_posts_db.py --list",
+    "db:verify": "python scripts/manage_posts_db.py --verify",
+    "db:prune": "python scripts/manage_posts_db.py --prune",
+    "db:next": "python scripts/manage_posts_db.py --next",
+    "db:transition": "python scripts/manage_posts_db.py --transition",
+    "db:timeline": "python scripts/manage_posts_db.py --timeline",
+    "db:catalog": "python scripts/manage_posts_db.py --catalog",
+    "test:reservation": "pytest tests/test_reservation_system.py",
     "publish:edge": "python publish_to_edge.py"
   },
   "dependencies": {
