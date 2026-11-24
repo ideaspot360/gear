@@ -1,34 +1,37 @@
 ---
-title: Kapitel 1. Warum Zahnräder? — Grundprinzipien der Kraftübertragung und Verzahnungsgesetz
-description: Von den Schlupfgrenzen der Reibräder und Winkelbeschleunigungspulsationen gekerbter Zylinder bis zur Evolventen-Fadengeometrie, dem Satz von Camus und den drei grundlegenden Konstruktionsparametern.
+title: Kapitel 1. Warum Zahnräder? — Grundprinzipien der Leistungsübertragung und das Verzahnungsgesetz
+description: Von den Schlupfgrenzen des Reibrads und den Winkelbeschleunigungsimpulsen gekerbter Zylinder bis zur Evolventen-Fadengeometrie, dem Satz von Camus, der Übereinstimmung der Geschwindigkeitsnormalen und den 3 grundlegenden Konstruktionsparametern.
 series: theory
 part: 1
 chapter: 1
 gear_type: spur
 standards:
   - "DIN 3960"
+  - "DIN 867"
   - "ISO 21771:2007"
+  - "ISO 53"
+  - "ISO 6336-1"
 required_diagrams:
   - "fig1a_friction_drive"
   - "fig1b_gear_drive"
   - "fig2_willis_law_geometry"
   - "fig3_contact_velocity_vectors"
 academic_level: undergraduate
-equations_hash: "ce384ecf0c4f9dbf3c20e8e5968832bd1d20e60e3dd9823bffc7be493bb9920c"
+equations_hash: "1a341d7be43c6c4b30c58452734b7df557f9b2c7814848f06431c9318805f094"
 review_date: "2026-11-12"
 sidebar:
   order: 1
 ---
 
-## 1. Einleitung: Evolution der Übertragungselemente und Grenzen von Reibrädern
+## 1. Einführung: Entwicklung der Übertragungselemente und Grenzen des Reibradgetriebes
 
-Das ursprünglichste mechanische Element zur Übertragung einer Drehbewegung zwischen zwei Wellen ist ein Paar glatter Zylinder, die gegeneinander gepresst werden und deren Drehung durch Reibung bewirkt wird — sogenannte **Reibräder (Friction Wheels)**.
+Das intuitivste und ursprünglichste mechanische Getriebeelement zur Übertragung einer Drehbewegung von einer Welle auf eine andere ist das **Reibrad (Friction Wheel)**, bei dem zwei glatte Zylinder aufeinander gepresst werden und die Kraft über Kontaktreibung übertragen wird.
 
-Bei zwei Zylindern mit Radien $r_1$ und $r_2$, Achsabstand $a$ und Anpresskraft $F_N$ ist die übertragbare Umfangskraft $F_{t,\max}$ durch das Coulombsche Reibungsgesetz begrenzt:
+Das Funktionsprinzip des Reibrades ist elementar. Zwei zylindrische Räder mit den Radien $r_1$ und $r_2$ sind auf Wellen mit festem Achsabstand $a$ montiert und werden durch eine äußere Normalkraft $F_N$ fest gegeneinander gepresst. Rotiert die Antriebswelle mit der Winkelgeschwindigkeit $\omega_1$ und herrscht an der Kontaktfläche der Haftreibungskoeffizient $\mu_s$, so ist die maximal übertragbare Umfangskraft $F_{t,\max}$ durch das Coulombsche Reibungsgesetz begrenzt:
 
 $$F_t \le \mu_s F_N$$
 
-Das maximal übertragbare Drehmoment beträgt:
+Das maximal übertragbare Drehmoment der Antriebswelle beträgt:
 
 $$T_{1,\max} = r_1 \cdot F_{t,\max} = \mu_s r_1 F_N$$
 
@@ -36,16 +39,21 @@ $$T_{1,\max} = r_1 \cdot F_{t,\max} = \mu_s r_1 F_N$$
 [Antriebswelle O₁ (Radius r₁)] ──(Normalkraft FN)──▶ [Berührpunkt P (Ft ≤ μ FN)] ──(Abtrieb)──▶ [Abtriebswelle O₂ (Radius r₂)]
 ```
 
-Im idealen schlupffreien Rollzustand ist das Übersetzungsverhältnis $u$ konstant:
+Im idealen, schlupffreien Zustand reinen Abrollens (Pure Rolling) stimmen die Umfangsgeschwindigkeiten im Wälzpunkt $P$ überein, woraus ein konstantes Übersetzungsverhältnis $i$ folgt:
 
-$$v = r_1 \omega_1 = r_2 \omega_2 \quad \Longrightarrow \quad u = \frac{\omega_1}{\omega_2} = \frac{r_2}{r_1} = \mathrm{Constant}$$
+$$v = r_1 \omega_1 = r_2 \omega_2 \quad \Longrightarrow \quad i = \frac{\omega_1}{\omega_2} = \frac{r_2}{r_1} = \mathrm{Constant}$$
 
-![Abbildung 1A: Funktionsprinzip und Grenzen von Reibrädern](/images/part1/de/fig1a_friction_drive.png)
+![Abbildung 1A: Funktionsprinzip und mechanische Grenzen des Reibradgetriebes](/images/part1/de/fig1a_friction_drive.png)
 
-Reibräder besitzen jedoch erhebliche Nachteile:
-1. **Schlupf und Verlust der Phasensynchronisation**: Bei Drehmomentspitzen oder Ölbenetzung tritt Schlupf auf, wodurch die Winkelgeschwindigkeit pulsiert.
-2. **Hohe Lagerbelastung**: Hohe Drehmomente erfordern enorme Anpresskräfte $F_N$, was zu hoher Lagerbelastung und vorzeitiger Ermüdung führt.
-3. **Reibungswärme und Verschleiß**: Schlupf erzeugt starke Erwärmung und ungleichmäßigen Verschleiß.
+In realen mechanischen Systemen weisen Reibräder jedoch gravierende physikalische Grenzen auf:
+
+1. **Schlupf und Verlust der Phasensynchronisation**: Übersteigt das geforderte Drehmoment $T_1$ das Grenzdrehmoment $\mu_s r_1 F_N$ oder sinkt der Reibbeiwert durch Schmieröleintrag, Feuchtigkeit oder Verschleiß, tritt sofortiger Schlupf auf. Infolgedessen schwankt das Geschwindigkeitsverhältnis $i(t)$, was Reibräder für phasensynchrone Antriebe unbrauchbar macht.
+2. **Übermäßige Lager- und Wellenbelastung**: Um eine Nutzumfangskraft $F_t$ schlupffrei zu übertragen, verlangt das Reibungsgesetz eine permanente Mindest-Anpresskraft von $F_N \ge F_t / \mu_s$. Für typische Stahl-Stahl-Gleitkontakte unter Grenzschmierung ($\mu_s \approx 0.15$) ergibt sich quantitativ:
+$$F_N \ge \frac{F_t}{\mu_s} = \frac{F_t}{0.15} \approx 6.67 F_t \approx 6.7 F_t$$
+Das bedeutet, dass permanent eine gewaltige Anpresskraft vom **rund 6.7-fachen der eigentlichen Nutzkraft** auf Wellen und Lager wirken muss. Vergleicht man dies mit der radialen Wellenabdrängkraft einer standardmäßigen Evolventenverzahnung ($\alpha = 20^\circ$) von $F_r = F_t \tan 20^\circ \approx 0.364 F_t$, offenbart sich eine extreme Diskrepanz:
+$$\frac{F_{N,\mathrm{friction}}}{F_{r,\mathrm{gear}}} = \frac{6.67 F_t}{0.364 F_t} \approx 18.3$$
+Die Lagerbelastung eines Reibradgetriebes ist mehr als 18-mal so hoch wie bei einem entsprechenden Zahnradgetriebe, was zu vorzeitiger Lagerermüdung und massiven Gehäusestrukturen führt.
+3. **Reibungswärme und Verschleiß**: Sobald Schlupf auftritt, entsteht an der Kontaktlinie intensive Reibungswärme, die zu ungleichmäßigem Abrieb und drastischem Wirkungsgradabfall führt.
 
 ### Vergleich: Reibrad vs Evolventen-Zahnradgetriebe
 
@@ -54,37 +62,41 @@ Reibräder besitzen jedoch erhebliche Nachteile:
 | Merkmal / Kriterium | Reibrad (Friction Wheel) | Evolventen-Zahnradgetriebe |
 | :--- | :--- | :--- |
 | **Kraft- und Leistungsübertragung** | Kontakt-Reibschluss ($F_t \le \mu_s F_N$) | Formschlüssiger Verzahnungseingriff |
-| **Drehzahlverhältnis und Synchronisation** | Schlupf möglich ($\Delta v \ne 0$) | Theoretisch exakte Drehzahltreue ($u = z_2/z_1 = \mathrm{const}$) |
-| **Lager- und Wellenbelastung** | Hohe Normalkraft $F_N$ erforderlich (Lagerermüdung) | Reine drehmomentproportionale Betriebslast |
-| **Hochlast-Zuverlässigkeit** | Durchrutschen bei Überlast (starker Verschleiß) | $0.000\text{ mm}$ kollisionsfreie Kraftübertragung (Wirkungsgrad 98~99.5%) |
+| **Drehzahlverhältnis und Synchronisation** | Schlupf möglich ($\Delta v \ne 0$, $i$ schwankt) | Theoretisch exakte Drehzahltreue ($i = u = z_2/z_1 = \mathrm{const}$) |
+| **Lager- und Wellenbelastung** | Hohe Normalkraft $F_N \approx 6.7 F_t$ erforderlich | Reine drehmomentproportionale Betriebslast ($F_r \approx 0.364 F_t$) |
+| **Hochlast-Zuverlässigkeit** | Durchrutschen bei Überlast (starker Verschleiß) | Formschlüssiger Verzahnungseingriff (Wirkungsgrad 98~99.5%) |
 
 ---
 
 ## 2. Notwendigkeit der Zahnformbildung: Grenzen gekerbter Zylinder und Stoßdynamik
 
-Um Schlupf zu verhindern, könnte man Kerben oder Rillen in die Zylinder fräsen. Beliebige Zahnformen führen jedoch zu dynamischen Katastrophen.
+Um Schlupf zu verhindern, liegt der Gedanke nahe, rechteckige oder halbkreisförmige Nuten und Zähne in die Zylinderränder zu schneiden, damit sie formschlüssig ineinandergreifen. Solche Systeme nennt man **einfache Nutenzylinder**.
 
-Wenn beliebige Profile kämmen, wandert die Eingriffsnormale周期isch hin und her. Das Momentanübersetzungsverhältnis pulsiert:
+Das bloße Vorhandensein von Zähnen löst das Problem jedoch nicht. Geometrisch nicht exakt berechnete Zahnprofile führen zu dynamischen Katastrophen.
 
-$$u(t) = \frac{\omega_1}{\omega_2(t)} \ne \mathrm{Constant}$$
+Wenn zwei beliebige Profile kämmen, wandert der Berührpunkt $K$ kontinuierlich. Weicht die gemeinsame Normale im Berührpunkt periodisch von der Zentrale ab, so pulsiert das Momentanübersetzungsverhältnis $i(t) = \omega_1(t)/\omega_2(t)$:
 
-Selbst bei konstanter Antriebsgeschwindigkeit $\omega_1$ erfährt die Abtriebswelle eine Winkelbeschleunigung:
+$$i(t) = \frac{\omega_1}{\omega_2(t)} \ne \mathrm{Constant}$$
 
-$$\alpha_2(t) = \frac{d\omega_2(t)}{dt} \ne 0$$
+Rotiert der Antriebsmotor mit konstanter Winkelgeschwindigkeit $\omega_1$, und bezeichnet $\theta_1(t)$ den Drehwinkel der Antriebswelle ($d\theta_1/dt = \omega_1$), so lautet die Abtriebsgeschwindigkeit $\omega_2(t) = \omega_1 / i(\theta_1(t))$. Die zeitliche Ableitung über die Kettenregel (Chain Rule) liefert:
 
-Mit Massenträgheitsmoment $I$ entstehen erhebliche dynamische Stoßkräfte:
+$$\alpha_2(t) = \frac{d\omega_2}{dt} = \frac{d\omega_2}{d\theta_1} \frac{d\theta_1}{dt} = \frac{d}{d\theta_1}\left(\frac{\omega_1}{i(\theta_1)}\right) \cdot \omega_1 = -\frac{\omega_1^2}{[i(\theta_1)]^2} \frac{di(\theta_1)}{d\theta_1} \ne 0$$
 
-$$F_{dyn}(t) = I \cdot \alpha_2(t) = I \cdot \frac{d\omega_2(t)}{dt}$$
+Gilt $di/d\theta_1 \ne 0$, entsteht an der Abtriebswelle zwangsläufig eine Winkelbeschleunigung $\alpha_2(t)$. Entscheidend ist, dass diese Beschleunigung quadratisch mit der Antriebsdrehzahl wächst ($\omega_1^2$). Nach Newtons zweitem Gesetz erzeugen Massenträgheitsmoment $I$ und Wälzkreisradius $r_2$ ein dynamisches Stoßmoment $T_{dyn}(t)$ und Zahnnormalkräfte $F_{dyn}(t)$:
 
-Dies führt zu Lärm, Schwingungen und Zahnbruch. Zahnradtechnik bedeutet daher, **eine Kurvengeometrie zu finden, die über den gesamten Eingriff eine streng konstante Winkelgeschwindigkeit ($d\omega_2/dt \equiv 0$) garantiert**.
+$$T_{dyn}(t) = I \cdot \alpha_2(t) = -I \frac{\omega_1^2}{[i(\theta_1)]^2} \frac{di(\theta_1)}{d\theta_1}$$
+
+$$F_{dyn}(t) = \frac{T_{dyn}(t)}{r_2} = -I \frac{\omega_1^2}{r_2 [i(\theta_1)]^2} \frac{di(\theta_1)}{d\theta_1}$$
+
+Diese Stoßkräfte treffen die Zähne mit Frequenzen von Dutzenden bis Hunderten Hertz, was zu Lärm, Schwingungen und vorzeitigem Zahnbruch führt. Zahnradtechnik bedeutet daher, **eine Kurvengeometrie zu finden, die über den gesamten Eingriff eine streng konstante Winkelgeschwindigkeit ($d\omega_2/dt \equiv 0$) garantiert**.
 
 ---
 
 ## 3. Entstehung der Evolventenkurve: Geometrie des abwickelnden Fadens
 
-Die ideale Zahnkurve wurde von Leonhard Euler formuliert: die **Kreisevolvente (Involute of a Circle)**.
+Die ideale Zahnkurve wurde 1694 vom französischen Mathematiker Philippe de La Hire (1640–1718) in *Traité des épicycloïdes* erstmals vorgeschlagen und 1760 von Leonhard Euler (1707–1783) analytisch-geometrisch begründet: die **Kreisevolvente (Involute of a Circle)**.
 
-Wickelt man einen straffen Faden von einem Zylinder mit Radius $r_b$ (dem **Grundkreis, Base Circle**) ab, so beschreibt der Endpunkt eine Kreisevolvente.
+Das Konzept der Evolvente ist überaus anschaulich. Wickelt man einen straffen Faden von einem Zylinder mit Radius $r_b$ (dem **Grundkreis, Base Circle**) ab, so beschreibt der Endpunkt im Raum eine Kreisevolvente.
 
 ```
                   Grundkreis (Radius rb)
@@ -97,20 +109,21 @@ Wickelt man einen straffen Faden von einem Zylinder mit Radius $r_b$ (dem **Grun
                    ' - _ _ _ - ' ───────▶ K (Evolventenbahn)
 ```
 
-Die 3 Invarianten der Evolvente:
+Die 3 fundamentalen Invarianten der Evolvente:
+
 1. **Fadenlänge gleich Bogenlänge**:
    $$L = r_b \cdot \theta$$
-2. **Der Faden ist die Kurvennormale**: Die Eingriffsnormale im Punkt $K$ ist stets identisch mit dem straff abgewickelten Faden.
-3. **Alle Normalen berühren den Grundkreis**: Der Krümmungsradius $\rho_K$ entspricht der abgewickelten Länge:
+2. **Der Faden ist die Kurvennormale**: Die Eingriffsnormale im Punkt $K$ ist stets identisch mit dem straff abgewickelten Faden und steht senkrecht auf der Zahnflankentangente.
+3. **Alle Normalen berühren den Grundkreis**: Der Krümmungsradius $\rho_K$ entspricht exakt der abgewickelten Fadenlänge:
    $$\rho_K = r_b \cdot \theta$$
 
-Parametergleichungen mit Grundkreisradius $r_b$ und Abrollwinkel $\theta$:
+Parametergleichungen im kartesischen Koordinatensystem mit Ursprung im Grundkreismittelpunkt $O$:
 
 $$x_K = r_b (\cos\theta + \theta \sin\theta)$$
 
 $$y_K = r_b (\sin\theta - \theta \cos\theta)$$
 
-Im Punkt mit Radius $r_K$ und Eingriffswinkel $\alpha_K$:
+Im Punkt mit Radius $r_K$ und Flankeneingriffswinkel $\alpha_K$:
 
 $$r_b = r_K \cos\alpha_K \quad \Longrightarrow \quad \cos\alpha_K = \frac{r_b}{r_K}$$
 
@@ -118,29 +131,37 @@ $$\theta = \tan\alpha_K$$
 
 $$\mathrm{inv}\,\alpha_K = \tan\alpha_K - \alpha_K$$
 
+Hinweis: Der Winkel $\alpha_K$ muss zwingend im Bogenmaß (Radiant) angegeben werden.
+
 ---
 
 ## 4. Das allgemeine Verzahnungsgesetz und der Satz von Camus
 
-Die kinematische Grundbedingung für eine konstante Winkelgeschwindigkeit ist das **Verzahnungsgesetz (Law of Gearing / Willis's Law)**.
+Die kinematische Grundbedingung für eine konstante Winkelgeschwindigkeit ist das **Verzahnungsgesetz (Law of Gearing / Willis's Law)**. Aufbauend auf den Arbeiten von Philippe de La Hire (1694) wurde es 1733 von Charles Camus geometrisch exakt formuliert und 1838 von Robert Willis popularisiert.
 
 ![Abbildung 2: Geometrischer Beweis des Verzahnungsgesetzes](/images/part1/de/fig2_willis_law_geometry.png)
 
 ### 4.1 Kinematische Berührbedingung: Übereinstimmung der Geschwindigkeitsnormalen
 
-Im Berührpunkt $K$ mit Geschwindigkeiten $\vec{v}_1$ und $\vec{v}_2$:
+Im Berührpunkt $K$ mit den Geschwindigkeitsvektoren $\vec{v}_1$ und $\vec{v}_2$:
 
 $$v_1 = \omega_1 \cdot O_1 K, \quad v_2 = \omega_2 \cdot O_2 K$$
 
 ![Abbildung 3: Kinematik des Eingriffspunkts und Geschwindigkeitsvektoren](/images/part1/de/fig3_contact_velocity_vectors.png)
 
-Damit kein Eindringen oder Abheben stattfindet, müssen die Normalkomponenten entlang der Eingriffslinie $n$-$n$ übereinstimmen:
+Damit kein Eindringen oder Abheben der Flanken stattfindet, müssen die Normalkomponenten entlang der gemeinsamen Normale $n$-$n$ exakt übereinstimmen:
 
 $$v_{n1} = v_{n2}$$
 
-Die Differenz in Tangentialrichtung ist die Gleitgeschwindigkeit $v_g$:
+Die Geschwindigkeitsdifferenz in Tangentialrichtung $t$-$t$ ist die Relativgleitgeschwindigkeit ($v_g$ bzw. $v_s$):
 
 $$v_g = v_{t1} - v_{t2}$$
+
+Die Gleitgeschwindigkeit $v_g$ verschwindet **nur im Wälzpunkt $P$ ($K = P$)**, an dem $v_{t1} = v_{t2}$ gilt ($v_g = 0$, reines Wälzen). An allen anderen Berührpunkten entlang der Eingriffslinie ($K \ne P$) weichen die Tangentialgeschwindigkeiten voneinander ab, sodass zwangsläufig ein Flankengleiten ($v_g \ne 0$) auftritt. Konkret ist die Flankentangentialgeschwindigkeit proportional zum jeweiligen Krümmungsradius: $v_{t1} = \omega_1 \cdot N_1 K = \omega_1 (N_1 P + PK)$ und $v_{t2} = \omega_2 \cdot N_2 K = \omega_2 (N_2 P - PK)$. Da sich im Wälzpunkt $P$ die Terme $\omega_1 \cdot N_1 P = \omega_2 \cdot N_2 P$ aufheben, wächst die Gleitgeschwindigkeit exakt proportional zum Abstand $PK$:
+
+$$v_g(K) = (\omega_1 + \omega_2) \cdot PK$$
+
+Daher ist der Zahneingriff kein schlupffreier Kontakt, sondern eine Wälz-Gleit-Bewegung (Rolling with Sliding). Elastohydrodynamische Schmierung (EHD) und adäquates Flankenspiel sind unabdingbar, um Fressschäden zu verhindern.
 
 ### 4.2 Beweis über ähnliche Dreiecke
 
@@ -156,7 +177,7 @@ $$\omega_1 \cdot O_1 N_1 = \omega_2 \cdot O_2 N_2$$
 
 $$\frac{\omega_1}{\omega_2} = \frac{O_2 N_2}{O_1 N_1}$$
 
-Der Schnittpunkt der Eingriffsnormale mit der Zentrale $O_1 O_2$ ist der Wälzpunkt $P$:
+Der Schnittpunkt der gemeinsamen Normale mit der Zentrale $O_1 O_2$ ist der Wälzpunkt $P$:
 
 $$\Delta O_1 N_1 P \sim \Delta O_2 N_2 P$$
 
@@ -171,10 +192,18 @@ $$\frac{\omega_1}{\omega_2} = \frac{O_2 P}{O_1 P} = \mathrm{Constant}$$
 
 Evolventenverzahnungen besitzen die Eigenschaft der **Achsabstandsinvarianz**:
 1. Alle Normalen einer Evolvente tangieren ihren Grundkreis.
-2. Die gemeinsame Eingriffsnormale zweier Evolventen ist die gemeinsame Tangente an beide Grundkreise.
-3. Der Wälzpunkt $P$ teilt den Achsabstand stets im Verhältnis der Grundkreisradien:
-   $$\frac{O_2 P}{O_1 P} = \frac{r_{b2}}{r_{b1}} = \mathrm{Constant}$$
-Selbst bei Toleranzen oder Gehäusedurchbiegungen bleibt das Übersetzungsverhältnis exakt konstant (Abweichung $0.000000$).
+2. Die gemeinsame Eingriffsnormale (Common Normal) zweier Evolventen ist ortsfest die gemeinsame innere Tangente an beide Grundkreise und bildet die **Eingriffslinie (Line of Action, LOA)**, entlang derer die Berührpunkte wandern und Zahnnormalkräfte übertragen werden.
+3. Der Wälzpunkt $P$ teilt den Achsabstand stets im Verhältnis der Wälzkreisradien $r_{w2}/r_{w1}$:
+   $$\frac{O_2 P}{O_1 P} = \frac{r_{w2}}{r_{w1}} = \frac{r_{b2}}{r_{b1}} = \mathrm{Constant}$$
+
+Die durch den Betriebswälzpunkt $P$ verlaufenden Kreise heißen **Betriebswälzkreise ($d_{w1}, d_{w2}$)** und stehen mit den Bezugsdurchmessern ($d_1 = mz_1, d_2 = mz_2$) im Zusammenhang:
+
+$$d_{w1} = \frac{2 a'}{u + 1} = d_1 \frac{\cos\alpha}{\cos\alpha_w}, \quad d_{w2} = u \cdot d_{w1} = d_2 \frac{\cos\alpha}{\cos\alpha_w}$$
+
+Nur beim Standardachsabstand ($a' = a$) stimmen Wälzkreise und Teilkreise überein ($d_{w1} = d_1, d_{w2} = d_2, \alpha_w = \alpha$). Bei vergrößertem Achsabstand $a'$:
+1. Bleibt die Eingriffslinie eine gerade Linie auf der gemeinsamen inneren Grundkreistangente.
+2. Vergrößert sich lediglich der Betriebseingriffswinkel von $\alpha$ auf $\alpha_w$ ($\cos\alpha_w = a \cos\alpha / a'$).
+3. Bleibt das Übersetzungsverhältnis mit $\omega_1/\omega_2 = r_{b2}/r_{b1} = z_2/z_1$ und $0.000000$ Abweichung exakt konstant.
 
 ---
 
@@ -182,17 +211,25 @@ Selbst bei Toleranzen oder Gehäusedurchbiegungen bleibt das Übersetzungsverhä
 
 ### 5.1 Zähnezahl (z)
 
-Übersetzungsverhältnis:
+In der Getriebetechnik bezeichnet das Drehzahlverhältnis die **Übersetzung ($i = \omega_1 / \omega_2 = n_1 / n_2$)**, während das Zähnezahlverhältnis als **Zähnezahlverhältnis ($u = z_2 / z_1 \ge 1.0$)** definiert ist:
 
-$$u = \frac{\omega_1}{\omega_2} = \frac{z_2}{z_1}$$
+$$i = \frac{\omega_1}{\omega_2} = \frac{n_1}{n_2}$$
 
-Grenzzerzähnezahl zur Vermeidung von Unterschnitt: $z \ge 17$ (bei $\alpha = 20^\circ$).
+$$u = \frac{z_2}{z_1} \ge 1.0$$
+
+Nach DIN 3960 und ISO 6336 wird in den Tragfähigkeitsberechnungen für Zahnflanken- und Fußfestigkeit stets $u \ge 1.0$ gefordert. Für ritzelgetriebene Untersetzungsgetriebe gilt $i = u$. Bei ins Schnelle übersetzenden Getrieben (Großrad treibt Ritzel) beträgt die Übersetzung $i = 1/u < 1.0$, während das Zähnezahlverhältnis $u$ nach Norm stets als $u = z_2 / z_1 \ge 1.0$ definiert bleibt.
+Grenzzähnezahl zur Vermeidung von Unterschnitt: $z \ge 17$ (bei Standard-Eingriffswinkel $\alpha = 20^\circ$).
 
 ### 5.2 Normaleingriffswinkel (α)
 
-Standard nach DIN 867 / ISO 53 ist $\alpha = 20^\circ$:
+Standard nach DIN 867, ISO 53 und KS B 0102 ist $\alpha = 20^\circ$:
 
-$$F_t = F_n \cos\alpha, \quad F_r = F_n \sin\alpha = F_t \tan\alpha$$
+$$F_t = F_n \cos\alpha$$
+
+$$F_r = F_n \sin\alpha = F_t \tan\alpha$$
+
+- **Größerer Eingriffswinkel ($\alpha = 25^\circ$)**: Breiterer Zahnfuß, höhere Zahnfußtragfähigkeit, jedoch höhere radiale Lagerbelastung $F_r$.
+- **Kleinerer Eingriffswinkel ($\alpha = 14.5^\circ$)**: Geringere Lagerbelastung, aber schmalerer Zahnfuß und frühere Unterschnittgefahr.
 
 ### 5.3 Modul (m) und Teilung (p)
 
@@ -204,14 +241,31 @@ Teilung $p$:
 
 $$p = \frac{\pi d}{z} = \pi \cdot m \quad [\mathrm{mm}]$$
 
+Normmodulreihen nach ISO 54 und DIN 780:
+
+| Reihe | Standardmodul $m$ [mm] |
+| :--- | :--- |
+| **Reihe 1 (Vorzugsreihe)** | 0.5, 0.8, 1.0, 1.25, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 6.0, 8.0, 10.0, 12.0, 16.0, 20.0 |
+| **Reihe 2 (Zusatzreihe)** | 0.7, 0.9, 1.75, 2.25, 2.75, 3.5, 4.5, 5.5, 7.0, 9.0, 11.0, 14.0, 18.0 |
+
 ### 5.4 Geometriegleichungen für Stirnräder
 
-1. Teilkreisdurchmesser: $d = m \cdot z$
-2. Grundkreisdurchmesser: $d_b = d \cos\alpha = m z \cos\alpha$
-3. Kopfkreisdurchmesser: $d_a = d + 2h_a = m(z + 2)$
-4. Fußkreisdurchmesser: $d_f = d - 2h_f = m(z - 2.5)$
-5. Standard-Achsabstand: $a = m(z_1 + z_2)/2$
-6. Zahndicke: $s = \pi m / 2$
+Für eine standardmäßige Null-Stirnradverzahnung (Standard Full-Depth Spur Gear nach ISO 53 / DIN 867: Kopfhöhenbeiwert $h_a^* = 1.0$, Kopfspielbeiwert $c^* = 0.25$):
+
+1. **Teilkreisdurchmesser (Reference Pitch Diameter)**:
+   $$d = m \cdot z$$
+2. **Grundkreisdurchmesser (Base Diameter)**:
+   $$d_b = d \cdot \cos\alpha = m \cdot z \cdot \cos\alpha$$
+3. **Kopfkreisdurchmesser (Tip Diameter)**:
+   $$d_a = d + 2h_a = d + 2m = m(z + 2)$$
+4. **Fußkreisdurchmesser (Root Diameter)**:
+   $$d_f = d - 2h_f = d - 2(1 + c^*)m = m(z - 2.5)$$
+5. **Standard-Achsabstand (Standard Center Distance)**:
+   $$a = \frac{d_1 + d_2}{2} = \frac{m(z_1 + z_2)}{2}$$
+6. **Zahndicke und Zahnlücke (Tooth Thickness & Space Width)**:
+   $$s = e = \frac{p}{2} = \frac{\pi m}{2}$$
+
+Im realen Getriebebetrieb ist ein ausreichendes **Flankenspiel ($j_t > 0$)** zwingend erforderlich, um Wärmedehnungen, Fertigungstoleranzen und den Schmierfilmtransport auszugleichen. Daher ist $s = \pi m / 2$ das theoretische Nennmaß vor Flankenspielabzug.
 
 ---
 
@@ -225,14 +279,14 @@ $$p = \frac{\pi d}{z} = \pi \cdot m \quad [\mathrm{mm}]$$
 | Eingriffswinkel | $\alpha$ | Bezugswinkel | $20.0^\circ$ |
 | Zähnezahl | $z$ | $z = d / m$ | Ganzzahl ($z \ge 17$) |
 | Teilung | $p$ | $p = \pi m$ | — |
-| Teilkreisdurchmesser | $d$ | $d = m z$ | — |
+| Teilkreisdurchmesser (Reference Diameter) | $d$ | $d = m z$ | — |
 | Grundkreisdurchmesser | $d_b$ | $d_b = m z \cos\alpha$ | — |
-| Kopfhöhe | $h_a$ | $h_a = 1.0 m$ | $h_a^* = 1.0$ |
-| Fußhöhe | $h_f$ | $h_f = 1.25 m$ | $c^* = 0.25$ |
+| Kopfhöhe | $h_a$ | $h_a = h_a^* \cdot m$ | $h_a^* = 1.000$ |
+| Fußhöhe | $h_f$ | $h_f = (h_a^* + c^*) \cdot m$ | $c^* = 0.250$ |
 | Kopfkreisdurchmesser | $d_a$ | $d_a = d + 2m$ | — |
 | Fußkreisdurchmesser | $d_f$ | $d_f = d - 2.5m$ | — |
-| Achsabstand | $a$ | $a = m(z_1 + z_2)/2$ | — |
-| Zahndicke | $s$ | $s = \pi m / 2$ | Spielfreie Theorie |
+| Achsabstand | $a$ | $a = m(z_1 + z_2) / 2$ | — |
+| Zahndicke | $s$ | $s = \pi m / 2$ | Nennwert vor Flankenspielabzug ($j_t > 0$) |
 
 ---
 
@@ -243,43 +297,47 @@ $$p = \frac{\pi d}{z} = \pi \cdot m \quad [\mathrm{mm}]$$
 - Eingriffswinkel: $\alpha = 20.0^\circ$ ($\cos 20^\circ \approx 0.9396926$)
 - Ritzelzähnezahl: $z_1 = 19$
 - Radzähnezahl: $z_2 = 57$
-- Profilverschiebung: $x_1 = x_2 = 0.000$
+- Profilverschiebungsfaktor: $x_1 = x_2 = 0.000$ (Null-Verzahnung)
 
-#### Schritt 1: Übersetzung und Teilung
-- Übersetzung:
+---
+
+#### Schritt 1: Zähnezahlverhältnis und Teilung
+- Zähnezahlverhältnis (Gear Ratio $u$):
   $$u = \frac{z_2}{z_1} = \frac{57}{19} = 3.000000$$
+  (Bei Ritzelantrieb zur Untersetzung entspricht die Übersetzung $i = u = 3.000000$)
 - Teilung:
-  $$p = \pi \cdot m = 12.566371\text{ mm}$$
-- Zahndicke:
-  $$s = \frac{p}{2} = 6.283185\text{ mm}$$
+  $$p = \pi \cdot m = 3.14159265 \times 4.0 = 12.566371\text{ mm}$$
+- Zahndicke und Zahnlückenweite:
+  $$s = e = \frac{p}{2} = \frac{12.566371}{2} = 6.283185\text{ mm}$$
 
 #### Schritt 2: Teilkreis- und Grundkreisdurchmesser
-- Ritzel-Teilkreis:
-  $$d_1 = 4.0 \times 19 = 76.000000\text{ mm}$$
-- Rad-Teilkreis:
-  $$d_2 = 4.0 \times 57 = 228.000000\text{ mm}$$
-- Ritzel-Grundkreis:
-  $$d_{b1} = 76.0 \times \cos 20^\circ = 71.416639\text{ mm}$$
-- Rad-Grundkreis:
-  $$d_{b2} = 228.0 \times \cos 20^\circ = 214.249918\text{ mm}$$
+- Ritzel-Teilkreisdurchmesser:
+  $$d_1 = m \cdot z_1 = 4.0 \times 19 = 76.000000\text{ mm}$$
+- Rad-Teilkreisdurchmesser:
+  $$d_2 = m \cdot z_2 = 4.0 \times 57 = 228.000000\text{ mm}$$
+- Ritzel-Grundkreisdurchmesser:
+  $$d_{b1} = d_1 \cos 20^\circ = 76.0 \times 0.93969262 = 71.416639\text{ mm}$$
+- Rad-Grundkreisdurchmesser:
+  $$d_{b2} = d_2 \cos 20^\circ = 228.0 \times 0.93969262 = 214.249918\text{ mm}$$
 
-#### Schritt 3: Kopf- und Fußkreisdurchmesser
-- Kopfhöhe: $h_a = 4.000000\text{ mm}$, Fußhöhe: $h_f = 5.000000\text{ mm}$
-- Ritzel-Kopfkreis:
-  $$d_{a1} = 76.0 + 8.0 = 84.000000\text{ mm}$$
-- Rad-Kopfkreis:
-  $$d_{a2} = 228.0 + 8.0 = 236.000000\text{ mm}$$
-- Ritzel-Fußkreis:
-  $$d_{f1} = 76.0 - 10.0 = 66.000000\text{ mm}$$
-- Rad-Fußkreis:
-  $$d_{f2} = 228.0 - 10.0 = 218.000000\text{ mm}$$
+#### Schritt 3: Zahnhöhen- und Grenzkreisdurchmesser
+- Kopfhöhe: $h_a = 1.0 \times m = 4.000000\text{ mm}$
+- Fußhöhe: $h_f = 1.25 \times m = 5.000000\text{ mm}$
+- Gesamtzahnhöhe: $h = h_a + h_f = 9.000000\text{ mm}$
+- Ritzel-Kopfkreisdurchmesser:
+  $$d_{a1} = d_1 + 2h_a = 76.0 + 2(4.0) = 84.000000\text{ mm}$$
+- Rad-Kopfkreisdurchmesser:
+  $$d_{a2} = d_2 + 2h_a = 228.0 + 2(4.0) = 236.000000\text{ mm}$$
+- Ritzel-Fußkreisdurchmesser:
+  $$d_{f1} = d_1 - 2h_f = 76.0 - 2(5.0) = 66.000000\text{ mm}$$
+- Rad-Fußkreisdurchmesser:
+  $$d_{f2} = d_2 - 2h_f = 228.0 - 2(5.0) = 218.000000\text{ mm}$$
 
-#### Schritt 4: Achsabstand und Radienverhältnis
-- Achsabstand:
-  $$a = \frac{76.000000 + 228.000000}{2} = 152.000000\text{ mm}$$
-- Grundkreisverhältnis gegenüber Teilkreisverhältnis:
-  $$\frac{r_{b2}}{r_{b1}} = \frac{107.124959}{35.708320} = 3.000000$$
+#### Schritt 4: Standard-Achsabstand und Radienverhältnis-Prüfung
+- Standard-Achsabstand:
+  $$a = \frac{d_1 + d_2}{2} = \frac{76.000000 + 228.000000}{2} = 152.000000\text{ mm}$$
+- Abgleich Grundkreisradien- zu Teilkreisradien-Verhältnis:
+  $$\frac{r_{b2}}{r_{b1}} = \frac{214.249918 / 2}{71.416639 / 2} = \frac{107.124959}{35.708320} = 3.000000$$
   $$\frac{r_2}{r_1} = \frac{114.000000}{38.000000} = 3.000000$$
 
-Das Grundkreisradienverhältnis stimmt mit dem Teilkreisradienverhältnis exakt überein ($0.000000\text{ mm}$ Abweichung).
-
+Die Abweichung zwischen Grundkreisradienverhältnis ($r_{b2}/r_{b1}$) und Teilkreisradienverhältnis ($r_2/r_1$) beträgt exakt **$0.000000$** (dimensionslos), stimmt beim Standardachsabstand exakt mit dem Betriebswälzkreisradienverhältnis ($r_{w2}/r_{w1}$) überein und beweist das streng konstante Übersetzungs- und Zähnezahlverhältnis $i = u = 3.000000$ evolventengeometrisch.

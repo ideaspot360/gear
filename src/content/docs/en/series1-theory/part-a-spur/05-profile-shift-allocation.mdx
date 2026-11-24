@@ -1,6 +1,6 @@
 ---
 title: "Chapter 5. The Six Governing Criteria for Profile Shift Allocation: Undercut Prevention, Equal Bending Strength, Specific Sliding Equilibrium, and DIN 3992 Domain Optimization"
-description: "Advanced engineering treatise on profile shift coefficient allocation after determining total shift sum: minimum undercut limits, ISO 6336 tooth form factor YF balancing for equal bending strength, specific sliding equilibrium, top land and contact ratio limits, DIN 3992 feasible domain analysis, and production drawing standards"
+description: "Advanced engineering treatise on profile shift coefficient allocation after determining total shift sum: specific sliding equalization, ISO 6336 tooth form factor YF balancing for equal bending strength, contact stress and pitting minimization, top land and contact ratio preservation, DIN 3992 feasible domain analysis, and production drawing standards"
 series: theory
 part: 1
 chapter: 5
@@ -10,111 +10,134 @@ standards:
   - "ISO 21771:2007"
   - "DIN 3992"
   - "ISO 6336:2019"
+  - "ISO 53:1998"
   - "DIN 3960"
+  - "DIN 3990"
+  - "AGMA 913-A98"
 required_diagrams:
   - "fig1_shift_feasible_domain"
   - "fig2_bending_strength_balance"
   - "fig3_asymmetric_mesh_profile"
 academic_level: undergraduate
-equations_hash: "7074da796cae7eba61110bab48faf2ca041bfdc50e0f723b028f50e8dc325dd4"
-review_date: "2026-11-17"
+equations_hash: "653f5c47a8655ad7679376402b4dbf16ebae6bc785c60cc04af1761f414f5070"
+review_date: "2026-11-23"
 sidebar:
   order: 5
 ---
 
 ## 5.1 Engineering Problem Statement & Physical Reality: The Pitfall of Total Shift Allocation
 
-Throughout two decades in automotive transmission engineering and precision reducer structural CAE analysis, the most recurrent blunder observed among junior gear designers is the belief that gear design terminates once the total profile shift sum ($\Sigma x = x_1 + x_2$) is calculated.
+Throughout two decades in automotive transmission engineering, structural CAE, finite element fatigue life prediction, and precision drivetrain design, the most recurrent blunder observed among junior and mid-level gear designers is the belief that gear design terminates once the total profile shift sum ($x_\Sigma = x_1 + x_2$) is calculated.
 
-Suppose a design engineer solves the fundamental operating involute transcendental equation to satisfy a rigid gearbox housing center distance ($a'$), obtaining a necessary shift sum of $\Sigma x = +0.30$ for a module $m = 1.0\,\text{mm}$ gear set with a small driving pinion ($z_1 = 11$) and a driven wheel ($z_2 = 41$). The crucial question emerges: how should this $+0.30$ be distributed between the pinion and the gear?
+Suppose a design engineer solves the fundamental operating involute transcendental equation to satisfy a rigid gearbox housing center distance ($a'$), obtaining a necessary shift sum of $x_\Sigma = +0.30$ for a module $m = 1.0\,\text{mm}$ and standard pressure angle $\alpha_0 = 20.0^\circ$ gear set with a small driving pinion ($z_1 = 11$) and a driven wheel ($z_2 = 41$). The gear teeth ratio is $u = z_2 / z_1 = 41 / 11 = 3.727273 \ge 1.0$, and the kinematic angular velocity transmission ratio is $i = \omega_1 / \omega_2 = u = 3.727273$. The crucial question emerges: how should this $+0.30$ total profile shift be distributed between the pinion ($x_1$) and the gear ($x_2$)?
 
 In industrial practice, three dangerous allocation blunders occur frequently:
 
-1. **Zero Pinion Shift Default ($x_1 = 0.00, x_2 = +0.30$)**: Leaving the pinion unshifted while dumping all positive shift onto the gear. At a standard pressure angle $\alpha_0 = 20^\circ$, the theoretical minimum teeth to prevent undercut is $z_{\min} = 17.1$. Machining an 11-tooth pinion without positive shift causes the hob tool tips to gouge deep into the active involute root flank. The critical root thickness shrinks to a mere $1.55\,\text{mm}$, causing severe notch stress concentration. Under real drivetrain loading, root fatigue cracks initiate within dozens of operating hours, culminating in catastrophic tooth breakage.
-2. **Arbitrary Symmetric Split ($x_1 = +0.15, x_2 = +0.15$)**: An arbitrary 50/50 division fails to meet the minimum shift threshold ($x_{1,\min} = +0.357$) required to eliminate pinion undercut, preserving residual undercut while leaving the severe bending strength disparity between the small pinion and large gear unresolved.
-3. **Excessive Pinion Shift ($x_1 = +0.65, x_2 = -0.35$)**: Over-shifting the pinion thins the top land ($s_{a1} < 0.20m$), producing a knife-edge (cresting). During carburizing and case hardening, excessive thermal stresses induce micro-cracks at the tip corners, leading to premature tooth edge chipping under initial contact shock.
+1. **Zero Pinion Shift Default ($x_1 = 0.00, x_2 = +0.30$)**: Leaving the pinion unshifted while dumping all positive shift onto the gear. At a standard pressure angle $\alpha_0 = 20^\circ$ under ISO 53 basic rack proportions, the theoretical minimum tooth count to prevent undercut is $z_{\min} = 17.1$. Machining an 11-tooth pinion without positive shift causes the generating cutter tips to gouge deep into the active involute root flank. The critical root thickness shrinks to a mere $1.55\,\text{mm}$, causing severe notch stress concentration. Under real drivetrain loading, root fatigue cracks initiate within dozens of operating hours, culminating in catastrophic tooth breakage.
+2. **Arbitrary Symmetric Split ($x_1 = +0.15, x_2 = +0.15$)**: An arbitrary 50/50 division fails to meet the minimum shift threshold ($x_{1,\min} = +0.357$) required to eliminate pinion undercut. Residual undercut persists, and the severe bending strength disparity between the small pinion and large gear (stress ratio $\sigma_{F1} / \sigma_{F2} > 1.35$) remains completely unresolved.
+3. **Excessive Pinion Shift ($x_1 = +0.65, x_2 = -0.35$)**: Over-shifting the pinion thins the circular top land thickness ($s_{a1} < 0.20m$), producing a knife-edge (cresting / pointing). During carburizing and case hardening, excessive carbon enrichment at the corner leads to a brittle martensitic structure. The resulting thermal and residual stresses induce micro-cracks at the tip corners, causing premature tooth edge chipping under initial contact shock.
 
-Consequently, profile shift allocation is not an arbitrary arithmetic exercise; it represents a multi-objective non-linear engineering optimization problem simultaneously satisfying **root bending fatigue limits, surface pitting endurance, cresting constraints, and transverse contact continuity**.
+Consequently, profile shift allocation is not an arbitrary arithmetic exercise; it represents a multi-objective non-linear engineering optimization problem simultaneously satisfying **root bending fatigue limits ($S_F \ge 1.4$), surface pitting endurance ($S_H \ge 1.2$), flash temperature and scuffing prevention, cresting constraints ($s_a \ge 0.25m$, carburized $\ge 0.40m$), and transverse contact ratio continuity ($\epsilon_\alpha \ge 1.20 \sim 1.40$) for NVH noise suppression**.
 
 ---
 
 ## 5.2 Mathematical Derivations: The Six Governing Optimization Criteria
 
-Conforming to DIN 3992 and ISO 21771 engineering standards, we formulate the **six fundamental criteria** governing profile shift allocation.
+Conforming to DIN 3992 and ISO 21771 engineering standards, we formulate the **geometric operating prerequisites** and the **six fundamental criteria** governing profile shift allocation.
 
-### Criterion 1. Minimum Undercut Prevention Limit
+### Geometric Operating Prerequisite: Operating Center Distance ($a'$) and Total Shift ($x_\Sigma$)
 
-To ensure that the generating tool tip trajectory does not penetrate beneath the base circle tangency point $N$, the minimum profile shift coefficient must satisfy:
+To mesh a standard module gear pair at an arbitrary working center distance $a'$ under backlash-free theoretical pitch conditions, the operating pressure angle $\alpha_w$ is governed by the operating involute transcendental relationship (angles in radians):
 
-$$x_1 \ge x_{\min} = 1.0 - \frac{z_1 \sin^2\alpha_0}{2}$$
+$$\text{inv}\,\alpha_w = \text{inv}\,\alpha_0 + 2\frac{x_\Sigma}{z_1 + z_2}\tan\alpha_0 = \text{inv}\,\alpha_0 + 2\frac{x_1 + x_2}{z_1 + z_2}\tan\alpha_0$$
+
+By base circle pitch invariance, the operating center distance $a'$ is uniquely determined in closed form:
+
+$$a' = a \frac{\cos\alpha_0}{\cos\alpha_w} = \frac{m(z_1 + z_2)}{2} \frac{\cos\alpha_0}{\cos\alpha_w}$$
+
+The center distance modification coefficient $y$ and the addendum modification (tip shortening) coefficient $k$ required to preserve the exact standard bottom clearance $c = c^* m = 0.25 m$ without deviation are:
+
+$$y = \frac{a' - a}{m}, \quad k = x_\Sigma - y = (x_1 + x_2) - \frac{a' - a}{m}$$
+
+Under ISO 53 basic rack proportions ($h_a^* = 1.0, c^* = 0.25$), the resulting tip diameters ($d_a$) and root diameters ($d_f$) are rigorously formulated:
+
+$$d_{a1} = m(z_1 + 2h_a^* + 2x_1 - 2k), \quad d_{a2} = m(z_2 + 2h_a^* + 2x_2 - 2k)$$
+
+$$d_{f1} = m(z_1 - 2(h_a^* + c^*) + 2x_1), \quad d_{f2} = m(z_2 - 2(h_a^* + c^*) + 2x_2)$$
+
+The operating bottom clearance between mating gears verifies exact invariance:
+
+$$c = a' - r_{a1} - r_{f2} = a' - \frac{d_{a1} + d_{f2}}{2} \equiv c^* m = 0.25 m$$
+
+With these closed-form relations establishing the fixed shift sum $x_\Sigma = x_1 + x_2$, we proceed to the six allocation criteria.
+
+### Criterion 1. Specific Sliding Equalization
+
+To minimize surface adhesive wear, frictional heat generation, pitting, and scuffing damage, we analyze the specific sliding ($\sigma_1, \sigma_2$) at the contact point moving along the line of action ($v_s = |v_{t1} - v_{t2}|$). For gear ratio $u = z_2 / z_1 \ge 1.0$, the specific sliding functions strictly preserve the fundamental kinematic invariant:
+
+$$\sigma_1 = 1 - \frac{\rho_2}{u \rho_1}, \quad \sigma_2 = 1 - \frac{u \rho_1}{\rho_2}, \quad (1 - \sigma_1)(1 - \sigma_2) \equiv 1.0$$
+
+At the pinion root engagement point A (SAP) and the gear root disengagement point E (EAP), the maximum specific sliding values are expressed via the tip involute radii of curvature ($\rho_{a1} = \sqrt{r_{a1}^2 - r_{b1}^2}$, $\rho_{a2} = \sqrt{r_{a2}^2 - r_{b2}^2}$):
+
+$$\sigma_{1A} = \sigma_{1\max} = 1 - \frac{\rho_{a2}}{u \rho_{f1}}, \quad \sigma_{2E} = \sigma_{2\max} = 1 - \frac{u \rho_{a1}}{\rho_{f2}}$$
+
+The specific sliding equalization condition (Balanced Specific Sliding) balances the peak sliding severity between the two gears:
+
+$$|\sigma_{1\max}| = |\sigma_{2\max}| \iff \frac{\rho_{a2}}{u \rho_{f1}} - 1 = \frac{u \rho_{a1}}{\rho_{f2}} - 1 \iff \frac{\rho_{a2}}{\rho_{f1}} \cdot \frac{\rho_{f2}}{\rho_{a1}} = u^2$$
+
+By allocating positive shift ($x_1 > 0$) to the pinion, pitch point $P$ shifts further from the pinion base circle tangency point, expanding the pinion root curvature radius $\rho_{f1}$. This eliminates sliding spikes and flattens the flash temperature profile across the mesh, preventing scuffing.
+
+### Criterion 2. Equal Tooth Bending Strength Balancing
+
+Under ISO 6336-3 (Method B), tooth root bending stress $\sigma_F$ scales with nominal tangential load $F_t$, tooth form factor $Y_F$, and stress correction factor $Y_S$:
+
+$$\sigma_F = \frac{F_t}{b m} Y_F Y_S Y_\beta Y_B Y_T \le \sigma_{FP} = \frac{\sigma_{F\lim} Y_{ST}}{S_{F\min}}$$
+
+A slender 11-tooth pinion exhibits a significantly higher geometric tooth form factor $Y_F$ than a 41-tooth wheel. For identical materials, achieving a 1:1 parity in bending fatigue safety factors ($S_{F1} / S_{F2} \approx 1.00$) requires:
+
+$$\frac{\sigma_{F1}}{\sigma_{F2}} = \frac{Y_{F1} Y_{S1}}{Y_{F2} Y_{S2}} \approx 1.0 \implies \frac{S_{F1}}{S_{F2}} \approx 1.0$$
+
+Allocating substantial positive shift ($x_1 = +0.45$) to the pinion thickens its critical root section ($s_{Fn}$), lowering $Y_{F1}$ from $3.078$ to $2.628$. Moderately negative shift ($x_2 = -0.15$) on the wheel yields near-perfect bending stress harmony ($\sigma_{F1} = 144.23\,\text{MPa}$ vs $\sigma_{F2} = 147.52\,\text{MPa}$, ratio $0.978$).
+
+### Criterion 3. Contact Stress & Pitting Minimization
+
+Under ISO 6336-2, Hertzian contact stress $\sigma_H$ and contact fatigue safety factor $S_H$ are inversely related to the reduced radius of curvature $\rho_{\text{red}}$ along the contact line:
+
+$$\sigma_H = Z_H Z_E Z_\epsilon Z_\beta \sqrt{\frac{F_t}{b d_1} \frac{u + 1}{u}} \le \sigma_{HP} = \frac{\sigma_{H\lim}}{S_{H\min}}$$
+
+From pitch point radii $\rho_{1P} = (d_{w1} \sin\alpha_w)/2$ and $\rho_{2P} = (d_{w2} \sin\alpha_w)/2$, the reduced radius of curvature at the operating pitch point is:
+
+$$\rho_{\text{red}} = \frac{\rho_{1P} \rho_{2P}}{\rho_{1P} + \rho_{2P}} = \frac{d_{w1} \sin\alpha_w}{2} \frac{u}{u + 1} = \frac{a' \sin\alpha_w \cdot u}{(u + 1)^2}$$
+
+A positive shift sum $x_\Sigma > 0$ widens the operating pressure angle $\alpha_w$, enlarging $\rho_{\text{red}}$ and reducing Hertzian contact stress $\sigma_H$. Ensuring $x_1$ is sufficiently positive maximizes pinion curvature $\rho_1$ at the high point of single tooth contact (HPSTC), suppressing surface micro-pitting.
+
+### Criterion 4. Transverse Contact Ratio Preservation
+
+To maintain smooth, shock-free load transmission, the transverse contact ratio $\epsilon_\alpha$ must satisfy $\epsilon_\alpha \ge 1.20$ (recommended $\ge 1.40$ for low-noise NVH drivetrains):
+
+$$\epsilon_\alpha = \frac{g_\alpha}{p_b} = \frac{\sqrt{r_{a1}^2 - r_{b1}^2} + \sqrt{r_{a2}^2 - r_{b2}^2} - a' \sin\alpha_w}{\pi m \cos\alpha_0} \ge 1.20$$
+
+As operating pressure angle $\alpha_w$ widens, the projected center distance component ($a' \sin\alpha_w$) expands, shortening the active contact path $g_\alpha$. Thus, the $\epsilon_\alpha = 1.200$ contour forms the decisive upper-right boundary of the feasible design domain.
+
+### Criterion 5. Top Land Cresting / Pointing Limit
+
+As positive shift increases, the circular tooth thickness at the tip diameter $s_a$ diminishes toward zero. ISO 21771 and DIN 3992 mandate $s_a \ge 0.25 m$ for through-hardened gears and $s_a \ge 0.40 m$ (absolute floor $0.25m$) for case-hardened gears to avoid carbon over-enrichment, through-hardening brittleness, and corner chipping:
+
+$$s_{ai} = 2 r_{ai} \left( \frac{s_i}{2 r_i} + \text{inv}\,\alpha_0 - \text{inv}\,\alpha_{ai} \right) \ge 0.25 m, \quad \cos\alpha_{ai} = \frac{r_{bi}}{r_{ai}}$$
+
+where $s_i = m(\pi/2 + 2 x_i \tan\alpha_0)$ is the standard reference circular tooth thickness, utilizing involute roll angle calculations where $\text{inv}\,\alpha = \tan\alpha - \alpha$ (in radians).
+
+### Criterion 6. Undercut and Interference Elimination
+
+To ensure the generating cutter tip does not gouge into the base circle tangency point $N$, the minimum profile shift coefficient under ISO 53 ($h_a^* = 1.0$) is:
+
+$$x_1 \ge x_{1,\min} = h_a^* - \frac{z_1 \sin^2\alpha_0}{2}$$
 
 Substituting standard pressure angle $\alpha_0 = 20^\circ$ ($\sin 20^\circ = 0.342020$):
 
 $$x_{1,\min} = 1.0 - \frac{11 \times 0.116978}{2} = 1.0 - 0.643378 = +0.356622 \approx +0.357$$
 
-Hence, for an 11-tooth pinion, allocating $x_1 \ge +0.357$ is mandatory to prevent root undercut. In our benchmark design, an optimal value of $x_1 = +0.450$ is selected to provide robust safety margin.
-
-### Criterion 2. Fixed Center Distance & Zero Backlash Operating Condition
-
-To mesh a standard module gear pair at an arbitrary working center distance $a'$, the operating pressure angle $\alpha_w$ is governed by the operating involute transcendental relationship:
-
-$$\text{inv}\,\alpha_w = \text{inv}\,\alpha_0 + 2\frac{x_\Sigma}{z_1 + z_2}\tan\alpha_0 = \text{inv}\,\alpha_0 + 2\frac{x_1 + x_2}{z_1 + z_2}\tan\alpha_0$$
-
-The operating center distance $a'$ is determined by base circle pitch invariance:
-
-$$a' = a \frac{\cos\alpha_0}{\cos\alpha_w} = \frac{m(z_1 + z_2)}{2} \frac{\cos\alpha_0}{\cos\alpha_w}$$
-
-The center distance modification coefficient $y$ is defined as:
-
-$$y = \frac{a' - a}{m}$$
-
-To preserve standard bottom clearance $c = 0.25 m$ with zero deviation, the tooth addendum modification (tip shortening) coefficient $k$ is calculated:
-
-$$k = x_\Sigma - y = (x_1 + x_2) - \frac{a' - a}{m}$$
-
-The resulting tip diameters ($d_a$) and root diameters ($d_f$) are:
-
-$$d_{a1} = m(z_1 + 2 + 2x_1 - 2k), \quad d_{a2} = m(z_2 + 2 + 2x_2 - 2k)$$
-
-$$d_{f1} = m(z_1 - 2.5 + 2x_1), \quad d_{f2} = m(z_2 - 2.5 + 2x_2)$$
-
-The operating bottom clearance between mating gears verifies exact invariance:
-
-$$c = a' - r_{a1} - r_{f2} = a' - \frac{d_{a1} + d_{f2}}{2} \equiv 0.25 m$$
-
-### Criterion 3. Top Land Cresting Limit
-
-As positive shift increases, the circular tooth thickness at the tip diameter $s_a$ diminishes toward zero. ISO and DIN standards mandate $s_a \ge 0.25 m$ (and $\ge 0.30 m$ for case-hardened gears) to prevent through-hardening brittleness and corner chipping:
-
-$$s_{ai} = 2 r_{ai} \left( \frac{s_i}{2 r_i} + \text{inv}\,\alpha_0 - \text{inv}\,\alpha_{ai} \right) \ge 0.25 m, \quad \cos\alpha_{ai} = \frac{r_{bi}}{r_{ai}}$$
-
-where $s_i = m(\pi/2 + 2 x_i \tan\alpha_0)$ is the standard reference circular tooth thickness.
-
-### Criterion 4. Transverse Contact Ratio Optimization
-
-To ensure smooth load sharing without dynamic shock, the transverse contact ratio $\epsilon_\alpha$ must satisfy $\epsilon_\alpha \ge 1.20$ (recommended $\ge 1.30$ for high-performance drivetrains):
-
-$$\epsilon_\alpha = \frac{g_\alpha}{p_b} = \frac{\sqrt{r_{a1}^2 - r_{b1}^2} + \sqrt{r_{a2}^2 - r_{b2}^2} - a' \sin\alpha_w}{\pi m \cos\alpha_0} \ge 1.20$$
-
-Because operating pressure angle $\alpha_w$ widens as total shift increases, contact path length $g_\alpha$ contracts, making $\epsilon_\alpha = 1.200$ the decisive upper boundary in the profile shift domain.
-
-### Criterion 5. Equal Bending Strength Allocation
-
-Under ISO 6336-3 (Method B), tooth root bending stress $\sigma_F$ is directly proportional to tooth form factor $Y_F$ and stress correction factor $Y_S$:
-
-$$\sigma_{F1} = \frac{F_t}{b m} Y_{F1} Y_{S1} Y_\beta Y_B Y_T \approx \sigma_{F2} = \frac{F_t}{b m} Y_{F2} Y_{S2} Y_\beta Y_B Y_T \implies \frac{\sigma_{F1}}{\sigma_{F2}} \equiv 1.0$$
-
-A slender 11-tooth pinion exhibits a significantly higher geometric stress concentration than a 41-tooth gear. By allocating substantial positive shift ($x_1 = +0.45$) to the pinion and modest negative shift ($x_2 = -0.15$) to the gear, tooth form factors are equalized ($Y_{F1} \approx 2.628, Y_{F2} \approx 2.588$), balancing bending stresses ($\sigma_{F1} = 144.23\,\text{MPa}$ vs $\sigma_{F2} = 147.52\,\text{MPa}$) and fatigue safety factors to near 1:1 parity ($\sigma_{F1}/\sigma_{F2} = 0.978$).
-
-### Criterion 6. Specific Sliding Equilibrium
-
-To minimize adhesive wear and micro-pitting, the specific sliding at pinion root engagement (Point A, SAP) and gear root disengagement (Point E, EAP) are balanced:
-
-$$k_{1,\max} = 1 - \frac{\omega_2 \rho_{a2}}{\omega_1 \rho_{f1}} = 1 - \frac{\omega_1 \rho_{a1}}{\omega_2 \rho_{f2}} = k_{2,\max}$$
-
-Along the line of action, relative sliding kinematics strictly preserve the fundamental kinematic invariant:
-
-$$(1 - k_1)(1 - k_2) \equiv 1.0$$
+Hence, allocating $x_1 \ge +0.357$ is mandatory for an 11-tooth pinion. Our design adopts $x_1 = +0.450$, providing robust undercut immunity and manufacturing margin while simultaneously verifying clearance against trochoid root fillet interference.
 
 ---
 
@@ -157,7 +180,6 @@ Figure 3 displays the exact 2D meshing profile generated directly from the backe
 - **Gear Root Integrity**: Confirms that moderate negative shift ($x_2 = -0.15$) leaves gear root thickness ($s_{F2} = 1.90\,\text{mm}$) robustly intact due to the ample natural tooth count ($z_2 = 41$).
 - **Active Contact Segment**: Highlights contact traversal from Point A ($s_A = -1.527\,\text{mm}$) through pitch point P to Point E ($s_E = +2.577\,\text{mm}$), confirming active contact length $g_\alpha = 4.104\,\text{mm}$ and contact ratio $\epsilon_\alpha = 1.390$.
 - **Bottom Clearance Invariance**: Proves exact preservation of standard clearance $c \equiv 0.250\,\text{mm}$ via tip shortening coefficient $k = 0.0116\,\text{mm}$.
-- **Zero-Overlap Conjugate Meshing**: Validates 100% invariant conjugate contact with measured tooth flank overlap = 0.000000 mm² through pure-phase working pressure angle alignment.
 
 ---
 
@@ -210,7 +232,7 @@ The full 38-parameter macro geometry for the benchmark gear pair ($m = 1.0\,\tex
 
 ## 5.5 Production Drawing Specifications: KS B 0002 / ISO 21771 Data Sheet
 
-To prevent workshop misinterpretation during hobbing or wire EDM, profile-shifted gears require rigorous data sheet documentation specifying operating center distance, tooth thickness span measurements ($W_k$), and over-pin dimensions ($M_k$):
+To prevent workshop misinterpretation during hobbing, grinding, or wire EDM, profile-shifted gears require rigorous data sheet documentation specifying operating center distance, tooth thickness span measurements ($W_k$), and over-pin dimensions ($M_k$):
 
 ```text
 ========================================================================================
@@ -244,7 +266,7 @@ Material & Heat Treatment      : SCM415 Case Hardened (HRC 58~62)| SCM415 Case H
 
 ## 5.6 Bearing Reaction & Drivetrain Force Dynamics
 
-Applying a profile shift sum of $x_\Sigma = +0.30$ elevates the operating pressure angle from $\alpha_0 = 20.00^\circ$ to $\alpha_w = 21.66^\circ$. This angular shift modulates the radial separating force $F_r$ acting on supporting shafts and bearings:
+Applying a profile shift sum of $x_\Sigma = +0.30$ elevates the operating pressure angle from $\alpha_0 = 20.00^\circ$ to $\alpha_w = 21.66^\circ$. This angular shift modulates the nominal tangential force $F_t$ and the radial separating force $F_r$ acting on supporting shafts and bearings:
 
 $$F_t = \frac{2000 T}{d_{w1}} = \frac{2000 \times 1.0\,\text{N}\cdot\text{m}}{11.122\,\text{mm}} = 179.82\,\text{N}$$
 
@@ -260,7 +282,9 @@ Compared to unshifted standard meshing ($F_{r0} = 179.82 \times \tan 20^\circ = 
 
 1. **DIN 3992:1964**: *Profilverschiebung bei Stirnrädern mit Außenverzahnung* (Profile Shift in External Cylindrical Gears).
 2. **ISO 21771:2007**: *Gears -- Cylindrical involute gears and gear pairs -- Concepts and geometry*.
-3. **ISO 6336-3:2019**: *Calculation of load capacity of spur and helical gears -- Part 3: Calculation of tooth bending strength*.
-4. **KS B 0102 / KS B 1405**: *Spur and Helical Gear Drafting and Production Data Sheets*.
-5. **Buckingham, Earle**: *Analytical Mechanics of Gears*, Chapter 5: "Profile Shifted Involute Gearing", McGraw-Hill, 1949.
-6. **Litvin, F. L., & Fuentes, A.**: *Gear Geometry and Applied Theory*, 2nd Edition, Cambridge University Press, 2004.
+3. **ISO 6336-1/2/3:2019**: *Calculation of load capacity of spur and helical gears* (Part 1: Basic principles; Part 2: Calculation of surface durability / pitting; Part 3: Calculation of tooth bending strength).
+4. **ISO 53:1998**: *Cylindrical gears for general and heavy engineering -- Standard basic rack tooth profile*.
+5. **DIN 3960 / DIN 3990**: *Definitions, parameters and calculation of load capacity of cylindrical gears*.
+6. **AGMA 913-A98 / KS B 0102**: *Method for Specifying the Geometry of Spur and Helical Gears & Production Data Sheets*.
+7. **Buckingham, Earle**: *Analytical Mechanics of Gears*, Chapter 5: "Profile Shifted Involute Gearing", McGraw-Hill, 1949.
+8. **Litvin, F. L., & Fuentes, A.**: *Gear Geometry and Applied Theory*, 2nd Edition, Cambridge University Press, 2004.

@@ -16,7 +16,7 @@ required_diagrams:
   - "fig3_spur_gear_four_circles"
   - "fig4_line_of_action_contact_path"
 academic_level: undergraduate
-equations_hash: "0f42aa8ed3a8e7425e6ff328b30f6afe22192e81292ef345d63f3286df78369c"
+equations_hash: "80a1f543d259ab3499b9c413ee47d4e893716dbdae7ba97818de0891da78dec6"
 review_date: "2026-11-13"
 sidebar:
   order: 2
@@ -24,27 +24,27 @@ sidebar:
 
 ## 1. Differential Geometry of Involute Tooth Profile and Curve Generation
 
-The fundamental reason the involute curve is universally adopted as the standard profile for spur gear teeth in mechanical engineering is that the common normal at any instantaneous contact point consistently follows the common internal tangent of the two base circles, ensuring an invariant velocity ratio regardless of center distance variations.
+The fundamental reason the involute curve is universally adopted as the standard profile for spur gear teeth in mechanical engineering is that the common normal at any instantaneous contact point consistently follows the common internal tangent of the two base circles, ensuring an invariant velocity ratio regardless of center distance variations—a unique property known as **center distance insensitivity (invariance)**. First mathematically proven in 1762 by Leonhard Euler in *De aptissima figura dentium rotarum*, this property guarantees that even if operating center distances drift due to machining tolerances, thermal expansion, or bearing deflection, the gears maintain exact kinematic conjugacy and smooth, uniform power transmission.
 
-### Base Circle Cord Unwinding Kinematics
+### Base Circle Cord Unwinding Kinematics and Vector Synthesis
 
-Consider a base circle of radius $r_b$ centered at origin $O(0, 0)$ in the Cartesian plane. When a taut string is unwound counterclockwise from the circumference through roll angle $\theta$ (in radians), the position vector of the tangency point $T(\theta)$ on the base circle is defined as:
+Consider a base circle of radius $r_b$ centered at origin $O(0, 0)$ in the Cartesian plane. When a taut string is unwound counterclockwise from the circumference through roll angle (ISO 21771 / DIN 3960 symbol: $\xi$ or $\theta$, in radians), the position vector of the tangency point $T(\theta)$ on the base circle and the instantaneous unwound cord length $L(\theta)$ are defined as:
 
 $$
 \mathbf{r}_T(\theta) = \begin{bmatrix} r_b \cos\theta \\ r_b \sin\theta \end{bmatrix}, \quad L(\theta) = r_b \theta
 $$
 
-The length of the unwound cord $L(\theta)$ matches the circular arc length of the base circle without slip. Because the string extends along the tangent direction at point $T$, the position vector $\mathbf{r}_K(\theta)$ of the curve tracing end point $K(\theta)$ is derived by vector addition:
+The length of the unwound cord $L(\theta)$ matches the circular arc length of the base circle without slip. Because the string extends along the tangent direction at point $T$, the position vector $\mathbf{r}_K(\theta)$ of the curve tracing end point $K(\theta)$ is derived by synthesizing the base circle tangency vector $\mathbf{r}_T(\theta)$ and the tangential cord vector $\vec{TK}(\theta)$:
 
 $$
-\mathbf{r}_K(\theta) = \mathbf{r}_T(\theta) + L(\theta)\begin{bmatrix} \sin\theta \\ -\cos\theta \end{bmatrix} = \begin{bmatrix} r_b(\cos\theta + \theta\sin\theta) \\ r_b(\sin\theta - \theta\cos\theta) \end{bmatrix}
+\mathbf{r}_K(\theta) = \mathbf{r}_T(\theta) + \vec{TK}(\theta) = \mathbf{r}_T(\theta) + L(\theta)\begin{bmatrix} \sin\theta \\ -\cos\theta \end{bmatrix} = \begin{bmatrix} r_b(\cos\theta + \theta\sin\theta) \\ r_b(\sin\theta - \theta\cos\theta) \end{bmatrix}
 $$
 
 These equations constitute the Cartesian parametric equations of the circular involute curve.
 
-### Differential Properties: Tangent, Normal, and Radius of Curvature
+### Differential Properties: Tangent, Normal, Curvature, and Boundary Invariants
 
-Differentiating $\mathbf{r}_K(\theta)$ with respect to roll angle $\theta$ gives the velocity vector $\mathbf{v}_K(\theta)$ and unit normal vector $\mathbf{n}(\theta)$:
+Differentiating the position vector $\mathbf{r}_K(\theta)$ with respect to roll angle $\theta$ yields the tangential velocity vector $\mathbf{v}_K(\theta)$ and unit normal vector $\mathbf{n}(\theta)$:
 
 $$
 \mathbf{v}_K(\theta) = \frac{d\mathbf{r}_K}{d\theta} = r_b \theta \begin{bmatrix} \cos\theta \\ \sin\theta \end{bmatrix}, \quad \mathbf{n}(\theta) = \begin{bmatrix} -\sin\theta \\ \cos\theta \end{bmatrix}
@@ -56,20 +56,22 @@ $$
 \rho_K(\theta) = \frac{1}{\kappa(\theta)} = r_b \theta = r_b \tan\alpha_K
 $$
 
-At the base circle origin ($\theta = 0$), the curvature radius vanishes ($\rho_K = 0$), forming a geometric cusp. Consequently, an involute profile cannot physically exist inside its base circle.
+**[Physical Existence Boundary Invariant of Involute Flank ($r_K \ge r_b$)]**  
+At the generating origin on the base circle ($\theta = 0, r_K = r_b$), the curvature radius vanishes ($\rho_K = 0$), forming a geometric cusp. Consequently, an involute profile cannot physically exist inside its base circle ($r_K < r_b$). In practical gears where low tooth counts cause the root circle to fall inside the base circle ($r_f < r_b$), the profile below $r_b$ is formed as a **non-involute trochoidal fillet**, and any contact in this root region causes severe **involute interference** and tooth gouging.
 
-### Relation Between Roll Angle $\theta$ and Pressure Angle $\alpha_K$ in Polar Coordinates
+### Roll Angle $\theta$, Pressure Angle $\alpha_K$, and Polar Angle $\phi_K$ Derivation Bridge
 
-The radial distance $r_K$ from origin $O$ to point $K$ is obtained from right triangle $\Delta OTK$:
+The radial distance $r_K$ from origin $O$ to point $K$ is obtained from right triangle $\Delta OTK$ ($\angle OTK = 90^\circ$):
 
 $$
 r_K = |\mathbf{r}_K| = r_b \sqrt{1 + \theta^2} = \frac{r_b}{\cos\alpha_K} \quad \Longleftrightarrow \quad \theta = \tan\alpha_K
 $$
 
-Defining the pressure angle $\alpha_K$ as the angle between the tooth profile normal and the circumferential velocity vector (perpendicular to radius $OK$), the relationship $\cos\alpha_K = r_b / r_K$ holds, yielding $\theta = \tan\alpha_K$. The polar angle $\theta_k$ relative to the start of the involute is given in closed form:
+Defining the profile pressure angle $\alpha_K$ as the angle between the tooth profile normal and the circumferential velocity vector (perpendicular to radius $OK$), the relationship $\cos\alpha_K = r_b / r_K$ holds, yielding roll angle $\theta = \tan\alpha_K$.  
+In right triangle $\Delta OTK$, the angle between radii $OT$ and $OK$ is equal to pressure angle $\alpha_K$. Since point $T$ is located at roll angle $\theta$ and radius $OK$ lags behind $OT$ by angle $\alpha_K$, the polar angle (ISO 21771 notation: $\phi_K$ or $\theta_k$) is derived as the geometric phase difference $\phi_K = \theta - \alpha_K = \tan\alpha_K - \alpha_K$:
 
 $$
-\begin{cases} r(\alpha) = \dfrac{r_b}{\cos\alpha} \\ \theta_k(\alpha) = \tan\alpha - \alpha = \mathrm{inv}\,\alpha \end{cases}
+\begin{cases} r(\alpha_K) = \dfrac{r_b}{\cos\alpha_K} \\ \phi_K(\alpha_K) = \tan\alpha_K - \alpha_K = \mathrm{inv}\,\alpha_K \end{cases}
 $$
 
 ![Figure 1: Differential Geometry of Base Circle Cord Unwinding and Involute Curve Generation](/images/part2/en/fig1_involute_generation.png)
@@ -78,7 +80,7 @@ $$
 
 ## 2. Involute Function $\mathrm{inv}\,\alpha$ and Analytical Series Reversion
 
-### Physical and Mathematical Definition
+### Physical Definition and Mandatory Radian Safety Constraint
 
 The involute function is an indispensable transcendental function in gear mathematics:
 
@@ -88,6 +90,9 @@ $$
 
 Geometrically, $\tan\alpha$ represents the dimensionless unwound cord length $L / r_b$, whereas $\alpha$ denotes the angular offset between tangent radius $OT$ and position vector $OK$. Therefore, $\mathrm{inv}\,\alpha$ represents the net polar angle traversed by the involute curve.
 
+> ⚠️ **[Mandatory Safety Mandate: Strict Radian Unit Constraint]**  
+> In computing $\mathrm{inv}\,\alpha = \tan\alpha - \alpha$, although $\tan\alpha$ is dimensionless, the subtracted angle $\alpha$ **MUST strictly be expressed in radians ($\text{rad}$)** ($\alpha [\text{rad}] = \alpha [^\circ] \times \frac{\pi}{180}$). Substituting degrees directly is the most notorious catastrophic trap in gearing algorithm implementation. For the standard reference pressure angle $\alpha = 20^\circ$, the exact involute value is $\mathrm{inv}\,20^\circ = \tan(20\pi/180) - 20\pi/180 \approx 0.01490438\text{ rad}$.
+
 ### Strict Monotonicity and Bijective Invertibility
 
 The first derivative of the involute function is strictly positive for all working pressure angles:
@@ -96,7 +101,7 @@ $$
 \frac{d}{d\alpha}(\mathrm{inv}\,\alpha) = \sec^2\alpha - 1 = \tan^2\alpha > 0 \quad \left(\forall \alpha \in \left(0, \frac{\pi}{2}\right)\right)
 $$
 
-Because $d(\mathrm{inv}\,\alpha)/d\alpha = \tan^2\alpha > 0$ for all $\alpha \in (0, \pi/2)$, the function is strictly monotonically increasing, guaranteeing that the inverse $\alpha = \mathrm{inv}^{-1}(\theta_k)$ is unique and well-defined.
+Because $d(\mathrm{inv}\,\alpha)/d\alpha = \tan^2\alpha > 0$ for all $\alpha \in (0, \pi/2)$, the function is strictly monotonically increasing, guaranteeing that the inverse $\alpha = \mathrm{inv}^{-1}(\phi_K)$ is unique and well-defined.
 
 ### Analytical Series Reversion up to $\mathcal{O}(z^9)$
 
@@ -106,7 +111,7 @@ $$
 \mathrm{inv}\,\alpha = \frac{1}{3}\alpha^3 + \frac{2}{15}\alpha^5 + \frac{17}{315}\alpha^7 + \frac{62}{2835}\alpha^9 + \mathcal{O}(\alpha^{11})
 $$
 
-To compute pressure angle $\alpha$ directly from a given polar angle $\theta_k$ without iterative root-finding, substituting $z = (3\theta_k)^{1/3}$ and performing analytical series reversion yields:
+To compute pressure angle $\alpha$ directly from a given polar angle $\theta_k$ ($\phi_K$) without iterative root-finding, substituting $z = (3\theta_k)^{1/3}$ and performing analytical series reversion yields:
 
 $$
 \alpha(z) = z - \frac{2}{15}z^3 + \frac{3}{175}z^5 - \frac{2}{1575}z^7 + \mathcal{O}(z^9), \quad z = (3\theta_k)^{1/3}
@@ -130,12 +135,13 @@ $$
 
 The individual geometry of a standard spur gear is governed by four concentric circles parameterized by module $m$, tooth count $z$, and reference pressure angle $\alpha = 20^\circ$.
 
-### The Four Fundamental Circles
+### The Four Fundamental Circles: Reference Pitch ($d$) vs Working Pitch ($d_w$) Circle
 
 1. **Reference Pitch Circle**: Kinematic reference cylinder of diameter $d$:
 $$
 d = m \cdot z, \quad r = \frac{d}{2} = \frac{m z}{2}
 $$
+(Under ISO 21771 / DIN 3960 standards, the **reference pitch circle ($d$)** and **standard reference pressure angle ($\alpha = 20^\circ$)** are intrinsic manufacturing references of an individual gear. They must be strictly distinguished from the local **profile pressure angle ($\alpha_K$, where $\cos\alpha_K = r_b / r_K$)** at an arbitrary radius $r_K$, as well as the **working pitch circle ($d_w = d_b / \cos\alpha_w$)** and **working pressure angle ($\alpha_w = \arccos(a\cos\alpha / a_w)$)** that emerge when gears mesh at an operating center distance $a_w \ne a$ or with profile shift. Only at nominal center distance $a$ without profile shift do $d_w = d$ and $\alpha_w = \alpha$ identically coincide.)
 2. **Base Circle**: Generating origin of the involute tooth profile of diameter $d_b$:
 $$
 d_b = d \cos\alpha = m z \cos\alpha, \quad r_b = \frac{d_b}{2} = \frac{m z \cos\alpha}{2}
@@ -151,7 +157,7 @@ $$
 
 ### ISO 53 Standard Basic Rack Tooth Profile Proportions
 
-In accordance with ISO 53 (Profile A) and ISO 21771 standard rack parameters:
+In accordance with ISO 53 (Profile A) and ISO 21771 standard rack parameters with asterisk (*) notation:
 - Module: $m$
 - Reference pressure angle: $\alpha = 20.0^\circ$
 - Addendum coefficient: $h_a^* = 1.000 \implies h_a = 1.000 m$
@@ -160,13 +166,15 @@ In accordance with ISO 53 (Profile A) and ISO 21771 standard rack parameters:
 - Whole depth coefficient: $h^* = h_a^* + h_f^* = 2.250 \implies h = 2.250 m$
 - Tool tip radius coefficient: $\rho_f^* = 0.380 \implies \rho_f = 0.380 m$
 
-### Pitches and Arc Tooth Thickness Formulation
+### Pitches, Arc Tooth Thickness Formulation, and Backlash Nominal Invariant
 
-The circular pitch $p$, standard tooth thickness $s$, and space width $e$ along the pitch circle are:
+The circular pitch $p$, standard nominal tooth thickness $s$, and space width $e$ along the pitch circle are:
 
 $$
 p = \pi m = s + e, \quad s = e = \frac{\pi m}{2}
 $$
+
+The relation $s = e = \pi m / 2$ defines the theoretical zero-backlash nominal tooth thickness. In physical gear production, tooth thickness is intentionally thinned by machining allowance to guarantee positive circumferential backlash ($j_t > 0$) for thermal growth and EHL oil film formation.
 
 The base pitch $p_b$ along the base circle corresponds to the distance between consecutive profiles along the line of action:
 
@@ -174,7 +182,7 @@ $$
 p_b = p \cos\alpha = \pi m \cos\alpha
 $$
 
-At an arbitrary radius $r \ge r_b$ with local pressure angle $\alpha_r = \arccos(r_b / r)$, the tooth half-angle $\psi_r$ and circular tooth thickness $s_r$ are:
+At an arbitrary radius $r \ge r_b$ with local profile pressure angle $\alpha_r = \arccos(r_b / r)$, the tooth half-angle $\psi_r$ and circular tooth thickness $s_r$ are:
 
 $$
 \psi_r = \frac{s}{2r} + \mathrm{inv}\,\alpha - \mathrm{inv}\,\alpha_r \quad \Longrightarrow \quad s_r = 2r \psi_r = r \left[ \frac{s}{r} + 2(\mathrm{inv}\,\alpha - \mathrm{inv}\,\alpha_r) \right]
@@ -196,9 +204,9 @@ Any design violating $s_a \ge 0.25m$ creates a sharp knife-edge condition prone 
 
 ## 4. Line of Action Contact Path and Closed-Form Transverse Contact Ratio $\epsilon_\alpha$
 
-### Action Path Kinematics and Critical Contact Singularities
+### Action Path Kinematics and Critical Contact Singularities: Pure Rolling vs Relative Sliding
 
-During conjugate gear rotation, the instantaneous point of contact moves along the **line of action**, which forms the common internal tangent to both base circles. For center distance $a = r_1 + r_2$, the tangent distance is:
+During conjugate external gear rotation, the instantaneous point of contact moves along the **line of action**, which forms the **common internal tangent** to both base circles. Denoting the base circle tangency points as $T_1, T_2$ (also designated $N_1, N_2$ in kinematic diagrams) and standard center distance as $a = r_1 + r_2$, the tangent segment length is:
 
 $$
 a = r_1 + r_2 = \frac{m(z_1 + z_2)}{2}, \quad \overline{T_1 T_2} = (r_{b1} + r_{b2})\tan\alpha = a \sin\alpha
@@ -213,7 +221,8 @@ $$
 $$
 g_a = \overline{PE} = \sqrt{r_{a1}^2 - r_{b1}^2} - r_{b1}\tan\alpha
 $$
-- **Pitch Point P**: Instantaneous rolling contact point where the pitch circles meet.
+- **Pitch Point P**: Instantaneous rolling contact point where the reference pitch circles meet.  
+At pitch point $P$, tangential linear velocities are identical, resulting in **pure rolling ($v_s = 0$)**. However, across all other contact positions along the line of action ($A \to P$ and $P \to E$), significant **relative sliding ($v_s = |v_{t1} - v_{t2}| \ne 0$)** occurs between the mating flanks. The notion that involute gears experience slip-free rolling across the entire tooth mesh is a mechanical misconception.
 
 ### Total Path of Contact $g_\alpha$ and Transverse Contact Ratio $\epsilon_\alpha$
 

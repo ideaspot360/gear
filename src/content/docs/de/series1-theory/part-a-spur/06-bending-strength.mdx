@@ -1,6 +1,6 @@
 ---
 title: "Kapitel 6. Tragfähigkeitsberechnung von Stirnrädern (I): Zahnfußtragfähigkeit - Lewis-Biegeformel & ISO 6336-3 Methode B Formfaktor (YF) und Spannungskorrekturfaktor (YS)"
-description: "Schadensmechanismen des Zahnfußbruchs, analytische Herleitung des parabolischen Lewis-Biegeträgers gleicher Festigkeit, geschlossene Lösung des ISO 6336-3 Methode B 30°-Tangenten-Verfahrens für kritische Fußsehne (sFn) und Biegemomentarm (hF), äußerer Einzeleingriffspunkt (HPSTC / Punkt D), Zahnformfaktor YF und Dolan-Broghamer Spannungskorrekturfaktor YS in der industriellen Getriebeberechnung Kapitel 6"
+description: "Schadensmechanismen des Zahnfußbruchs, analytische Herleitung des parabolischen Lewis-Biegeträgers gleicher Festigkeit, geschlossene Lösung des ISO 6336-3 Methode B 30°-Tangenten-Verfahrens für kritische Fußsehne (sFn) und Biegemomentarm (hFe), äußerer Einzeleingriffspunkt (HPSTC / Punkt D), Zahnformfaktor YF und Dolan-Broghamer Spannungskorrekturfaktor YS in der industriellen Getriebeberechnung Kapitel 6"
 series: theory
 part: 1
 chapter: 6
@@ -9,6 +9,7 @@ standards:
   - "KS B 0102"
   - "ISO 6336-1:2019"
   - "ISO 6336-3:2019"
+  - "ISO 53:1998"
   - "DIN 3990"
   - "AGMA 2001-D04"
 required_diagrams:
@@ -16,25 +17,25 @@ required_diagrams:
   - "fig2_iso6336_tangent_method"
   - "fig3_tooth_form_factor_chart"
 academic_level: undergraduate
-equations_hash: "faf09d51e24761203bac2834d656ef612f5c5d91e732e92ffc41158b8fd57e83"
-review_date: "2026-11-18"
+equations_hash: "18c1166c6097f7926119b92c1a8fffb41e60093014b302bfd067b36da93e8895"
+review_date: "2026-11-23"
 sidebar:
   order: 6
 ---
 
 ## 6.1 Physikalischer Hintergrund & Problemstellung: Schadensmechanik des Zahnfußbruchs und Entwicklung des Trägermodells
 
-In über zwanzig Jahren praktischer Ingenieurstätigkeit in der CAE-Strukturanalyse, Getriebedynamik und Schadensanalyse von Schwerlastantrieben und Fahrzeuggetrieben war der verheerendste Schadensfall ausnahmslos der Zahnfußbruch (Tooth Root Breakage). Während Zahnflankenschäden wie Grübchenbildung (Pitting) oder Graufleckigkeit (Micropitting) durch ansteigende Schwingungs- und Geräuschpegel frühzeitig diagnostiziert werden können, tritt der Dauerbruch am Zahnfuß schlagartig und ohne jede Vorwarnung ein: Ein einzelner Zahn bricht an seiner Wurzel ab, durchschlägt das Getriebegehäuse und führt zur sofortigen Totalzerstörung des gesamten Antriebsstrangs.
+In über zwanzig Jahren praktischer Ingenieurstätigkeit in der CAE-Strukturanalyse, FE-Betriebsfestigkeitsberechnung, Getriebedynamik und Schadensanalyse von Schwerlastantrieben und Fahrzeuggetrieben war der verheerendste Schadensfall ausnahmslos der Zahnfußbruch (Tooth Root Breakage). Während Zahnflankenschäden wie Grübchenbildung (Pitting) oder Graufleckigkeit, die durch wiederholte Schubspannungen unter Hertzscher Pressung entstehen, durch ansteigende Schwingungs- und Geräuschpegel frühzeitig diagnostiziert werden können, tritt der Dauerbruch am Zahnfuß schlagartig und ohne jede Vorwarnung ein: Ein einzelner Zahn bricht an seiner Wurzel ab, durchschlägt das Getriebegehäuse und führt zur sofortigen Totalzerstörung des gesamten Antriebsstrangs.
 
-Bei der Drehmomentübertragung wirken an den Zahnflanken enorme Normalkräfte ($F_{bn}$), die im Betrieb viele Kilonewton erreichen. Diese Kräfte beanspruchen jeden Zahn wie einen an der Zahnwurzel fest eingespannten kurzen Kragträger (Cantilever Beam). Da metallische Konstruktionswerkstoffe unter zyklischer Zugbeanspruchung eine ungleich geringere Dauerfestigkeit aufweisen als unter Druck, führen die pulsierenden Biegezugspannungen in der Ausrundung des Zahnfußes (Trochoidenrundung) zur Initiierung mikroskopischer Ermüdungsrisse an Kerbstellen. Unter Millionen von Lastwechseln wachsen diese Risse kontinuierlich ins Zahninnere (Rastlinienbildung), bis der Restquerschnitt der Maximallast nicht mehr standhält und spröde abschert.
+Bei der Drehmomentübertragung wirken an den Zahnflanken enorme Normalkräfte ($F_{bn}$), die im Betrieb viele Kilonewton erreichen. Diese Kräfte beanspruchen jeden Zahn wie einen an der Zahnwurzel fest eingespannten kurzen Kragträger (Cantilever Beam). Da metallische Konstruktionswerkstoffe unter zyklischer Zugbeanspruchung eine ungleich geringere Dauerfestigkeit aufweisen als unter Druck, führen die pulsierenden Biegezugspannungen in der Ausrundung des Zahnfußes (Trochoidenrundung) zur Initiierung mikroskopischer Ermüdungsrisse an Kerbstellen. Unter Millionen von Lastwechseln wachsen diese Risse kontinuierlich ins Zahninnere (Rastlinienbildung), bis der Restquerschnitt der Maximallast nicht mehr standhält und spröde oder duktil abschert.
 
 ![Abb. 1: Wilfred-Lewis-Parabelträger gleicher Festigkeit und kritischer Zahnfußquerschnitt](/images/part6/de/fig1_lewis_parabolic_beam.png)
 
 Im Jahr 1892 formulierte Wilfred Lewis das erste klassische Berechnungsverfahren der Zahnradfestigkeit, indem er den Zahn als einen einbeschriebenen Parabelträger gleicher Biegefestigkeit modellierte. Durch das Einbeschreiben einer Parabel gleichförmiger Randbiegespannung in den Zahnkörper identifizierte Lewis den theoretisch schwächsten Querschnitt (kritischer Querschnitt).
 
 Für moderne, hochbelastete einsatzgehärtete Stirnräder weist die klassische Lewis-Formel jedoch drei gravierende Schwachstellen auf:
-1. **Unzutreffender Lastangriffspunkt**: Sie unterstellt konservativ, dass die gesamte Umfangskraft an der Zahnkopfkante (Kopflast) angreift, und ignoriert dabei die reale Lastteilung im Zweipaareingriff ($\epsilon_\alpha > 1.0$).
-2. **Vollständige Vernachlässigung der Kerbwirkung**: Die abrupte Querschnittsänderung in der Zahnfußausrundung erzeugt eine elastische Formzahl ($K_t \approx 1.5 \sim 2.5$), die bei Lewis vollständig fehlt.
+1. **Unzutreffender Lastangriffspunkt**: Sie unterstellt konservativ, dass die gesamte Umfangskraft an der Zahnkopfkante (Kopflast) angreift, und ignoriert dabei die reale Lastteilung im Zweipaareingriff ($\epsilon_\alpha > 1.0$, industrielle Empfehlung $\epsilon_\alpha \ge 1.2$).
+2. **Vollständige Vernachlässigung der Kerbwirkung**: Die abrupte Querschnittsänderung in der Zahnfußausrundung infolge des Werkzeugkopfradius ($\rho_{a0}^* = 0.38$) erzeugt eine elastische Formzahl ($K_t \approx 1.5 \sim 2.5$), die bei Lewis vollständig fehlt.
 3. **Vernachlässigung der radialen Druckkomponente**: Die Radialkraftkomponente ($F_r$) bewirkt eine axiale Längsdruckspannung, die die Biegezugspannung auf der belasteten Flanke günstig mindert, auf der Rückflanke jedoch die Druckspannung verstärkt.
 
 Um diese Mängel werkstoff- und fertigungsgerecht zu überwinden, schufen die internationalen Normungsgremien die Norm **ISO 6336-3 (Methode B)**. Durch die mikrometergenaue Bestimmung des kritischen Querschnitts mittels des $30^\circ$-Tangenten-Verfahrens an der Trochoide und die Auswertung der vollen Normalkraft am äußeren Einzeleingriffspunkt (HPSTC / Punkt D) bildet ISO 6336-3 den weltweiten Industriestandard der Zahnfußtragfähigkeit.
@@ -98,187 +99,200 @@ Die Verbindungssehne der beiden Berührungspunkte $F_1(-x_{30}, y_{30})$ und $F_
 
 ---
 
-### 6.2.3 Äußerer Einzeleingriffspunkt (HPSTC / Punkt D) und Kraftrichtungswinkel $\alpha_{Fen}$
+### 6.2.3 Äußerer Einzeleingriffspunkt (HPSTC / Punkt D) und Lastangriffswinkel $\alpha_{Fen}$
 
-Da bei Profilüberdeckungen $1.0 < \epsilon_\alpha < 2.0$ an den äußeren Enden der Eingriffsstrecke $[A, E]$ Doppelpaareingriff vorliegt, teilt sich die Zahnkraft dort auf zwei Zähne auf.
+Bei Geradstirnrädern mit Profilüberdeckung $1.0 < \epsilon_\alpha < 2.0$ teilt sich die Zahnkraft an den Grenzen der Eingriffslinie $[A, E]$ auf zwei Zahnpaare auf (Doppeleingriff), sodass jeder Zahn nur etwa 50% der Maximallast trägt.
 
-Der maßgebende Bemessungsfall für die Fußbiegefestigkeit des Ritzels tritt daher ein, wenn ein einzelner Zahn die volle Normalkraft $F_{bn}$ am größtmöglichen Hebelarm abstützt: am **äußeren Einzeleingriffspunkt (HPSTC / Punkt D)**, unmittelbar bevor das nachfolgende Zahnpaar in Eingriff tritt.
+Die maßgebende Maximalbelastung tritt folglich auf, wenn ein einzelner Zahn 100% der gesamten Zahnnormalenbelastung $F_{bn}$ am größtmöglichen Hebelarm übernimmt: am **äußeren Einzeleingriffspunkt (HPSTC / Punkt D)**, in dem das vorangehende Zahnpaar gerade außer Eingriff kommt.
 
-Auf der Eingriffslinie liegt Punkt D genau um eine Grundkreisteilung $p_b$ vor dem Eingriffsbeginn $A$:
+Auf der Eingriffsstrecke liegt Punkt D genau um eine Grundkreisteilung $p_b$ vor dem Eingriffsbeginn $A$:
 
 $$
 s_D = s_A + p_b = s_A + \pi m \cos\alpha_0
 $$
 
-Der Radius $r_D$ und der Profil-Eingriffswinkel $\alpha_D$ im Punkt D lauten:
+Der Halbmesser $r_D$ und der Eingriffswinkel $\alpha_D$ in Punkt D lauten:
 
 $$
 r_D = \sqrt{r_{b1}^2 + (s_D - s_{T1})^2},\quad \alpha_D = \arccos\left(\frac{r_{b1}}{r_D}\right)
 $$
 
-Der Zahn-Halbwinkel $\psi_D$ und der Kraftrichtungswinkel $\alpha_{Fen}$ bezüglich der Senkrechten zur Zahnachse ergeben sich aus den Evolventen-Polargleichungen:
+Der Zahnhalbwinkel $\psi_D$ bezüglich der Zahnsymmetrieachse und der Lastangriffswinkel $\alpha_{Fen}$ ergeben sich exakt aus der Evolventengeometrie. Bei der Auswertung der Evolventenfunktionen und Zahnhalbwinkel ($\text{inv}\,\alpha, \psi_D$) müssen alle Winkelgrößen zwingend im Bogenmaß ($\text{rad}$) berechnet werden, um numerische Divergenzen und fatale Profilverzerrungen zu verhindern:
 
 $$
 \alpha_{Fen} = \alpha_D - \psi_D = \alpha_D - \left( \frac{s_1}{2 r_1} + \text{inv}\,\alpha_0 - \text{inv}\,\alpha_D \right)
 $$
 
-Der Schnittpunkt der Wirkungslinie der Normalkraft mit der Zahnsymmetrieachse liegt auf der Höhe $y_{Fen}$:
+Der Schnittpunkt der Wirkungslinie mit der Zahnmittellinie (Y-Achse) liegt auf der Höhe $y_{Fen}$:
 
 $$
 y_{Fen} = y_D + x_D \tan\alpha_{Fen} = r_D \cos\psi_D + r_D \sin\psi_D \tan\alpha_{Fen}
 $$
 
-Der wirksame Biegemomentarm $h_F$ vom kritischen Querschnitt zum Lastangriffsschnittpunkt beträgt somit:
+Somit ergibt sich der wirksame Biegemomentarm $h_{Fe}$ (oder $h_F$) bezüglich des kritischen Querschnitts zu:
 
 $$
-h_F = y_{Fen} - y_{Fn}
+h_{Fe} = y_{Fen} - y_{Fn}
 $$
 
 ---
 
-### 6.2.4 Berechnung des Zahnformfaktors $Y_F$ und des Spannungskorrekturfaktors $Y_S$
+### 6.2.4 Exakte Bestimmung des Zahnformfaktors $Y_F$ und Spannungskorrekturfaktors $Y_S$
 
-Nach ISO 6336-3 (Methode B) wird der geometrische Zahnformfaktor $Y_F$ aus der Biege- und Druckspannungsgeometrie am HPSTC gebildet:
+Nach ISO 6336-3 (Methode B) wird der Zahnformfaktor $Y_F$ bezogen auf den Normalmodul $m_n$ (bei Geradverzahnung $m_n = m$) aus der Geometrie des Kragträgers unter kombinierter Biege- und Druckbelastung definiert:
 
 $$
-Y_F = \frac{6 \frac{h_F}{m}}{\left(\frac{s_{Fn}}{m}\right)^2 \cos\alpha_{Fen}}
+Y_F = \frac{6 \frac{h_{Fe}}{m_n} \cos\alpha_{Fen}}{\left(\frac{s_{Fn}}{m_n}\right)^2 \cos\alpha_n}
 $$
 
-Zur Berücksichtigung der elastischen Kerbspannungserhöhung an der Trochoidenausrundung dient der von Dolan & Broghamer kalibrierte **Spannungskorrekturfaktor $Y_S$**. Der Kerbparameter $q_s$ ist:
+Zur Berücksichtigung der elastischen Spannungskonzentration infolge der Kerbwirkung der Fußtrochoide dient der von Dolan & Broghamer experimentell ermittelte und in ISO normierte **Spannungskorrekturfaktor $Y_S$**. Der Kerbparameter $q_s$ beträgt:
 
 $$
 q_s = \frac{s_{Fn}}{2 \rho_F}
 $$
 
 $$
-Y_S = \left( 1.2 + 0.13 \frac{s_{Fn}}{h_F} \right) q_s^{\frac{1}{1.21 + 2.3 / q_s}}
+Y_S = (1.2 + 0.13 L) q_s^{\frac{1}{1.21 + 2.3 / L}},\quad L = \frac{s_{Fn}}{h_{Fe}}
 $$
 
-Die Nenn-Zahnfußspannung $\sigma_{F0}$ unter HPSTC-Belastung errechnet sich zu:
+Die Nenn-Zahnfußspannung $\sigma_{F0}$ bei Belastung im Punkt D (HPSTC) wird unter Einbeziehung des Schrägungswinkelfaktors $Y_\beta$ (für Geradstirnräder $Y_\beta = 1.0$) berechnet:
 
 $$
-\sigma_{F0} = \frac{F_t}{b m} Y_F Y_S
+\sigma_{F0} = \frac{F_t}{b m_n} Y_F Y_S Y_\beta
 $$
 
-Die maßgebende Zahnfuß-Betriebsspannung $\sigma_F$ berücksichtigt den Anwendungsfaktor ($K_A$), Dynamikfaktor ($K_v$), Breitenfaktor ($K_{F\beta}$) und Stirnfaktor ($K_{F\alpha}$):
+Die maßgebende Zahnfußspannung $\sigma_F$ berücksichtigt den Anwendungsfaktor ($K_A$), den Dynamikfaktor ($K_v$), den Breitenlastfaktor ($K_{F\beta}$) sowie den Stirnlastfaktor ($K_{F\alpha}$) und darf die zulässige Zahnfußspannung $\sigma_{FP}$ nicht überschreiten:
 
 $$
-\sigma_F = \sigma_{F0} K_A K_v K_{F\beta} K_{F\alpha} = \frac{F_t}{b m} Y_F Y_S K_A K_v K_{F\beta} K_{F\alpha} \le \sigma_{FP}
+\sigma_F = \sigma_{F0} K_A K_v K_{F\beta} K_{F\alpha} = \frac{F_t}{b m_n} Y_F Y_S Y_\beta K_A K_v K_{F\beta} K_{F\alpha} \le \sigma_{FP}
 $$
 
-Die zulässige Zahnfußspannung $\sigma_{FP}$ wird aus der Dauerfestigkeit $\sigma_{F\lim}$, dem Lebensdauerfaktor ($Y_{NT}$), dem relativen Kerbempfindlichkeitsfaktor ($Y_{\delta\mathrm{rel}T}$), dem Oberflächenfaktor ($Y_{R\mathrm{rel}T}$) und dem Größenfaktor ($Y_X$) bestimmt:
+Die zulässige Zahnfußspannung $\sigma_{FP}$ errechnet sich aus der Dauerfestigkeit des Werkstoffs $\sigma_{F\lim}$, dem Prüfrad-Spannungskorrekturfaktor ($Y_{ST}$), dem Lebensdauerfaktor ($Y_{NT}$), dem relativen Kerbempfindlichkeitsfaktor ($Y_{\delta\mathrm{rel}T}$), dem Oberflächenfaktor ($Y_{R\mathrm{rel}T}$), dem Größenfaktor ($Y_X$) und der Mindestsicherheit ($S_{F\min}$):
 
 $$
 \sigma_{FP} = \frac{\sigma_{F\lim} Y_{ST} Y_{NT}}{S_{F\min}} Y_{\delta\mathrm{rel}T} Y_{R\mathrm{rel}T} Y_X
 $$
 
-Die Sicherheit gegen Zahnfußdauerbruch $S_F$ muss die Mindestsicherheit ($S_{F\min} = 1.25 \sim 1.50$) erfüllen:
+Der Sicherheitsbeiwert gegen Zahnfußdauerbruch $S_F$ ist das Verhältnis der Zahnfuß-Grenzspannung $\sigma_{FG} = \sigma_{F\lim} Y_{ST} Y_{NT} Y_{\delta\mathrm{rel}T} Y_{R\mathrm{rel}T} Y_X$ zur maßgebenden Betriebsspannung $\sigma_F$ und muss die geforderte Mindestsicherheit ($S_{F\min} = 1.25 \sim 1.50$) erfüllen:
 
 $$
-S_F = \frac{\sigma_{FP}}{\sigma_F} \ge S_{F\min} = 1.25 \sim 1.50
+S_F = \frac{\sigma_{FG}}{\sigma_F} = \frac{\sigma_{F\lim} Y_{ST} Y_{NT} Y_{\delta\mathrm{rel}T} Y_{R\mathrm{rel}T} Y_X}{\sigma_F} \ge S_{F\min} = 1.25 \sim 1.50
 $$
 
 ---
 
-## 6.3 Kennwerttabelle und detailliertes Rechenbeispiel
+## 6.3 Zusammenfassende Parametertabelle und numerisches Berechnungsbeispiel
 
 ![Abb. 3: ISO 6336-3 Zahnformfaktor (YF) in Abhängigkeit von Zähnezahl und Profilverschiebung](/images/part6/de/fig3_tooth_form_factor_chart.png)
 
-### 6.3.1 Übersicht der ISO 6336-3 Methode B Parameter
+### 6.3.1 Übersicht der Kernparameter nach ISO 6336-3 Methode B
 
-| Formelzeichen | Bezeichnung | Einheit | Physikalische Definition & Bedeutung |
+| Symbol | Parameter-Bezeichnung | Einheit | Physikalische Bedeutung & Berechnungsgrundlage |
 | :--- | :--- | :---: | :--- |
-| **$m$** | Modul | $\text{mm}$ | Grundlegender geometrischer Maßstab ($d = z \cdot m$) |
-| **$s_{Fn}$** | Kritische Sehnenzahndicke | $\text{mm}$ | Abstand zwischen den $30^\circ$-Berührungspunkten am Zahnfuß |
-| **$h_F$** | Biegemomentarm | $\text{mm}$ | Hebelarm von Querschnittshöhe $y_{Fn}$ zu Achsschnittpunkt $y_{Fen}$ |
-| **$\rho_F$** | Fußkrümmungsradius | $\text{mm}$ | Lokaler Krümmungsradius an der $30^\circ$-Tangente |
-| **$\alpha_{Fen}$** | HPSTC-Kraftrichtungswinkel | $\text{deg}$ | Neigungswinkel der Zahnkraft zur Achsensenkrechten |
-| **$q_s$** | Kerbparameter | $-$ | Verhältnis von Fußhalbbreite zu Ausrundungsradius ($s_{Fn}/(2\rho_F)$) |
-| **$Y_F$** | Zahnformfaktor | $-$ | Reiner geometrischer Trägerformfaktor |
-| **$Y_S$** | Spannungskorrekturfaktor | $-$ | Zweidimensionaler Kerbspannungskonzentrationsfaktor |
-| **$\sigma_{F0}$** | Nenn-Zahnfußspannung | $\text{MPa}$ | Berechnete Nennzugspannung an der belasteten Zahnwurzel |
-| **$S_F$** | Zahnfuß-Sicherheitsbeiwert | $-$ | Verhältnis von zulässiger zu vorhandener Spannung ($\sigma_{FP}/\sigma_F$) |
+| **$m_n, m$** | Normal- und Stirnmodul | $\text{mm}$ | Maßstabsfaktor der Verzahnungsgeometrie ($d = z \cdot m$, Geradverzahnung $m_n = m$) |
+| **$u$** | Zähnezahlverhältnis | $-$ | Verhältnis der Zähnezahlen ($u = z_2 / z_1 \ge 1.0$) |
+| **$i$** | Übersetzungsverhältnis | $-$ | Drehzahl- und Winkelgeschwindigkeitsverhältnis ($i = \omega_1 / \omega_2 = n_1 / n_2$) |
+| **$h_a^*, c^*$** | Bezugsprofil-Beiwerte | $-$ | ISO 53 Kopfhöhenbeiwert ($h_a^*=1.0$) und Kopfspielbeiwert ($c^*=0.25$) |
+| **$s_{Fn}$** | Kritische Fußdicke | $\text{mm}$ | Sehnenlänge zwischen den $30^\circ$-Tangentenpunkten der Trochoide ($s_{Fn} = 2 x_{30}$) |
+| **$h_{Fe}$** | HPSTC-Biegemomentarm | $\text{mm}$ | Vertikaler Abstand von der kritischen Sehne ($y_{Fn}$) zum Schnittpunkt ($y_{Fen}$) |
+| **$\rho_F$** | Fußausrundungsradius | $\text{mm}$ | Lokaler Krümmungsradius am $30^\circ$-Berührungspunkt (bestimmt Kerbwirkung) |
+| **$\alpha_{Fen}$** | HPSTC-Lastangriffswinkel | $\text{deg}$ | Neigungswinkel der Zahnnormalkraft bezüglich der Achsensenkrechten |
+| **$q_s$** | Kerbparameter | $-$ | Verhältnis der halben Fußdicke zum Krümmungsradius ($s_{Fn} / (2\rho_F)$) |
+| **$Y_F$** | Zahnformfaktor | $-$ | Geometrischer Kragträger-Formbeiwert nach ISO 6336 Methode B |
+| **$Y_S$** | Spannungskorrekturfaktor | $-$ | Elastisch-plastischer Kerbspannungsbeiwert der Fußausrundung |
+| **$Y_\beta$** | Schrägungswinkelfaktor | $-$ | Spannungsanpassung an Schrägungswinkel (bei Geradverzahnung $\beta=0^\circ$ gleich $1.0$) |
+| **$K_A, K_v$** | Anwendungs- & Dynamikfaktor | $-$ | Äußerer Überlastbeiwert ($K_A$) und innere Zahnkraftdynamik ($K_v$) |
+| **$K_{F\beta}, K_{F\alpha}$** | Breiten- & Stirnlastfaktor | $-$ | Ungleichmäßige Lastverteilung über Zahnbreite ($K_{F\beta}$) und Profil ($K_{F\alpha}$) |
+| **$\sigma_{F0}$** | Nenn-Zahnfußspannung | $\text{MPa}$ | Grundbiegespannung unter idealer Nennlast |
+| **$\sigma_F$** | Maßgebende Zahnfußspannung | $\text{MPa}$ | Tatsächliche Betriebsbiegespannung unter Berücksichtigung aller Faktoren |
+| **$\sigma_{FG}$** | Zahnfuß-Grenzspannung | $\text{MPa}$ | Werkstoffdauerfestigkeit bereinigt um Lebensdauer- und Oberflächeneinflüsse |
+| **$\sigma_{FP}$** | Zulässige Zahnfußspannung | $\text{MPa}$ | Maximal zulässige Grenzspannung bezogen auf geforderte Sicherheit ($\sigma_{FG}/S_{F\min}$) |
+| **$S_F$** | Zahnfuß-Sicherheitsbeiwert | $-$ | Verhältnis von Grenzspannung zu Betriebsspannung ($\sigma_{FG}/\sigma_F \ge S_{F\min}$) |
 
 ---
 
-### 6.3.2 Vollständiges Rechenbeispiel: Ritzel ($z_1=17, x_1=+0.3$) vs Großrad ($z_2=50, x_2=0.0$)
+### 6.3.2 Industrielles Berechnungsbeispiel: Ritzel ($z_1=17, x_1=+0.3$) vs Rad ($z_2=50, x_2=0.0$)
 
-Berechnung einer Industriegetriebestufe nach ISO 6336-3 Methode B:
-- Modul: $m = 3.0\,\text{mm}$, Eingriffswinkel: $\alpha_0 = 20.0^\circ$, Werkzeugkopfradius: $\rho_{a0} = 0.38 m = 1.14\,\text{mm}$
-- Ritzelzähnezahl: $z_1 = 17$, Profilverschiebung: $x_1 = +0.30$
-- Radzähnezahl: $z_2 = 50$, Profilverschiebung: $x_2 = 0.00$
-- Zahnbreite: $b = 30.0\,\text{mm}$, Ritzeldrehmoment: $T_1 = 150.0\,\text{N}\cdot\text{m}$
-- Ritzelwerkstoff: Einsatzstahl SCM415 ($\sigma_{F\lim} = 430\,\text{MPa}$, $S_{F\min} = 1.30$)
+Tragfähigkeitsnachweis der ersten Getriebestufe eines Industriegetriebes nach ISO 6336-3 Methode B:
+- Modul: $m_n = m = 3.0\,\text{mm}$, Bezugsprofil-Eingriffswinkel: $\alpha_0 = 20.0^\circ$
+- ISO 53 Bezugsprofil-Werkzeug: Kopfhöhenbeiwert $h_{aP}^* = 1.0$, Kopfspielbeiwert $c_P^* = 0.25$, Werkzeugkopfradius $\rho_{a0}^* = 0.38$ ($\rho_{a0} = \rho_{a0}^* m = 1.14\,\text{mm}$)
+- Ritzelzähnezahl: $z_1 = 17$ (positive Profilverschiebung zur Vermeidung der Grenzzähnezahl $z_{\min} \approx 17.1$), Profilverschiebungsfaktor: $x_1 = +0.30$
+- Radzähnezahl: $z_2 = 50$, Profilverschiebungsfaktor: $x_2 = 0.00$
+- Zähnezahlverhältnis: $u = z_2 / z_1 = 50 / 17 \approx 2.941176 \ge 1.0$
+- Übersetzungsverhältnis: $i = \omega_1 / \omega_2 = n_1 / n_2 = u = 2.941176$
+- Zahnbreite: $b = 30.0\,\text{mm}$, Ritzelantriebsmoment: $T_1 = 150.0\,\text{N}\cdot\text{m}$
+- Ritzelwerkstoff: Einsatzstahl SCM415 ($\sigma_{F\lim} = 430\,\text{MPa}$, $S_{F\min} = 1.30$, $Y_{ST} = 1.0, Y_{NT} = 1.0, Y_X = 1.0$)
 
-#### Schritt 1: Eingriffsgeometrie und Bestimmung des Punktes D (HPSTC)
+#### Schritt 1: Eingriffsgeometrie & Ritzel HPSTC (Punkt D)
 - Teilkreisdurchmesser: $d_1 = 51.0\,\text{mm}$, $d_2 = 150.0\,\text{mm}$
 - Grundkreisradien: $r_{b1} = 23.9622\,\text{mm}$, $r_{b2} = 70.4769\,\text{mm}$
-- Kopfkreisradien: $r_{a1} = 29.4\,\text{mm}$, $r_{a2} = 78.0\,\text{mm}$
-- Betriebseingriffswinkel: $\alpha_w = 21.0504^\circ$, Eingriffsbeginn $s_A = -5.9249\,\text{mm}$, Grundteilung $p_b = 8.8564\,\text{mm}$
-- Lage Punkt D: $s_D = s_A + p_b = 2.9315\,\text{mm}$
-- Radius Punkt D: $r_D = 26.9257\,\text{mm}$ ($d_D = 53.8513\,\text{mm}$)
-- Kraftrichtungswinkel: $\alpha_{Fen} = 22.4793^\circ$
-- Achsenschnittpunkthöhe: $y_{Fen} = 27.7411\,\text{mm}$
+- Kopfkreisradien: $r_{a1} = 29.4\,\text{mm}$, $r_{a2} = 78.0\,\text{mm}$ (Kopfzahndicke $s_{a1} \ge 0.25 m = 0.75\,\text{mm}$ gewahrt)
+- Betriebseingriffswinkel: $\alpha_w = 21.3133^\circ$, Eingriffsbeginn $s_A = -5.9249\,\text{mm}$, Grundteilung $p_b = 8.8564\,\text{mm}$
+- Lage von Punkt D: $s_D = s_A + p_b = -5.9249 + 8.8564 = 2.9315\,\text{mm}$
+- Radius in Punkt D: $r_D = \sqrt{23.9622^2 + (2.9315 - (-9.3489))^2} = 26.9257\,\text{mm}$ ($d_D = 53.8513\,\text{mm}$)
+- Lastangriffswinkel: $\alpha_{Fen} = 22.4793^\circ$
+- Schnittpunkthöhe: $y_{Fen} = 27.7411\,\text{mm}$
 
-#### Schritt 2: Kenngrößen des kritischen Querschnitts ($30^\circ$-Tangente)
-- Berührungspunktkoordinaten: $x_{30} = 3.1050\,\text{mm}$, $y_{Fn} = 22.9315\,\text{mm}$
+#### Schritt 2: Geometrie des kritischen Querschnitts ($30^\circ$-Tangente)
+- Koordinaten des $30^\circ$-Punkts: $x_{30} = 3.1050\,\text{mm}$, $y_{Fn} = 22.9315\,\text{mm}$
 - Kritische Fußdicke: $s_{Fn} = 2 \times 3.1050 = 6.2099\,\text{mm}$ ($s_{Fn}/m = 2.0700$)
-- Biegemomentarm: $h_F = 27.7411 - 22.9315 = 4.8096\,\text{mm}$ ($h_F/m = 1.6032$)
+- Biegemomentarm: $h_{Fe} = y_{Fen} - y_{Fn} = 27.7411 - 22.9315 = 4.8096\,\text{mm}$ ($h_{Fe}/m = 1.6032$)
 - Fußausrundungsradius: $\rho_F = 1.4307\,\text{mm}$
 
 #### Schritt 3: Berechnung von $Y_F$ und $Y_S$
 - Zahnformfaktor:
-  $$Y_F = \frac{6 \times 1.6032}{2.0700^2 \times \cos 22.4793^\circ} = \frac{9.6192}{4.2849 \times 0.9240} = 2.4296$$
+  $$Y_F = \frac{6 \times 1.6032 \times \cos 22.4793^\circ}{2.0700^2 \times \cos 20.0^\circ} = \frac{9.6192 \times 0.9240}{4.2849 \times 0.9397} = \frac{8.8881}{4.0265} = 2.2074$$
 - Kerbparameter:
   $$q_s = \frac{6.2099}{2 \times 1.4307} = 2.1702$$
 - Spannungskorrekturfaktor:
-  $$Y_S = \left(1.2 + 0.13 \times \frac{6.2099}{4.8096}\right) 2.1702^{\frac{1}{1.21 + 2.3 / 2.1702}} = 1.3678 \times 2.1702^{0.4406} = 1.9244$$
-- Produkt der Formfaktoren: $Y_F \cdot Y_S = 2.4296 \times 1.9244 = 4.6755$
+  $$Y_S = \left(1.2 + 0.13 \times \frac{6.2099}{4.8096}\right) 2.1702^{\frac{1}{1.21 + 2.3 / (6.2099 / 4.8096)}} = 1.3679 \times 2.1702^{0.3343} = 1.7723$$
+- Gesamtbeiwert: $Y_F \cdot Y_S = 2.2074 \times 1.7723 = 3.9122$
 
-#### Schritt 4: Betriebsspannung und Sicherheitsnachweis
+#### Schritt 4: Zahnfußspannung & rechnerischer Sicherheitsnachweis
 - Nennumfangskraft: $F_t = \frac{2000 \times 150.0}{51.0} = 5882.35\,\text{N}$
-- Nennspannung:
-  $$\sigma_{F0} = \frac{5882.35}{30.0 \times 3.0} \times 4.6755 = 65.359 \times 4.6755 = 305.58\,\text{MPa}$$
-- Betriebsspannung mit Beiwerten ($K_A=1.25, K_v=1.08, K_{F\beta}=1.12, K_{F\alpha}=1.0$):
-  $$\sigma_F = 305.58 \times (1.25 \times 1.08 \times 1.12 \times 1.0) = 305.58 \times 1.512 = 462.04\,\text{MPa}$$
-- Zulässige Spannung ($\sigma_{F\lim}=430\,\text{MPa}, Y_{NT}=1.0, Y_{\delta\mathrm{rel}T}=1.10, Y_{R\mathrm{rel}T}=1.05$):
-  $$\sigma_{FP} = 430 \times 1.10 \times 1.05 = 496.65\,\text{MPa}$$
-- Sicherheitsbeiwert:
-  $$S_F = \frac{496.65}{462.04} = 1.075 < S_{F\min} = 1.30$$
+- Nenn-Zahnfußspannung ($m_n = 3.0\,\text{mm}, Y_\beta = 1.0$):
+  $$\sigma_{F0} = \frac{5882.35}{30.0 \times 3.0} \times 3.9122 = 65.359 \times 3.9122 = 255.69\,\text{MPa}$$
+- Maßgebende Betriebsspannung ($K_A=1.25, K_v=1.08, K_{F\beta}=1.12, K_{F\alpha}=1.0$):
+  $$\sigma_F = 255.69 \times (1.25 \times 1.08 \times 1.12 \times 1.0) = 255.69 \times 1.512 = 386.60\,\text{MPa}$$
+- Zahnfuß-Grenzspannung und zulässige Spannung ($\sigma_{F\lim}=430\,\text{MPa}$, $Y_{ST}=1.0$, $Y_{NT}=1.0$, $Y_{\delta\mathrm{rel}T}=1.10$, $Y_{R\mathrm{rel}T}=1.05$, $Y_X=1.0$):
+  $$\sigma_{FG} = 430 \times 1.10 \times 1.05 = 496.65\,\text{MPa},\quad \sigma_{FP} = \frac{\sigma_{FG}}{S_{F\min}} = \frac{496.65}{1.30} = 382.04\,\text{MPa}$$
+- Rechnerischer Sicherheitsbeiwert:
+  $$S_F = \frac{496.65}{386.60} = 1.285 < S_{F\min} = 1.30$$
 
-**Konstruktionsempfehlung (Nachrechnung/Optimierung)**:
-Da die rechnerische Sicherheit $S_F = 1.075$ unterhalb des Sollwerts $1.30$ liegt, sind drei konstruktive Gegenmaßnahmen zu ergreifen:
-1. Verbreiterung der Zahnbreite $b$ von $30\,\text{mm}$ auf $38\,\text{mm}$.
-2. Vergrößerung des Moduls von $m = 3.0\,\text{mm}$ auf $3.5\,\text{mm}$.
-3. Erhöhung der Ritzelprofilverschiebung auf $x_1 = +0.45$, wodurch $s_{Fn}$ anwächst, $Y_F$ sinkt und $S_F \ge 1.30$ sicher erreicht wird.
+**Konstruktive Optimierungsmaßnahmen**:
+In der vorliegenden Rechnung übersteigt die maßgebende Betriebsspannung $\sigma_F = 386.60\,\text{MPa}$ den zulässigen Grenzwert $\sigma_{FP} = 382.04\,\text{MPa}$ um $1.2\%$, und der Sicherheitsbeiwert $S_F = 1.285$ unterschreitet die geforderte Mindestsicherheit von $1.30$ geringfügig. 
+Zur Behebung dieses Mangels stehen dem Konstrukteur drei bewährte Maßnahmen zur Verfügung:
+1. Verbreiterung der Zahnbreite $b$ von $30\,\text{mm}$ auf $35\,\text{mm}$ ($+16.7\%$).
+2. Anhebung des Moduls von $m = 3.0\,\text{mm}$ auf $3.5\,\text{mm}$.
+3. Vergrößerung der Ritzelprofilverschiebung von $x_1 = +0.30$ auf $+0.40$, was die kritische Fußdicke $s_{Fn}$ vergrößert, den Zahnformfaktor $Y_F$ absenkt und $S_F \ge 1.30$ sicherstellt.
 
 ---
 
-## 6.4 Fertigung & Qualitätssicherung: Zeichnungsangaben nach DIN 3960 / ISO 1328
+## 6.4 Fertigungs- und Qualitätstechnik: Zeichnungsangaben und Zahnfußintegrität
 
-Bei der Zeichnungserstellung sind die geometrischen Kenngrößen der Fußausrundung und die thermochemischen Randschichtparameter exakt zu spezifizieren. Schleifkerben im Zahnfuß zerstören die Dauerfestigkeit selbst bei feinstem Werkstoffgefüge.
+Bei der Freigabe von Fertigungszeichnungen nach DIN 3960 / ISO 1328 müssen die Parameter der Fußausrundung und der Wärmebehandlung exakt spezifiziert werden. Kerben durch fehlerhaftes Schleifen zerstören die Schwingfestigkeit vollständig.
 
 ```text
-[Zeichnungstabelle: Fertigungsangaben zur Zahnfußintegrität]
+[Fertigungszeichnungs-Datentabelle: Spezifikationen der Zahnfußtragfähigkeit]
 ========================================================================
-Merkmal                         Ritzel                  Großrad
+Parameter                       Ritzel (Pinion)         Rad (Gear)
 ------------------------------------------------------------------------
 Modul (m)                       3.0 mm                  3.0 mm
 Zähnezahl (z)                   17                      50
 Eingriffswinkel (alpha_n)       20.0°                   20.0°
-Profilverschiebung (x)          +0.3000                 0.0000
-Werkzeug-Kopfradius (rho_a0)    1.14 mm (0.38 m)        1.14 mm (0.38 m)
+Profilverschiebungsfaktor (x)   +0.3000                 0.0000
+Werkzeugkopfradius (rho_a0)     1.14 mm (0.38 m)        1.14 mm (0.38 m)
 Kritische Fußdicke (sFn)        6.21 mm                 6.52 mm
-Zahnformfaktor (YF, ISO 6336)   2.43                    2.27
-Spannungsfaktor (YS, ISO 6336)  1.92                    1.91
-Rauheit im Zahnfuß (Ra)         Ra <= 0.8 um            Ra <= 1.6 um
+Zahnformfaktor (YF, ISO 6336)   2.21                    2.08
+Spannungsfaktor (YS, ISO 6336)  1.77                    1.76
+Rauheit Fußausrundung (Ra)      Ra <= 0.8 um (Geschl.)  Ra <= 1.6 um
 Wärmebehandlung & Härte         Einsatzgehärtet         Einsatzgehärtet
                                 (58 ~ 62 HRC)           (58 ~ 62 HRC)
 Einhärtungstiefe (CHD 550)      0.8 ~ 1.2 mm            0.8 ~ 1.2 mm
-Kugelstrahlen (Shot Peening)    Vorschrift (min. -600 MPa Druckeigenspannung)
+Kugelstrahlen (Shot Peening)    Zwingend vorgeschrieben (-600 MPa Druck)
 ========================================================================
 ```
 
-Grundregeln der Fertigungsüberwachung:
-1. **Schleifabsätze im Fußbereich zwingend vermeiden**: Beim Flankenschleifen darf die Schleifscheibe keinesfalls in die vorverzahnte Trochoide einschneiden. Kerben im Fußbereich erhöhen $K_t$ über 3.0 und provozieren Frühausfälle. Verwendung von Protuberanzwälzfräsern vor dem Härten stellt eine stufenfreie, glatte Ausrundung sicher.
-2. **Druckeigenspannungen durch Kugelstrahlen**: Gezieltes Kugelstrahlen des Zahnfußes mit sphärischem Strahlmittel erzeugt oberflächennahe Druckeigenspannungen von $-600$ bis $-800\,\text{MPa}$, kompensiert die Zugspannungsspitzen und steigert die Biegewechselfestigkeit um $20 \sim 30\%$.
+Zwingende Regeln für die Fertigungspraxis:
+1. **Vermeidung von Schleifkerben (Grinding Notches)**: Beim Zahnflankenschleifen darf die Schleifscheibe die durch das Wälzfräsen erzeugte trochoidale Fußausrundung keinesfalls anschneiden. Ein Schleifabsatz führt zu einer Formzahl $K_t > 3.0$ und vorzeitigem Ermüdungsbruch. Vor dem Härten müssen Protuberanz-Wälzfräser eingesetzt werden, um einen ungeschliffenen, glatten Übergang im Zahnfuß zu gewährleisten.
+2. **Druckeigenspannungen durch Kugelstrahlen**: Das gezielte Kugelstrahlen (Shot Peening) des Zahnfußes mit runden Stahlpartikeln erzeugt tiefe Druckeigenspannungen ($-600 \sim -800\,\text{MPa}$) in den Randschichten. Diese kompensieren die betrieblichen Biegezugspannungen direkt und heben die Dauerfestigkeit des Zahnfußes um $20 \sim 30\%$ an.

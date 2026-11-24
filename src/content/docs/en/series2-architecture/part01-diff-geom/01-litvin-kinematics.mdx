@@ -1,6 +1,6 @@
 ---
 title: "Why Do We Use Gears? — From the Mechanical Limits of Friction Drives to the Complete Differential Geometry Proof of Willis' Law of Conjugate Gearing"
-description: "A comprehensive mathematical treatise starting from the mechanical boundaries and slip kinematics of friction wheels, through relative two-body kinematics, Litvin's first equation of meshing, the Willis law of conjugate gearing, the Euler-Savary differential curvature equation, to the self-adaptive invariance of the involute curve and contact velocity decomposition."
+description: "Beginning from the traction limits and slip mechanics of plain friction wheels, this comprehensive monograph develops the relative kinematics of rigid surfaces, Litvin's first equation of meshing, the rigorous differential geometric proof of Willis' law, the Euler-Savary curvature equation, involute center-distance invariance, and contact point velocity decomposition."
 series: architecture
 part: 1
 chapter: 1
@@ -16,7 +16,7 @@ required_diagrams:
   - "fig2_willis_law_geometry"
   - "fig3_contact_velocity_vectors"
 academic_level: graduate
-equations_hash: "492c1834bc24cba6ef3de66b9b0bf3742820e76a7d162274fde205fb0202252b"
+equations_hash: "430cba407a6e8cca0398e9d725a4dc08fb7699afd046248c2ca5849bce16d4ed"
 kernel_verified: true
 review_date: "2026-11-12"
 sidebar:
@@ -25,278 +25,306 @@ sidebar:
 
 ## 1. Introduction: Evolution of Power Transmission and Physical Bottlenecks of Friction Drives
 
-The most primitive mechanical machine element for transmitting rotational mechanical energy between two shafts is a pair of smooth **Plain Cylindrical Friction Wheels** pressed against each other to induce rotation via interfacial friction. However, as mechanical engineering demanded higher transmission torques, extreme rotational velocities, and rigorous angular phase synchronization, friction drives encountered insurmountable physical and kinematic limitations.
+The most primitive mechanical configuration for transmitting rotational mechanical power between two shafts consists of two smooth cylinders pressed together under normal load, transmitting torque solely via friction at the contact interface: **plain cylindrical friction wheels**. However, as mechanical engineering evolved toward high power density, heavy loads, and micro-radian angular synchronization, friction wheel drives exhibited insurmountable kinetic and dynamic bottlenecks.
 
 ```
-[Driver Shaft O1] ──(Normal Clamping Force FN)──▶ [Contact Point P (Friction Ft ≤ μ FN)] ──▶ [Driven Shaft O2]
-       │                                                      │                                    │
-       ▼                                                      ▼                                    ▼
-[Massive Permanent Bearing Loads]                     [Micro-Slip s > 0 Occurs]              [Phase Loss & Ratio Drift]
+[Driving Shaft O₁] ──(Normal Force FN)──▶ [Contact Point P (Friction Ft ≤ μ FN)] ──(Drive)──▶ [Driven Shaft O₂]
+        │                                                    │                                       │
+        ▼                                                    ▼                                       ▼
+[Massive Bearing Reaction Loads]                     [Macroscopic Slip s > 0]               [Phase Divergence Δθ → ∞]
 ```
 
-### 1.1 Contact Mechanics and Tangential Traction Bounds of Friction Wheels
+### 1.1 Friction Wheel Contact Mechanics and Tangential Traction Normal Force Constraints
 
-Consider two friction cylinders of radii $r_1$ and $r_2$ operating at center distance $a = r_1 + r_2$ and contacting externally at pitch point $P$. When an input driving torque $T_1$ is applied to Wheel 1, the maximum tangential traction force $F_{t,\max}$ that can be generated at the contact interface is strictly governed by Coulomb's Law of Friction, bounded by the compressive normal force $F_N$ and the interfacial static friction coefficient $\mu_s$:
+Consider two smooth cylinders of radii $r_1$ and $r_2$ operating at center distance $a = r_1 + r_2$, making external line contact at point $P$. When input torque $T_1$ is applied to Wheel 1, the maximum tangential traction force $F_{t,\max}$ generated at the contact interface is governed by Coulomb's friction law:
 
 $$
 F_t \le F_{t,\max} = \mu_s F_N
 $$
 
-The static equilibrium relationship between the transmitted tangential driving force $F_t$ and input torque $T_1$ is given by:
+The effective tangential force $F_t$ required to transmit input torque $T_1$ without slipping satisfies static equilibrium:
 
 $$
 F_t = \frac{T_1}{r_1}
 $$
 
-Consequently, the **minimum normal clamping force $F_{N,\min}$** required to prevent gross interfacial sliding is determined as:
+Consequently, to maintain continuous friction wheel torque transfer, external clamping mechanisms (spring packs, hydraulic actuators, or toggle linkages) must continuously enforce a **minimum normal force $F_{N,\min}$**:
 
 $$
 F_{N,\min} = \frac{T_1}{\mu_s r_1}
 $$
 
-This fundamental relation entails two severe engineering penalties:
+This fundamental relationship creates two severe mechanical bottlenecks:
 
-1. **Massive Radial Loads on Bearings and Shafts**:
-   As transmission torque $T_1$ increases, or when operating in lubricated environments where friction is low (for unlubricated steel-on-steel $\mu_s \approx 0.15 \sim 0.20$, under boundary lubrication $\mu_s \approx 0.05 \sim 0.08$), the required normal clamping force $F_N$ reaches $5$ to $20$ times the effective tangential driving force $F_t$:
+1. **Massive Overhung and Radial Bearing Reaction Loads**:
+   As transmitted torque $T_1$ increases, and given realistic interfacial friction coefficients ($\mu_s \approx 0.15 \sim 0.20$ for dry steel-on-steel, and $\mu_s \approx 0.05 \sim 0.08$ under boundary lubrication), the normal clamping force $F_N$ must scale to $5 \sim 20$ times the useful tangential traction force $F_t$:
 
 $$
 R_{\text{bearing}} = F_N \ge \frac{1}{\mu_s} F_t \approx (5 \sim 20) F_t
 $$
 
-   This enormous radial bearing load induces severe bending deflections along shafts and imposes continuous dynamic overloads on supporting rolling element or journal bearings, drastically degrading the rated $L_{10}$ bearing fatigue life.
+   This excessive radial load induces bending deflection in the drive shafts and subjects supporting rolling element or hydrodynamic journal bearings to static and dynamic overloading, drastically degrading their $L_{10}$ fatigue service life.
 
-2. **Subsurface Contact Fatigue and Spalling**:
-   According to Hertzian contact stress theory, for two cylinders with contact width $b$ and equivalent elastic modulus $E^*$, the peak interfacial contact pressure $p_{\max}$ scales with the square root of normal force:
+2. **Severe Subsurface Shear Stresses and Hertzian Spalling**:
+   According to classical Hertzian contact stress theory for two parallel cylinders with contact width $b$ and equivalent elastic modulus $E^*$, the peak subsurface contact pressure $p_{\max}$ scales with the square root of normal force:
 
 $$
 p_{\max} = \sqrt{\frac{F_N \cdot E^*}{\pi b \left( \frac{r_1 r_2}{r_1 + r_2} \right)}} \propto \sqrt{F_N}
 $$
 
-   Increasing $F_N$ to transmit higher torque elevates the subsurface maximum orthogonal shear stress $\tau_{\max} \approx 0.300 p_{\max}$ beyond the material's shear yield strength, causing premature subsurface fatigue spalling and micro-pitting.
+   Multiplying clamping load $F_N$ to transmit heavier torque drives the peak subsurface shear stress $\tau_{\max} \approx 0.300 p_{\max}$ well beyond the material's shear yield limit, resulting in premature subsurface fatigue spalling and pitting.
 
 ---
 
-### 1.2 Interfacial Slip Ratio and Breakdown of Angular Synchronization
+### 1.2 Interfacial Slip Ratio Dynamics and Breakdown of Angular Synchronization
 
-In real elastic contacts, according to the contact mechanics theories of Osborne Reynolds and F. W. Carter, even before gross slip occurs, microscopic differences in elastic tangential deformation produce **elastic creep**. When transmitted torque exceeds a critical threshold, this creep transitions into macroscopic slip.
+Under real elastic contact mechanics (as formulated by Osborne Reynolds and F. W. Carter), even below gross sliding, differential micro-elastic shear displacements produce **elastic creep**. When transmitted torque exceeds interfacial traction capacity, this creep degenerates into gross sliding.
 
-Denoting the peripheral surface velocity of the driver as $v_1 = r_1 \omega_1$ and that of the driven wheel as $v_2 = r_2 \omega_2$, the **relative interfacial slip ratio $s$** is rigorously defined as:
+Denoting the surface peripheral velocity of the driving wheel as $v_1 = r_1 \omega_1$ and that of the driven wheel as $v_2 = r_2 \omega_2$, the **kinematic slip ratio $s$** is defined as:
 
 $$
 s = \frac{v_1 - v_2}{v_1} = 1 - \frac{r_2 \omega_2}{r_1 \omega_1} \quad (0 \le s \le 1)
 $$
 
-Introducing slip ratio $s$, the instantaneous angular velocity transmission ratio $u(t)$ becomes:
+Incorporating slip ratio $s$, the instantaneous angular velocity transmission ratio $u(t)$ becomes inherently load- and friction-dependent:
 
 $$
 u(t) = \frac{\omega_1(t)}{\omega_2(t)} = \frac{r_2}{r_1} \cdot \frac{1}{1 - s(t)}
 $$
 
-Under idealized pure rolling without slip ($s = 0$), the velocity ratio matches the geometric radius ratio $u = r_2 / r_1$. However, under dynamic torque fluctuations $T(t)$ or environmental variations (temperature rise, lubricant mist, wear debris) that depress the friction coefficient below a critical threshold ($\mu(t) < \mu_{\text{crit}}$), Coulomb's friction boundary is breached, causing the slip ratio to surge toward unity:
+While ideal rolling ($s = 0$) yields the nominal radius ratio $u = r_2 / r_1$, any dynamic disturbance in transmitted torque $T(t)$ or transient environmental fluctuation in friction coefficient ($\mu(t) < \mu_{\text{crit}}$ due to temperature spikes, lubricant migration, or wear debris) triggers catastrophic gross slip:
 
 $$
 F_t(t) > \mu_k F_N \implies s(t) \to 1 \quad (\text{Gross Slip / Spin-out})
 $$
 
-Under this condition, the cumulative phase discrepancy $\Delta \theta(t)$ between input rotation angle $\theta_1(t) = \int_0^t \omega_1(\tau) d\tau$ and output rotation angle $\theta_2(t) = \int_0^t \omega_2(\tau) d\tau$ diverges over time:
+Under gross slip, the cumulative phase angle discrepancy $\Delta \theta(t) = \theta_1(t) - (r_2/r_1) \theta_2(t)$ between input and output shafts diverges over time:
 
 $$
-\Delta \theta(t) = \theta_1(t) - \frac{r_2}{r_1} \theta_2(t) = \int_0^t \frac{s(\tau)}{1 - s(\tau)} \, \omega_1(\tau) \, d\tau \neq 0
+\Delta \theta(t) = \theta_1(t) - \frac{r_2}{r_1} \theta_2(t) = \int_0^t s(\tau) \, \omega_1(\tau) \, d\tau \neq 0
 $$
 
 $$
 \lim_{t \to \infty} |\Delta \theta(t)| = \infty
 $$
 
-This mathematical breakdown of angular synchronization completely precludes the application of friction drives in precision mechanical systems such as robotic joint actuators, automotive drivetrains, printing presses, and clockwork mechanisms.
+This mathematical divergence in angular synchronization precludes the use of friction drives in precision robotics, automotive drivetrains, printing presses, aerospace actuators, and clockwork mechanisms.
 
 ---
 
-### 1.3 Paradigm Shift to Form-Closed Positive Tooth Engagement (Figure 1 Analysis)
+### 1.3 Paradigm Shift to Form-Closed Positive Mesh (Analysis of Figure 1)
 
-To transcend the physical bottlenecks of friction transmission, engineering history transitioned from friction-closed drives to **geometric form-closed positive engagement (Form-Closed Positive Mesh)**, creating interlocking teeth across the contact surfaces to physically enforce rotation without relying on interfacial shear traction.
+To transcend interfacial friction limitations, mechanical engineering underwent an axiomatic paradigm shift: from **friction-closed traction** to **form-closed positive mechanical engagement (Positive Mesh)** achieved by interlocking conjugate geometric teeth.
 
-![Figure 1A: Power Transmission Mechanism of Friction Wheels](/images/part1/en/fig1a_friction_drive.png)
+![Figure 1A: Friction Drive Mechanism and Physical Limits](/images/part1/en/fig1a_friction_drive.png)
 
 * **(A) Friction Wheel Drive**:
-  - Driver wheel $O_1$ and driven wheel $O_2$ engage in point contact at pitch point $P$ under heavy compressive clamping force $F_N$.
-  - Tangential drive force is bounded by $F_t \le \mu F_N$. Exceeding this boundary triggers interfacial slip $\Delta v = v_1 - v_2 \neq 0$, causing complete phase drift.
+  - Driving wheel $O_1$ and driven wheel $O_2$ meet at pitch point $P$ under compressive normal force $F_N$.
+  - Transmitted tangential traction is bounded by $F_t \le \mu F_N$. Exceeding this boundary produces interfacial velocity divergence $\Delta v = v_1 - v_2 \neq 0$, destroying phase synchronization.
 
-![Figure 1B: Form-Closed Conjugate Meshing of Involute Gears](/images/part1/en/fig1b_gear_drive.png)
+![Figure 1B: Involute Form-Closed Gear Engagement](/images/part1/en/fig1b_gear_drive.png)
 
-* **(B) Standard Involute Gear Meshing**:
-  - Spur gear pair with module $m = 2.0\text{ mm}$, tooth numbers $z_1 = 17, z_2 = 33$, and pressure angle $\alpha_n = 20.0^\circ$, calculated directly from the H-GEAR STUDIO backend kernel.
-  - Even on frictionless surfaces ($\mu \equiv 0$), the geometric contact normal forces physically drive the mating tooth profile, achieving deterministic power transmission.
-  - Profile interference overlap is strictly $0.000000\text{ mm}$, backlash is $j_n = 0.000\text{ mm}$, and the speed ratio remains constant: $u = 33 / 17 \approx 1.941176$.
+* **(B) Involute Gear Positive Mesh**:
+  - A conjugate gear pair generated with module $m = 2.0\text{ mm}$, tooth counts $z_1 = 17, z_2 = 33$, and pressure angle $\alpha_n = 20.0^\circ$.
+  - Even under frictionless conditions ($\mu \equiv 0$), normal contact forces acting perpendicular to conjugate flanks positively drive the mating tooth profile.
+  - Maintaining deliberate operational backlash $j_n > 0$ to eliminate thermal and manufacturing binding, the transmission ratio remains rigorously constant at $u = 33 / 17 \approx 1.941176$.
 
-However, if gear teeth are shaped arbitrarily (such as rectangular lugs or semicircular bumps), the instantaneous angular velocity ratio fluctuates periodically during rotation, inducing severe dynamic impact, vibration, and noise. This gives rise to the fundamental question of gear kinematics: **"What geometric condition must two profile curves satisfy so that their instantaneous angular velocity ratio $u(t) \equiv \text{const}$ remains strictly invariant throughout meshing?"**
+However, arbitrary tooth profiles (such as triangular serrations or circular pegs) produce periodic angular accelerations, shock impacts, and severe acoustic vibration. This raises the fundamental differential geometric question: **"What exact geometric condition must two conjugate surfaces satisfy to transmit a strictly constant instantaneous velocity ratio $u(t) \equiv \text{const}$ throughout their entire mesh?"**
 
 ---
 
-## 2. Kinematics of Relative Motion of Conjugate Profiles
+## 2. Kinematics of Relative Motion of Conjugate Flanks
 
-Following the mathematical framework established by Professor Faydor L. Litvin, we set up coordinate frames and vector fields to formulate the relative meshing kinematics of two planar curves $\Sigma_1$ and $\Sigma_2$.
+Following the rigorous foundations of Litvin's Kinematic Theory of Gearing and the Differential Geometry of Surfaces developed by Prof. Faydor L. Litvin, we establish coordinate frames and vector fields to govern the spatial relative kinematics of two Conjugate Tooth Surfaces ($\Sigma_1, \Sigma_2$).
 
 ```
-       [ Fixed Reference Frame Sf (Origin O1, Zf Axis) ]
+       [ Fixed Reference Frame Sf (Origin O₁, Zf Axis) ]
                │                                │
-      (Rotation by φ1)                 (Rotation by -φ2, Translation by a)
+      (Rotation φ₁)                    (Rotation φ₂, Translation a)
                ▼                                ▼
-    [ Pinion Body Frame S1 ]          [ Gear Body Frame S2 ]
-    Position Vector r1(u1, θ1)        Position Vector r2(u2, θ2)
-    Unit Normal n1(u1, θ1)            Unit Normal n2(u2, θ2)
+    [ Pinion Frame S₁ ]                 [ Gear Frame S₂ ]
+    Position Vector r₁(θ₁)              Position Vector r₂(θ₂)
+    Normal Vector n₁(θ₁)                Normal Vector n₂(θ₂)
 ```
 
-### 2.1 Coordinate Systems Setup ($S_1, S_2, S_f$)
+### 2.1 Coordinate Systems Setup ($S_1, S_2, S_f$) and Instantaneous Axis of Rotation (IAR)
 
-Within 3D Euclidean space $\mathbb{R}^3$, we define three orthonormal coordinate systems:
+In 3D Euclidean space $\mathbb{R}^3$, we define three standard right-handed orthonormal coordinate frames:
 
 1. **Fixed Reference Frame $S_f(O_f; \mathbf{i}_f, \mathbf{j}_f, \mathbf{k}_f)$**:
-   Rigidly attached to the machine housing or gearbox frame. The rotation axis of the driving pinion is chosen as origin $O_f \equiv O_1(0, 0, 0)$. The rotation axis of the driven gear $O_2$ is located at $(a, 0, 0)$ along the $x_f$ axis, separated by center distance $a$.
-   The center distance vector $\mathbf{R}$ pointing from $O_1$ to $O_2$ is:
+   Attached rigidly to the gear casing. Origin $O_f \equiv O_1(0, 0, 0)$ coincides with the rotation center of Pinion 1. The rotation center of Gear 2 is located along the $x_f$ axis at distance $a$, giving coordinates $(a, 0, 0)$.
+   The center distance vector $\mathbf{R}$ from $O_1$ to $O_2$ is:
 
 $$
 \mathbf{R} = \vec{O_1 O_2} = a \, \mathbf{i}_f = \begin{bmatrix} a \\ 0 \\ 0 \end{bmatrix}_f
 $$
 
-2. **Pinion Body Frame $S_1(O_1; \mathbf{i}_1, \mathbf{j}_1, \mathbf{k}_1)$**:
-   Rigidly attached to the pinion (Profile 1) and rotating about axis $\mathbf{k}_f$ through angle $\phi_1$.
-   The angular velocity vector of the pinion is:
+2. **Pinion Rotation Frame $S_1(O_1; \mathbf{i}_1, \mathbf{j}_1, \mathbf{k}_1)$**:
+   Rigidly attached to Pinion 1, rotating about $\mathbf{k}_f$ through rotational angle $\phi_1$. Its angular velocity vector is:
 
 $$
 \boldsymbol{\omega}_1 = \omega_1 \, \mathbf{k}_f = \begin{bmatrix} 0 \\ 0 \\ \omega_1 \end{bmatrix}_f, \quad \omega_1 = \frac{d\phi_1}{dt}
 $$
 
-3. **Gear Body Frame $S_2(O_2; \mathbf{i}_2, \mathbf{j}_2, \mathbf{k}_2)$**:
-   Rigidly attached to the gear (Profile 2), with origin at $O_2(a, 0, 0)$. For external gear pairs, it rotates in the opposite sense through angle $\phi_2$.
-   The angular velocity vector of the gear is:
+3. **Gear Rotation Frame $S_2(O_2; \mathbf{i}_2, \mathbf{j}_2, \mathbf{k}_2)$**:
+   Rigidly attached to Gear 2 with origin $O_2$. For external gearing, it rotates opposite to Pinion 1 through angle $\phi_2$:
 
 $$
 \boldsymbol{\omega}_2 = -\omega_2 \, \mathbf{k}_f = \begin{bmatrix} 0 \\ 0 \\ -\omega_2 \end{bmatrix}_f, \quad \omega_2 = \frac{d\phi_2}{dt}
 $$
 
----
-
-### 2.2 Homogeneous Transformation Matrices
-
-The $4 \times 4$ homogeneous coordinate transformation matrix $\mathbf{M}_{f1}(\phi_1)$ mapping coordinates from $S_1$ to $S_f$ is:
+4. **Instantaneous Axis of Rotation (IAR)**:
+   The relative angular velocity vector $\boldsymbol{\omega}_{12}$ between Pinion 1 and Gear 2 evaluates to:
 
 $$
-\mathbf{M}_{f1}(\phi_1) = \begin{bmatrix} 
-\cos\phi_1 & -\sin\phi_1 & 0 & 0 \\ 
-\sin\phi_1 & \cos\phi_1 & 0 & 0 \\ 
-0 & 0 & 1 & 0 \\ 
-0 & 0 & 0 & 1 
-\end{bmatrix}
+\boldsymbol{\omega}_{12} = \boldsymbol{\omega}_1 - \boldsymbol{\omega}_2 = (\omega_1 + \omega_2)\mathbf{k}_f
 $$
 
-Similarly, the transformation matrix $\mathbf{M}_{f2}(\phi_2)$ mapping coordinates from $S_2$ to $S_f$, including the translation of center $O_2(a, 0, 0)$, is:
-
-$$
-\mathbf{M}_{f2}(\phi_2) = \begin{bmatrix} 
-\cos\phi_2 & \sin\phi_2 & 0 & a \\ 
--\sin\phi_2 & \cos\phi_2 & 0 & 0 \\ 
-0 & 0 & 1 & 0 \\ 
-0 & 0 & 0 & 1 
-\end{bmatrix}
-$$
-
-The direct coordinate transformation matrix $\mathbf{M}_{21}(\phi_1, \phi_2)$ from $S_1$ to $S_2$ is obtained by matrix inversion:
-
-$$
-\mathbf{M}_{21} = \mathbf{M}_{2f} \cdot \mathbf{M}_{f1} = \mathbf{M}_{f2}^{-1} \cdot \mathbf{M}_{f1}
-$$
+   The locus of points where the relative linear velocity vanishes ($\mathbf{v}^{(12)} = \mathbf{0}$) forms a straight line parallel to the rotation axes passing through pitch point $P(r_{w1}, 0, 0)$. This line constitutes the **Instantaneous Axis of Rotation (IAR)**.
 
 ---
 
-### 2.3 Two-Parameter Surface Representation and Unit Normal Vector
+### 2.2 Homogeneous Coordinate Transformation Matrix and Flank Normal Transformation
 
-According to Litvin's differential geometry framework, tooth surface $\Sigma_1$ of Pinion 1 is parametrized in frame $S_1$ by two independent surface parameters $(u_1, \theta_1)$:
-- $u_1$: Profile curve parameter (roll angle along the involute)
-- $\theta_1$: Axial face width parameter along $z_1$
+Following Faydor L. Litvin's formulation, we employ the $4 \times 4$ Homogeneous Coordinate Transformation Matrix ($\mathbf{M}_{ij}$) and $4 \times 4$ Augmented Matrix algebra to represent coordinate transformations containing both rotation and translation.
 
-$$
-\mathbf{r}_1(u_1, \theta_1) = \begin{bmatrix} x_1(u_1, \theta_1) \\ y_1(u_1, \theta_1) \\ z_1(u_1, \theta_1) \end{bmatrix}_1
-$$
-
-For spur cylindrical gears, the tooth surface is a cylindrical ruled surface extruded parallel to the $z_1$ axis, so $z_1 \equiv \theta_1$:
+The transformation matrix $\mathbf{M}_{f1}(\phi_1)$ mapping homogeneous coordinates from $S_1$ to $S_f$ is:
 
 $$
-\mathbf{r}_1(u_1, \theta_1) = \begin{bmatrix} x_1(u_1) \\ y_1(u_1) \\ \theta_1 \end{bmatrix}_1
+\mathbf{M}_{f1}(\phi_1) = \begin{bmatrix} \cos\phi_1 & -\sin\phi_1 & 0 & 0 \\ \sin\phi_1 & \cos\phi_1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}
 $$
 
-By the First Fundamental Form of surface theory, the two tangent basis vectors are obtained via partial differentiation:
+The transformation matrix $\mathbf{M}_{f2}(\phi_2)$ from $S_2$ to $S_f$, accounting for center translation $O_2(a, 0, 0)$, is:
 
 $$
-\mathbf{r}_{1u} = \frac{\partial \mathbf{r}_1}{\partial u_1} = \begin{bmatrix} \dot{x}_1(u_1) \\ \dot{y}_1(u_1) \\ 0 \end{bmatrix}_1
+\mathbf{M}_{f2}(\phi_2) = \begin{bmatrix} \cos\phi_2 & \sin\phi_2 & 0 & a \\ -\sin\phi_2 & \cos\phi_2 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}
 $$
 
-$$
-\mathbf{r}_{1\theta} = \frac{\partial \mathbf{r}_1}{\partial \theta_1} = \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix}_1 = \mathbf{k}_1
-$$
-
-For regular, non-singular surface points ($\|\mathbf{r}_{1u} \times \mathbf{r}_{1\theta}\| \neq 0$), the unit surface normal $\mathbf{n}_1(u_1, \theta_1)$ is uniquely defined by normalizing their cross product:
+The inverse matrix $\mathbf{M}_{2f}(\phi_2) = \mathbf{M}_{f2}^{-1}(\phi_2)$ transforming from $S_f$ into $S_2$ evaluates in closed form to:
 
 $$
-\mathbf{N}_1(u_1, \theta_1) = \mathbf{r}_{1u} \times \mathbf{r}_{1\theta} = \begin{bmatrix} \dot{y}_1(u_1) \\ -\dot{x}_1(u_1) \\ 0 \end{bmatrix}_1
+\mathbf{M}_{2f}(\phi_2) = \mathbf{M}_{f2}^{-1}(\phi_2) = \begin{bmatrix} \cos\phi_2 & -\sin\phi_2 & 0 & -a \cos\phi_2 \\ \sin\phi_2 & \cos\phi_2 & 0 & -a \sin\phi_2 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}
 $$
 
-$$
-\mathbf{n}_1(u_1, \theta_1) = \frac{\mathbf{N}_1(u_1, \theta_1)}{\|\mathbf{N}_1(u_1, \theta_1)\|} = \frac{1}{\sqrt{\dot{x}_1^2(u_1) + \dot{y}_1^2(u_1)}} \begin{bmatrix} \dot{y}_1(u_1) \\ -\dot{x}_1(u_1) \\ 0 \end{bmatrix}_1
-$$
-
-Transformed into fixed frame $S_f$ via the rotation submatrix $\mathbf{L}_{f1}(\phi_1)$:
+Thus, the direct coordinate transformation matrix $\mathbf{M}_{21}(\phi_1, \phi_2)$ from $S_1$ to $S_2$ is obtained by matrix multiplication:
 
 $$
-\mathbf{r}_f^{(1)}(u_1, \theta_1, \phi_1) = \mathbf{L}_{f1}(\phi_1) \cdot \mathbf{r}_1(u_1, \theta_1) = \begin{bmatrix} x_1(u_1) \cos\phi_1 - y_1(u_1) \sin\phi_1 \\ x_1(u_1) \sin\phi_1 + y_1(u_1) \cos\phi_1 \\ \theta_1 \end{bmatrix}_f
+\mathbf{M}_{21}(\phi_1, \phi_2) = \mathbf{M}_{2f}(\phi_2) \, \mathbf{M}_{f1}(\phi_1) = \begin{bmatrix} \cos(\phi_1 + \phi_2) & -\sin(\phi_1 + \phi_2) & 0 & -a \cos\phi_2 \\ \sin(\phi_1 + \phi_2) & \cos(\phi_1 + \phi_2) & 0 & -a \sin\phi_2 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}
+$$
+
+Any position vector $\mathbf{r}_1 = [x_1, y_1, z_1, 1]^T$ in $S_1$ maps into $S_2$ via:
+
+$$
+\mathbf{r}_2 = \mathbf{M}_{21}(\phi_1, \phi_2) \, \mathbf{r}_1
+$$
+
+Because surface unit normals are directional vectors invariant under translational displacements, they transform purely under the upper-left $3 \times 3$ orthogonal rotation submatrix $\mathbf{L}_{21}(\phi_1, \phi_2)$:
+
+$$
+\mathbf{L}_{21}(\phi_1, \phi_2) = \begin{bmatrix} \cos(\phi_1 + \phi_2) & -\sin(\phi_1 + \phi_2) & 0 \\ \sin(\phi_1 + \phi_2) & \cos(\phi_1 + \phi_2) & 0 \\ 0 & 0 & 1 \end{bmatrix}
 $$
 
 $$
-\mathbf{n}_f^{(1)}(u_1, \phi_1) = \mathbf{L}_{f1}(\phi_1) \cdot \mathbf{n}_1(u_1) = \begin{bmatrix} n_{1x} \cos\phi_1 - n_{1y} \sin\phi_1 \\ n_{1x} \sin\phi_1 + n_{1y} \cos\phi_1 \\ 0 \end{bmatrix}_f
+\mathbf{n}_2 = \mathbf{L}_{21}(\phi_1, \phi_2) \, \mathbf{n}_1
 $$
+
+Because $\mathbf{L}_{21}$ is strictly orthogonal ($\mathbf{L}_{21}^{-1} = \mathbf{L}_{21}^T, \det(\mathbf{L}_{21}) = +1$), unit normality is unconditionally preserved: $\|\mathbf{n}_2\| = \|\mathbf{n}_1\| = 1$.
 
 ---
 
-### 2.4 Rigorous Derivation of the Relative Velocity Vector
+### 2.3 Two-Parameter Flank Surface Parameterization, Unit Normal, and Singularity/Undercut Limits
 
-Suppose at an arbitrary instant the two surfaces contact at point $K$, whose position vector in fixed frame $S_f$ is $\mathbf{r}_f = [x_f, y_f, 0]^T$.
-
-1. **Velocity of Contact Point as Part of Body 1 ($\mathbf{v}_f^{(1)}$)**:
-   Point $K$ rotates about $O_1$ with angular velocity $\boldsymbol{\omega}_1$:
-
-$$
-\mathbf{v}_f^{(1)} = \boldsymbol{\omega}_1 \times \mathbf{r}_f = \begin{vmatrix} 
-\mathbf{i}_f & \mathbf{j}_f & \mathbf{k}_f \\ 
-0 & 0 & \omega_1 \\ 
-x_f & y_f & 0 
-\end{vmatrix} = \begin{bmatrix} -\omega_1 y_f \\ \omega_1 x_f \\ 0 \end{bmatrix}_f
-$$
-
-2. **Velocity of Contact Point as Part of Body 2 ($\mathbf{v}_f^{(2)}$)**:
-   Point $K$ rotates about $O_2$ with angular velocity $\boldsymbol{\omega}_2$. Its relative position vector from $O_2$ is $\mathbf{r}_f - \mathbf{R}$:
+According to Litvin's differential geometry framework, flank surface $\Sigma_1$ of Pinion 1 is parameterized in body frame $S_1$ via two-variable Surface Parameterization $\mathbf{r}(u, \theta)$ (or $\mathbf{r}_1(u, \theta)$) with two independent curvilinear coordinates $(u, \theta)$:
+- $u$: Profile parameter along the involute curve (roll angle or base circle unwinding coordinate)
+- $\theta$: Longitudinal parameter along the tooth face width ($z_1$) or helical lead coordinate
 
 $$
-\mathbf{v}_f^{(2)} = \boldsymbol{\omega}_2 \times (\mathbf{r}_f - \mathbf{R}) = \begin{vmatrix} 
-\mathbf{i}_f & \mathbf{j}_f & \mathbf{k}_f \\ 
-0 & 0 & -\omega_2 \\ 
-x_f - a & y_f & 0 
-\end{vmatrix} = \begin{bmatrix} \omega_2 y_f \\ -\omega_2 (x_f - a) \\ 0 \end{bmatrix}_f
+\mathbf{r}_1(u, \theta) = \begin{bmatrix} x_1(u, \theta) \\ y_1(u, \theta) \\ z_1(u, \theta) \end{bmatrix}_1
+$$
+
+For straight cylindrical spur gears, the flank is a ruled cylinder parallel to $z_1$, enabling parameterization with $z_1 \equiv \theta$:
+
+$$
+\mathbf{r}_1(u, \theta) = \begin{bmatrix} x_1(u) \\ y_1(u) \\ \theta \end{bmatrix}_1
+$$
+
+The tangent basis vectors spanning the tangent plane at any regular surface point are given by partial derivatives:
+
+$$
+\mathbf{r}_{1u} = \frac{\partial \mathbf{r}_1}{\partial u} = \begin{bmatrix} \frac{\partial x_1}{\partial u} \\ \frac{\partial y_1}{\partial u} \\ 0 \end{bmatrix}_1 = \begin{bmatrix} \dot{x}_1(u) \\ \dot{y}_1(u) \\ 0 \end{bmatrix}_1
+$$
+
+$$
+\mathbf{r}_{1\theta} = \frac{\partial \mathbf{r}_1}{\partial \theta} = \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix}_1 = \mathbf{k}_1
+$$
+
+Assuming regular surface conditions ($\|\mathbf{r}_{1u} \times \mathbf{r}_{1\theta}\| \neq 0$), the outward unit surface normal $\mathbf{n}_1(u, \theta)$ is uniquely defined by normalizing the vector cross product:
+
+$$
+\mathbf{N}_1(u, \theta) = \mathbf{r}_{1u} \times \mathbf{r}_{1\theta} = \begin{vmatrix} \mathbf{i}_1 & \mathbf{j}_1 & \mathbf{k}_1 \\ \dot{x}_1(u) & \dot{y}_1(u) & 0 \\ 0 & 0 & 1 \end{vmatrix} = \begin{bmatrix} \dot{y}_1(u) \\ -\dot{x}_1(u) \\ 0 \end{bmatrix}_1
+$$
+
+$$
+\mathbf{n}_1(u, \theta) = \frac{\mathbf{N}_1(u, \theta)}{\|\mathbf{N}_1(u, \theta)\|} = \frac{1}{\sqrt{\dot{x}_1^2(u) + \dot{y}_1^2(u)}} \begin{bmatrix} \dot{y}_1(u) \\ -\dot{x}_1(u) \\ 0 \end{bmatrix}_1
+$$
+
+Transformed into fixed frame $S_f$ via rotation submatrix $\mathbf{L}_{f1}(\phi_1)$:
+
+$$
+\mathbf{r}_f^{(1)}(u, \theta, \phi_1) = \mathbf{L}_{f1}(\phi_1) \cdot \mathbf{r}_1(u, \theta) = \begin{bmatrix} x_1(u) \cos\phi_1 - y_1(u) \sin\phi_1 \\ x_1(u) \sin\phi_1 + y_1(u) \cos\phi_1 \\ \theta \end{bmatrix}_f
+$$
+
+$$
+\mathbf{n}_f^{(1)}(u, \phi_1) = \mathbf{L}_{f1}(\phi_1) \cdot \mathbf{n}_1(u) = \begin{bmatrix} n_{1x} \cos\phi_1 - n_{1y} \sin\phi_1 \\ n_{1x} \sin\phi_1 + n_{1y} \cos\phi_1 \\ 0 \end{bmatrix}_f
+$$
+
+In manufacturing and conjugate envelope generation, the occurrence of singularities on generated surface $\Sigma_2$ represents the exact mathematical onset of **undercutting**. Flank singularity occurs when the tangent cross product vanishes:
+
+$$
+\frac{\partial \mathbf{r}_2}{\partial u} \times \frac{\partial \mathbf{r}_2}{\partial \theta} = \mathbf{0}
+$$
+
+At this singular boundary, the envelope curve develops a cusp and self-intersects, causing generating tool edges to gouge into and remove active involute working flank material near the root fillet.
+
+---
+
+### 2.4 Rigorous Derivation of the Relative Velocity Vector ($\mathbf{v}^{(12)}$)
+
+Let conjugate surfaces $\Sigma_1$ and $\Sigma_2$ maintain contact at point $K$ at an instantaneous moment. In fixed frame $S_f$, let contact point $K$ have position vector $\mathbf{r}_f = [x_f, y_f, 0]^T$ relative to origin $O_1$.
+
+In general multi-body kinematics with shaft translation $\mathbf{v}_{\text{trans}}$, the Relative Velocity Vector ($\mathbf{v}^{(12)}$) is defined by:
+
+$$
+\mathbf{v}^{(12)} = \mathbf{v}^{(1)} - \mathbf{v}^{(2)} = (\boldsymbol{\omega}_1 \times \mathbf{r}_1) - (\boldsymbol{\omega}_2 \times \mathbf{r}_1 + \mathbf{v}_{\text{trans}})
+$$
+
+For fixed-axis parallel transmissions where $\mathbf{v}_{\text{trans}} = \mathbf{0}$, the absolute velocities in frame $S_f$ are:
+
+1. **Absolute Velocity $\mathbf{v}_f^{(1)}$ of point $K$ attached to Flank 1**:
+
+$$
+\mathbf{v}_f^{(1)} = \boldsymbol{\omega}_1 \times \mathbf{r}_f = \begin{vmatrix} \mathbf{i}_f & \mathbf{j}_f & \mathbf{k}_f \\ 0 & 0 & \omega_1 \\ x_f & y_f & 0 \end{vmatrix} = \begin{bmatrix} -\omega_1 y_f \\ \omega_1 x_f \\ 0 \end{bmatrix}_f
+$$
+
+2. **Absolute Velocity $\mathbf{v}_f^{(2)}$ of point $K$ attached to Flank 2**:
+
+$$
+\mathbf{v}_f^{(2)} = \boldsymbol{\omega}_2 \times (\mathbf{r}_f - \mathbf{R}) = \begin{vmatrix} \mathbf{i}_f & \mathbf{j}_f & \mathbf{k}_f \\ 0 & 0 & -\omega_2 \\ x_f - a & y_f & 0 \end{vmatrix} = \begin{bmatrix} \omega_2 y_f \\ -\omega_2 (x_f - a) \\ 0 \end{bmatrix}_f
 $$
 
 3. **Relative Velocity Vector $\mathbf{v}_f^{(12)}$**:
-   The relative velocity of Body 1 with respect to Body 2 at contact point $K$ is:
 
 $$
 \mathbf{v}_f^{(12)} = \mathbf{v}_f^{(1)} - \mathbf{v}_f^{(2)} = \boldsymbol{\omega}_1 \times \mathbf{r}_f - \boldsymbol{\omega}_2 \times (\mathbf{r}_f - \mathbf{R})
 $$
 
-Rearranging via vector cross product distributivity yields the general kinematic formulation:
+Applying the distributive identity of vector cross products:
 
 $$
 \mathbf{v}_f^{(12)} = (\boldsymbol{\omega}_1 - \boldsymbol{\omega}_2) \times \mathbf{r}_f + \boldsymbol{\omega}_2 \times \mathbf{R} = (\boldsymbol{\omega}_1 - \boldsymbol{\omega}_2) \times \mathbf{r}_f - \mathbf{R} \times \boldsymbol{\omega}_2
 $$
 
-In Cartesian components in $S_f$:
+Expanding into Cartesian components in frame $S_f$:
 
 $$
 \mathbf{v}_f^{(12)} = \begin{bmatrix} -\omega_1 y_f \\ \omega_1 x_f \\ 0 \end{bmatrix} - \begin{bmatrix} \omega_2 y_f \\ -\omega_2 (x_f - a) \\ 0 \end{bmatrix} = \begin{bmatrix} -(\omega_1 + \omega_2) y_f \\ (\omega_1 + \omega_2) x_f - \omega_2 a \\ 0 \end{bmatrix}_f
@@ -304,23 +332,61 @@ $$
 
 ---
 
-## 3. Litvin's First Equation of Meshing and Willis' Law of Gearing
+## 3. Litvin's First Equation of Meshing and Differential Geometry Proof of Willis' Law
 
 ### 3.1 Continuous Contact Condition and the First Equation of Meshing
 
-For two rigid bodies $\Sigma_1$ and $\Sigma_2$ to maintain continuous contact over time interval $t \in [0, T]$ without interpenetration or separation, the kinematic necessary and sufficient condition is:
+For rigid flanks $\Sigma_1$ and $\Sigma_2$ to maintain continuous contact over time interval $t \in [0, T]$ without physical interpenetration or separation, the relative velocity component along the common flank normal must vanish identically:
 
-> **"At contact point $K$, the relative velocity component along the common surface normal must vanish identically."**
+> **"At contact point $K$, the projection of the relative velocity vector $\mathbf{v}^{(12)}$ onto the common surface unit normal $\mathbf{n}$ must equal zero."**
+
+This is **Litvin's First Equation of Meshing** (the fundamental **Equation of Meshing**, $f = \mathbf{n} \cdot \mathbf{v}^{(12)} = 0$), expressed in body frame $S_1$ and fixed frame $S_f$:
 
 $$
-\mathbf{n}_f \cdot \mathbf{v}_f^{(12)} = 0
+f(u, \theta, \phi_1) = \mathbf{n}_1 \cdot \mathbf{v}^{(12)} = 0
 $$
 
-This fundamental relation is **Litvin's First Equation of Meshing**. If $\mathbf{n} \cdot \mathbf{v}^{(12)} > 0$, the surfaces immediately separate; if $\mathbf{n} \cdot \mathbf{v}^{(12)} < 0$, the surfaces geometrically interpenetrate.
+$$
+\mathbf{n}_f^{(1)} \cdot \mathbf{v}_f^{(12)} = 0
+$$
+
+If $\mathbf{n} \cdot \mathbf{v}^{(12)} > 0$, the flanks separate; if $\mathbf{n} \cdot \mathbf{v}^{(12)} < 0$, physical interpenetration occurs.
+
+Expanding this scalar product in Cartesian coordinates for spur gears with normal $\mathbf{n}_f = [n_{fx}, n_{fy}, 0]^T$:
+
+$$
+-n_{fx} (\omega_1 + \omega_2) y_f + n_{fy} [(\omega_1 + \omega_2) x_f - \omega_2 a] = 0
+$$
+
+$$
+(\omega_1 + \omega_2) (n_{fy} x_f - n_{fx} y_f) = \omega_2 a n_{fy}
+$$
+
+Dividing by $(\omega_1 + \omega_2)$ and substituting nominal operating pitch radius $r_{w1} = \frac{\omega_2}{\omega_1 + \omega_2} a$:
+
+$$
+n_{fy} x_f - n_{fx} y_f = \frac{\omega_2}{\omega_1 + \omega_2} a n_{fy} = r_{w1} n_{fy}
+$$
+
+Setting $y_f = 0$ to identify the intersection with the line of centers connecting $O_1$ and $O_2$:
+
+$$
+n_{fy} x_f = r_{w1} n_{fy} \implies x_f = r_{w1} = \frac{a}{1 + u} = P
+$$
+
+This closed-form derivation provides undeniable mathematical proof that the **Equation of Meshing** $\mathbf{n} \cdot \mathbf{v}^{(12)} = 0$ is rigorously identical to the classical kinematic condition that the common normal along the **Line of Action / Contact Path** must pass through fixed pitch point $P(r_{w1}, 0, 0)$.
+
+For helical gears with base helix angle $\beta_b$, the normal vector acquires a lead component $n_z = \sin\beta_b$. However, because parallel-axis gearing produces zero relative axial velocity ($v_z^{(12)} \equiv 0$), the 3D scalar product reduces strictly to the transverse plane:
+
+$$
+\mathbf{n} \cdot \mathbf{v}^{(12)} = \mathbf{n}_t \cdot \mathbf{v}_t^{(12)} + n_z v_z^{(12)} = \mathbf{n}_t \cdot \mathbf{v}_t^{(12)} + 0 = 0
+$$
+
+Thus, the pitch point intersection condition holds invariantly across every transverse slice along the entire face width.
 
 ---
 
-### 3.2 Closed-Form Derivation of Willis' Law of Conjugate Gearing
+### 3.2 Closed-Form Algebraic and Geometric Proof of Willis' Law of Conjugate Gearing
 
 Substituting the relative velocity expression into the equation of meshing:
 
@@ -328,7 +394,7 @@ $$
 \mathbf{n}_f \cdot \left[ (\boldsymbol{\omega}_1 - \boldsymbol{\omega}_2) \times \mathbf{r}_f + \boldsymbol{\omega}_2 \times \mathbf{R} \right] = 0
 $$
 
-Applying the scalar triple product cyclic identity $\mathbf{a} \cdot (\mathbf{b} \times \mathbf{c}) = \mathbf{b} \cdot (\mathbf{c} \times \mathbf{a})$:
+Applying scalar triple product cyclic permutations $\mathbf{a} \cdot (\mathbf{b} \times \mathbf{c}) = (\mathbf{a} \times \mathbf{b}) \cdot \mathbf{c}$:
 
 $$
 (\boldsymbol{\omega}_1 - \boldsymbol{\omega}_2) \cdot (\mathbf{r}_f \times \mathbf{n}_f) + \mathbf{n}_f \cdot (\boldsymbol{\omega}_2 \times \mathbf{R}) = 0
@@ -338,144 +404,134 @@ $$
 (\boldsymbol{\omega}_1 - \boldsymbol{\omega}_2) \cdot (\mathbf{r}_f \times \mathbf{n}_f) + \boldsymbol{\omega}_2 \cdot (\mathbf{R} \times \mathbf{n}_f) = 0
 $$
 
-Regrouping terms:
-
 $$
 \boldsymbol{\omega}_1 \cdot (\mathbf{r}_f \times \mathbf{n}_f) - \boldsymbol{\omega}_2 \cdot [(\mathbf{r}_f - \mathbf{R}) \times \mathbf{n}_f] = 0
 $$
 
-Since $\mathbf{r}_f = \vec{O_1 K}$ and $\mathbf{r}_f - \mathbf{R} = \vec{O_2 K}$:
+Recognizing $\mathbf{r}_f = \vec{O_1 K}$ and $\mathbf{r}_f - \mathbf{R} = \vec{O_2 K}$:
 
 $$
 \boldsymbol{\omega}_1 \cdot (\vec{O_1 K} \times \mathbf{n}_f) = \boldsymbol{\omega}_2 \cdot (\vec{O_2 K} \times \mathbf{n}_f)
 $$
 
-Substituting $\boldsymbol{\omega}_1 = \omega_1 \mathbf{k}_f$ and $\boldsymbol{\omega}_2 = -\omega_2 \mathbf{k}_f$ (opposite rotational senses for external gears):
+Projecting along the $\mathbf{k}_f$ axis with $\boldsymbol{\omega}_1 = \omega_1 \mathbf{k}_f$ and $\boldsymbol{\omega}_2 = -\omega_2 \mathbf{k}_f$:
 
 $$
 \omega_1 [(\vec{O_1 K} \times \mathbf{n}_f) \cdot \mathbf{k}_f] = -\omega_2 [(\vec{O_2 K} \times \mathbf{n}_f) \cdot \mathbf{k}_f]
 $$
 
-In an external gear pair, the rotation centers $O_1$ and $O_2$ lie on **opposite sides of the common normal line (Line of Action)**. Consequently, the moment vectors $(\vec{O_1 K} \times \mathbf{n}_f)$ and $(\vec{O_2 K} \times \mathbf{n}_f)$ point in opposite directions along $\mathbf{k}_f$:
+In external gear pairs, centers $O_1$ and $O_2$ lie on opposite half-planes relative to the common normal line. Consequently, the moment vectors $(\vec{O_1 K} \times \mathbf{n}_f)$ and $(\vec{O_2 K} \times \mathbf{n}_f)$ point in opposite directions along $\mathbf{k}_f$:
 
 $$
 (\vec{O_1 K} \times \mathbf{n}_f) \cdot \mathbf{k}_f = + \overline{O_1 N_1}, \quad (\vec{O_2 K} \times \mathbf{n}_f) \cdot \mathbf{k}_f = - \overline{O_2 N_2}
 $$
 
-This opposite sign cancels exactly with the negative sign from $-\omega_2$, yielding the exact scalar relation:
+This geometric sign difference precisely cancels the negative sign of counter-rotation ($-\omega_2$), yielding positive scalar equality:
 
 $$
 \omega_1 \cdot \overline{O_1 N_1} = (-\omega_2) \cdot (-\overline{O_2 N_2}) = \omega_2 \cdot \overline{O_2 N_2}
 $$
 
-$$
-\frac{\omega_1}{\omega_2} = \frac{\overline{O_2 N_2}}{\overline{O_1 N_1}}
-$$
-
 ```
-                   O2 (Gear Center)
+                   O₂ (Gear Center)
                    │ ＼
                    │   ＼
-                   │     ＼ N2 (Base Circle Tangent, 90°)
+                   │     ＼ N₂ (Base Circle Tangent, 90°)
                    │       ＼
        Line of     │         ＼ Line of Action (n-n)
        Centers     P (Pitch Point) ── K (Instantaneous Contact Point)
                    │         ／
                    │       ／
-                   │     ／ N1 (Base Circle Tangent, 90°)
+                   │     ／ N₁ (Base Circle Tangent, 90°)
                    │   ／
                    │ ／
-                   O1 (Pinion Center)
+                   O₁ (Pinion Center)
 ```
 
-Here $\overline{O_1 N_1}$ and $\overline{O_2 N_2}$ represent the perpendicular distances (moment arm lengths) from centers $O_1$ and $O_2$ to the common normal line.
+The moment arm lengths $\overline{O_1 N_1}$ and $\overline{O_2 N_2}$ represent the perpendicular distances from centers $O_1, O_2$ to the common normal:
 
-Let $P$ (Pitch Point) denote the intersection of the common normal line with the line of centers $\overline{O_1 O_2}$.
-Observing right triangles $\Delta O_1 N_1 P$ and $\Delta O_2 N_2 P$:
-1. $\angle O_1 N_1 P = \angle O_2 N_2 P = 90^\circ$ (definition of perpendiculars)
-2. $\angle O_1 P N_1 = \angle O_2 P N_2$ (vertical opposite angles)
+$$
+\overline{O_1 N_1} = \left\| \vec{O_1 K} \times \mathbf{n}_f \right\|, \quad \overline{O_2 N_2} = \left\| \vec{O_2 K} \times \mathbf{n}_f \right\|
+$$
 
-By Euclidean geometry, these form strictly **Similar Right Triangles**:
+Letting $P$ denote the intersection of the common normal with center line $\overline{O_1 O_2}$, triangles $\Delta O_1 N_1 P$ and $\Delta O_2 N_2 P$ form **Similar Right Triangles**:
 
 $$
 \Delta O_1 N_1 P \sim \Delta O_2 N_2 P
 $$
 
-Their corresponding sides satisfy:
+By geometric similarity, corresponding side lengths are strictly proportional:
 
 $$
 \frac{\overline{O_2 N_2}}{\overline{O_1 N_1}} = \frac{\overline{O_2 P}}{\overline{O_1 P}}
 $$
 
-Thus, the velocity ratio identity is proven:
+Yielding the transmission ratio $i$ and ISO 6336 gear ratio $u = z_2 / z_1 \ge 1.0$:
 
 $$
-\frac{\omega_1}{\omega_2} = \frac{\overline{O_2 P}}{\overline{O_1 P}} = \text{constant} = u
+\frac{\omega_1}{\omega_2} = \frac{\overline{O_2 P}}{\overline{O_1 P}} = \text{constant} = \frac{z_2}{z_1} = u \ge 1.0
 $$
 
-This proves the fundamental theorem formulated by Robert Willis (1841):
+This completes the differential geometric proof of Robert Willis' fundamental theorem (1841):
 
 > **[Willis' Law of Conjugate Gearing]**  
-> The kinematic necessary and sufficient condition for two mating tooth profiles to transmit a strictly constant angular velocity ratio ($u = \omega_1 / \omega_2 = \text{const}$) is that **the common normal at all contact points $K$ must continuously pass through a fixed point (Pitch Point $P$) on the line of centers connecting rotation axes $O_1$ and $O_2$**.
+> The kinematic necessary and sufficient condition for two conjugate tooth flanks to transmit a strictly constant angular velocity ratio ($u = \omega_1 / \omega_2 = \text{const}$) is that **the common normal at all instantaneous contact points $K$ must continuously pass through a fixed point (Pitch Point $P$) on the line of centers connecting rotation axes $O_1$ and $O_2$**.
 
 ---
 
 ### 3.3 Figure 2 Geometric Elements and Equation Mapping
 
-![Figure 2: Geometric Proof of Willis's Law of Gearing](/images/part1/en/fig2_willis_law_geometry.png)
+![Figure 2: Geometric Proof of Willis's Law of Conjugate Gearing](/images/part1/en/fig2_willis_law_geometry.png)
 
-Diagram [Figure 2] visualizes each geometric element of the Willis law:
-*(Note: In Section 2's general algebra, $O_1$ was chosen as origin with a horizontal centerline. In Figure 2, for visual symmetry and standard layout, Pitch Point $P$ is placed at origin $(0, 0)$ with a vertical centerline. The kinematic invariants are completely independent of coordinate translations and rotations.)*
+Figure 2 visualizes every mathematical component of Willis' theorem without geometric distortion:
+*(Note: In Section 2's derivations, origin $O_1$ was placed at $(0, 0)$ with horizontal center line for algebraic clarity; in Figure 2, pitch point $P$ is positioned at $(0, 0)$ with vertical center line for visual balance. Kinematic invariants are completely independent of coordinate translation or rotation.)*
 
-* **Line of Centers**: Dot-dash centerline connecting pinion center $O_1(0, -r_1)$ and gear center $O_2(0, r_2)$.
-* **Pitch Point $P$**: Located at origin $(0, 0)$, acting as the stationary instantaneous velocity pole throughout meshing.
-* **Common Normal $n-n$ (Line of Action)**: Perpendicular to profile tangent $t_K-t_K$ at contact point $K$, passing through $P$ at operating pressure angle $\alpha = 22.0^\circ$.
+* **Rotation Centers and Center Line**: Center line connects lower pinion center $O_1(0, -r_1)$ and upper gear center $O_2(0, r_2)$.
+* **Pitch Point $P$**: Located at $(0, 0)$, serving as the stationary instantaneous velocity pole.
+* **Common Normal $n-n$ (Line of Action)**: Passes through contact point $K$ perpendicular to tangent $t_K-t_K$, intersecting pitch point $P$ at constant working pressure angle $\alpha = 22.0^\circ$.
 * **Similar Right Triangles $\Delta O_1 N_1 P \sim \Delta O_2 N_2 P$**:
-  - Distance from $O_1$ to Line of Action: $\overline{O_1 N_1} = r_{b1} = r_1 \cos\alpha$
-  - Distance from $O_2$ to Line of Action: $\overline{O_2 N_2} = r_{b2} = r_2 \cos\alpha$
-  - Triangle similarity proves $\frac{\omega_1}{\omega_2} = \frac{O_2 P}{O_1 P} = \frac{r_2}{r_1} = \frac{r_{b2}}{r_{b1}} = \text{const}$.
+  - Distance $\overline{O_1 N_1} = r_{b1} = r_1 \cos\alpha$.
+  - Distance $\overline{O_2 N_2} = r_{b2} = r_2 \cos\alpha$.
+  - Proportionality proves $\frac{\omega_1}{\omega_2} = \frac{O_2 P}{O_1 P} = \frac{r_2}{r_1} = \frac{r_{b2}}{r_{b1}} = \text{const}$.
 
 ---
 
-## 4. Rigorous Derivation of the Euler-Savary Differential Curvature Equation
+## 4. Differential Geometry Derivation of the Euler-Savary Curvature Equation
 
-Beyond satisfying the Willis condition, designing conjugate profiles requires governing the **radii of curvature** and the trajectories of the centers of curvature to control contact stress and prevent profile undercutting. In planar kinematics, this relationship is governed by the **Euler-Savary Equation**.
+Designing high-capacity conjugate gears requires controlling flank **radii of curvature** and centers of curvature to prevent contact fatigue pitting and undercutting. In planar kinematics, this relationship is governed by the **Euler-Savary equation**.
 
 ```
-       C2 (Center of Curvature of Profile 2)
+       C₂ (Flank 2 Center of Curvature)
        │
        K  (Contact Point)
        │
-       P  (Pitch Point / Instant Velocity Pole)
+       P  (Pitch Point / Velocity Pole)
        │
-       C1 (Center of Curvature of Profile 1)
-       (All collinearly aligned along Common Normal)
+       C₁ (Flank 1 Center of Curvature)
+       (Collinear on the Common Flank Normal)
 ```
 
-### 4.1 Kinematics of Instant Velocity Pole and the Inflection Circle
+### 4.1 Kinematics of the Instantaneous Velocity Pole and Inflection Circle
 
-The pitch circles of two meshing gears roll without slipping at pitch point $P$. The pure rolling peripheral velocity at $P$ is:
+In relative planar motion, the pitch curves (centrodes) roll without sliding at pitch point $P$. The pure rolling peripheral speed at $P$ is:
 
 $$
 v_P = \omega_1 r_{w1} = \omega_2 r_{w2}
 $$
 
-The relative angular velocity $\omega_{12}$ for external gears is:
+The relative angular velocity magnitude for external mesh is:
 
 $$
 \omega_{12} = \|\boldsymbol{\omega}_1 - \boldsymbol{\omega}_2\| = \omega_1 + \omega_2
 $$
 
-In planar relative motion, the locus of points whose normal acceleration along their trajectory vanishes ($a_n = 0$, meaning their instantaneous trajectory has infinite radius of curvature $\rho \to \infty$) forms a circle tangent to the rolling centrodes at $P$. This circle is the **Inflection Circle**.
-
-The diameter $D_i$ of the inflection circle is determined by:
+In the relative motion frame, points whose instantaneous normal acceleration vanishes ($a_n = 0$, representing inflection points where path curvature radius approaches infinity $\rho \to \infty$) lie on a circle passing through pole $P$: the **Inflection Circle**. Its diameter $D_i$ is given by:
 
 $$
-D_i = \frac{v_P}{\omega_{12}} = \frac{\omega_1 r_{w1}}{\omega_1 + \omega_2} = \frac{r_{w1} r_{w2}}{r_{w1} + r_{w2}} = \frac{r_{w1} r_{w2}}{a}
+D_i = \frac{v_P}{\omega_{12}} = \frac{\omega_1 r_{w1}}{\omega_1 + \omega_2} = \frac{r_{w1}}{1 + \frac{\omega_2}{\omega_1}} = \frac{r_{w1}}{1 + \frac{r_{w1}}{r_{w2}}} = \frac{r_{w1} r_{w2}}{r_{w1} + r_{w2}} = \frac{r_{w1} r_{w2}}{a}
 $$
 
-Consider a ray through $P$ oriented at operating pressure angle $\alpha_w$ to the pitch line common tangent (the Line of Action). The intersection of this ray with the inflection circle is the **Inflection Pole ($J$)**.
-By the inscribed angle theorem, the distance from pole $P$ to inflection pole $J$ is:
+A straight line drawn through pitch point $P$ at pressure angle $\alpha_w$ intersects the inflection circle at the **Inflection Pole $J$**. Its distance from $P$ is:
 
 $$
 \overline{PJ} = D_i \sin\alpha_w = \frac{r_{w1} r_{w2}}{a} \sin\alpha_w
@@ -483,154 +539,138 @@ $$
 
 ---
 
-### 4.2 Second-Order Envelope Condition and the Euler-Savary Equation
+### 4.2 Second-Order Envelope Condition and Euler-Savary Derivation
 
-For profiles $\Sigma_1$ and $\Sigma_2$ to remain conjugate, their centers of curvature $C_1, C_2$ and inflection pole $J$ must satisfy the harmonic curvature relationship along the common normal:
+For conjugate flanks $\Sigma_1$ and $\Sigma_2$ to maintain continuous second-order contact curvature compatibility at contact point $K$, their centers of curvature $C_1, C_2$ and inflection pole $J$ satisfy the harmonic reciprocal relation.
 
-Defining signed distances from pole $P$ along unit normal $\mathbf{n}$:
-- $s_1 = \overline{P C_1}$: Signed distance to center of curvature of Profile 1
-- $s_2 = \overline{P C_2}$: Signed distance to center of curvature of Profile 2
-- $s_K = \overline{P K}$: Signed distance to contact point $K$
+Defining signed coordinates along normal vector $\mathbf{n}$ originating from pitch point $P$:
+- $s_1 = \overline{P C_1}$
+- $s_2 = \overline{P C_2}$
+- $s_K = \overline{P K}$
 
-The profile radii of curvature at $K$ are:
+The instantaneous radii of curvature $\rho_1, \rho_2$ evaluate to:
 
 $$
 \rho_1 = |s_1 - s_K|, \quad \rho_2 = |s_2 - s_K|
 $$
 
-The Euler-Savary kinematic relation for conjugate envelopes is:
+The classical kinematic Euler-Savary reciprocal relation states:
 
 $$
 \frac{1}{s_1} - \frac{1}{s_2} = \frac{1}{\overline{PJ}}
 $$
 
-Substituting $\overline{PJ} = \frac{r_{w1} r_{w2}}{a} \sin\alpha_w$:
+Substituting inflection pole distance $\overline{PJ} = \frac{r_{w1} r_{w2}}{a} \sin\alpha_w$:
 
 $$
-\frac{1}{s_1} - \frac{1}{s_2} = \frac{a}{r_{w1} r_{w2} \sin\alpha_w}
+\frac{1}{s_1} - \frac{1}{s_2} = \frac{1}{\frac{r_{w1} r_{w2}}{a} \sin\alpha_w} = \frac{a}{r_{w1} r_{w2} \sin\alpha_w}
 $$
 
-Multiplying by $\sin\alpha_w$ and substituting $a = r_{w1} + r_{w2}$:
+Multiplying by $\sin\alpha_w$ and using center distance $a = r_{w1} + r_{w2}$:
 
 $$
 \left( \frac{1}{s_1} - \frac{1}{s_2} \right) \sin\alpha_w = \frac{r_{w1} + r_{w2}}{r_{w1} r_{w2}} = \frac{1}{r_{w1}} + \frac{1}{r_{w2}}
 $$
 
-This completes the rigorous derivation of the **Euler-Savary Equation** for planar conjugate gear profiles.
+This establishes the **Euler-Savary differential geometric curvature equation** for general planar conjugate gearing.
 
 ---
 
-### 4.3 Sign Conventions for External vs Internal Gearing
-
-The sign conventions of the Euler-Savary equation are consistently formulated for external and internal gearing:
+### 4.3 Sign Conventions for External vs Internal Gearing Pairs
 
 1. **External Cylindrical Gears**:
-   - The centrodes are externally tangent, so $\omega_{12} = \omega_1 + \omega_2$ and $a = r_{w1} + r_{w2}$.
-   - Curvature centers $C_1$ and $C_2$ lie on opposite sides of pitch point $P$ ($s_1 > 0, s_2 < 0$), yielding additive curvatures:
+   Centers of curvature $C_1$ and $C_2$ lie on opposite sides of pitch point $P$ ($s_1 > 0, s_2 < 0$), producing an additive curvature relation:
 
 $$
 \left( \frac{1}{|s_1|} + \frac{1}{|s_2|} \right) \sin\alpha_w = \frac{1}{r_{w1}} + \frac{1}{r_{w2}} = \frac{a}{r_{w1} r_{w2}}
 $$
 
-2. **Internal Gear Pair (Ring & Pinion)**:
-   - The ring gear encompasses the pinion, so they rotate in the same sense: $\omega_{12} = |\omega_1 - \omega_2|$.
-   - The ring pitch curvature is concave, and operating center distance is $a = r_{w2} - r_{w1}$.
-   - The Euler-Savary equation transitions into subtractive form:
+2. **Internal Cylindrical Gear Pairs (Ring & Pinion)**:
+   Because the internal ring gear concave flank envelops the pinion, both gears rotate in the same sense ($\omega_{12} = |\omega_1 - \omega_2|$), with operating center distance $a = r_{w2} - r_{w1}$. The Euler-Savary formulation converts to subtractive form:
 
 $$
 \left( \frac{1}{s_1} - \frac{1}{s_2} \right) \sin\alpha_w = \frac{1}{r_{w1}} - \frac{1}{r_{w2}} = \frac{r_{w2} - r_{w1}}{r_{w1} r_{w2}} = \frac{a}{r_{w1} r_{w2}}
 $$
 
-   Since $r_{w2} > r_{w1}$, the equivalent curvature $\frac{1}{r_{w1}} - \frac{1}{r_{w2}}$ is much smaller than for external gears, explaining why internal gears possess dramatically larger equivalent curvature radii $\rho_{\text{eq}}$ and much higher contact load capacity.
+   Because $r_{w2} > r_{w1}$, the equivalent curvature term $\frac{1}{r_{w1}} - \frac{1}{r_{w2}}$ is dramatically smaller than in external gearing. This produces much larger equivalent radii of curvature $\rho_{\text{eq}}$ and substantially lower Hertzian contact stresses $\sigma_H$, explaining the superior surface fatigue capacity of planetary internal rings.
 
 ---
 
-### 4.4 Trivial Degeneration of the Euler-Savary Equation for Involute Gears
+### 4.4 Trivial Degeneration of the Euler-Savary Equation on Involute Curves
 
-For an involute tooth profile, the line unwinding from the base circle is identically the normal line. Therefore, **the centers of curvature $C_1$ and $C_2$ remain permanently fixed at base circle tangency points $N_1$ and $N_2$**:
+For involute gears, normals are tangents unwound from the base circle. Consequently, **centers of curvature $C_1$ and $C_2$ remain permanently fixed at base circle tangency points $N_1$ and $N_2$**:
 
 $$
 C_1 \equiv N_1, \quad C_2 \equiv N_2
 $$
-
-The distances from $P$ to $N_1$ and $N_2$ are geometric constants:
 
 $$
 s_1 = \overline{P N_1} = r_{w1} \sin\alpha_w
 $$
 
 $$
-s_2 = -\overline{P N_2} = -r_{w2} \sin\alpha_w \quad (\text{opposite sense})
+s_2 = -\overline{P N_2} = -r_{w2} \sin\alpha_w
 $$
 
-Substituting these into the left-hand side of the Euler-Savary equation:
+Substituting into the left-hand side of Euler-Savary:
 
 $$
 \left( \frac{1}{r_{w1} \sin\alpha_w} - \frac{1}{-r_{w2} \sin\alpha_w} \right) \sin\alpha_w = \frac{\sin\alpha_w}{\sin\alpha_w} \left( \frac{1}{r_{w1}} + \frac{1}{r_{w2}} \right) = \frac{1}{r_{w1}} + \frac{1}{r_{w2}}
 $$
 
-The identity holds identically at every point along the line of action! This proves algebraically that the **involute profile is the unique straight line-of-action conjugate curve that naturally satisfies the Euler-Savary equation everywhere**.
+Both sides match identically across every point along the line of action! This proves algebraically that **involute profiles trivially satisfy the Euler-Savary equation as an identity throughout their entire mesh**.
 
 ---
 
-## 5. Involute Tooth Geometry and Center Distance Invariance
+## 5. Mathematical Inevitability of the Involute Profile and Center Distance Invariance
 
-Although cycloidal, trochoidal, and circular-arc (Novikov) curves can satisfy Willis' law, over 95% of industrial gearing utilizes the involute curve proposed by Leonhard Euler. What is the fundamental mathematical reason?
+### 5.1 Rigorous Closed-Form Parametric Derivation of the Involute Curve
 
-```
-[ Base Circle Point B(rb cosθ, rb sinθ) ] ──(Unwound String Length L = rb θ)──▶ [ Involute Point K(x, y) ]
-                                                                                   │
-                                           Base Circle Tangent ──┴── Involute Normal (Orthogonality)
-```
+Consider a taut, inextensible cord unwinding from base circle $r_b$. The roll angle $\theta$ and pressure angle $\alpha$ must strictly be evaluated in **radians (rad, radian)** throughout all trigonometric and transcendental operations.
 
-### 5.1 Parametric Equations of the Involute Curve
-
-Consider a taut cord unwinding from a stationary base circle of radius $r_b$. Tangency point $B$ on the base circle at roll angle $\theta$ has coordinates:
+The coordinates of tangency point $B$ on the base circle are:
 
 $$
 \mathbf{r}_B(\theta) = \begin{bmatrix} r_b \cos\theta \\ r_b \sin\theta \end{bmatrix}
 $$
 
-The unit tangent vector at $B$ is:
+The unit tangent vector $\mathbf{u}_t(\theta)$ at point $B$ is:
 
 $$
 \mathbf{u}_t(\theta) = \begin{bmatrix} -\sin\theta \\ \cos\theta \end{bmatrix}
 $$
 
-The unwound chord length $L(\theta)$ equals the base circle arc length:
+The unwound cord segment length $L(\theta)$ equals the arc length:
 
 $$
 L(\theta) = r_b \theta
 $$
 
-Position vector $\mathbf{r}(\theta) = [x(\theta), y(\theta)]^T$ of the end of the chord is:
+Involute point $K$ has position vector $\mathbf{r}(\theta) = \mathbf{r}_B(\theta) - L(\theta) \mathbf{u}_t(\theta)$:
 
 $$
 \mathbf{r}(\theta) = \mathbf{r}_B(\theta) - L(\theta) \begin{bmatrix} -\sin\theta \\ \cos\theta \end{bmatrix} = \begin{bmatrix} r_b \cos\theta + r_b \theta \sin\theta \\ r_b \sin\theta - r_b \theta \cos\theta \end{bmatrix}
 $$
 
-The closed-form Cartesian parametric equations of the involute curve are:
+Giving the closed-form Cartesian parametric equations:
 
 $$
-\begin{cases}
-x(\theta) = r_b (\cos\theta + \theta \sin\theta) \\
-y(\theta) = r_b (\sin\theta - \theta \cos\theta)
-\end{cases}
+\begin{cases} x(\theta) = r_b (\cos\theta + \theta \sin\theta) \\ y(\theta) = r_b (\sin\theta - \theta \cos\theta) \end{cases}
 $$
 
-The radius $r(\theta)$ from the gear center to an arbitrary involute point is:
+The radial distance $r(\theta)$ simplifies algebraically to:
 
 $$
-r(\theta) = \sqrt{x(\theta)^2 + y(\theta)^2} = r_b \sqrt{1 + \theta^2}
+r(\theta) = \sqrt{x(\theta)^2 + y(\theta)^2} = \sqrt{r_b^2 (\cos\theta + \theta \sin\theta)^2 + r_b^2 (\sin\theta - \theta \cos\theta)^2} = r_b \sqrt{1 + \theta^2}
 $$
 
-From the pressure angle definition $\cos\alpha = r_b / r$:
+From $\cos\alpha = r_b / r(\theta)$:
 
 $$
-\cos\alpha = \frac{1}{\sqrt{1 + \theta^2}} \implies \tan\alpha = \theta
+\cos\alpha = \frac{r_b}{r_b \sqrt{1 + \theta^2}} = \frac{1}{\sqrt{1 + \theta^2}} \implies \tan\alpha = \theta
 $$
 
-The polar angle $\phi$ defines the **Involute Function ($\text{inv}\alpha$)**:
+Defining the classical **involute function ($\text{inv}\alpha$)**:
 
 $$
 \phi = \theta - \alpha = \tan\alpha - \alpha \equiv \text{inv}(\alpha)
@@ -638,35 +678,33 @@ $$
 
 ---
 
-### 5.2 Center Distance Invariance of the Velocity Ratio
+### 5.2 Absolute Invariance of Angular Velocity Ratio under Center Distance Variations
 
-For cycloidal or circular-arc gears, if center distance $a$ deviates by even $0.05\text{ mm}$ due to manufacturing tolerances, casing thermal expansion, or bearing elastic deflections, the pitch point intersection condition is violated, causing severe angular velocity fluctuations.
+Cycloidal and circular-arc tooth profiles require exact center distances; a deviation of merely $0.05\text{ mm}$ causes severe kinematic velocity ratio pulsations.
 
-In contrast, **the involute profile preserves a strictly invariant velocity ratio even when center distance varies**:
+In contrast, **involute gears maintain an absolutely constant angular velocity ratio even when center distance $a$ varies**. This fundamental property is proven as follows:
 
-1. **Physical Invariance of Base Circles**:
-   Once manufactured, the base circle radii $r_{b1}$ and $r_{b2}$ are permanent physical invariants:
+1. **Physical Invariance of Base Radii**:
+   Once machined, base radii $r_{b1}, r_{b2}$ are fixed geometric invariants:
 
 $$
 r_{b1} = \frac{1}{2} m z_1 \cos\alpha_0 = \text{const}, \quad r_{b2} = \frac{1}{2} m z_2 \cos\alpha_0 = \text{const}
 $$
 
 2. **Self-Adaptation of Operating Pressure Angle**:
-   When center distance shifts from $a$ to $a' = a + \Delta a$, the common tangent to both base circles automatically establishes a new working pressure angle $\alpha_{wt}'$:
+   When assembly distance shifts to $a' = a + \Delta a$, the new working pressure angle $\alpha_{wt}'$ adjusts automatically:
 
 $$
 a' \cos\alpha_{wt}' = r_{b1} + r_{b2} \implies \cos\alpha_{wt}' = \frac{r_{b1} + r_{b2}}{a'}
 $$
 
-3. **Autonomous Adjustment of Working Pitch Radii**:
-   Working pitch radii adjust deterministically:
+3. **Reconfiguration of Operating Pitch Radii**:
 
 $$
 r_{w1}' = \frac{r_{b1}}{\cos\alpha_{wt}'}, \quad r_{w2}' = \frac{r_{b2}}{\cos\alpha_{wt}'}
 $$
 
-4. **Algebraic Invariance of Velocity Ratio $u'$**:
-   The resulting velocity ratio $u'$ is:
+4. **Algebraic Invariance of Transmission Ratio**:
 
 $$
 u' = \frac{\omega_1}{\omega_2} = \frac{r_{w2}'}{r_{w1}'} = \frac{\frac{r_{b2}}{\cos\alpha_{wt}'}}{\frac{r_{b1}}{\cos\alpha_{wt}'}} = \frac{r_{b2}}{r_{b1}} = \frac{z_2}{z_1} = u = \text{Constant}
@@ -676,31 +714,31 @@ $$
 \Delta u = |u' - u| \equiv 0.000000\%
 $$
 
-The factor $\cos\alpha_{wt}'$ cancels out identically in numerator and denominator. This mathematical property is why the involute curve dominates precision mechanical power transmission.
+The term $\cos\alpha_{wt}'$ cancels out perfectly in numerator and denominator. This self-adaptation explains why involute gearing dominates over 95% of worldwide mechanical power transmissions.
 
 ---
 
 ## 6. Contact Kinematics, Velocity Decomposition, and Specific Sliding
 
-Meshing between gear tooth flanks involves a combination of **rolling and sliding**. Interfacial sliding velocity governs elastohydrodynamic oil film formation (EHL), frictional heat generation, flank wear, and scuffing failure.
+Tooth flank engagement combines simultaneous rolling and sliding. Interfacial sliding velocity governs elastohydrodynamic lubrication (EHL) film thickness, frictional thermal loading, and scuffing risks.
 
 ```
-                  en (Unit Normal Vector)
+                  en (Common Normal Unit Vector)
                   ▲
-                  │  vn1 = vn2 (Normal Velocities Match Identically!)
+                  │  vn1 = vn2 (Identical Normal Velocities!)
                   │
-                  K ─────────────────────▶ et (Unit Tangent Vector)
-                 ／│＼                    vt2 (Tangential Velocity 2)
+                  K ─────────────────────▶ et (Common Tangent Unit Vector)
+                 ／│＼                    vt2 (Flank 2 Tangential Velocity)
                ／  │  ＼                  ────────────────▶
-             v2    │    v1               vt1 (Tangential Velocity 1)
+             v₂    │    v₁               vt1 (Flank 1 Tangential Velocity)
                    │                      ────────────────────────────────▶
-                   │                      vs = vt1 - vt2 (Sliding Velocity)
+                   │                      vs = vt1 - vt2 (Relative Sliding Speed)
                    │                      ════════════════▶
 ```
 
-### 6.1 Orthogonal Velocity Decomposition
+### 6.1 Orthogonal Velocity Decomposition on the Common Normal and Tangent
 
-At contact point $K$, with unit normal $\mathbf{e}_n$ and unit tangent $\mathbf{e}_t$, the velocities of Body 1 and Body 2 are:
+Decomposing velocities $\mathbf{v}_1$ and $\mathbf{v}_2$ into orthonormal components along normal $\mathbf{e}_n$ and tangent $\mathbf{e}_t$:
 
 $$
 \mathbf{v}_1 = v_{n1} \, \mathbf{e}_n + v_{t1} \, \mathbf{e}_t
@@ -711,7 +749,6 @@ $$
 $$
 
 1. **Normal Components**:
-   From base circle radii and angular velocities:
 
 $$
 v_{n1} = \mathbf{v}_1 \cdot \mathbf{e}_n = \omega_1 \cdot \overline{O_1 N_1} = \omega_1 r_{b1}
@@ -721,16 +758,16 @@ $$
 v_{n2} = \mathbf{v}_2 \cdot \mathbf{e}_n = \omega_2 \cdot \overline{O_2 N_2} = \omega_2 r_{b2}
 $$
 
-Since $r_{b2} / r_{b1} = \omega_1 / \omega_2$:
+Because $r_{b2} / r_{b1} = \omega_1 / \omega_2$:
 
 $$
 v_{n1} = v_{n2} = v_n = \text{constant}
 $$
 
-Normal velocities are identical everywhere along the path of contact, preventing separation and interpenetration.
+**Normal velocities are identical across the entire path of contact**, eliminating separation and interference.
 
 2. **Tangential Components**:
-   With profile curvature radii $\rho_1 = \overline{N_1 K}$ and $\rho_2 = \overline{N_2 K}$:
+With instantaneous radii of curvature $\rho_1 = \overline{N_1 K}$ and $\rho_2 = \overline{N_2 K}$:
 
 $$
 v_{t1} = \omega_1 \rho_1
@@ -742,55 +779,55 @@ $$
 
 ---
 
-### 6.2 Closed-Form Derivation of Relative Sliding Velocity $\mathbf{v}_s$
+### 6.2 Closed-Form Derivation of the Relative Sliding Velocity Vector
 
-The **relative sliding velocity $\mathbf{v}_s$** is given by the difference in tangential velocities:
-
-$$
-\mathbf{v}_s = \mathbf{v}_1 - \mathbf{v}_2 = (v_{t1} - v_{t2}) \mathbf{e}_t
-$$
-
-Let $g$ denote the signed distance along the line of action from pitch point $P$ to contact point $K$ ($g > 0$ toward $N_2$, $g < 0$ toward $N_1$):
+Relative sliding velocity $\mathbf{v}_s$ resides purely on the tangent:
 
 $$
-\rho_1 = r_{w1} \sin\alpha_w + g
+\mathbf{v}_s = \mathbf{v}_1 - \mathbf{v}_2 = (v_{n1} - v_{n2}) \mathbf{e}_n + (v_{t1} - v_{t2}) \mathbf{e}_t = (v_{t1} - v_{t2}) \mathbf{e}_t
 $$
 
-$$
-\rho_2 = r_{w2} \sin\alpha_w - g
-$$
-
-Substituting into the tangential velocity expressions:
+Measuring signed coordinate $g$ along the line of action from pitch point $P$:
 
 $$
-v_{t1} = \omega_1 r_{w1} \sin\alpha_w + \omega_1 g
+\rho_1 = \overline{N_1 P} + g = r_{w1} \sin\alpha_w + g
 $$
 
 $$
-v_{t2} = \omega_2 r_{w2} \sin\alpha_w - \omega_2 g
+\rho_2 = \overline{N_2 P} - g = r_{w2} \sin\alpha_w - g
 $$
 
-Taking their difference:
+Substituting into tangential velocity equations:
+
+$$
+v_{t1} = \omega_1 (r_{w1} \sin\alpha_w + g) = \omega_1 r_{w1} \sin\alpha_w + \omega_1 g
+$$
+
+$$
+v_{t2} = \omega_2 (r_{w2} \sin\alpha_w - g) = \omega_2 r_{w2} \sin\alpha_w - \omega_2 g
+$$
+
+Taking the difference:
 
 $$
 v_s = v_{t1} - v_{t2} = (\omega_1 r_{w1} \sin\alpha_w - \omega_2 r_{w2} \sin\alpha_w) + (\omega_1 + \omega_2) g
 $$
 
-Since pitch point rolling speeds match ($\omega_1 r_{w1} = \omega_2 r_{w2}$), the first term vanishes identically:
+Because pitch point peripheral speeds match ($\omega_1 r_{w1} = \omega_2 r_{w2}$), the first term vanishes:
 
 $$
 v_s(g) = (\omega_1 + \omega_2) \, g
 $$
 
-This closed-form solution establishes two fundamental physical principles:
-1. **Pure Rolling at Pitch Point $P$**: At $g = 0$, $v_s = 0$, producing pure rolling without interfacial sliding.
-2. **Linear Surge of Sliding Away from Pitch Point**: Sliding velocity $v_s$ grows linearly with distance $g$ from pitch point $P$, peaking at the start ($A$) and end ($E$) of active meshing.
+This closed-form solution proves two fundamental physical facts:
+1. **Pure Rolling at Pitch Point $P$**: At $g = 0$, $v_s = 0$, yielding pure rolling without sliding.
+2. **Linear Increase away from Pitch Point**: Sliding speed $v_s$ grows strictly linearly with distance $g$ toward tooth root $A$ and tooth tip $E$.
 
 ---
 
-### 6.3 Formulations for Specific Sliding ($\sigma_1, \sigma_2$)
+### 6.3 Closed-Form Analytical Formulations for Specific Sliding
 
-To quantify wear intensity, **specific sliding (Specific Sliding)** is defined as:
+**Specific sliding ($\sigma_1, \sigma_2$)** quantifies relative sliding severity against tangential speed:
 
 $$
 \sigma_1 = \frac{v_{t1} - v_{t2}}{v_{t1}} = 1 - \frac{v_{t2}}{v_{t1}} = 1 - \frac{\omega_2 \rho_2}{\omega_1 \rho_1} = 1 - \frac{1}{u} \cdot \frac{\rho_2}{\rho_1}
@@ -800,41 +837,34 @@ $$
 \sigma_2 = \frac{v_{t2} - v_{t1}}{v_{t2}} = 1 - \frac{v_{t1}}{v_{t2}} = 1 - \frac{\omega_1 \rho_1}{\omega_2 \rho_2} = 1 - u \cdot \frac{\rho_1}{\rho_2}
 $$
 
-* **Engagement Start $A$ (Pinion Root, Gear Tip)**:
-  Pinion curvature radius $\rho_1$ is at its minimum while gear curvature radius $\rho_2$ is at its maximum. As $\rho_1 \to 0$, pinion specific sliding $\sigma_1 \to -\infty$, creating high wear susceptibility at the pinion dedendum.
-* **Engagement End $E$ (Pinion Tip, Gear Root)**:
-  Gear curvature radius $\rho_2$ is minimized, causing gear specific sliding $\sigma_2$ to deteriorate.
-
-In precision gear design, **profile shift coefficients ($x_1, x_2$)** are optimized to balance peak specific sliding values ($\sigma_{1,\max} \approx \sigma_{2,\max}$), mitigating localized wear and scuffing risk.
+Near engagement entry $A$ (pinion root, gear tip), $\rho_1 \to 0$, causing $\sigma_1 \to -\infty$ and driving severe root flank wear. Therefore, high-performance gear design utilizes **profile shift coefficients ($x_1, x_2$)** to balance peak specific sliding values ($\sigma_{1,\max} \approx \sigma_{2,\max}$).
 
 ---
 
-### 6.4 Figure 3 Velocity Vector Decomposition Analysis
+### 6.4 Figure 3 Velocity Vector Decomposition and Physical Verification
 
-![Figure 3: Contact Point Kinematics and Velocity Vector Decomposition](/images/part1/en/fig3_contact_velocity_vectors.png)
+![Figure 3: Contact Kinematics and Velocity Vector Decomposition](/images/part1/en/fig3_contact_velocity_vectors.png)
 
-Diagram [Figure 3] verifies this velocity decomposition:
-* **Normal Continuity**: Normal velocity projections $\vec{v}_{n1}$ and $\vec{v}_{n2}$ are identical red vectors, guaranteeing zero flank penetration.
-* **Tangential Sliding Vector**: The difference between tangential components $\vec{v}_{t1}$ and $\vec{v}_{t2}$ yields sliding velocity vector $\vec{v}_s = \vec{v}_{t1} - \vec{v}_{t2}$ (bold red arrow), which governs frictional heat generation and elastohydrodynamic oil film shear.
+Figure 3 validates the velocity vector decomposition mechanism at contact point $K$:
+* **Normal Continuity**: Projections of velocity vectors $\vec{v}_1$ and $\vec{v}_2$ onto normal axis $\vec{n}$ coincide identically as $\vec{v}_{n1} = \vec{v}_{n2}$.
+* **Tangential Sliding**: Tangential components $\vec{v}_{t1}$ and $\vec{v}_{t2}$ differ, producing relative sliding velocity vector $\vec{v}_s = \vec{v}_{t1} - \vec{v}_{t2}$ that shears the interfacial lubricant film.
 
 ---
 
 ## 7. Implementation in H-GEAR STUDIO Backend Kernel
 
-The differential geometry and conjugate meshing formulations derived in this article are directly implemented in the H-GEAR STUDIO computational backend at double-precision ($10^{-13}$) closed-form accuracy.
+The differential geometry and conjugate meshing equations derived above are implemented directly in the H-GEAR STUDIO kernel with double-precision ($10^{-13}$) floating-point accuracy.
 
 ### 7.1 `prototype2/backend/core/gear_math.py`
 
-Computational core for involute transcendental functions and center distance adaptations:
-
 ```python
 def involute(alpha: float) -> float:
-    """Involute function: inv(α) = tan(α) - α"""
+    """Involute function: inv(α) = tan(α) - α (units: rad)"""
     return math.tan(alpha) - alpha
 
 def inv_involute(target: float, alpha0: float = math.radians(20.0)) -> float:
     """
-    Inverse involute function: inv(α) = target solved via Newton-Raphson.
+    Inverse involute function: solves inv(α) = target via Newton-Raphson.
     d(inv(α))/dα = tan²(α)
     Convergence tolerance: |delta| < 1e-13
     """
@@ -853,33 +883,31 @@ def inv_involute(target: float, alpha0: float = math.radians(20.0)) -> float:
 
 def working_pressure_angle(alpha_t: float, x1: float, x2: float,
                            z1: int, z2: int, alpha_n: float) -> float:
-    """Working pressure angle α_wt closed-form calculation for profile-shifted gears"""
+    """Computes operating pressure angle α_wt for shifted gear pairs."""
     target = involute(alpha_t) + 2.0 * ((x1 + x2) / (z1 + z2)) * math.tan(alpha_n)
     return inv_involute(target, alpha_t)
 ```
 
 ### 7.2 `prototype2/backend/profile_service.py`
 
-Generates Line of Action coordinates and active contact segment $A \sim E$:
-
 ```python
 def _compute_loa(geom1: GearToothGeometry, geom2: GearToothGeometry,
                  cx1: float, cy1: float, cx2: float, cy2: float,
                  alpha_wt: float, z1: int, z2: int) -> Dict[str, Any]:
     """
-    Involute Line of Action coordinates and active contact path (A to E).
-    Enforces Willis' law: common normal passes through invariant pitch point P.
+    Line of Action (LOA) and active contact segment (A ~ E) generator.
+    Evaluates invariant normal line passing through pitch point P.
     """
     a = math.hypot(cx2 - cx1, cy2 - cy1)
     r1, r2   = geom1.r,  geom2.r
     rb1, rb2 = geom1.rb, geom2.rb
     ra1, ra2 = geom1.ra, geom2.ra
 
-    # Line of Action direction unit vector
+    # LOA unit direction vector
     loa_dx = math.sin(alpha_wt)
     loa_dy = math.cos(alpha_wt)
 
-    # Base circle tangency points T1, T2 (centers of curvature N1, N2)
+    # Base circle tangency points T1, T2
     T1x = cx1 + rb1 * math.cos(alpha_wt)
     T1y = cy1 - rb1 * math.sin(alpha_wt)
     T2x = cx2 - rb2 * math.cos(alpha_wt)
@@ -889,7 +917,7 @@ def _compute_loa(geom1: GearToothGeometry, geom2: GearToothGeometry,
     Px = cx1 + r1
     Py = cy1
 
-    # Active contact limits A and E
+    # Active contact endpoints A and E
     t1_t2_len = math.hypot(T2x - T1x, T2y - T1y)
     t2_a_len  = math.sqrt(max(0.0, ra2**2 - rb2**2))
     s_A       = t1_t2_len - t2_a_len
@@ -899,29 +927,33 @@ def _compute_loa(geom1: GearToothGeometry, geom2: GearToothGeometry,
     Ay = T1y + s_A * loa_dy
     Ex = T1x + s_E * loa_dx
     Ey = T1y + s_E * loa_dy
-    ...
+    return {
+        "line_of_action": {"p1": (T1x, T1y), "p2": (T2x, T2y)},
+        "pitch_point": (Px, Py),
+        "active_segment": {"A": (Ax, Ay), "E": (Ex, Ey)},
+    }
 ```
 
-H-GEAR STUDIO feeds these computational results to frontend React/Three.js viewers (`GearProfileViewer.tsx`) for 60 FPS real-time 2D meshing animations and 3D Loaded Tooth Contact Analysis (LTCA), certifying zero geometric overlap ($0.000000\text{ mm}$).
+These mathematical services drive 60 FPS real-time 2D engagement animations and 3D loaded tooth contact analysis (LTCA) in H-GEAR STUDIO's frontend (`GearProfileViewer.tsx`).
 
 ---
 
 ## 8. Summary and Chapter Outlook
 
-### 8.1 Core Engineering Takeaways
+### 8.1 Summary of Core Engineering Conclusions
 
-| Metric / Property | Plain Friction Wheels | Involute Gear Drives |
+| Engineering Domain | Friction Wheel Drive | Involute Gear Drive |
 |---|---|---|
-| **Transmission Mechanism** | Interfacial shear traction ($F_t \le \mu F_N$) | Positive geometric form-closed tooth engagement |
-| **Speed Ratio Stability** | Slip-prone under torque load ($s > 0, \Delta u \neq 0$) | Invariant via Willis' law ($u \equiv \text{const}$) |
-| **Center Distance Sensitivity** | Micro-slip surges with clamping variance | Self-adapting $\alpha_w$ fully preserves ratio |
-| **Normal Contact Continuity** | Prone to surface separation and creep | $v_{n1} = v_{n2}$ identically rules out separation |
-| **Relative Sliding Behavior** | Irregular interfacial creep across arc | Pure rolling at $P$ ($v_s = 0$), linear increase |
+| **Power Transmission Mechanism** | Interfacial friction constraint ($F_t \le \mu_s F_N$) | Tooth profile positive form closure (Positive Mesh) |
+| **Speed Ratio Invariance** | Load-dependent slip ($s > 0, \Delta u \neq 0$) | Strictly invariant by Willis' Law ($u \equiv \text{const}$) |
+| **Center Distance Sensitivity** | Contact force variation leads directly to gross slip | Self-adaptation of working pressure angle $\alpha_w$ preserves exact ratio |
+| **Normal Contact Continuity** | Risk of macroscopic separation under elastic compliance | $v_{n1} = v_{n2}$ identity eliminates interference and detachment |
+| **Relative Sliding Behavior** | Irregular sliding across entire contact arc | Pure rolling at pitch point ($v_s = 0$) with linear increase toward ends |
 
-### 8.2 Next Chapter: Part 1 Chapter 2
+### 8.2 Outlook on Part 1 Chapter 2
 
-The next article will explore advanced involute geometry: **"Involute Geometry: Closed-form Coordinates & Sliding Mechanics"**:
-- Solution of nonlinear transcendental equations relating roll angle $\theta$ and pressure angle $\alpha$.
-- Exact profiles of specific sliding $\sigma_1(s), \sigma_2(s)$ across the active contact path.
-- Flank micro-modifications (Tip Relief $C_\alpha$, Crowning $C_\beta$) and their elastodynamic impact on transmission error.
-- Continuous differential spline generation in H-GEAR STUDIO `core/tooth_geometry.py`.
+Part 1 Chapter 2 explores deeper involute geometry: **"Involute Geometry: Closed-form Coordinates & Sliding Mechanics"**:
+- Transcendental equation solutions between base roll angle $\theta$ and pressure angle $\alpha$
+- Flank distribution curves of specific sliding $\sigma_1(s), \sigma_2(s)$
+- Influence of tip relief ($C_\alpha$) and crowning on contact sliding and transmission error (TE)
+- Analytical spline generation in H-GEAR STUDIO's `core/tooth_geometry.py`

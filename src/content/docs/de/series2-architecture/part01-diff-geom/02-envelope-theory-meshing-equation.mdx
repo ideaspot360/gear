@@ -1,6 +1,6 @@
 ---
-title: "Zweiparametrige Hüllflächentheorie & Grundgleichung der Verzahnung (f = n · v = 0) — Differentialgeometrische Formulierung räumlicher 3D-Bewegungen"
-description: "Vom 1-FHG-Wälzvorgang zylindrischer Stirnräder zur Beherrschung der 2-Parameter-Hüllkinematik für Hypoid-, Spiralkegel- und 5-Achs-gefräste Zahnflanken, Litvins Eingriffsgleichung, Berührungslinienüberstreichung, Jacobi-Unterschnittgrenzen und numerische CAE-Architektur von H-GEAR STUDIO."
+title: "Zweiparametrige Hüllfläche (Envelope Surface) Erzeugung & Eingriffsgleichung (Equation of Meshing: f = n · v = 0) — Differentialgeometrie der Hüllflächen (Differential Geometry of Envelopes) in räumlicher Mehrachsenbewegung"
+description: "Überwindung der 1-FH ebenen Wälzung von Stirnrädern zur Beherrschung der Hüllentheorie (Theory of Envelopes) und zweiparametrigen Flächenfamilie (Two-Parameter Family of Surfaces) für Hypoid-, Spiralkegelräder und 5-Achs-CNC-Fräsen, Litvins Eingriffsgleichung (Equation of Meshing), Berührungslinien auf konjugierten Flanken (Contact Lines on Conjugate Surfaces), charakteristische Linien (Characteristic Lines), Singularitäten der erzeugten Zahnflanke (Singularities of Generated Surface) und Jacobi-Matrix (Jacobian Matrix) Unterschnittgrenzen sowie H-GEAR STUDIO Software-Kernel-Architektur."
 series: architecture
 part: 1
 chapter: 2
@@ -16,9 +16,9 @@ required_diagrams:
   - "fig3_contact_lines_sweeping"
   - "fig4_two_parameter_envelope_kinematics"
 academic_level: graduate
-equations_hash: "9b3c6871e5aff0802a16cfe6dd4d44419425792b03aeaa5fbaa26ca5f5578395"
+equations_hash: "ce8c46a22805d7eee640e4dc09d8d36226ba0cee41a3bdbb799d8b058bb6f816"
 kernel_verified: true
-review_date: "2026-11-19"
+review_date: "2026-11-24"
 sidebar:
   order: 2
 ---
@@ -27,7 +27,7 @@ sidebar:
 
 In mehr als zwei Jahrzehnten industrieller Praxis in der Antriebstechnik, im Anlagenbau und bei Struktur-CAE-Analysen begegnet man bei Getriebegeräuschen (NVH) und Zahnschäden immer wieder einem fatalen Trugschluss: **dem Glauben, jede Verzahnung lasse sich über einen einzigen Rotationsparameter mathematisch exakt erzeugen**.
 
-Bei gerad- und schrägverzahnten Stirnrädern genügt eine Kopplung zwischen Werkzeugtranslation und Werkstückrotation ($\phi$), um Evolventenflanken mit 0.000 mm Formabweichung zu wälzen. Sobald jedoch Achsversetzungen wie bei Hypoidgetrieben, Bogenverzahnungen bei Spiralkegelrädern oder die 5-Achs-CNC-Freiformfräsung von Zahnflanken ins Spiel kommen, versagt die klassische einparametrige Hülltheorie vollständig.
+Bei gerad- und schrägverzahnten Stirnrädern genügt eine Kopplung zwischen Werkzeugtranslation und Werkstückrotation ($\phi$, Einheit: rad), um Evolventenflanken mit 0.000 mm Formabweichung zu wälzen. Sobald jedoch Achsversetzungen wie bei Hypoidgetrieben, Bogenverzahnungen bei Spiralkegelrädern oder die 5-Achs-CNC-Freiformfräsung von Zahnflanken ins Spiel kommen, versagt die klassische einparametrige Hülltheorie vollständig.
 
 ```
 [1-Parameter-Wälztheorie (Stirnrad / Schrägrad)]
@@ -42,13 +42,13 @@ Bei der Wiegenerzeugung eines Hypoidritzels erfordern Werkzeugspindelrotation, W
 
 Eine Formabweichung von nur 0.001 mm steigert die Kontaktpressungen von wenigen hundert Megapascal in den Gigapascal-Bereich und führt binnen kürzester Zeit zu Grübchenbildung (Micropitting) und Werkstoffausbrüchen (Spalling).
 
-Dieses Kapitel legt die mathematischen Grundlagen der **zweiparametrigen Hüllflächentheorie** und die differentialgeometrische Struktur der **Grundgleichung der Verzahnung ($f = \mathbf{n} \cdot \mathbf{v} = 0$)** nach Litvin dar, wie sie im H-GEAR STUDIO Rechenkern realisiert sind.
+Dieses Kapitel etabliert das rigorose mathematische Fundament der **Hüllentheorie (Theory of Envelopes)**, vergleicht die **einparametrige Flächenfamilie (One-Parameter Family of Surfaces)** mit der **zweiparametrigen Flächenfamilie (Two-Parameter Family of Surfaces)** und entschlüsselt die **Differentialgeometrie der Hüllflächen (Differential Geometry of Envelopes)**, welche die **Hüllfläche (Envelope Surface)** und die fundamentale **Eingriffsgleichung (Equation of Meshing: $f = \mathbf{n} \cdot \mathbf{v} = 0$)** nach Faydor L. Litvin beherrscht.
 
 ![Abbildung 1: Flächenfamilie des Werkzeugs und Erzeugung der Hüllfläche](/images/series2/part01/de/fig1_surface_family_envelope.png)
 
 ---
 
-## 2. Homogene Koordinatentransformation der zweiparametrigen Werkzeugflächenschar
+## 2. Homogene Koordinatentransformation und Kinematik der zweiparametrigen Flächenfamilie (Two-Parameter Family of Surfaces)
 
 ### 2.1 Koordinatensysteme von Werkzeug und Werkstück
 
@@ -60,32 +60,39 @@ $$
 \mathbf{r}_1(u, \theta) = \begin{bmatrix} x_1(u, \theta) \\ y_1(u, \theta) \\ z_1(u, \theta) \\ 1 \end{bmatrix}_1
 $$
 
-Hierbei ist $u$ der Profilparameter der schneidenden Kante (z. B. Geradenkoordinate des Bezugsprofils) und $\theta$ der Längenkoordinaten- oder Rotationsparameter des Werkzeugs.
+Hierbei ist $u$ der Profilparameter der schneidenden Kante (z. B. Geradenkoordinate des Bezugsprofils) und $\theta$ der Längenkoordinaten- oder Rotationsparameter des Werkzeugs (Einheit: rad).
 
-Aufgrund der Regularität der Fläche verschwindet das Kreuzprodukt der Tangentenbasisvektoren nicht, woraus sich der äußere Einheitsnormalenvektor $\mathbf{n}_1$ ergibt:
+Aufgrund der Regularität der Fläche verschwindet das Kreuzprodukt der Tangentenbasisvektoren nicht, woraus sich der unnormierte Normalenvektor $\mathbf{N}_1$ ergibt:
 
 $$
-\mathbf{n}_1(u, \theta) = \frac{\frac{\partial \mathbf{r}_1}{\partial u} \times \frac{\partial \mathbf{r}_1}{\partial \theta}}{\left\| \frac{\partial \mathbf{r}_1}{\partial u} \times \frac{\partial \mathbf{r}_1}{\partial \theta} \right\|}
+\mathbf{N}_1(u, \theta) = \frac{\partial \mathbf{r}_1}{\partial u} \times \frac{\partial \mathbf{r}_1}{\partial \theta} \neq \mathbf{0}
+$$
+
+Durch Normierung ergibt sich der äußere Einheitsnormalenvektor $\mathbf{n}_1$:
+
+$$
+\mathbf{n}_1(u, \theta) = \frac{\mathbf{N}_1(u, \theta)}{\|\mathbf{N}_1(u, \theta)\|} = \frac{\frac{\partial \mathbf{r}_1}{\partial u} \times \frac{\partial \mathbf{r}_1}{\partial \theta}}{\left\| \frac{\partial \mathbf{r}_1}{\partial u} \times \frac{\partial \mathbf{r}_1}{\partial \theta} \right\|}
 $$
 
 ### 2.2 Unabhängige Bewegungsparameter $(\phi, \psi)$ und Transformationsmatrix $\mathbf{M}_{21}$
 
 Die Relativbewegung zwischen Werkzeug $S_1$ und Werkstück $S_2$ wird durch zwei unabhängige generalisierte Bewegungskoordinaten $\phi$ und $\psi$ parametrisiert:
-- $\phi$: primärer Rotationsparameter (Werkzeugspindeldrehung oder Werkstückwälzwinkel)
-- $\psi$: sekundärer Vorschub- oder Wiegenparameter (Wiegenwinkel, Schwenkwinkel oder Achsweg)
+- $\phi$: primärer Rotationsparameter (Werkzeugspindeldrehung oder Werkstückwälzwinkel, Einheit: rad)
+- $\psi$: sekundärer Vorschub- oder Wiegenparameter (Wiegenwinkel, Schwenkwinkel oder Achsweg, Einheit: rad oder mm)
 
 Die $4 \times 4$ homogene Transformationsmatrix $\mathbf{M}_{21}(\phi, \psi)$ ergibt sich über das Gestellsystem $S_f$:
 
 $$
-\mathbf{M}_{21}(\phi, \psi) = \mathbf{M}_{2f}(\phi, \psi) \cdot \mathbf{M}_{f1}(\phi, \psi) = \begin{bmatrix} 
-a_{11}(\phi, \psi) & a_{12}(\phi, \psi) & a_{13}(\phi, \psi) & s_x(\phi, \psi) \\ 
-a_{21}(\phi, \psi) & a_{22}(\phi, \psi) & a_{23}(\phi, \psi) & s_y(\phi, \psi) \\ 
-a_{31}(\phi, \psi) & a_{32}(\phi, \psi) & a_{33}(\phi, \psi) & s_z(\phi, \psi) \\ 
-0 & 0 & 0 & 1 
-\end{bmatrix}
+\mathbf{M}_{21}(\phi, \psi) = \mathbf{M}_{2f}(\phi, \psi) \cdot \mathbf{M}_{f1}(\phi, \psi) = \begin{bmatrix} a_{11}(\phi, \psi) & a_{12}(\phi, \psi) & a_{13}(\phi, \psi) & s_x(\phi, \psi) \\ a_{21}(\phi, \psi) & a_{22}(\phi, \psi) & a_{23}(\phi, \psi) & s_y(\phi, \psi) \\ a_{31}(\phi, \psi) & a_{32}(\phi, \psi) & a_{33}(\phi, \psi) & s_z(\phi, \psi) \\ 0 & 0 & 0 & 1 \end{bmatrix}
 $$
 
-Die im Werkstücksystem $S_2$ abgebildete **Flächenschar** $\mathbf{r}_2(u, \theta, \phi, \psi)$ lautet somit:
+Im klassischen System einer einparametrigen Flächenfamilie (One-Parameter Family of Surfaces) hängt die Flächenschar ausschließlich von der Wälzkoordinate $\phi$ ab:
+
+$$
+\mathbf{r}_2(u, \theta, \phi) = \mathbf{M}_{21}(\phi) \cdot \mathbf{r}_1(u, \theta)
+$$
+
+Im zweiparametrigen Raumwälzsystem lautet die resultierende **zweiparametrige Flächenfamilie (Two-Parameter Family of Surfaces)** $\mathbf{r}_2(u, \theta, \phi, \psi)$ im Werkstücksystem $S_2$:
 
 $$
 \mathbf{r}_2(u, \theta, \phi, \psi) = \mathbf{M}_{21}(\phi, \psi) \cdot \mathbf{r}_1(u, \theta)
@@ -93,11 +100,11 @@ $$
 
 ---
 
-## 3. Strenge Ableitung der Grundgleichung der Verzahnung
+## 3. Rigorose Herleitung der Eingriffsgleichung (Equation of Meshing)
 
-### 3.1 Hüllflächenbedingung und gemeinsame Tangentialebene
+### 3.1 Notwendige und hinreichende Bedingungen für die Hüllexistenz (Necessary and Sufficient Conditions of Envelope Existence) und gemeinsame Tangentialebene
 
-Die erzeugte Zahnflanke $\Sigma_2$ ist die Einhüllende (Hüllfläche) der Flächenschar $\mathbf{r}_2(u, \theta, \phi, \psi)$. Die notwendige und hinreichende Bedingung für die Existenz einer Hüllfläche besagt, dass im Berührungspunkt **alle partiellen Geschwindigkeitsvektoren bezüglich der generalisierten Parameter in der gemeinsamen Tangentialebene liegen müssen**.
+Die erzeugte Zahnflanke $\Sigma_2$ ist die Hüllfläche (Envelope Surface) der Flächenfamilie $\mathbf{r}_2(u, \theta, \phi, \psi)$. In der Differentialgeometrie der Hüllflächen besagen die **notwendigen und hinreichenden Bedingungen für die Hüllexistenz (Necessary and Sufficient Conditions of Envelope Existence)**, dass im Berührungspunkt **alle partiellen Geschwindigkeitsvektoren bezüglich der generalisierten Parameter in der gemeinsamen Tangentialebene liegen müssen**.
 
 Das Gesamtdifferential $d\mathbf{r}_2$ in $S_2$ lautet:
 
@@ -129,43 +136,55 @@ $$
 \mathbf{v}_2^{(12, \psi)} = \frac{\partial \mathbf{M}_{21}}{\partial \psi} \mathbf{r}_1 = \left( \frac{\partial \mathbf{M}_{21}}{\partial \psi} \mathbf{M}_{21}^{-1} \right) \mathbf{r}_2
 $$
 
-Durch Rücktransformation in das Werkzeugsystem $S_1$ erhalten wir **Litvins zweiparametriges System der Eingriffsgleichungen**:
+Durch Rücktransformation in das Werkzeugsystem $S_1$ und Einführung des unnormierten Normalenvektors $\mathbf{N}_1$ erhalten wir **Litvins zweiparametriges System der Eingriffsgleichungen**:
 
 $$
-f_1(u, \theta, \phi, \psi) = \mathbf{n}_1(u, \theta) \cdot \mathbf{v}_1^{(12, \phi)}(u, \theta, \phi, \psi) = 0
+f_1(u, \theta, \phi, \psi) = \mathbf{N}_1(u, \theta) \cdot \frac{\partial \mathbf{r}_1^{(12)}}{\partial \phi} = \mathbf{N}_1(u, \theta) \cdot \mathbf{v}_1^{(12, \phi)}(u, \theta, \phi, \psi) = 0
 $$
 
 $$
-f_2(u, \theta, \phi, \psi) = \mathbf{n}_1(u, \theta) \cdot \mathbf{v}_1^{(12, \psi)}(u, \theta, \phi, \psi) = 0
+f_2(u, \theta, \phi, \psi) = \mathbf{N}_1(u, \theta) \cdot \frac{\partial \mathbf{r}_1^{(12)}}{\partial \psi} = \mathbf{N}_1(u, \theta) \cdot \mathbf{v}_1^{(12, \psi)}(u, \theta, \phi, \psi) = 0
 $$
 
-Die physikalische Bedeutung ist eindeutig: Kontinuierlicher Flankenkontakt ohne Durchdringung (0.000 mm) und ohne Abheben (0.000 mm) erfordert die exakte Übereinstimmung der Normalengeschwindigkeiten ($v_n^{(1)} = v_n^{(2)}$), wodurch die Relativgeschwindigkeit $\mathbf{v}_s = \mathbf{v}^{(12)}$ rein tangential verläuft.
+In äquivalenter Darstellung mit dem Einheitsnormalenvektor $\mathbf{n}_1$:
+
+$$
+\mathbf{n}_1(u, \theta) \cdot \mathbf{v}_1^{(12, \phi)} = 0, \quad \mathbf{n}_1(u, \theta) \cdot \mathbf{v}_1^{(12, \psi)} = 0
+$$
+
+Die physikalische Bedeutung ist eindeutig: Bei realen Zahnradgetrieben tritt an allen Eingriffspunkten außer dem Wälzpunkt Relativgleiten ($v_s \neq 0$) auf. Ein formschlüssiger Verzahnungseingriff ohne Werkstoffdurchdringung und ohne Abheben erfordert die exakte Übereinstimmung der Normalengeschwindigkeiten, wodurch die Relativgeschwindigkeit $\mathbf{v}_s = \mathbf{v}^{(12)}$ rein tangential in der Berührebene verläuft.
 
 ![Abbildung 2: Differentialgeometrisches Wesen der Verzahnungsgleichung und Vektororthogonalität](/images/series2/part01/de/fig2_meshing_equation_orthogonality.png)
 
 ### 3.3 Entartung zum 1-Parameter-Wälzvorgang
 
-Ist die zweite Bewegungskoordinate an die erste gekoppelt ($\psi = g(\phi)$), wie bei Stirn- und Schrägrädern üblich, reduziert sich das System über die Kettenregel auf die klassische Verzahnungsgleichung:
+Im klassischen Stirnrad-Wälzvorgang reduziert sich die Verzahnungsgleichung auf eine skalare Beziehung:
 
 $$
-f(u, \theta, \phi) = \mathbf{n}_1(u, \theta) \cdot \left( \mathbf{v}_1^{(12, \phi)} + \frac{dg}{d\phi} \mathbf{v}_1^{(12, \psi)} \right) = \mathbf{n}_1(u, \theta) \cdot \mathbf{v}_1^{(12)} = 0
+f(u, \theta, \phi) = \mathbf{N}_1(u, \theta) \cdot \mathbf{v}_1^{(12)} = \mathbf{n}_1(u, \theta) \cdot \mathbf{v}_1^{(12)} = 0
+$$
+
+Ist die zweite Bewegungskoordinate an die erste gekoppelt ($\psi = g(\phi)$), reduziert sich das System über die Kettenregel auf diese klassische Gleichung:
+
+$$
+f(u, \theta, \phi) = \mathbf{N}_1(u, \theta) \cdot \left( \mathbf{v}_1^{(12, \phi)} + \frac{dg}{d\phi} \mathbf{v}_1^{(12, \psi)} \right) = 0
 $$
 
 Damit ist die zweiparametrige Hüllkinematik als verallgemeinerte Obermenge aller Wälztheorien mathematisch bewiesen.
 
 ---
 
-## 4. Berührungslinien und Flankenüberstreichung
+## 4. Berührungslinien auf konjugierten Flanken (Contact Lines on Conjugate Surfaces) und charakteristische Linien (Characteristic Lines)
 
-### 4.1 1-Parameter-Bewegung: Linienberührung und Raumüberstreichung
+### 4.1 1-Parameter-Bewegung: Kontinuierliche Überstreichung charakteristischer Linien (Characteristic Lines)
 
-Bei einer einzigen Eingriffsgleichung $f(u, \theta, \phi) = 0$ und fixiertem Winkel $\phi = \phi_0$ bilden die beiden Unbekannten $(u, \theta)$ nach dem Satz über implizite Funktionen eine **eindimensionale Raumkurve $L_1(\phi_0)$ (Berührungslinie)**:
+Bei einer einzigen Eingriffsgleichung $f(u, \theta, \phi) = 0$ und fixiertem Winkel $\phi = \phi_0$ bilden die beiden Unbekannten $(u, \theta)$ nach dem Satz über implizite Funktionen die Berührungslinien auf konjugierten Flanken als **eindimensionale charakteristische Linien (Characteristic Lines: $L_1(\phi_0)$)**:
 
 $$
 L_1(\phi_0): \quad u = \chi(\theta, \phi_0) \quad \iff \quad \mathbf{r}_1(u(\theta, \phi_0), \theta)
 $$
 
-Mit fortschreitender Zeit überstreicht diese Berührungslinie über die Transformation $\mathbf{M}_{21}(\phi)$ den Raum und erzeugt die Hüllfläche $\Sigma_2$:
+Mit fortschreitender Zeit überstreicht diese Berührungslinie über die Transformation $\mathbf{M}_{21}(\phi)$ den Raum und erzeugt die Hüllfläche (Envelope Surface) $\Sigma_2$:
 
 $$
 \Sigma_2 = \bigcup_{\phi \in [\phi_s, \phi_e]} \mathbf{M}_{21}(\phi) \cdot L_1(\phi)
@@ -175,32 +194,75 @@ Dies ist das Wesen der **Linienberührung (Line Contact)** bei Stirn-, Schräg- 
 
 ![Abbildung 3: Lösungskurven der Verzahnungsgleichung: Berührungslinien und Flankenüberstreichung](/images/series2/part01/de/fig3_contact_lines_sweeping.png)
 
-### 4.2 2-Parameter-Bewegung: Punktberührung und Kontaktellipsen
+### 4.2 Differentialgeometrischer Beweis der Evolventenflankenerzeugung durch Zahnstangenwerkzeuge
+
+Wir führen nun den vollständigen differentialgeometrischen Beweis, dass eine geradlinige Schneidkante einer Bezugszahnstange exakt eine Evolventenfläche erzeugt.
+
+Im Normalschnittsystem $S_c$ des Zahnstangenwerkzeugs sind das geradlinige Flankenprofil mit Eingriffswinkel $\alpha_n$ (Einheit: rad) und der Einheitsnormalenvektor wie folgt definiert:
+
+$$
+\mathbf{r}_c(u, \theta) = \begin{bmatrix} u \sin\alpha_n \\ u \cos\alpha_n \\ \theta \\ 1 \end{bmatrix}_c
+$$
+
+$$
+\mathbf{n}_c = \begin{bmatrix} \cos\alpha_n \\ -\sin\alpha_n \\ 0 \end{bmatrix}_c
+$$
+
+Rotiert der Radkörper mit der Winkelgeschwindigkeit $\omega$ (Drehwinkel $\phi = \omega t$, Einheit: rad) um den Wälzkreisradius $r = m z / 2$, führt die Zahnstange eine reine Translationsbewegung mit der Geschwindigkeit $v = r \omega$ und dem Weg $s = r \phi$ aus. Die im Werkzeugsystem $S_c$ formulierte Relativgeschwindigkeit $\mathbf{v}_c^{(ct)}$ lautet:
+
+$$
+\mathbf{v}_c^{(ct)} = \begin{bmatrix} -\omega r \phi - \omega u \cos\alpha_n \\ \omega u \sin\alpha_n \\ 0 \end{bmatrix}_c = \omega \begin{bmatrix} -r \phi - u \cos\alpha_n \\ u \sin\alpha_n \\ 0 \end{bmatrix}_c
+$$
+
+Das Skalarprodukt mit dem Normalenvektor $\mathbf{n}_c$ liefert die Eingriffsgleichung $f(u, \phi) = 0$ mit exakter algebraischer Kürzung:
+
+$$
+f(u, \phi) = \mathbf{n}_c \cdot \mathbf{v}_c^{(ct)} = -\omega (u + r \phi \cos\alpha_n) = 0 \implies u(\phi) = -r \phi \cos\alpha_n
+$$
+
+Der Flankenparameter $u$ wird damit geschlossen als $u(\phi) = -r \phi \cos\alpha_n$ bestimmt. Die Rücktransformation dieser Berührbedingung in das rotierende Werkstücksystem $S_2$ ergibt die erzeugte Zahnflanke:
+
+$$
+\mathbf{r}_2(\phi) = \begin{bmatrix} r_b (\sin\phi - \phi \cos\phi) \\ r_b (\cos\phi + \phi \sin\phi) \\ \theta \\ 1 \end{bmatrix}_2 \quad (r_b = r \cos\alpha_n)
+$$
+
+Hierbei ist $r_b = r \cos\alpha_n$ der Grundkreisradius. Diese Vektorgleichung stimmt mit einer Restabweichung von $0.000000\text{ mm}$ exakt mit der Parameterform der **Evolventenkurve** überein. Damit ist analytisch bewiesen, dass die Hüllfläche einer geradlinigen Zahnstangenflanke zwingend eine Evolventenfläche ist.
+
+### 4.3 2-Parameter-Bewegung: Punktberührung und Kontaktellipsen
 
 Bei zwei unabhängigen Parametern $(\phi, \psi)$ werden für jede Position $(\phi_0, \psi_0)$ zwei algebraische Bedingungen aufgestellt:
 
 $$
-\begin{cases}
-f_1(u, \theta, \phi_0, \psi_0) = 0 \\
-f_2(u, \theta, \phi_0, \psi_0) = 0
-\end{cases}
+\begin{cases} f_1(u, \theta, \phi_0, \psi_0) = 0 \\ f_2(u, \theta, \phi_0, \psi_0) = 0 \end{cases}
 $$
 
-Sofern die Funktionalmatrix regulär ist, zieht sich die Berührungslinie auf einen **isolierten Berührungspunkt $M(u^*, \theta^*, \phi_0, \psi_0)$** zusammen.
+Die Jacobi-Determinante $\Delta$ definiert die Regularitätsbedingung:
 
-Durch das rasterförmige Überstreichen des 2D-Parameterbereichs $(\phi, \psi)$ entsteht die Flankenfläche $\Sigma_2$. Dies begründet das Prinzip der **Punktberührung (Point Contact)** bei Hypoid- und Spiralkegelrädern, bei dem sich unter Betriebslast eine lokalisierte **Hertzsche Kontaktellipse** einstellt, die unempfindlich gegenüber Achsverlagerungen ist.
+$$
+\Delta = \frac{\partial(f_1, f_2)}{\partial(u, \theta)} = \det \begin{bmatrix} \frac{\partial f_1}{\partial u} & \frac{\partial f_1}{\partial \theta} \\ \frac{\partial f_2}{\partial u} & \frac{\partial f_2}{\partial \theta} \end{bmatrix} \ne 0
+$$
+
+Sofern $\Delta \neq 0$ erfüllt ist, zieht sich die Berührungslinie auf einen **isolierten charakteristischen Berührungspunkt $M(u^*, \theta^*, \phi_0, \psi_0)$** zusammen.
+
+Durch das rasterförmige Überstreichen des 2D-Parameterbereichs $(\phi, \psi)$ entsteht die Flankenfläche und Hüllfläche (Envelope Surface) $\Sigma_2$:
+
+$$
+\Sigma_2 = \bigcup_{(\phi, \psi)} \mathbf{M}_{21}(\phi, \psi) \cdot M(u^*(\phi, \psi), \theta^*(\phi, \psi))
+$$
+
+Dies begründet das Prinzip der **Punktberührung (Point Contact)** bei Hypoid- und Spiralkegelrädern, bei dem sich unter Betriebslast eine lokalisierte **Hertzsche Kontaktellipse** einstellt, die unempfindlich gegenüber Achsverlagerungen ist.
 
 ![Abbildung 4: Zweiparametrige Hüllkinematik und Punktberührung](/images/series2/part01/de/fig4_two_parameter_envelope_kinematics.png)
 
 ---
 
-## 5. Singularitätsanalyse und Jacobi-Unterschnittkriterium
+## 5. Singularitäten der erzeugten Zahnflanke (Singularities of Generated Surface) und Jacobi-Matrix (Jacobian Matrix) zur Unterschnittgrenzenbestimmung
 
-### 5.1 Verlust der Flächenregularität und Singularitäten
+### 5.1 Verlust der Flächenregularität und Singularitäten der erzeugten Zahnflanke (Singularities of Generated Surface)
 
 Die erzeugte Zahnflanke bildet nur dann einen physikalisch fehlerfreien Festkörper, wenn ihr Normalenvektor nirgends verschwindet: $\mathbf{N}_2 = \frac{\partial \mathbf{r}_2}{\partial u} \times \frac{\partial \mathbf{r}_2}{\partial \theta} \neq \mathbf{0}$.
 
-Eine Flankensingularität (Spitze / Rückkehrkante) tritt auf, wenn der Normalenvektor verschwindet:
+Die **Singularitäten der erzeugten Zahnflanke (Singularities of Generated Surface)** treten auf, wenn der Normalenvektor verschwindet:
 
 $$
 \mathbf{N}_2 = \frac{\partial \mathbf{r}_2}{\partial u} \times \frac{\partial \mathbf{r}_2}{\partial \theta} = \mathbf{0}
@@ -209,10 +271,16 @@ $$
 Kinematisch bedeutet dies den Stillstand der Wanderungsgeschwindigkeit des Kontaktpunkts auf dem Rad:
 
 $$
+\mathbf{v}_r^{(2)} = \frac{\partial \mathbf{r}_2}{\partial u} \frac{du}{dt} + \frac{\partial \mathbf{r}_2}{\partial \theta} \frac{d\theta}{dt} = \mathbf{0}
+$$
+
+Hierbei gilt für die kinematischen Relativgeschwindigkeiten:
+
+$$
 \mathbf{v}_r^{(2)} = \mathbf{v}_r^{(1)} + \mathbf{v}^{(12)} = \mathbf{0}
 $$
 
-### 5.2 Ableitung der Jacobi-Determinante $\det(J) = 0$ für Unterschnitt
+### 5.2 Ableitung der Jacobi-Matrix (Jacobian Matrix) Determinante $\det(J) = 0$ für Unterschnitt
 
 Durch vollständiges Differenzieren der Eingriffsgleichung $f(u, \theta, \phi) = 0$:
 
@@ -220,27 +288,98 @@ $$
 df = \frac{\partial f}{\partial u} du + \frac{\partial f}{\partial \theta} d\theta + \frac{\partial f}{\partial \phi} d\phi = 0
 $$
 
-und Kombination mit dem Geschwindigkeitsstillstand $\mathbf{v}_r^{(2)} = \mathbf{0}$ ergibt sich die Bedingung für das Auftreten von Unterschnitt über das **Nullwerden der Jacobi-Determinante**:
+und Kombination mit dem Geschwindigkeitsstillstand $\mathbf{v}_r^{(2)} = \mathbf{0}$ ergibt sich die Bedingung für das Auftreten von Unterschnitt über das **Nullwerden der $3 \times 3$ Jacobi-Matrix (Jacobian Matrix) Determinante**:
 
 $$
-F_{\text{undercut}}(u, \theta, \phi) = \det \begin{bmatrix} 
-\frac{\partial x_1}{\partial u} & \frac{\partial x_1}{\partial \theta} & -v_{x1}^{(12)} \\ 
-\frac{\partial y_1}{\partial u} & \frac{\partial y_1}{\partial \theta} & -v_{y1}^{(12)} \\ 
-\frac{\partial f}{\partial u} & \frac{\partial f}{\partial \theta} & -\frac{\partial f}{\partial \phi} 
-\end{bmatrix} = 0
+F_{\text{undercut}}(u, \theta, \phi) = \det \begin{bmatrix} \frac{\partial x_1}{\partial u} & \frac{\partial x_1}{\partial \theta} & -v_{x1}^{(12)} \\ \frac{\partial y_1}{\partial u} & \frac{\partial y_1}{\partial \theta} & -v_{y1}^{(12)} \\ \frac{\partial f}{\partial u} & \frac{\partial f}{\partial \theta} & -\frac{\partial f}{\partial \phi} \end{bmatrix} = 0
 $$
 
-Schneidet diese Grenzkurve den aktiven Flankenbereich zwischen Grundkreis $r_b$ und Kopfkreis $r_a$, tritt **Zahnunterschnitt (Undercutting)** auf.
+Schneidet diese Grenzkurve den aktiven Flankenbereich zwischen Grundkreis $r_b$ und Kopfkreis $r_a$, tritt **Zahnunterschnitt (Undercutting)** auf. Für nicht profilverschobene Stirnräder ($x = 0$) lautet die theoretische Grenzzähnezahl:
+
+$$
+z_{\min} = \frac{2 h_a^*}{\sin^2\alpha_n} = \frac{2 \times 1.0}{\sin^2(20^\circ)} \approx 17.097 \implies z \ge 17
+$$
 
 Dabei schneidet die Werkzeugkopfkante tragendes Flankenmaterial im Zahnfußbereich ab. In FEA-Berechnungen steigert diese Kerbwirkung den Spannungskonzentrationsfaktor $K_t$ um mehr als das 2,5-Fache, was zu Ermüdungsbrüchen am Zahnfuß führt.
 
 ---
 
-## 6. Numerische Algorithmen im CAD/CAE-Rechenkern
+## 6. Trochoidenhüllkurve und $C^1$-stetige Übergangsgrenze
+
+### 6.1 Kinematische Bahn der Werkzeugkopfausrundung
+
+Die Kopfausrundung (Radius $\rho_{a0} = \rho_{fP}^* m = 1.140000\text{ mm}$) der ISO 53 Zahnstange erzeugt die Zahnfußausrundung. Mit dem radialen Fußhöhenabstand von der Wälzlinie $h_f = h_f^* m = 3.750000\text{ mm}$ (wobei $h_f^* = 1.25$ der dimensionslose Fußhöhenfaktor ist) lautet die Bahn des Ausrundungsmittelpunkts $C$ im Werkstücksystem $S_2$ in Abhängigkeit vom Wälzwinkel $\phi$:
+
+$$
+\mathbf{r}_C(\phi) = \begin{bmatrix} (r - h_f) \sin\phi - r \phi \cos\phi \\ (r - h_f) \cos\phi + r \phi \sin\phi \end{bmatrix}_2
+$$
+
+Die Ableitung nach $\phi$ liefert den Tangentenvektor der Mittelpunktsbahn:
+
+$$
+\frac{d\mathbf{r}_C}{d\phi} = \begin{bmatrix} -h_f \cos\phi + r \phi \sin\phi \\ h_f \sin\phi + r \phi \cos\phi \end{bmatrix}
+$$
+
+Durch $90^\circ$-Drehung ergibt sich der Einheitsnormalenvektor $\mathbf{n}_C(\phi)$:
+
+$$
+\mathbf{n}_C(\phi) = \frac{1}{\left\|\frac{d\mathbf{r}_C}{d\phi}\right\|} \begin{bmatrix} -\frac{dy_C}{d\phi} \\ \frac{dx_C}{d\phi} \end{bmatrix}
+$$
+
+Der Normalen-Offset zur Mittelpunktsbahn liefert die geschlossene Hüllkurvengleichung der Trochoiden-Fußausrundung $\mathbf{r}_{\text{fillet}}$:
+
+$$
+\mathbf{r}_{\text{fillet}}(\phi) = \mathbf{r}_C(\phi) - \rho_{a0} \, \mathbf{n}_C(\phi)
+$$
+
+Diese geschlossene Formulierung beschreibt exakt die Geometrie der Zahnfußausrundung.
+
+### 6.2 Beweis der $C^1$-Stetigkeit am Grenzdurchmesser $d_{Ff}$
+
+Der Übergangspunkt $u_{\text{trans}}$ zwischen geradliniger Werkzeugflanke und Kopfausrundung ist mit der Fußhöhe $h_f = h_f^* m$ eindeutig bestimmt durch:
+
+$$
+u_{\text{trans}} = \frac{h_f - \rho_{a0} (1 - \sin\alpha_n)}{\sin\alpha_n}
+$$
+
+Der auf der Zahnflanke erzeugte Durchmesser definiert den **nutzbaren Fußkreisdurchmesser (Form Circle Diameter, $d_{Ff}$)**:
+
+$$
+r_{Ff} = \sqrt{r_b^2 + \left( r \sin\alpha_n - \frac{h_f - \rho_{a0}(1 - \sin\alpha_n)}{\sin\alpha_n} \right)^2}
+$$
+
+Am Übergangspunkt $u = u_{\text{trans}}$ stimmen sowohl Ortskoordinaten als auch Normalenvektoren exakt überein:
+
+$$
+\mathbf{r}_{\text{inv}}(u_{\text{trans}}) = \mathbf{r}_{\text{fillet}}(u_{\text{trans}}), \quad \mathbf{n}_{\text{inv}}(u_{\text{trans}}) = \mathbf{n}_{\text{fillet}}(u_{\text{trans}})
+$$
+
+Damit ist mathematisch bewiesen, dass der Übergang zwischen aktiver Evolvente und Trochoiden-Fußausrundung streng **$C^1$-stetig (Smooth Transition)** ohne Knicke verläuft.
+
+### 6.3 Float64-Präzisionsabmessungen und Parameterprüfung
+
+Die verifizierten 64-Bit-Gleitkomma-Zahnradparameter sind in der folgenden Tabelle zusammengefasst:
+
+| Parameter | Symbol | Wert | Einheit | Technische Bedeutung & Normbasis |
+| :--- | :---: | :---: | :---: | :--- |
+| **Normalmodul** | $m$ | 3.0 | mm | ISO 53 Standardmodul-Reihe |
+| **Normaleingriffswinkel** | $\alpha_n$ | 20.0 (0.349066) | deg (rad) | Werkzeug-Bezugsprofil-Eingriffswinkel |
+| **Zähnezahl** | $z_1$ | 19 | - | Erfüllt Unterschnittgrenze ($z \ge 17$) |
+| **Teilkreisdurchmesser** | $d$ | 57.000000 | mm | Bezugsteilkreisdurchmesser ($d = m z$) |
+| **Grundkreisdurchmesser** | $d_b$ | 53.562479 | mm | Evolventengrundkreis ($d_b = d \cos\alpha_n$) |
+| **Eingriffsteilung (Grundteilung)** | $p_b$ | 8.856394 | mm | Teilung auf Eingriffslinie ($p_b = \pi m \cos\alpha_n$) |
+| **Werkzeugkopfausrundungsradius** | $\rho_{a0}$ | 1.140000 | mm | Trochoiden-Fußausrundung ($\rho_{a0} = 0.38 m$) |
+| **Nutzbarer Fußkreisdurchmesser** | $d_{Ff}$ | 53.598069 | mm | Evolventen-Trochoiden-Übergangsgrenze ($d_{Ff} > d_b$) |
+
+Da der Formkreisdurchmesser $d_{Ff} = 53.598069\text{ mm}$ größer ist als der Grundkreisdurchmesser $d_b = 53.562479\text{ mm}$ ($d_{Ff} > d_b$), tritt bei $z_1 = 19$ kein Unterschnitt auf.
+
+---
+
+## 7. Numerische Algorithmen im CAD/CAE-Rechenkern
 
 In professionellen Berechnungskernen wie H-GEAR STUDIO ist die Nutzung einfacher Gitterapproximationen unzulässig, da Rundungsfehler zu künstlichen Flankenstufen und fehlerhaften Durchdringungswarnungen führen.
 
-### 6.1 Mehrdimensionales gedämpftes Newton-Raphson-Verfahren
+### 7.1 Mehrdimensionales gedämpftes Newton-Raphson-Verfahren
 
 Für jeden Arbeitspunkt $(\phi_k, \psi_k)$ wird der exakte Kontaktpunkt $\mathbf{x} = [u, \theta]^T$ über ein mehrdimensionales Residuenverfahren gelöst:
 
@@ -257,13 +396,10 @@ $$
 mit der analytischen Jacobi-Matrix:
 
 $$
-\mathbf{J} = \begin{bmatrix} 
-\frac{\partial f_1}{\partial u} & \frac{\partial f_1}{\partial \theta} \\ 
-\frac{\partial f_2}{\partial u} & \frac{\partial f_2}{\partial \theta} 
-\end{bmatrix}
+\mathbf{J} = \begin{bmatrix} \frac{\partial f_1}{\partial u} & \frac{\partial f_1}{\partial \theta} \\ \frac{\partial f_2}{\partial u} & \frac{\partial f_2}{\partial \theta} \end{bmatrix}
 $$
 
-### 6.2 Konvergenztoleranzen und $C^2$-stetige B-Spline-Flächen
+### 7.2 Konvergenztoleranzen und $C^2$-stetige B-Spline-Flächen
 
 Die Konvergenzkriterien entsprechen strengen Anforderungen:
 1. **Residuennorm**: $\|\mathbf{F}(\mathbf{x})\| < 10^{-12}$
@@ -274,11 +410,11 @@ Die Punktwolke wird in eine $C^2$-stetige B-Spline-Fläche (NURBS) überführt, 
 
 ---
 
-## 7. Quellcode-Zuordnung in H-GEAR STUDIO
+## 8. Quellcode-Zuordnung in H-GEAR STUDIO
 
 Der Python-Rechenkern (`prototype2/backend/core/`) implementiert diese geschlossenen mathematischen Formulierungen exakt.
 
-### 7.1 ISO 53 Trochoidenhüllkurve (`tooth_geometry.py`)
+### 8.1 ISO 53 Trochoidenhüllkurve (`tooth_geometry.py`)
 
 Die Erzeugung der Fußausrundung durch den Werkzeugkopfradius ($\rho_{a0}$) ist in `prototype2/backend/core/tooth_geometry.py` in der Funktion `_generate_standard_trochoid_fillet` realisiert:
 
@@ -299,8 +435,8 @@ def _generate_standard_trochoid_fillet(R, h_f_center, rho_f, t_start, t_end, num
     yc = (R - h_f_center) * cos_t + R * t_vals * sin_t
     
     # Erste Ableitung der Bahnkurve
-    dxc = (R - h_f_center) * cos_t - R * cos_t + R * t_vals * sin_t
-    dyc = -(R - h_f_center) * sin_t - R * sin_t + R * t_vals * cos_t
+    dxc = -h_f_center * cos_t + R * t_vals * sin_t
+    dyc = h_f_center * sin_t + R * t_vals * cos_t
     
     norm = np.hypot(dxc, dyc)
     nx = -dyc / norm
@@ -313,22 +449,22 @@ def _generate_standard_trochoid_fillet(R, h_f_center, rho_f, t_start, t_end, num
     return xp, yp
 ```
 
-### 7.2 Werkzeug-Bezugsprofil (`rack_geometry.py`)
+### 8.2 Werkzeug-Bezugsprofil (`rack_geometry.py`)
 
 In `prototype2/backend/core/rack_geometry.py` kapselt die Klasse `RackProfileParams` Modul $m$, Eingriffswinkel $\alpha_n$ und Kopfradiusfaktor $\rho_{fP}^*$ für die direkte Weiterverarbeitung im Hüllkurvenlöser.
 
 ---
 
-## 8. Ingenieurtechnischer Vergleich und Ausblick
+## 9. Ingenieurtechnischer Vergleich und Ausblick
 
-### 8.1 1-Parameter- vs. 2-Parameter-Hülltheorie im Systemvergleich
+### 9.1 1-Parameter- vs. 2-Parameter-Hülltheorie im Systemvergleich
 
-| Kriterium | 1-Parameter-Hülltheorie (Klassisch) | 2-Parameter-Hülltheorie (Modern) |
+| Vergleichskriterium | 1-Parameter-Hülltheorie (Klassisch) | 2-Parameter-Hülltheorie (Modern) |
 | :--- | :--- | :--- |
 | **Getriebetypen** | Stirnrad, Schrägrad, Zahnstange | Hypoidrad, Spiralkegelrad, 5-Achs-Fräsen |
-| **Bewegungsfreiheitsgrade** | $\phi$ (1 Freiheitsgrad) | $\phi, \psi$ (2 unabhängige Freiheitsgrade) |
-| **Verzahnungsgleichungen** | $f(u, \theta, \phi) = \mathbf{n} \cdot \mathbf{v}^{(12)} = 0$ (1 Gleichung) | $f_1 = \mathbf{n} \cdot \mathbf{v}^{(\phi)} = 0$, $f_2 = \mathbf{n} \cdot \mathbf{v}^{(\psi)} = 0$ (2 Gleichungen) |
-| **Berührgeometrie** | Berührungslinie $L_1(\phi)$ (Linienberührung) | Berührungspunkt $M(\phi, \psi)$ (Punktberührung) |
+| **Bewegungsfreiheitsgrade** | $\phi$ (1 Freiheitsgrad, rad) | $\phi, \psi$ (2 unabhängige Freiheitsgrade, rad) |
+| **Verzahnungsgleichungen** | $f(u, \theta, \phi) = \mathbf{n} \cdot \mathbf{v}^{(12)} = 0$ (1 Gleichung) | $f_1 = \mathbf{N}_1 \cdot \mathbf{v}_1^{(\phi)} = 0$, $f_2 = \mathbf{N}_1 \cdot \mathbf{v}_1^{(\psi)} = 0$ (2 Gleichungen) |
+| **Berührgeometrie** | Charakteristische Berührungslinie $L_1(\phi)$ (Linienberührung) | Isolierter Berührungspunkt $M(\phi, \psi)$ (Punktberührung) |
 | **Flankentopologie** | Werkzeuggeometriegebunden | Gezielte Breitenballigkeit und Flankenverschränkung |
 | **Unterschnittkriterium** | $3 \times 3$ Jacobi-Determinante $\det(J) = 0$ | Rangabfall der erweiterten $4 \times 4$ Jacobi-Matrix |
 | **H-GEAR STUDIO Modul** | `_generate_standard_trochoid_fillet` | 3D-LTCA Kontaktsolver und B-Rep Flanken |

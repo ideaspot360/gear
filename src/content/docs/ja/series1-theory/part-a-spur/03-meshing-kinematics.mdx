@@ -24,13 +24,13 @@ sidebar:
 
 ## 3.1 直観的問題提起と物理的背景
 
-歯車伝動の基本目的は、2軸間で角速度比を一切の滑りや変動なく一定に維持しながら動力を伝達することです。平歯車対がかみ合って回転する際、動力を途切れなく円滑に伝達するためには、幾何学的に厳密な連続かみ合い条件が満たされなければなりません。
+歯車伝動の根本目的は、2軸間で角速度比（Angular Velocity Ratio）$i = \omega_1 / \omega_2$を瞬間的な変動なく高精度に伝達することです。巨視的なスリップを伴う摩擦車（Friction Wheel）とは異なり、歯車はインボリュート歯形の幾何学的噛み合い（形態拘束）によって厳密な角速度比を一定に保持します。しかし、歯面の微視的接触挙動の観点からは、ピッチ点を除いたほぼ全域で歯面間の相対滑り（$v_s \ne 0$）が必然的に発生します。平歯車対がかみ合って回転する際、動力を途切れなく円滑に伝達するためには、幾何学的に厳密な連続かみ合い条件が満たされなければなりません。
 
 ### 連続伝動の力学的必然性
 
 先行するかみ合い歯対が接触を終了して離脱する前に、必ず後続の歯対が作用線上で接触を開始していなければなりません。もし正面かみ合い率が1を下回る場合（$\epsilon_\alpha < 1.0$）、かみ合いの空白領域（デッドゾーン）が発生します。
 
-この瞬間、駆動軸と従動軸の間の位相差が瞬間的に開き、後続の歯がかみ合う際に歯面同士が極めて過大な動的衝撃力（$F_{\mathrm{dyn}} = I \frac{d\omega}{dt}$）で衝突します。これは減速機内部で激しい衝撃騒音と振動を引き起こすだけでなく、歯元に加わる衝撃曲げ応力によって歯が根元からへし折れる歯欠け事故を招きます。
+この瞬間、駆動軸と従動軸の間の位相差が瞬間的に開き、後続の歯がかみ合う際に歯面同士が極めて過大な動的衝撃トルクおよび歯面法線力（$T_{\mathrm{dyn}} = I \frac{d\omega}{dt}$、$F_{\mathrm{dyn}} = \frac{T_{\mathrm{dyn}}}{r_2} = \frac{I}{r_2}\frac{d\omega}{dt}$）で衝突します。これは減速機内部で激しい衝撃騒音と振動を引き起こすだけでなく、歯元に加わる衝撃曲げ応力によって歯が根元からへし折れる歯欠け事故を招きます。
 
 伝動の連続性を保証するためには、作用線上での有効かみ合い長さ（$g_\alpha$）が、隣接する歯の法線ピッチ（$p_b$）を常に上回る必要があります。この比率を指標化したものが正面かみ合い率（Transverse Contact Ratio, $\epsilon_\alpha$）です。
 
@@ -42,7 +42,7 @@ $$
 
 ### 歯面接触部位別の転動と滑りのメカニズム
 
-歯面接触において、すべての接触位置で一様な摩擦状態が生じるわけではありません。基準ピッチ円同士が外接するピッチ点（点C/P）では、双方の歯面の接線線速度が完全に一致し、相対滑り速度が厳密にゼロとなる**純粋転がり接触（Pure Rolling）**が実現されます。
+歯面接触において、すべての接触位置で一様な摩擦状態が生じるわけではありません。基準ピッチ円（Reference Pitch Circle, $d = mz$、$d_1, d_2$）および噛み合いピッチ円（Working Pitch Circle, $d_w = d_b / \cos\alpha_w$、$d_{w1}, d_{w2}$）が外接するピッチ点（点C/P）では、双方の歯面の接線線速度が完全に一致（$v_{t1}(P) = v_{t2}(P)$）し、相対滑り速度が厳密にゼロとなる**純粋転がり接触（Pure Rolling, $v_s(P) = 0, \sigma_1(P) = \sigma_2(P) = 0$）**が実現されます。（標準平歯車では $d_{wi} \equiv d_i$、噛み合い圧力角 $\alpha_w \equiv \alpha_0$）
 
 ピッチ点から離れて歯元や歯先へ移動すると、状況は一変します。歯形曲率半径の差異によって激しい相対滑り摩擦（Sliding Friction）が発生します。
 
@@ -57,7 +57,7 @@ $$
 
 ### 作用線と共通接線線分の長さ
 
-インボリュート歯形において、接触点の法線は常に2つの基礎円に接する共通内接線を追従し、この直線を作用線（Line of Action）と呼びます。駆動ピニオンの基礎円接点を$T_1$、従動歯車の基礎円接点を$T_2$とするとき、接点間の全線分長さ$\overline{T_1 T_2}$は中心距離$a$と基準圧力角$\alpha_0$から閉形式で導出されます。
+インボリュート歯形において、接触点の法線（Common Normal）は常に2つの基礎円に接する**共通内接線（Common Internal Tangent）**を厳密に追従し、実際の接触線分を**作用線（Line of Action）**と呼びます。駆動ピニオンの基礎円接点を$T_1$、従動歯車の基礎円接点を$T_2$とするとき、接点間の全線分長さ$\overline{T_1 T_2}$は中心距離$a$と基準圧力角$\alpha_0$から閉形式で導出されます。
 
 $$
 \overline{T_1 T_2} = (r_{b1} + r_{b2})\tan\alpha_0 = a \sin\alpha_0
@@ -103,7 +103,7 @@ $$
 
 ### かみ合い長さと正面かみ合い率の導出
 
-実際の有効かみ合い線分は$\overline{AE}$です。ピッチ点$P$を境として接近かみ合い長さ（$g_f = \overline{AP}$）と遠退かみ合い長さ（$g_a = \overline{PE}$）に区分されます。
+実際の有効かみ合い線分は$\overline{AE}$です。ピッチ点$P$を境として接近かみ合い長さ（$g_f = \overline{AP}$）と後退かみ合い長さ（$g_a = \overline{PE}$）に区分されます。ISO 21771およびDIN 3960の一般化された幾何学的定義によれば、中心距離 $a_w$ および噛み合い圧力角 $\alpha_w$ において $g_f = \sqrt{r_{a2}^2 - r_{b2}^2} - r_{w2}\sin\alpha_w$、$g_a = \sqrt{r_{a1}^2 - r_{b1}^2} - r_{w1}\sin\alpha_w$ と定義され、標準平歯車（$a = a_0, \alpha_w = \alpha_0, r_{wi} = r_i$）では $r_{w2}\sin\alpha_w = r_2\sin\alpha_0 = r_{b2}\tan\alpha_0$、$r_{w1}\sin\alpha_w = r_1\sin\alpha_0 = r_{b1}\tan\alpha_0$ が成立します：
 
 $$
 g_f = \overline{AP} = s_C - s_A = \sqrt{r_{a2}^2 - r_{b2}^2} - r_{b2}\tan\alpha_0, \quad g_a = \overline{PE} = s_E - s_C = \sqrt{r_{a1}^2 - r_{b1}^2} - r_{b1}\tan\alpha_0
@@ -158,19 +158,19 @@ $$
 v_{t1}(s) = \omega_1 \rho_1 = \omega_1 s, \quad v_{t2}(s) = \omega_2 \rho_2 = \omega_2 (\overline{T_1 T_2} - s)
 $$
 
-歯面間の相対滑り速度$v_g(s)$は両線速度の差として求まります。
+作用線上の任意の接触点$K$（座標$s$）における歯面相対滑り速度（Sliding Velocity）は、接線方向速度差の絶対値 $v_s(K) = |v_{t1}(K) - v_{t2}(K)|$（座標$s$において $v_s(s) = |v_{t1}(s) - v_{t2}(s)|$）として定義され、作用線座標 $s$ に沿った符号付き代数相対滑り速度 $v_g(s)$ は次式のように導出されます。
 
 $$
 v_g(s) = v_{t1}(s) - v_{t2}(s) = (\omega_1 + \omega_2)(s - s_C) = (\omega_1 + \omega_2) x
 $$
 
-ピッチ点からの距離$x = s - s_C$に対して滑り速度は完全な1次線形関係をなし、ピッチ点（$x = 0$）で$v_g = 0$となって純粋転がりが成立します。ピッチ点を境に滑りの方向が反転します。
+ピッチ点からの距離 $x = s - s_C$ に対して滑り速度は完全な1次線形関係をなし、ピッチ点（$x = 0, s = s_C$）において $v_{t1}(P) = v_{t2}(P)$ となり、相対滑り速度が厳密にゼロ（$v_s(P) = 0, v_g(P) = 0$）となって純粋転がりが成立します。ピッチ点を境に滑りの方向が反転します。
 
 ![歯面接触点における線速度ベクトル分解と相対滑り速度の反転機構](/images/part3/ja/fig3_contact_kinematics_velocities.png)
 
 ### 滑り率（Specific Sliding）と代数恒等式
 
-歯面の摩耗および摩擦発熱の指標となる無次元量が滑り率（Specific Sliding, $k$）です。
+歯面の摩耗および摩擦発熱の指標となる無次元量が滑り率（Specific Sliding, 特定滑り率）です。国際規格（ISO 21771 / AGMA 9005）では $\sigma_1, \sigma_2$（または $k_1, k_2$、DIN規格では $g_1, g_2$）と表記され、接触点での接線線速度に対する相対滑り速度の比率（$\sigma_1 \equiv k_1, \sigma_2 \equiv k_2$）として定義されます。
 
 駆動ピニオンの滑り率$k_1(s)$：
 
@@ -190,7 +190,7 @@ $$
 (1 - k_1)(1 - k_2) \equiv 1.0
 $$
 
-基礎円接点付近（$\rho \to 0$）では、滑り率が負の無限大（$-\infty$）へと急激に発散します。歯数の少ないピニオンでは点A（歯元部）が基礎円に接近するため、歯元の滑り摩耗リスクが跳ね上がります。これこそが、小歯数ピニオンに正の転位係数（$x_1 > 0$）を与えて有効歯形を基礎円の外側へと逃がさなければならない決定的な力学的理由です。
+ピッチ点 $P$（$s = s_C$）では滑り速度がゼロとなるため、滑り率も $\sigma_1(P) = k_1(P) = 0.000000$、$\sigma_2(P) = k_2(P) = 0.000000$ と厳密にゼロになります。一方、基礎円接点付近（$s \to 0$ または $s \to \overline{T_1 T_2}$ において $\rho \to 0$）では、滑り率が負の無限大（$-\infty$）へと急激に発散します。歯数の少ないピニオンでは点A（ピニオン歯元部）が基礎円に接近するため、歯元の滑り率が極端に悪化（$k_1(A) = -7.420059$）します。これこそが、小歯数ピニオンに正の転位係数（$x_1 > 0$）を与えて有効歯形を基礎円の外側へと逃がさなければならない決定的な力学的理由です。
 
 ![作用線上のピニオンおよび大歯車の相対滑り率（Specific Sliding）曲線分布](/images/part3/ja/fig4_specific_sliding_curves.png)
 
@@ -203,6 +203,10 @@ $$
 $$
 m = 3.000000\text{ mm}, \quad \alpha_0 = 20.000000^\circ, \quad z_1 = 18, \quad z_2 = 54, \quad a = 108.000000\text{ mm}
 $$
+
+- 基準ラック歯形規格（ISO 53 Profile A / JIS B 1701）：$h_a^* = 1.000000, c^* = 0.250000, h_f^* = 1.250000, \rho_f^* = 0.380000$
+- 歯数比（ISO 6336）：$u = z_2 / z_1 = 54 / 18 = 3.000000 \ge 1.0$（幾何学的変速比 $i = \omega_1 / \omega_2 = u = 3.000000$）
+- 転位係数：$x_1 = 0.000000, x_2 = 0.000000$（標準平歯車、基準ピッチ円 $d = mz$ に対し噛み合いピッチ円直径 $d_w = d_b / \cos\alpha_w$ より $d_{w1} \equiv d_1, d_{w2} \equiv d_2$、噛み合い圧力角 $\alpha_w \equiv \alpha_0$）
 
 基準ピッチ円および基礎円半径：
 
@@ -234,7 +238,7 @@ $$
 
 | 番号 | 幾何学的パラメータ | 記号 | 算出公式 | 理論的厳密値 | 単位 |
 |:---:|:---|:---:|:---|:---:|:---:|
-| 1 | 減速比 | $u$ | $z_2 / z_1$ | 3.000000 | — |
+| 1 | 歯数比（減速比） | $u$ | $z_2 / z_1$ | 3.000000 | — |
 | 2 | ピニオン基準ピッチ円直径 | $d_1$ | $m \cdot z_1$ | 54.000000 | mm |
 | 3 | ピニオン基準ピッチ円半径 | $r_1$ | $d_1 / 2$ | 27.000000 | mm |
 | 4 | 大歯車基準ピッチ円直径 | $d_2$ | $m \cdot z_2$ | 162.000000 | mm |
@@ -247,10 +251,10 @@ $$
 | 11 | ピニオン基礎円半径 | $r_{b1}$ | $d_{b1} / 2$ | 25.371701 | mm |
 | 12 | 大歯車基礎円直径 | $d_{b2}$ | $d_2 \cos\alpha_0$ | 152.230205 | mm |
 | 13 | 大歯車基礎円半径 | $r_{b2}$ | $d_{b2} / 2$ | 76.115102 | mm |
-| 14 | 歯先たけ | $h_a$ | $1.0 \cdot m$ | 3.000000 | mm |
-| 15 | 歯底たけ | $h_f$ | $1.25 \cdot m$ | 3.750000 | mm |
+| 14 | 歯先たけ | $h_a$ | $h_a^* \cdot m$ | 3.000000 | mm |
+| 15 | 歯底たけ | $h_f$ | $(h_a^* + c^*) m$ | 3.750000 | mm |
 | 16 | 全歯たけ | $h$ | $h_a + h_f$ | 6.750000 | mm |
-| 17 | 頂げき | $c$ | $0.25 \cdot m$ | 0.750000 | mm |
+| 17 | 頂げき | $c$ | $c^* \cdot m$ | 0.750000 | mm |
 | 18 | ピニオン歯先円直径 | $d_{a1}$ | $d_1 + 2h_a$ | 60.000000 | mm |
 | 19 | ピニオン歯先円半径 | $r_{a1}$ | $d_{a1} / 2$ | 30.000000 | mm |
 | 20 | 大歯車歯先円直径 | $d_{a2}$ | $d_2 + 2h_a$ | 168.000000 | mm |
@@ -313,7 +317,7 @@ $$
 | **基準ラック歯形（Basic Rack）** | 円筒歯車用基準ラック | 円筒歯車用基準ラック | JIS B 1701 / ISO 53 Profile A |
 | **モジュール（Module, $m$）** | 3.000 mm | 3.000 mm | 標準第1系列 |
 | **基準圧力角（Standard Pressure Angle, $\alpha_0$）** | 20.0° | 20.0° | 基準歯形 |
-| **歯数（Number of Teeth, $z$）** | 18 | 54 | 減速比 $u = 3.000$ |
+| **歯数（Number of Teeth, $z$）** | 18 | 54 | 歯数比 $u = 3.000$ (ISO 6336) |
 | **転位係数（Profile Shift Coefficient, $x$）** | 0.0000 | 0.0000 | 標準並歯（無転位） |
 | **基準ピッチ円直径（Pitch Diameter, $d$）** | 54.000 mm | 162.000 mm | $d = m \cdot z$ |
 | **基礎円直径（Base Diameter, $d_b$）** | 50.743 mm | 152.230 mm | $d_b = d \cos\alpha_0$ |
@@ -388,18 +392,18 @@ $$
 
 ### 規格別用語の対照比較
 
-| 概念 | ISO 21771:2007 | DIN 3960 | AGMA 9005-F16 / 2001 | Earle Buckingham (1949) |
-|:---|:---:|:---:|:---:|:---:|
-| **作用線** | Line of action | Eingriffslinie | Line of action | Line of action |
-| **かみ合い率** | Transverse contact ratio $\epsilon_\alpha$ | Profilüberdeckung $\epsilon_\alpha$ | Contact ratio $m_p$ | Contact ratio CR |
-| **基礎円ピッチ** | Base pitch $p_b$ | Grundteilung $p_b$ | Base pitch $p_b$ | Normal pitch $p_N$ |
-| **かみ合い開始点** | Point A ($E_A$) | Punkt A | SAP | Point A |
-| **単一歯最内点** | Point B ($B$) | Punkt B | LPSTC | Point B |
-| **ピッチ点** | Pitch point $C$ / $P$ | Wälzpunkt $C$ | Pitch point | Pitch point |
-| **単一歯最外点** | Point D ($D$) | Punkt D | HPSTC | Point D |
-| **かみ合い終了点** | Point E ($E_E$) | Punkt E | EAP | Point E |
-| **滑り率** | Specific sliding $k$ | Spezifisches Gleiten $g$ | Specific sliding | Specific sliding |
-| **曲げ強度基準点** | Point D (ISO 6336-3) | Punkt D (DIN 3990) | HPSTC (AGMA 2001) | Point D |
+| 概念 | 日本産業規格 (JIS B 0102) | 国際標準化機構 (ISO 21771) | ドイツ規格 (DIN 3960) | 米国歯車製造業者協会 (AGMA 9005/2001) | Earle Buckingham (1949) |
+|:---|:---:|:---:|:---:|:---:|:---:|
+| **作用線** | 作用線 | Line of action | Eingriffslinie | Line of action | Line of action |
+| **かみ合い率** | 正面かみ合い率 $\epsilon_\alpha$ | Transverse contact ratio $\epsilon_\alpha$ | Profilüberdeckung $\epsilon_\alpha$ | Contact ratio $m_p$ | Contact ratio CR |
+| **基礎円ピッチ** | 基礎円ピッチ $p_b$ | Base pitch $p_b$ | Grundteilung $p_b$ | Base pitch $p_b$ | Normal pitch $p_N$ |
+| **かみ合い開始点** | 点 A (SAP) | Point A ($E_A$) | Punkt A | SAP | Point A |
+| **単一歯最内点** | 点 B (LPSTC) | Point B ($B$) | Punkt B | LPSTC | Point B |
+| **ピッチ点** | ピッチ点 $C$ / $P$ | Pitch point $C$ / $P$ | Wälzpunkt $C$ | Pitch point | Pitch point |
+| **単一歯最外点** | 点 D (HPSTC) | Point D ($D$) | Punkt D | HPSTC | Point D |
+| **かみ合い終了点** | 点 E (EAP) | Point E ($E_E$) | Punkt E | EAP | Point E |
+| **滑り率** | 滑り率 $\sigma$ / $k$ | Specific sliding $\sigma$ / $k$ | Spezifisches Gleiten $g$ | Specific sliding $\sigma$ | Specific sliding |
+| **曲げ強度基準点** | 点 D (HPSTC) | Point D (ISO 6336-3 Method B) | Punkt D (DIN 3990) | HPSTC (AGMA 2001) | Point D |
 
 ### 参考文献
 

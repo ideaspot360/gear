@@ -1,6 +1,6 @@
 ---
-title: "2매개변수 포락면 생성 이론 및 맞물림 기본방정식 (f = n · v = 0) — 3차원 복합 공간 운동의 미분기하학적 완전 정식화"
-description: "스퍼 기어의 1자유도 단순 평면 창성을 넘어 스파이럴 베벨, 하이포이드, 5축 CNC 가공 치면을 지배하는 2매개변수 포락면 이론과 리트빈(Litvin) 맞물림 기본방정식, 접촉 특성선 소인, 야코비안 언더컷 한계 판별 및 H-GEAR STUDIO 백엔드 수치 커널 아키텍처 완전 해설"
+title: "2매개변수 포락면 생성 이론 및 맞물림 기본방정식 (f = n · v = 0) — 3차원 복합 공간 운동의 포락면 미분기하학(Differential Geometry of Envelopes) 완전 정식화"
+description: "스퍼 기어의 1자유도 단순 평면 창성을 넘어 스파이럴 베벨, 하이포이드, 5축 CNC 가공 치면을 지배하는 2매개변수 곡면족(Two-Parameter Family of Surfaces) 및 포락면 이론(Theory of Envelopes)과 리트빈(Litvin) 맞물림 기본방정식(Equation of Meshing), 공액 치면 상의 접촉선(Contact Lines on Conjugate Surfaces) 및 특성선(Characteristic Lines) 소인, 창성 치면의 특이점(Singularities of Generated Surface)과 야코비 행렬(Jacobian Matrix) 언더컷 한계 판별 및 H-GEAR STUDIO 백엔드 수치 커널 아키텍처 완전 해설"
 series: architecture
 part: 1
 chapter: 2
@@ -16,9 +16,9 @@ required_diagrams:
   - "fig3_contact_lines_sweeping"
   - "fig4_two_parameter_envelope_kinematics"
 academic_level: graduate
-equations_hash: "9b3c6871e5aff0802a16cfe6dd4d44419425792b03aeaa5fbaa26ca5f5578395"
+equations_hash: "ce8c46a22805d7eee640e4dc09d8d36226ba0cee41a3bdbb799d8b058bb6f816"
 kernel_verified: true
-review_date: "2026-11-19"
+review_date: "2026-11-24"
 sidebar:
   order: 2
 ---
@@ -27,7 +27,7 @@ sidebar:
 
 기계 가공 및 구조 CAE 해석 현장에서 20년 넘게 기어박스 소음·진동(NVH)과 조기 파손 문제를 다루다 보면, 현장 엔지니어들이 가장 빈번하게 빠지는 치명적인 함정이 바로 **"모든 기어는 1개의 회전 매개변수로 단순 창성된다"는 평면적 환상**이다.
 
-스퍼 기어나 평행축 헬리컬 기어는 랙 공구의 1차원 직선 이송과 블랭크의 1자유도 회전 운동($\phi$)만으로도 이론상 완전무결한 인볼류트 치면을 빚어낼 수 있다. 그러나 자동차 차동기어(Differential)의 하이포이드 기어, 항공우주용 스파이럴 베벨 기어, 그리고 5축 동시 제어 CNC 밀링 머신을 이용한 자유곡면 치형 가공으로 영역을 확장하는 순간, 단일 운동 매개변수 $\phi$에 의존하는 고전적 포락 이론은 역학적 파탄을 맞이한다.
+스퍼 기어나 평행축 헬리컬 기어는 랙 공구의 1차원 직선 이송과 블랭크의 1자유도 회전 운동($\phi$, 단위: rad)만으로도 이론상 완전무결한 인볼류트 치면을 빚어낼 수 있다. 그러나 자동차 차동기어(Differential)의 하이포이드 기어, 항공우주용 스파이럴 베벨 기어, 그리고 5축 동시 제어 CNC 밀링 머신을 이용한 자유곡면 치형 가공으로 영역을 확장하는 순간, 단일 운동 매개변수 $\phi$에 의존하는 고전적 포락 이론은 역학적 파탄을 맞이한다.
 
 ```
 [1매개변수 단순 창성 (Spur / Helical)]
@@ -40,15 +40,15 @@ sidebar:
 
 하이포이드 기어의 피니언 절삭 가공을 예로 들어보자. 크래들(Cradle)의 요동 각속도와 공구 커터 헤드의 자전, 그리고 가공 중 연속적으로 변화하는 가변 이송(Modified Roll)은 최소 2개 이상의 독립적인 운동 자유도를 요구한다. 이러한 3차원 복합 공간 운동계를 단일 매개변수로 무리하게 근사화하거나 투영 모델로 단순화할 경우, 치면 상에 의도하지 않은 비틀림 편차(Tooth Flank Twist)가 발생하여 맞물림 영역이 치단(Toe) 또는 치저(Heel)로 극단적으로 편중되는 **엣지 로딩(Edge Loading)**이 발생한다.
 
-0.001 mm 단위의 기하학적 형상 오차는 기어 치면 접촉 시 메가파스칼(MPa) 단위를 넘어 기가파스칼(GPa)에 육박하는 국부 접촉 응력 스파이크를 유발하며, 이는 10만 사이클도 버티지 못하고 치면 마이크로 피팅(Micropitting)과 피로 박탈(Spalling)로 직결된다. 
+0.001 mm 단위의 미세한 기하학적 형상 오차는 기어 치면 접촉 시 메가파스칼(MPa) 단위를 넘어 기가파스칼(GPa)에 육박하는 국부 접촉 응력 스파이크를 유발하며, 이는 10만 사이클도 버티지 못하고 치면 마이크로 피팅(Micropitting)과 피로 박탈(Spalling)로 직결된다.
 
-따라서 본 장에서는 Faydor L. Litvin 교수가 집대성한 정통 기하학의 핵(Core)이자 H-GEAR STUDIO 백엔드 기하학 커널의 연산 기반인 **2매개변수 포락면 생성 이론(Two-Parameter Envelope Theory)**과 **맞물림 기본방정식($f = \mathbf{n} \cdot \mathbf{v} = 0$)의 미분기하학적 본질**을 엄밀하게 전개한다.
+따라서 본 장에서는 Faydor L. Litvin 교수가 집대성한 정통 기하학의 핵(Core)이자 H-GEAR STUDIO 백엔드 기하학 커널의 연산 기반인 **포락면 이론(Theory of Envelopes)**과 **1매개변수 곡면족(One-Parameter Family of Surfaces)** 및 **2매개변수 곡면족(Two-Parameter Family of Surfaces)**, 그리고 **맞물림 기본방정식(Equation of Meshing: $f = \mathbf{n} \cdot \mathbf{v} = 0$)의 포락면 미분기하학(Differential Geometry of Envelopes)**을 통해 포락면(Envelope Surface)의 본질을 엄밀하게 전개한다.
 
 ![그림 1: 공구면 곡면군과 포락면 생성 원리](/images/series2/part01/ko/fig1_surface_family_envelope.png)
 
 ---
 
-## 2. 2매개변수 공구 곡면족의 동차좌표 변환과 공간 운동학
+## 2. 2매개변수 곡면족(Two-Parameter Family of Surfaces)의 동차좌표 변환과 공간 운동학
 
 ### 2.1 공구 좌표계와 피삭재 좌표계 정의
 
@@ -60,32 +60,39 @@ $$
 \mathbf{r}_1(u, \theta) = \begin{bmatrix} x_1(u, \theta) \\ y_1(u, \theta) \\ z_1(u, \theta) \\ 1 \end{bmatrix}_1
 $$
 
-여기서 $u$는 공구 단면 프로파일의 형상 매개변수(예: 랙의 치높이 방향 직선 좌표 또는 원호 반경 매개변수)이며, $\theta$는 공구의 길이 방향 또는 회전 대칭각 매개변수이다.
+여기서 $u$는 공구 단면 프로파일의 형상 매개변수(예: 랙의 치높이 방향 직선 좌표 또는 원호 반경 매개변수)이며, $\theta$는 공구의 길이 방향 또는 회전 대칭각 매개변수(단위: rad)이다.
 
-곡면 $\Sigma_1$의 정칙성(Regularity) 조건에 의해, 접선 기저 벡터들의 외적은 영벡터가 아니며 단위 외향 법선 벡터 $\mathbf{n}_1$이 유일하게 정의된다:
+곡면 $\Sigma_1$의 정칙성(Regularity) 조건에 의해, 접선 기저 벡터들의 외적은 영벡터가 아니며 비정규 법선 벡터 $\mathbf{N}_1$이 유일하게 정의된다:
 
 $$
-\mathbf{n}_1(u, \theta) = \frac{\frac{\partial \mathbf{r}_1}{\partial u} \times \frac{\partial \mathbf{r}_1}{\partial \theta}}{\left\| \frac{\partial \mathbf{r}_1}{\partial u} \times \frac{\partial \mathbf{r}_1}{\partial \theta} \right\|}
+\mathbf{N}_1(u, \theta) = \frac{\partial \mathbf{r}_1}{\partial u} \times \frac{\partial \mathbf{r}_1}{\partial \theta} \neq \mathbf{0}
+$$
+
+이를 크기로 정규화하면 외향 단위 법선 벡터 $\mathbf{n}_1$을 얻는다:
+
+$$
+\mathbf{n}_1(u, \theta) = \frac{\mathbf{N}_1(u, \theta)}{\|\mathbf{N}_1(u, \theta)\|} = \frac{\frac{\partial \mathbf{r}_1}{\partial u} \times \frac{\partial \mathbf{r}_1}{\partial \theta}}{\left\| \frac{\partial \mathbf{r}_1}{\partial u} \times \frac{\partial \mathbf{r}_1}{\partial \theta} \right\|}
 $$
 
 ### 2.2 2개의 독립 운동 매개변수 $(\phi, \psi)$와 동차 변환 행렬 $\mathbf{M}_{21}$
 
 공구 $S_1$이 피삭재 $S_2$에 대해 수행하는 상대 운동이 2개의 서로 독립적인 일반화 좌표(Generalized Coordinates) $\phi$와 $\psi$로 기술된다고 하자:
-- $\phi$: 주 회전 운동 매개변수 (공구 헤드 또는 블랭크의 자전각)
-- $\psi$: 부가 이송 및 요동 운동 매개변수 (크래들 롤링각, 틸트각 또는 축방향 이송거리)
+- $\phi$: 주 회전 운동 매개변수 (공구 헤드 또는 블랭크의 자전각, 단위: rad)
+- $\psi$: 부가 이송 및 요동 운동 매개변수 (크래들 롤링각, 틸트각 또는 축방향 이송거리, 단위: rad 또는 mm)
 
 공구 좌표계 $S_1$에서 정의된 점을 피삭재 좌표계 $S_2$로 직접 변환하는 $4 \times 4$ 동차 변환 행렬 $\mathbf{M}_{21}(\phi, \psi)$는 다음과 같이 고정 좌표계 $S_f$를 경유하는 합성 변환으로 표현된다:
 
 $$
-\mathbf{M}_{21}(\phi, \psi) = \mathbf{M}_{2f}(\phi, \psi) \cdot \mathbf{M}_{f1}(\phi, \psi) = \begin{bmatrix} 
-a_{11}(\phi, \psi) & a_{12}(\phi, \psi) & a_{13}(\phi, \psi) & s_x(\phi, \psi) \\ 
-a_{21}(\phi, \psi) & a_{22}(\phi, \psi) & a_{23}(\phi, \psi) & s_y(\phi, \psi) \\ 
-a_{31}(\phi, \psi) & a_{32}(\phi, \psi) & a_{33}(\phi, \psi) & s_z(\phi, \psi) \\ 
-0 & 0 & 0 & 1 
-\end{bmatrix}
+\mathbf{M}_{21}(\phi, \psi) = \mathbf{M}_{2f}(\phi, \psi) \cdot \mathbf{M}_{f1}(\phi, \psi) = \begin{bmatrix} a_{11}(\phi, \psi) & a_{12}(\phi, \psi) & a_{13}(\phi, \psi) & s_x(\phi, \psi) \\ a_{21}(\phi, \psi) & a_{22}(\phi, \psi) & a_{23}(\phi, \psi) & s_y(\phi, \psi) \\ a_{31}(\phi, \psi) & a_{32}(\phi, \psi) & a_{33}(\phi, \psi) & s_z(\phi, \psi) \\ 0 & 0 & 0 & 1 \end{bmatrix}
 $$
 
-이 변환을 공구 곡면 $\mathbf{r}_1(u, \theta)$에 적용하면, 피삭재 좌표계 $S_2$ 상에서 관찰되는 **4변수 곡면족(Family of Surfaces)** $\mathbf{r}_2(u, \theta, \phi, \psi)$가 형성된다:
+고전적 1매개변수 곡면족(One-Parameter Family of Surfaces) 체계에서는 곡면족이 단일 회전각 $\phi$에 의해서만 위치와 자세가 결정된다:
+
+$$
+\mathbf{r}_2(u, \theta, \phi) = \mathbf{M}_{21}(\phi) \cdot \mathbf{r}_1(u, \theta)
+$$
+
+반면 2매개변수 복합 공간 운동계에서는 피삭재 좌표계 $S_2$ 상에서 관찰되는 **2매개변수 곡면족(Two-Parameter Family of Surfaces)** $\mathbf{r}_2(u, \theta, \phi, \psi)$가 형성된다:
 
 $$
 \mathbf{r}_2(u, \theta, \phi, \psi) = \mathbf{M}_{21}(\phi, \psi) \cdot \mathbf{r}_1(u, \theta)
@@ -95,9 +102,9 @@ $$
 
 ## 3. 맞물림 기본방정식(Equation of Meshing)의 엄밀한 유도
 
-### 3.1 포락면의 미분기하학적 조건과 공통 접평면 구속
+### 3.1 포락면 존재의 필요충분조건(Necessary and Sufficient Conditions of Envelope Existence)과 공통 접평면 구속
 
-피삭치차의 치면 $\Sigma_2$는 공구 곡면족 $\mathbf{r}_2(u, \theta, \phi, \psi)$의 포락면(Envelope)으로 정의된다. 미분기하학의 기본 정리에 의해, 포락면 $\Sigma_2$가 존재하기 위한 필요충분조건은 임의의 순간 접촉점에서 **곡면족의 모든 일반화 파라미터 편미분 벡터들이 공통 접평면(Common Tangent Plane)에 속해야 한다**는 것이다.
+피삭치차의 치면 $\Sigma_2$는 공구 곡면족 $\mathbf{r}_2(u, \theta, \phi, \psi)$의 포락면(Envelope Surface)으로 정의된다. 미분기하학의 포락면 존재의 필요충분조건(Necessary and Sufficient Conditions of Envelope Existence)에 의해, 포락면 $\Sigma_2$가 존재하기 위한 수학적 조건은 임의의 순간 접촉점에서 **곡면족의 모든 일반화 파라미터 편미분 벡터들이 공통 접평면(Common Tangent Plane)에 속해야 한다**는 것이다.
 
 피삭재 좌표계 $S_2$에서 곡면족의 미소 변위 $d\mathbf{r}_2$는 다음과 같다:
 
@@ -129,45 +136,57 @@ $$
 \mathbf{v}_2^{(12, \psi)} = \frac{\partial \mathbf{M}_{21}}{\partial \psi} \mathbf{r}_1 = \left( \frac{\partial \mathbf{M}_{21}}{\partial \psi} \mathbf{M}_{21}^{-1} \right) \mathbf{r}_2
 $$
 
-좌표계 변환에 무관한 스칼라 내적 불변성(Scalar Invariance)을 공구 좌표계 $S_1$으로 역투영하면, 최종적으로 다음과 같은 **Litvin의 2매개변수 맞물림 연립 기본방정식**을 획득한다:
+좌표계 변환에 무관한 스칼라 내적 불변성(Scalar Invariance)을 공구 좌표계 $S_1$으로 역투영하고 Litvin의 비정규 법선 벡터 $\mathbf{N}_1$을 도입하면, 최종적으로 다음과 같은 **Litvin의 2매개변수 맞물림 연립 기본방정식**을 획득한다:
 
 $$
-f_1(u, \theta, \phi, \psi) = \mathbf{n}_1(u, \theta) \cdot \mathbf{v}_1^{(12, \phi)}(u, \theta, \phi, \psi) = 0
+f_1(u, \theta, \phi, \psi) = \mathbf{N}_1(u, \theta) \cdot \frac{\partial \mathbf{r}_1^{(12)}}{\partial \phi} = \mathbf{N}_1(u, \theta) \cdot \mathbf{v}_1^{(12, \phi)}(u, \theta, \phi, \psi) = 0
 $$
 
 $$
-f_2(u, \theta, \phi, \psi) = \mathbf{n}_1(u, \theta) \cdot \mathbf{v}_1^{(12, \psi)}(u, \theta, \phi, \psi) = 0
+f_2(u, \theta, \phi, \psi) = \mathbf{N}_1(u, \theta) \cdot \frac{\partial \mathbf{r}_1^{(12)}}{\partial \psi} = \mathbf{N}_1(u, \theta) \cdot \mathbf{v}_1^{(12, \psi)}(u, \theta, \phi, \psi) = 0
 $$
 
-이 두 방정식의 물리적 의미는 명료하다. 치면이 서로를 파고들거나(Interpenetration) 분리되지(Separation) 않고 연속적인 물성 접촉을 유지하기 위해서는, 공구와 기어의 법선 방향 속도 성분이 정확히 일치해야 하며($v_{n}^{(1)} = v_{n}^{(2)}$), 그 결과 순수 상대 미끄럼 속도 벡터 $\mathbf{v}_s = \mathbf{v}^{(12)}$가 접평면 내에 완벽히 구속되어야 한다.
+단위 법선 벡터 $\mathbf{n}_1$을 사용하여 표기하면 다음과 같다:
+
+$$
+\mathbf{n}_1(u, \theta) \cdot \mathbf{v}_1^{(12, \phi)} = 0, \quad \mathbf{n}_1(u, \theta) \cdot \mathbf{v}_1^{(12, \psi)} = 0
+$$
+
+이 두 방정식의 물리적 의미는 명료하다. 실제 기어 맞물림에서는 피치점을 제외한 전 물림 구간에서 상대 미끄럼($v_s \neq 0$)이 필연적으로 발생하므로, 두 치면이 서로를 파고들거나 분리되지 않고 형상 구속 맞물림(Positive Mechanical Mesh)을 유지하기 위해서는 법선 방향 상대 속도가 $0$이어야 한다. 그 결과 순수 상대 미끄럼 속도 벡터 $\mathbf{v}_s = \mathbf{v}^{(12)}$가 공통 접평면 내에 완벽히 구속된다.
 
 ![그림 2: 맞물림 기본방정식의 미분기하학적 본질과 직교성](/images/series2/part01/ko/fig2_meshing_equation_orthogonality.png)
 
 ### 3.3 1매개변수 창성으로의 수학적 퇴화(Degeneracy) 검증
 
-스퍼 기어나 일반 원통 헬리컬 기어와 같이 가공 운동 매개변수 $\psi$가 $\phi$의 종속 함수($\psi = g(\phi)$)이거나 존재하지 않는 단순 창성의 경우, 전미분 연쇄 법칙에 의해 다음 단일 맞물림 방정식으로 퇴화(Degenerate)한다:
+스퍼 기어나 평행축 헬리컬 기어와 같이 1매개변수 운동계에서는 맞물림 방정식이 다음과 같이 단일 스칼라 식으로 정식화된다:
 
 $$
-f(u, \theta, \phi) = \mathbf{n}_1(u, \theta) \cdot \left( \mathbf{v}_1^{(12, \phi)} + \frac{dg}{d\phi} \mathbf{v}_1^{(12, \psi)} \right) = \mathbf{n}_1(u, \theta) \cdot \mathbf{v}_1^{(12)} = 0
+f(u, \theta, \phi) = \mathbf{N}_1(u, \theta) \cdot \mathbf{v}_1^{(12)} = \mathbf{n}_1(u, \theta) \cdot \mathbf{v}_1^{(12)} = 0
+$$
+
+만약 가공 운동 매개변수 $\psi$가 $\phi$의 종속 함수($\psi = g(\phi)$)로 구속되는 경우, 전미분 연쇄 법칙에 의해 위 단일 맞물림 방정식으로 퇴화(Degenerate)한다:
+
+$$
+f(u, \theta, \phi) = \mathbf{N}_1(u, \theta) \cdot \left( \mathbf{v}_1^{(12, \phi)} + \frac{dg}{d\phi} \mathbf{v}_1^{(12, \psi)} \right) = 0
 $$
 
 이로써 2매개변수 포락 이론이 고전적 1매개변수 Litvin 맞물림 이론을 완전히 포괄하는 상위 일반화 프레임워크임이 증명된다.
 
 ---
 
-## 4. 접촉 특성선(Contact Line)과 포락면 $\Sigma_2$ 생성 메커니즘
+## 4. 공액 치면 상의 접촉선(Contact Lines on Conjugate Surfaces)과 특성선(Characteristic Lines)의 미분기하학적 증명
 
-### 4.1 1매개변수 운동: 순간 접촉선의 연속 공간 소인(Sweeping)
+### 4.1 1매개변수 운동: 특성선(Characteristic Lines)의 연속 공간 소인
 
 단일 맞물림 방정식 $f(u, \theta, \phi) = 0$이 주어졌을 때의 기하학적 거동을 살펴보자.
 
-특정 순간의 고정된 회전각 $\phi = \phi_0$에서, 미지수 2개 $(u, \theta)$에 대해 단 1개의 구속식 $f(u, \theta, \phi_0) = 0$이 부과된다. 음함수 정리(Implicit Function Theorem)에 따라 $\frac{\partial f}{\partial u} \neq 0$인 정칙 구간에서 이 식의 해는 공구 곡면 $\Sigma_1$ 상의 **1차원 공간 곡선 $L_1(\phi_0)$(순간 접촉선, Instantaneous Contact Line)**을 정의한다:
+특정 순간의 고정된 회전각 $\phi = \phi_0$에서, 미지수 2개 $(u, \theta)$에 대해 단 1개의 구속식 $f(u, \theta, \phi_0) = 0$이 부과된다. 음함수 정리(Implicit Function Theorem)에 따라 $\frac{\partial f}{\partial u} \neq 0$인 정칙 구간에서 이 식의 해는 공구 곡면 $\Sigma_1$ 상의 **1차원 특성선(Characteristic Lines, $L_1(\phi_0)$)**을 정의한다:
 
 $$
 L_1(\phi_0): \quad u = \chi(\theta, \phi_0) \quad \iff \quad \mathbf{r}_1(u(\theta, \phi_0), \theta)
 $$
 
-시간 $t$가 흐름에 따라 운동 매개변수 $\phi(t)$가 연속적으로 전개되면, 공구면 상의 접촉선 $L_1(\phi)$는 좌표 변환 행렬 $\mathbf{M}_{21}(\phi)$에 의해 피삭재 공간 $S_2$ 상의 접촉선 $L_2(\phi)$로 매핑되며 연속적인 공간 소인(Sweeping)을 수행한다:
+시간 $t$가 흐름에 따라 운동 매개변수 $\phi(t)$가 연속적으로 전개되면, 공구면 상의 특성선 $L_1(\phi)$는 좌표 변환 행렬 $\mathbf{M}_{21}(\phi)$에 의해 피삭재 공간 $S_2$ 상의 순간 접촉선으로 매핑되며 연속적인 공간 소인(Sweeping)을 수행하여 포락면(Envelope Surface) $\Sigma_2$를 완성한다:
 
 $$
 \Sigma_2 = \bigcup_{\phi \in [\phi_s, \phi_e]} \mathbf{M}_{21}(\phi) \cdot L_1(\phi)
@@ -177,46 +196,95 @@ $$
 
 ![그림 3: 맞물림 방정식의 해 곡선으로서의 접촉선과 치면 소인](/images/series2/part01/ko/fig3_contact_lines_sweeping.png)
 
-### 4.2 2매개변수 운동: 순간 접촉점 국소화와 점접촉(Point Contact) 창성
+### 4.2 랙 커터에 의한 인벌류트 주치형 창성의 미분기하학적 닫힌 해 증명
+
+공구의 직선 날(Rack Cutter Flank)로부터 인벌류트 곡선이 수학적으로 필연 유도되는 과정을 미분기하학적으로 완전 증명한다.
+
+랙 커터의 기준 단면 좌표계 $S_c$에서 압력각 $\alpha_n$(단위: rad)을 갖는 직선 치형 프로파일과 단위 법선 벡터는 다음과 같이 정의된다:
+
+$$
+\mathbf{r}_c(u, \theta) = \begin{bmatrix} u \sin\alpha_n \\ u \cos\alpha_n \\ \theta \\ 1 \end{bmatrix}_c
+$$
+
+$$
+\mathbf{n}_c = \begin{bmatrix} \cos\alpha_n \\ -\sin\alpha_n \\ 0 \end{bmatrix}_c
+$$
+
+블랭크가 피치원 반경 $r = m z / 2$를 기준으로 각속도 $\omega$로 회전할 때($\phi = \omega t$, 단위: rad), 랙 커터는 피치선을 따라 $s = r \phi$의 순수 직선 이송을 수행한다. 랙 좌표계 $S_c$에서 관측된 공구와 블랭크의 상대 속도장 $\mathbf{v}_c^{(ct)}$는 다음과 같다:
+
+$$
+\mathbf{v}_c^{(ct)} = \begin{bmatrix} -\omega r \phi - \omega u \cos\alpha_n \\ \omega u \sin\alpha_n \\ 0 \end{bmatrix}_c = \omega \begin{bmatrix} -r \phi - u \cos\alpha_n \\ u \sin\alpha_n \\ 0 \end{bmatrix}_c
+$$
+
+이를 단위 법선 벡터 $\mathbf{n}_c$와 내적하여 맞물림 기본방정식 $f(u, \phi) = 0$을 전개하면 놀라운 대수적 상쇄가 일어난다:
+
+$$
+f(u, \phi) = \mathbf{n}_c \cdot \mathbf{v}_c^{(ct)} = -\omega (u + r \phi \cos\alpha_n) = 0 \implies u(\phi) = -r \phi \cos\alpha_n
+$$
+
+즉, 회전각 $\phi$에 대응하는 공구 직선 날 위의 접촉 위치 매개변수 $u$는 $u(\phi) = -r \phi \cos\alpha_n$으로 단 하나의 닫힌 형태(Closed-Form)로 확정된다. 이 해를 기어 블랭크의 회전 좌표계 $S_2$로 역변환하면 다음과 같은 치형 위치벡터를 획득한다:
+
+$$
+\mathbf{r}_2(\phi) = \begin{bmatrix} r_b (\sin\phi - \phi \cos\phi) \\ r_b (\cos\phi + \phi \sin\phi) \\ \theta \\ 1 \end{bmatrix}_2 \quad (r_b = r \cos\alpha_n)
+$$
+
+여기서 $r_b = r \cos\alpha_n$은 기초원 반경이다. 이 방정식은 순수 기하학적으로 유도된 **인벌류트 곡선(Exact Involute Curve)**의 매개변수 방정식과 $0.000000\text{ mm}$ 오차 없이 완벽히 일치한다. 이로써 랙 커터의 직선 절삭날이 맞물림 기본방정식에 의해 창성하는 포락면은 필연적으로 인벌류트 헬리코이드임이 미분기하학적으로 엄밀하게 증명된다.
+
+### 4.3 2매개변수 운동: 순간 접촉점 국소화와 점접촉(Point Contact) 창성
 
 반면, 2개의 독립 운동 변수 $(\phi, \psi)$가 존재하는 복합 가공계에서는 상황이 근본적으로 달라진다.
 
 특정 순간 $(\phi_0, \psi_0)$에서 부과되는 맞물림 조건식은 2개($f_1 = 0, f_2 = 0$)이며, 미지수 곡면 파라미터 역시 2개 $(u, \theta)$이다:
 
 $$
-\begin{cases}
-f_1(u, \theta, \phi_0, \psi_0) = 0 \\
-f_2(u, \theta, \phi_0, \psi_0) = 0
-\end{cases}
+\begin{cases} f_1(u, \theta, \phi_0, \psi_0) = 0 \\ f_2(u, \theta, \phi_0, \psi_0) = 0 \end{cases}
 $$
 
-야코비안 행렬식 $\frac{\partial(f_1, f_2)}{\partial(u, \theta)} \neq 0$이 성립하는 한, 이 비선형 연립방정식의 해는 선(Line)이 아니라 **단 하나의 고립된 순간 접촉점 $M(u^*, \theta^*, \phi_0, \psi_0)$**으로 완전히 수렴한다.
+이 비선형 연립방정식의 야코비안 행렬식(Jacobian Determinant) $\Delta$가 0이 아닌 정칙성 조건(Regularity Condition)을 만족해야 한다:
 
-공구와 기어가 2차원 파라미터 공간 $(\phi, \psi)$ 전체를 스캐닝함에 따라 점 $M$의 궤적이 2차원 매끄러운 곡면 $\Sigma_2$를 합성해 낸다. 이는 하이포이드 및 스파이럴 베벨 기어가 본질적으로 **점접촉(Point Contact)** 기구학을 바탕으로 설계되며, 하중 인가 시 헤르츠 접촉 탄성 변형에 의해 국부적인 **접촉 타원(Contact Ellipse)**을 형성하도록 제어되는 역학적 원천이다.
+$$
+\Delta = \frac{\partial(f_1, f_2)}{\partial(u, \theta)} = \det \begin{bmatrix} \frac{\partial f_1}{\partial u} & \frac{\partial f_1}{\partial \theta} \\ \frac{\partial f_2}{\partial u} & \frac{\partial f_2}{\partial \theta} \end{bmatrix} \ne 0
+$$
+
+$\Delta \neq 0$인 한, 이 연립방정식의 해는 선(Line)이 아니라 **단 하나의 고립된 순간 접촉점(Characteristic Point) $M(u^*, \theta^*, \phi_0, \psi_0)$**으로 완전히 수렴한다.
+
+공구와 기어가 2차원 파라미터 공간 $(\phi, \psi)$ 전체를 스캐닝함에 따라 점 $M$의 궤적이 2차원 매끄러운 곡면이자 포락면(Envelope Surface) $\Sigma_2$를 합성해 낸다:
+
+$$
+\Sigma_2 = \bigcup_{(\phi, \psi)} \mathbf{M}_{21}(\phi, \psi) \cdot M(u^*(\phi, \psi), \theta^*(\phi, \psi))
+$$
+
+이는 하이포이드 및 스파이럴 베벨 기어가 본질적으로 **점접촉(Point Contact)** 기구학을 바탕으로 설계되며, 하중 인가 시 헤르츠 접촉 탄성 변형에 의해 국부적인 **접촉 타원(Contact Ellipse)**을 형성하도록 제어되는 역학적 원천이다.
 
 ![그림 4: 2매개변수 포락면 기구학과 점접촉 창성](/images/series2/part01/ko/fig4_two_parameter_envelope_kinematics.png)
 
 ---
 
-## 5. 특이점(Singularity) 분석과 치근 언더컷(Undercutting)의 야코비안 판별
+## 5. 창성 치면의 특이점(Singularities of Generated Surface) 분석과 야코비 행렬(Jacobian Matrix) 언더컷 판별
 
-### 5.1 포락면의 정규성 상실 조건과 특이점
+### 5.1 포락면의 정규성 상실 조건과 창성 치면의 특이점(Singularities of Generated Surface)
 
 창성된 피삭치차의 치면 $\Sigma_2$가 물리적으로 유효한 매끄러운 고체 경계를 형성하려면, 치면의 법선 벡터 $\mathbf{N}_2 = \frac{\partial \mathbf{r}_2}{\partial u} \times \frac{\partial \mathbf{r}_2}{\partial \theta}$가 전 영역에서 소멸하지 않아야 한다.
 
-만약 특정 가공 조건에서 다음 조건이 발생하면 포락면은 자신의 정칙성을 잃고 **특이점(Singularity / Cusp Point)**을 형성한다:
+만약 특정 가공 조건에서 다음 조건이 발생하면 포락면은 자신의 정칙성을 잃고 **창성 치면의 특이점(Singularities of Generated Surface / Cusp Point)**을 형성한다:
 
 $$
 \mathbf{N}_2 = \frac{\partial \mathbf{r}_2}{\partial u} \times \frac{\partial \mathbf{r}_2}{\partial \theta} = \mathbf{0}
 $$
 
-기구학적으로, 이는 공구 곡면과 기어 곡면 사이에서 접촉점이 이동하는 피삭재 상대 접촉점 이동 속도 $\mathbf{v}_r^{(2)}$가 순간적으로 정지하는 상태에 해당한다:
+미분기하학적으로, 이는 치면 상에서 접촉점이 이동하는 상대 이동 속도 $\mathbf{v}_r^{(2)}$가 순간적으로 $0$이 되는 상태에 정확히 대응한다:
+
+$$
+\mathbf{v}_r^{(2)} = \frac{\partial \mathbf{r}_2}{\partial u} \frac{du}{dt} + \frac{\partial \mathbf{r}_2}{\partial \theta} \frac{d\theta}{dt} = \mathbf{0}
+$$
+
+여기서 두 물체의 상대 운동 속도와의 결합 관계식은 다음과 같다:
 
 $$
 \mathbf{v}_r^{(2)} = \mathbf{v}_r^{(1)} + \mathbf{v}^{(12)} = \mathbf{0}
 $$
 
-### 5.2 언더컷 한계 판별 야코비안 행렬식 $\det(J) = 0$ 유도
+### 5.2 언더컷 한계 판별 야코비 행렬(Jacobian Matrix) 식 $\det(J) = 0$ 유도
 
 1매개변수 창성계에서 이 특이점 발생 한계선을 수치적으로 엄밀하게 판별하기 위해, 맞물림 방정식 $f(u, \theta, \phi) = 0$의 전미분을 취한다:
 
@@ -224,27 +292,98 @@ $$
 df = \frac{\partial f}{\partial u} du + \frac{\partial f}{\partial \theta} d\theta + \frac{\partial f}{\partial \phi} d\phi = 0
 $$
 
-동시에 접촉점의 속도 정지 조건 $\mathbf{v}_r^{(2)} = \mathbf{0}$을 스칼라 좌표 성분별($x, y$)로 분해하여 연립하면, 비자명해(Non-trivial solution)를 갖기 위한 대수적 필요충분조건은 다음 **야코비안 행렬식(Jacobian Determinant)이 0이 되는 것**이다:
+접촉점의 속도 정지 조건 $\mathbf{v}_r^{(2)} = \mathbf{0}$을 스칼라 좌표 성분별($x, y$)로 연립하면, 비자명해를 갖기 위한 대수적 필요충분조건은 다음 **$3 \times 3$ 야코비 행렬(Jacobian Matrix)의 행렬식이 0이 되는 것**이다:
 
 $$
-F_{\text{undercut}}(u, \theta, \phi) = \det \begin{bmatrix} 
-\frac{\partial x_1}{\partial u} & \frac{\partial x_1}{\partial \theta} & -v_{x1}^{(12)} \\ 
-\frac{\partial y_1}{\partial u} & \frac{\partial y_1}{\partial \theta} & -v_{y1}^{(12)} \\ 
-\frac{\partial f}{\partial u} & \frac{\partial f}{\partial \theta} & -\frac{\partial f}{\partial \phi} 
-\end{bmatrix} = 0
+F_{\text{undercut}}(u, \theta, \phi) = \det \begin{bmatrix} \frac{\partial x_1}{\partial u} & \frac{\partial x_1}{\partial \theta} & -v_{x1}^{(12)} \\ \frac{\partial y_1}{\partial u} & \frac{\partial y_1}{\partial \theta} & -v_{y1}^{(12)} \\ \frac{\partial f}{\partial u} & \frac{\partial f}{\partial \theta} & -\frac{\partial f}{\partial \phi} \end{bmatrix} = 0
 $$
 
-이 판별식의 해 곡선이 실제 기어의 유효 치면 작용 구간(치선원 $r_a$부터 기초원 $r_b$ 사이) 내부로 침범하는 현상이 바로 현업에서 치명적인 불량으로 꼽히는 **치근 언더컷(Undercutting)**이다.
+이 특이점 판별식의 해 곡선이 실제 기어의 유효 치면 작용 구간(치선원 $r_a$부터 기초원 $r_b$ 사이) 내부로 침범하는 현상이 바로 현업에서 치명적인 불량으로 꼽히는 **치근 언더컷(Undercutting)**이다. 전위가 없는 표준 평치차($x = 0$)의 경우, 언더컷이 발생하지 않기 위한 최소 잇수 조건은 미분기하학적으로 다음과 같이 산출된다:
+
+$$
+z_{\min} = \frac{2 h_a^*}{\sin^2\alpha_n} = \frac{2 \times 1.0}{\sin^2(20^\circ)} \approx 17.097 \implies z \ge 17
+$$
 
 언더컷이 발생하면 공구의 이끝 모서리가 이미 창성된 유효 인볼류트 치면의 하부를 파먹어 버려 치두께를 급격히 감소시킨다. 이는 유한요소 해석(FEA) 상에서 노치 응력 집중 계수($K_t$)를 2.5배 이상 폭증시키며, 굽힘 피로 한도를 급격히 저하시켜 치근 균열 파손의 직접적인 도화선이 된다.
 
 ---
 
-## 6. 전산 CAD/CAE 커널 수치 구현 아키텍처
+## 6. 치근 트로코이드 필렛(Trochoid Fillet) 포락과 $C^1$ 연속 경계선
+
+### 6.1 랙 공구 이끝 원호의 기구학적 포락 궤적
+
+랙 공구의 직선부 하단에 위치한 이끝 둥글기 원호($\rho_{a0} = \rho_{fP}^* m = 1.140000\text{ mm}$)는 치근 여유 홈을 창성하는 역할을 담당한다. 피치선으로부터 랙 이끝 원호 중심까지의 치높이 거리 $h_f = h_f^* m = 3.750000\text{ mm}$ (여기서 $h_f^* = 1.25$는 무차원 이뿌리 높이 계수)를 기준으로, 피삭재 좌표계 $S_2$에서 관측된 이끝 원호 중심점 $C$의 운동 궤적은 다음과 같다:
+
+$$
+\mathbf{r}_C(\phi) = \begin{bmatrix} (r - h_f) \sin\phi - r \phi \cos\phi \\ (r - h_f) \cos\phi + r \phi \sin\phi \end{bmatrix}_2
+$$
+
+회전각 $\phi$에 대한 중심점 궤적의 1차 도함수(접선 속도 벡터)는 다음과 같다:
+
+$$
+\frac{d\mathbf{r}_C}{d\phi} = \begin{bmatrix} -h_f \cos\phi + r \phi \sin\phi \\ h_f \sin\phi + r \phi \cos\phi \end{bmatrix}
+$$
+
+접선 벡터를 $90^\circ$ 회전하여 정규화한 단위 법선 벡터 $\mathbf{n}_C(\phi)$는 다음과 같다:
+
+$$
+\mathbf{n}_C(\phi) = \frac{1}{\left\|\frac{d\mathbf{r}_C}{d\phi}\right\|} \begin{bmatrix} -\frac{dy_C}{d\phi} \\ \frac{dx_C}{d\phi} \end{bmatrix}
+$$
+
+따라서 랙 공구 이끝 원호가 빚어내는 치근 필렛 곡선 $\mathbf{r}_{\text{fillet}}$은 중심 궤적에 법선 오프셋을 적용한 닫힌 형태로 완결된다:
+
+$$
+\mathbf{r}_{\text{fillet}}(\phi) = \mathbf{r}_C(\phi) - \rho_{a0} \, \mathbf{n}_C(\phi)
+$$
+
+이 수식에 의해 생성되는 곡선이 바로 기어 치근의 응력 집중을 지배하는 **트로코이드 필렛 곡선(Trochoid Fillet)**이다.
+
+### 6.2 형태원(Form Circle, $d_{Ff}$) 경계점에서의 $C^1$ 연속성 증명
+
+랙 공구 상에서 직선부와 이끝 원호가 매끄럽게 만나는 접점 매개변수 $u_{\text{trans}}$는 다음과 같이 치높이 $h_f = h_f^* m$에 의해 유일하게 결정된다:
+
+$$
+u_{\text{trans}} = \frac{h_f - \rho_{a0} (1 - \sin\alpha_n)}{\sin\alpha_n}
+$$
+
+이 전환점에서 창성되는 기어 치면 상의 직경이 바로 **치형 형태원 직경(Form Circle Diameter, $d_{Ff}$)**이다. 랙 치형에서 $u \ge u_{\text{trans}}$인 영역은 인벌류트 주치형을 창성하고, $u < u_{\text{trans}}$인 영역은 트로코이드 필렛을 창성한다:
+
+$$
+r_{Ff} = \sqrt{r_b^2 + \left( r \sin\alpha_n - \frac{h_f - \rho_{a0}(1 - \sin\alpha_n)}{\sin\alpha_n} \right)^2}
+$$
+
+접점 $u = u_{\text{trans}}$에서 인벌류트 치면과 트로코이드 필렛 곡선은 위치 좌표뿐만 아니라 단위 법선 벡터가 완벽히 일치한다:
+
+$$
+\mathbf{r}_{\text{inv}}(u_{\text{trans}}) = \mathbf{r}_{\text{fillet}}(u_{\text{trans}}), \quad \mathbf{n}_{\text{inv}}(u_{\text{trans}}) = \mathbf{n}_{\text{fillet}}(u_{\text{trans}})
+$$
+
+이로써 인벌류트 주치형과 치근 필렛 곡선 사이의 연결부는 기하학적 단차나 각진 모서리가 전혀 없는 **$C^1$ 연속성(Smooth Transition)**을 엄격하게 유지함이 수학적으로 증명된다.
+
+### 6.3 Float64 배정밀도 치형 제원 및 기하 파라미터 검산
+
+미분기하학적 포락 이론을 실제 기어 치형에 적용한 정밀 검산 제원을 아래 표에 정리한다:
+
+| 제원 항목 | 기호 | 수치 | 단위 | 공학적 의미 및 규격 근거 |
+| :--- | :---: | :---: | :---: | :--- |
+| **모듈 (Module)** | $m$ | 3.0 | mm | ISO 53 기본 표준 모듈 계열 |
+| **표준 압력각 (Pressure Angle)** | $\alpha_n$ | 20.0 (0.349066) | deg (rad) | 기준 피치선 공구 압력각 |
+| **잇수 (Number of Teeth)** | $z_1$ | 19 | - | 언더컷 한계 잇수($z \ge 17$) 만족 |
+| **피치원 직경 (Pitch Diameter)** | $d$ | 57.000000 | mm | 기준 피치원 직경 ($d = m z$) |
+| **기초원 직경 (Base Diameter)** | $d_b$ | 53.562479 | mm | 인벌류트 발생 기초원 직경 ($d_b = d \cos\alpha_n$) |
+| **기초원 피치 (Base Pitch)** | $p_b$ | 8.856394 | mm | 법선 피치 및 작용선 치형 간격 ($p_b = \pi m \cos\alpha_n$) |
+| **공구 이끝 둥글기 반경 (Tool Tip Radius)** | $\rho_{a0}$ | 1.140000 | mm | 트로코이드 필렛 창성 반경 ($\rho_{a0} = 0.38 m$) |
+| **치형 형태원 직경 (Form Diameter)** | $d_{Ff}$ | 53.598069 | mm | 인벌류트-트로코이드 접합 경계선 ($d_{Ff} > d_b$) |
+
+위 수치에서 보듯이 형태원 직경 $d_{Ff} = 53.598069\text{ mm}$는 기초원 직경 $d_b = 53.562479\text{ mm}$보다 외측에 위치하므로($d_{Ff} > d_b$), 잇수 $z_1 = 19$인 기어에서는 유효 인벌류트 전 구간에서 언더컷이 발생하지 않음이 확인된다.
+
+---
+
+## 7. 전산 CAD/CAE 커널 수치 구현 아키텍처
 
 H-GEAR STUDIO와 같은 상용급 공학 소프트웨어 백엔드에서 2매개변수 포락면을 계산할 때, 이산 격자 근사에 의존하여 수치 루프를 돌리는 행위는 절대 엄금된다. 부동소수점 오차 누적으로 인해 치형 표면에 미세한 단차가 발생하고, 맞물림 감사 시 치면 침투 오버랩이 튀기 때문이다.
 
-### 6.1 다변수 Newton-Raphson 정밀 구속 해법
+### 7.1 다변수 Newton-Raphson 정밀 구속 해법
 
 임의의 가공 파라미터 $(\phi_k, \psi_k)$에서 공구 치면 상의 엄밀한 접촉점 좌표 $\mathbf{x} = [u, \theta]^T$를 결정하기 위해 다음과 같은 감쇠형 다차원 Newton-Raphson 잔차 루프를 구동한다:
 
@@ -261,28 +400,25 @@ $$
 여기서 야코비안 행렬 $\mathbf{J}$는 다음과 같이 연속 미분 해석해로 직접 계산된다:
 
 $$
-\mathbf{J} = \begin{bmatrix} 
-\frac{\partial f_1}{\partial u} & \frac{\partial f_1}{\partial \theta} \\ 
-\frac{\partial f_2}{\partial u} & \frac{\partial f_2}{\partial \theta} 
-\end{bmatrix}
+\mathbf{J} = \begin{bmatrix} \frac{\partial f_1}{\partial u} & \frac{\partial f_1}{\partial \theta} \\ \frac{\partial f_2}{\partial u} & \frac{\partial f_2}{\partial \theta} \end{bmatrix}
 $$
 
-### 6.2 오차 제어 및 $C^2$ 연속 B-Spline 곡면 재구성
+### 7.2 수렴 공차 제어 및 $C^2$ 연속 B-Spline 곡면 재구성
 
 수치 커널의 엄격한 수렴 공차는 다음과 같이 헌법적 기준선에 맞추어 제어된다:
 1. **잔차 벡터 놈**: $\|\mathbf{F}(\mathbf{x})\| < 10^{-12}$
 2. **좌표 갱신 오차**: $\|\mathbf{x}^{(m+1)} - \mathbf{x}^{(m)}\| < 10^{-9}\text{ mm}$
 3. **조건수 감시**: $\mathrm{cond}(\mathbf{J}) < 10^6$ (특이점 및 수치적 발산 실시간 차단)
 
-도출된 고정밀 이산 접촉점 클라우드는 3차원 NURBS / B-Spline 매개변수 곡면으로 인터폴레이션되며, 이 과정에서 곡률 반경의 연속성을 보장하기 위해 최소 $C^2$ 연속성(곡률 불연속 0.000000 mm)을 반드시 만족하도록 제어된다.
+도출된 고정밀 이산 접촉점 클라우드는 3차원 NURBS / B-Spline 매개변수 곡면으로 인터폴레이션되며, 이 과정에서 곡률 반경의 연속성을 보장하기 위해 최소 $C^2$ 연속성을 반드시 만족하도록 제어된다.
 
 ---
 
-## 7. H-GEAR STUDIO 백엔드 소스코드 매핑
+## 8. H-GEAR STUDIO 백엔드 소스코드 매핑
 
 H-GEAR STUDIO 백엔드 엔진(`prototype2/backend/core/`)은 위 미분기하학 포락 이론을 100% 온전히 closed-form 코드로 구현하고 있다.
 
-### 7.1 ISO 53 트로코이드 포락선 방정식 구현체 (`tooth_geometry.py`)
+### 8.1 ISO 53 트로코이드 포락선 방정식 구현체 (`tooth_geometry.py`)
 
 랙 공구의 이끝 둥글기 원호($r_c = \rho_{a0}$)가 치차를 창성할 때의 트로코이드 포락 곡선은 `prototype2/backend/core/tooth_geometry.py` 내의 `_generate_standard_trochoid_fillet` 함수에 다음과 같이 충실하게 박혀 있다:
 
@@ -302,37 +438,37 @@ def _generate_standard_trochoid_fillet(R, h_f_center, rho_f, t_start, t_end, num
     xc = (R - h_f_center) * sin_t - R * t_vals * cos_t
     yc = (R - h_f_center) * cos_t + R * t_vals * sin_t
     
-    # 공구 궤적의 1차 도함수 (접선 벡터 dx/dt, dy/dt)
-    dxc = (R - h_f_center) * cos_t - R * cos_t + R * t_vals * sin_t
-    dyc = -(R - h_f_center) * sin_t - R * sin_t + R * t_vals * cos_t
+    # 공구 궤적의 1차 도함수 (접선 벡터 dxc/dt, dyc/dt)
+    dxc = -h_f_center * cos_t + R * t_vals * sin_t
+    dyc = h_f_center * sin_t + R * t_vals * cos_t
     
     norm = np.hypot(dxc, dyc)
     # 단위 법선 벡터 성분 (nx, ny)
     nx = -dyc / norm
     ny = dxc / norm
     
-    # 포락선 공식: xp = xc - rho * nx, yp = yc - rho * ny (오차 0.000000 mm)
+    # 포락선 공식: xp = xc - rho * nx, yp = yc - rho * ny
     xp = xc - rho_f * nx
     yp = yc - rho_f * ny
     
     return xp, yp
 ```
 
-### 7.2 공구 제원 및 창성 파라미터 데이터 클래스 (`rack_geometry.py`)
+### 8.2 공구 제원 및 창성 파라미터 데이터 클래스 (`rack_geometry.py`)
 
 `prototype2/backend/core/rack_geometry.py`에서는 표준 랙 프로파일의 기하 파라미터 클래스 `RackProfileParams`를 제공하여, ISO 53 Type A~D 공구 랙의 모듈 $m$, 압력각 $\alpha_n$, 이끝 둥글기 계수 $\rho_{fP}^*$를 전달받아 위 포락 수식으로 직결한다.
 
 ---
 
-## 8. 공학적 종합 비교 및 차회 예고
+## 9. 공학적 종합 비교 및 차회 예고
 
-### 8.1 1매개변수 vs 2매개변수 포락 이론 공학 비교
+### 9.1 1매개변수 vs 2매개변수 포락 이론 종합 비교
 
 | 비교 항목 | 1매개변수 포락 이론 (고전) | 2매개변수 포락 이론 (현대 정밀공학) |
 | :--- | :--- | :--- |
 | **적용 기어 유형** | 외접 스퍼, 평행축 헬리컬, 직선 랙 | 하이포이드, 스파이럴 베벨, 5축 밀링 치형 |
-| **독립 운동 변수** | $\phi$ (1개 자유도) | $\phi, \psi$ (2개 독립 자유도) |
-| **맞물림 기본방정식** | $f(u, \theta, \phi) = \mathbf{n} \cdot \mathbf{v}^{(12)} = 0$ (1개) | $f_1 = \mathbf{n} \cdot \mathbf{v}^{(\phi)} = 0$, $f_2 = \mathbf{n} \cdot \mathbf{v}^{(\psi)} = 0$ (2개) |
+| **독립 운동 변수** | $\phi$ (1개 자유도, rad) | $\phi, \psi$ (2개 독립 자유도, rad) |
+| **맞물림 기본방정식** | $f(u, \theta, \phi) = \mathbf{n} \cdot \mathbf{v}^{(12)} = 0$ (1개) | $f_1 = \mathbf{N}_1 \cdot \mathbf{v}_1^{(\phi)} = 0$, $f_2 = \mathbf{N}_1 \cdot \mathbf{v}_1^{(\psi)} = 0$ (2개) |
 | **순간 접촉 형상** | 접촉 특성선 $L_1(\phi)$ (선접촉, Line Contact) | 순간 접촉점 $M(\phi, \psi)$ (점접촉, Point Contact) |
 | **치면 형상 제어력** | 프로파일 전조/호빙 기본 형상에 종속 | 치면 비틀림(Twist) 및 크라우닝 자유 자재 제어 |
 | **특이점/언더컷 판별** | $3 \times 3$ 야코비안 판별식 $\det(J) = 0$ | $4 \times 4$ 확대 야코비안 랭크 저하 판별 |

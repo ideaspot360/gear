@@ -24,13 +24,13 @@ sidebar:
 
 ## 3.1 Problem Statement and Physical Background
 
-The fundamental objective of gear transmission is to transfer rotary motion between shafts with an exact, invariant angular velocity ratio and zero slip. For a pair of spur gears in conjugate action, smooth and uninterrupted power transmission requires a strict geometric continuity condition.
+The fundamental objective of gear transmission is to transfer rotary motion between shafts with an exact, invariant angular velocity ratio $i = \omega_1 / \omega_2$. Unlike friction drives which are subject to macroscopic slip, conjugate gear pairs maintain a kinematically exact angular velocity ratio through mechanical form-locking, even though microscopic relative sliding ($v_s \ne 0$) inevitably occurs across almost the entire tooth flank outside the pitch point. For a pair of spur gears in conjugate action, smooth and uninterrupted power transmission requires a strict geometric continuity condition.
 
 ### Kinematic Necessity of Continuous Meshing
 
 Before a preceding pair of mating teeth disengages at the recess boundary, the subsequent pair must already enter into contact along the line of action to share the transmitted torque. What transpires if a gear pair operates with a contact ratio below unity ($\epsilon_\alpha < 1.0$)?
 
-A kinematic dead zone is created where no teeth are in contact. The angular phase relationship between the driving and driven shafts drifts instantaneously. When the subsequent tooth pair crashes into mesh, an immense dynamic impact force ($F_{\mathrm{dyn}} = I \frac{d\omega}{dt}$) is unleashed. This results in severe audible clatter, high-amplitude vibrations, and catastrophic tooth root fatigue fractures.
+A kinematic dead zone is created where no teeth are in contact. The angular phase relationship between the driving and driven shafts drifts instantaneously. When the subsequent tooth pair crashes into mesh, an immense dynamic impact torque and normal force ($T_{\mathrm{dyn}} = I \frac{d\omega}{dt}$, $F_{\mathrm{dyn}} = \frac{T_{\mathrm{dyn}}}{r_2} = \frac{I}{r_2}\frac{d\omega}{dt}$) are unleashed. This results in severe audible clatter, high-amplitude vibrations, and catastrophic tooth root fatigue fractures.
 
 To guarantee uninterrupted conjugate action, the total active path length along the line of action ($g_\alpha$) must exceed the spatial pitch between adjacent teeth, known as the base pitch ($p_b$). This ratio defines the transverse contact ratio ($\epsilon_\alpha$):
 
@@ -42,7 +42,7 @@ In heavy-duty industrial drivetrain engineering, accounting for shaft flexure, m
 
 ### Contact Tribology: Rolling versus Sliding
 
-Tooth contact across the active profile is far from uniform. At the pitch point (Point C/P), where the operating pitch circles roll upon each other without slip, the tangential linear velocities of both flanks are identical, producing **pure rolling contact** ($v_g = 0$).
+Tooth contact across the active profile is far from uniform. At the pitch point (Point C/P), where the reference pitch circles (Reference Pitch Circle, $d = mz$, $d_1, d_2$) and operating pitch circles (Working Pitch Circle, $d_w = d_b / \cos\alpha_w$, $d_{w1}, d_{w2}$) touch tangentially, the tangential linear velocities of both flanks are identical ($v_{t1}(P) = v_{t2}(P)$), producing **pure rolling contact ($v_s(P) = 0, \sigma_1(P) = \sigma_2(P) = 0$)**. (For standard unshifted spur gears, $d_{wi} \equiv d_i$ and the working pressure angle $\alpha_w \equiv \alpha_0$).
 
 Away from the pitch point, significant relative sliding occurs due to differing radii of profile curvature:
 
@@ -57,7 +57,7 @@ As gears rotate, the mesh periodically alternates between single-pair contact zo
 
 ### Line of Action and Common Tangent Segment
 
-For involute gearing, the contact normal between mating tooth profiles always tracks the common internal tangent to both base circles. Let $T_1$ be the tangency point on the driving pinion base circle, and $T_2$ be the tangency point on the driven gear base circle. The total distance between tangency points $\overline{T_1 T_2}$ is derived from the center distance $a$ and standard reference pressure angle $\alpha_0$:
+For involute gearing, the contact normal (Common Normal) between mating tooth profiles always tracks the **common internal tangent (Common Internal Tangent)** to both base circles, and this active contact line segment is termed the **line of action (Line of Action)**. Let $T_1$ be the tangency point on the driving pinion base circle, and $T_2$ be the tangency point on the driven gear base circle. The total distance between tangency points $\overline{T_1 T_2}$ is derived from the center distance $a$ and standard reference pressure angle $\alpha_0$:
 
 $$
 \overline{T_1 T_2} = (r_{b1} + r_{b2})\tan\alpha_0 = a \sin\alpha_0
@@ -103,7 +103,7 @@ $$
 
 ### Path of Contact and Transverse Contact Ratio
 
-The active path of contact is the segment $\overline{AE}$. Partitioning this segment at the pitch point $P$ yields the approach path ($g_f = \overline{AP}$) and the recess path ($g_a = \overline{PE}$):
+The active path of contact is the segment $\overline{AE}$. Partitioning this segment at the pitch point $P$ yields the approach path length ($g_f = \overline{AP}$) and the recess path length ($g_a = \overline{PE}$). Under generalized operating conditions $(a_w, \alpha_w)$ per ISO 21771 and DIN 3960, these lengths are defined by $g_f = \sqrt{r_{a2}^2 - r_{b2}^2} - r_{w2}\sin\alpha_w$ and $g_a = \sqrt{r_{a1}^2 - r_{b1}^2} - r_{w1}\sin\alpha_w$. For standard unshifted spur gears ($a = a_0, \alpha_w = \alpha_0, r_{wi} = r_i$), the relations $r_{w2}\sin\alpha_w = r_2\sin\alpha_0 = r_{b2}\tan\alpha_0$ and $r_{w1}\sin\alpha_w = r_1\sin\alpha_0 = r_{b1}\tan\alpha_0$ hold identically:
 
 $$
 g_f = \overline{AP} = s_C - s_A = \sqrt{r_{a2}^2 - r_{b2}^2} - r_{b2}\tan\alpha_0, \quad g_a = \overline{PE} = s_E - s_C = \sqrt{r_{a1}^2 - r_{b1}^2} - r_{b1}\tan\alpha_0
@@ -158,19 +158,19 @@ $$
 v_{t1}(s) = \omega_1 \rho_1 = \omega_1 s, \quad v_{t2}(s) = \omega_2 \rho_2 = \omega_2 (\overline{T_1 T_2} - s)
 $$
 
-The relative sliding velocity $v_g(s)$ between the contacting tooth surfaces is the algebraic difference between these linear velocities:
+At any instantaneous contact point $K$ along the line of action (coordinate $s$), the relative sliding velocity (Sliding Velocity) is defined by the absolute velocity difference $v_s(K) = |v_{t1}(K) - v_{t2}(K)|$ (or $v_s(s) = |v_{t1}(s) - v_{t2}(s)|$), while the signed algebraic sliding velocity $v_g(s)$ along action line coordinate $s$ is derived in closed form as:
 
 $$
 v_g(s) = v_{t1}(s) - v_{t2}(s) = (\omega_1 + \omega_2)(s - s_C) = (\omega_1 + \omega_2) x
 $$
 
-With directed distance from the pitch point $x = s - s_C$, sliding velocity is a strictly linear function. At the pitch point ($x = 0$), $v_g = 0$, confirming pure rolling contact. The direction of relative sliding reverses upon crossing the pitch point.
+With directed distance from the pitch point $x = s - s_C$, sliding velocity is a strictly linear function. At the pitch point ($x = 0, s = s_C$), $v_{t1}(P) = v_{t2}(P)$, and the sliding velocity vanishes identically ($v_s(P) = 0, v_g(P) = 0$), confirming pure rolling contact. The direction of relative sliding reverses upon crossing the pitch point.
 
 ![Linear Velocity Vectors and Relative Sliding Velocity Reversal along Path of Contact](/images/part3/en/fig3_contact_kinematics_velocities.png)
 
 ### Specific Sliding and Invariant Algebraic Identity
 
-Specific sliding ($k$) normalizes the sliding velocity by the entrainment surface velocity of the respective tooth:
+Specific sliding ($\sigma_1, \sigma_2$, or $k_1, k_2$; DIN $g_1, g_2$) normalizes the relative sliding velocity by the tangential velocity of the respective tooth flank ($\sigma_1 \equiv k_1, \sigma_2 \equiv k_2$):
 
 For the driving pinion $k_1(s)$:
 
@@ -190,7 +190,7 @@ $$
 (1 - k_1)(1 - k_2) \equiv 1.0
 $$
 
-As contact approaches a base circle tangency point ($\rho_1 \to 0$ or $\rho_2 \to 0$), the specific sliding diverges asymptotically to negative infinity ($-\infty$). For low tooth-count pinions, Point A lies dangerously close to the base circle, causing severe dedendum sliding wear. This provides the fundamental engineering rationale for applying a positive profile shift ($x_1 > 0$) to displace the active profile away from the base circle.
+At the pitch point $P$ ($s = s_C$), because the sliding velocity vanishes, specific sliding is identically zero: $\sigma_1(P) = k_1(P) = 0.000000$ and $\sigma_2(P) = k_2(P) = 0.000000$. Conversely, as contact approaches a base circle tangency point ($s \to 0$ or $s \to \overline{T_1 T_2}$ where $\rho_1 \to 0$ or $\rho_2 \to 0$), specific sliding diverges asymptotically to negative infinity ($-\infty$). For low tooth-count pinions, Point A lies dangerously close to the base circle, resulting in severe dedendum sliding wear ($k_1(A) = -7.420059$). This provides the fundamental engineering rationale for applying a positive profile shift ($x_1 > 0$) to displace the active profile away from the base circle.
 
 ![Specific Sliding Curves of Pinion and Gear along the Line of Action](/images/part3/en/fig4_specific_sliding_curves.png)
 
@@ -203,6 +203,10 @@ The benchmark gear pair specification is defined as follows:
 $$
 m = 3.000000\text{ mm}, \quad \alpha_0 = 20.000000^\circ, \quad z_1 = 18, \quad z_2 = 54, \quad a = 108.000000\text{ mm}
 $$
+
+- Tool basic rack profile (ISO 53 Profile A): $h_a^* = 1.000000, c^* = 0.250000, h_f^* = 1.250000, \rho_f^* = 0.380000$
+- Gear ratio (ISO 6336): $u = z_2 / z_1 = 54 / 18 = 3.000000 \ge 1.0$ (kinematic speed ratio $i = \omega_1 / \omega_2 = u = 3.000000$)
+- Profile shift coefficients: $x_1 = 0.000000, x_2 = 0.000000$ (standard unshifted spur gears, reference pitch diameter $d = mz$ vs operating pitch diameter $d_w = d_b / \cos\alpha_w$ yields $d_{w1} \equiv d_1, d_{w2} \equiv d_2$, operating pressure angle $\alpha_w \equiv \alpha_0$)
 
 Fundamental pitch and base circle radii:
 
@@ -234,7 +238,7 @@ The following table presents the exact closed-form benchmark values for the stan
 
 | No. | Geometric Parameter | Symbol | Closed-Form Formula | Exact Value | Unit |
 |:---:|:---|:---:|:---|:---:|:---:|
-| 1 | Gear ratio | $u$ | $z_2 / z_1$ | 3.000000 | — |
+| 1 | Gear ratio (Tooth ratio) | $u$ | $z_2 / z_1$ | 3.000000 | — |
 | 2 | Pinion pitch diameter | $d_1$ | $m \cdot z_1$ | 54.000000 | mm |
 | 3 | Pinion pitch radius | $r_1$ | $d_1 / 2$ | 27.000000 | mm |
 | 4 | Gear pitch diameter | $d_2$ | $m \cdot z_2$ | 162.000000 | mm |
@@ -247,10 +251,10 @@ The following table presents the exact closed-form benchmark values for the stan
 | 11 | Pinion base radius | $r_{b1}$ | $d_{b1} / 2$ | 25.371701 | mm |
 | 12 | Gear base diameter | $d_{b2}$ | $d_2 \cos\alpha_0$ | 152.230205 | mm |
 | 13 | Gear base radius | $r_{b2}$ | $d_{b2} / 2$ | 76.115102 | mm |
-| 14 | Addendum | $h_a$ | $1.0 \cdot m$ | 3.000000 | mm |
-| 15 | Dedendum | $h_f$ | $1.25 \cdot m$ | 3.750000 | mm |
+| 14 | Addendum | $h_a$ | $h_a^* \cdot m$ | 3.000000 | mm |
+| 15 | Dedendum | $h_f$ | $(h_a^* + c^*) m$ | 3.750000 | mm |
 | 16 | Whole depth | $h$ | $h_a + h_f$ | 6.750000 | mm |
-| 17 | Bottom clearance | $c$ | $0.25 \cdot m$ | 0.750000 | mm |
+| 17 | Bottom clearance | $c$ | $c^* \cdot m$ | 0.750000 | mm |
 | 18 | Pinion tip diameter | $d_{a1}$ | $d_1 + 2h_a$ | 60.000000 | mm |
 | 19 | Pinion tip radius | $r_{a1}$ | $d_{a1} / 2$ | 30.000000 | mm |
 | 20 | Gear tip diameter | $d_{a2}$ | $d_2 + 2h_a$ | 168.000000 | mm |
@@ -313,7 +317,7 @@ The final engineering deliverable of gear kinematic design is the production dra
 | **Basic Rack** | Standard Cylindrical Rack | Standard Cylindrical Rack | ISO 53 Profile A |
 | **Module ($m$)** | 3.000 mm | 3.000 mm | Standard Series 1 |
 | **Reference Pressure Angle ($\alpha_0$)** | 20.0° | 20.0° | Basic profile |
-| **Number of Teeth ($z$)** | 18 | 54 | Ratio $u = 3.000$ |
+| **Number of Teeth ($z$)** | 18 | 54 | Gear ratio $u = 3.000$ (ISO 6336) |
 | **Profile Shift Coefficient ($x$)** | 0.0000 | 0.0000 | Standard non-shifted |
 | **Pitch Diameter ($d$)** | 54.000 mm | 162.000 mm | $d = m \cdot z$ |
 | **Base Diameter ($d_b$)** | 50.743 mm | 152.230 mm | $d_b = d \cos\alpha_0$ |
@@ -388,18 +392,18 @@ Evaluating these expressions yields $F_{rA} = 2364.839494\text{ N}$ and $F_{rB} 
 
 ### Cross-Standard Terminology Comparison
 
-| Concept | ISO 21771:2007 | DIN 3960 | AGMA 9005-F16 / 2001 | Earle Buckingham (1949) |
-|:---|:---:|:---:|:---:|:---:|
-| **Line of Action** | Line of action | Eingriffslinie | Line of action | Line of action |
-| **Contact Ratio** | Transverse contact ratio $\epsilon_\alpha$ | Profilüberdeckung $\epsilon_\alpha$ | Contact ratio $m_p$ | Contact ratio CR |
-| **Base Pitch** | Base pitch $p_b$ | Grundteilung $p_b$ | Base pitch $p_b$ | Normal pitch $p_N$ |
-| **Start of Active Profile** | Point A ($E_A$) | Punkt A | SAP | Point A |
-| **Lowest Single Contact** | Point B ($B$) | Punkt B | LPSTC | Point B |
-| **Pitch Point** | Pitch point $C$ / $P$ | Wälzpunkt $C$ | Pitch point | Pitch point |
-| **Highest Single Contact** | Point D ($D$) | Punkt D | HPSTC | Point D |
-| **End of Active Profile** | Point E ($E_E$) | Punkt E | EAP | Point E |
-| **Specific Sliding** | Specific sliding $k$ | Spezifisches Gleiten $g$ | Specific sliding | Specific sliding |
-| **Bending Reference Point** | Point D (ISO 6336-3) | Punkt D (DIN 3990) | HPSTC (AGMA 2001) | Point D |
+| Concept | Korean Standards (KS B 0102) | ISO 21771:2007 | DIN 3960 | AGMA 9005-F16 / 2001 | Earle Buckingham (1949) |
+|:---|:---:|:---:|:---:|:---:|:---:|
+| **Line of Action** | Action line | Line of action | Eingriffslinie | Line of action | Line of action |
+| **Contact Ratio** | Transverse contact ratio $\epsilon_\alpha$ | Transverse contact ratio $\epsilon_\alpha$ | Profilüberdeckung $\epsilon_\alpha$ | Contact ratio $m_p$ | Contact ratio CR |
+| **Base Pitch** | Normal base pitch $p_b$ | Base pitch $p_b$ | Grundteilung $p_b$ | Base pitch $p_b$ | Normal pitch $p_N$ |
+| **Start of Active Profile** | Point A (SAP) | Point A ($E_A$) | Punkt A | SAP | Point A |
+| **Lowest Single Contact** | Point B (LPSTC) | Point B ($B$) | Punkt B | LPSTC | Point B |
+| **Pitch Point** | Pitch point $C$ / $P$ | Pitch point $C$ / $P$ | Wälzpunkt $C$ | Pitch point | Pitch point |
+| **Highest Single Contact** | Point D (HPSTC) | Point D ($D$) | Punkt D | HPSTC | Point D |
+| **End of Active Profile** | Point E (EAP) | Point E ($E_E$) | Punkt E | EAP | Point E |
+| **Specific Sliding** | Specific sliding $\sigma$ / $k$ | Specific sliding $\sigma$ / $k$ | Spezifisches Gleiten $g$ | Specific sliding $\sigma$ | Specific sliding |
+| **Bending Reference Point** | Point D (HPSTC) | Point D (ISO 6336-3 Method B) | Punkt D (DIN 3990) | HPSTC (AGMA 2001) | Point D |
 
 ### References
 

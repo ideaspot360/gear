@@ -1,6 +1,6 @@
 ---
-title: "2パラメータ包絡面生成理論とかみ合い基本方程式 (f = n · v = 0) — 3次元複合空間運動の微分幾何学的完全定式化"
-description: "平歯車の1自由度平面創成を超え、ハイポイド、まがりばかさ歯車、5軸CNC歯面加工を支配する2パラメータ包絡面理論、リトビン(Litvin)のかみ合い基本方程式、接触線走査、ヤコビアン切り下げ限界判定、およびH-GEAR STUDIO数値計算カーネルアーキテクチャの完全解説"
+title: "2パラメータ包絡面 (Envelope Surface) 創成理論とかみ合い基本方程式 (Equation of Meshing: f = n · v = 0) — 3次元複合空間運動における包絡面の微分幾何学 (Differential Geometry of Envelopes)"
+description: "平歯車の1自由度平面創成を超え、ハイポイド、スパイラルベベル、5軸CNC歯面加工を支配する包絡面理論 (Theory of Envelopes) と2パラメータ曲面族 (Two-Parameter Family of Surfaces)、リトビンのかみ合い基本方程式 (Equation of Meshing)、共役歯面上の接触線 (Contact Lines on Conjugate Surfaces)、特性線 (Characteristic Lines) 掃引、創成歯面の特異点 (Singularities of Generated Surface) とヤコビ行列 (Jacobian Matrix) によるアンダーカット限界判定、およびH-GEAR STUDIO数値カーネルアーキテクチャの完全解説。"
 series: architecture
 part: 1
 chapter: 2
@@ -16,76 +16,83 @@ required_diagrams:
   - "fig3_contact_lines_sweeping"
   - "fig4_two_parameter_envelope_kinematics"
 academic_level: graduate
-equations_hash: "9b3c6871e5aff0802a16cfe6dd4d44419425792b03aeaa5fbaa26ca5f5578395"
+equations_hash: "ce8c46a22805d7eee640e4dc09d8d36226ba0cee41a3bdbb799d8b058bb6f816"
 kernel_verified: true
-review_date: "2026-11-19"
+review_date: "2026-11-24"
 sidebar:
   order: 2
 ---
 
-## 1. 緒論：1パラメータ創成運動の力学的限界と3次元複合空間運動の必然性
+## 1. 序論：1パラメータ単純創成の限界と3次元複合空間運動の力学的必然性
 
-機械駆動系および構造CAE解析の現場において20年以上にわたり歯車装置の騒音・振動(NVH)や早期破損のトラブルシューティングを重ねてきた経験から言えば、現場の技術者が最も陥りやすい落とし穴は**「すべての歯車は単一の回転パラメータによって平面創成される」という単純化の錯覚**です。
+機械加工および構造CAE解析の現場で20年以上にわたりギヤボックスの振動・騒音（NVH）や早期破損のトラブルシューティングに向き合ってきた経験から断言できるのは、現場エンジニアが最も陥りやすい致命的な落とし穴が**「あらゆる歯車は単一の回転パラメータによって単純創成される」という平面幾何学的幻想**であるということだ。
 
-平歯車やすじかいのない円筒はすば歯車であれば、ラック工具の1次元直線送り運動とブランクの1自由度回転運動($\phi$)の幾何学的拘束のみで、理論上完全なインボリュート歯面を創成することができます。しかし、自動車の差動装置に用いられるハイポイドギヤ、航空宇宙用まがりばかさ歯車、あるいは5軸制御マシニングセンタを用いた自由曲面歯面加工へと領域を広げた瞬間、単一運動パラメータ $\phi$ に立脚する古典的包絡理論は破綻します。
+平歯車（Spur gear）や平行軸はすば歯車（Helical gear）は、ラック工具の1次元直線送り運動とブランクの1自由度回転運動（$\phi$, 単位: rad）の組み合わせだけで、幾何学的に非の打ち所がないインボリュート歯面を削り出すことができる。しかし、自動車の差動装置（デファレンシャル）を構成するハイポイドギヤ、航空宇宙分野の超高負荷スパイラルベベルギヤ、さらには5軸同時制御マシニングセンタを用いた自由曲面歯形加工へと対象を拡張した瞬間、単一の運動パラメータ $\phi$ に依拠する古典的包絡理論は力学的に破綻する。
 
 ```
-[1パラメータ単純創成 (平歯車 / はすば歯車)]
-工具回転角 φ ──(単一拘束式 f = n·v = 0)──▶ 瞬間接触線 L₁(φ) ──▶ 走査歯面 Σ₂ (線接触)
+[1パラメータ単純創成 (Spur / Helical)]
+工具回転角 φ ──(単一拘束式 f = n·v = 0)──▶ 瞬間接触線 L₁(φ) ──▶ 連続掃引歯面 Σ₂ (線接触)
 
-[2パラメータ複合空間創成 (ハイポイド / まがりばかさ歯車 / 5軸CNC)]
+[2パラメータ複合空間創成 (Hypoid / Spiral Bevel / 5-Axis CNC)]
 ┌ 工具自転角 φ ┐
 └ 工具揺動角 ψ ┘ ──(二重拘束式 f₁ = 0, f₂ = 0)──▶ 瞬間接触点 M(φ, ψ) ──▶ 局所接触楕円 Σ₂ (点接触)
 ```
 
-ハイポイドピニオンのクレードル創成加工を例にとれば、クレードルの揺動回転運動、カッタヘッドの自転、そして加工中に連続的に変化する可変ロール比(Modified Roll)は、少なくとも2つ以上の独立した運動自由度を要求します。この3次元空間運動系を無理に1パラメータで近似した場合、歯面に意図しない捩れ偏差(Tooth Flank Twist)が発生し、接触パターンが小端(Toe)や大端(Heel)に著しく偏る**片当たり(Edge Loading)**を誘発します。
+ハイポイドピニオンの創成加工工程を観察してみよう。揺動台（クレードル）の揺動角速度とカッタヘッドの自転、さらには加工中にリアルタイムで変動するロール比補正（Modified Roll）は、少なくとも2つ以上の独立した運動自由度を必要とする。このような3次元複合空間運動系を単一の等価運動パラメータで強引に近似したり、平面投影モデルで簡略化して解析した場合、歯面上に意図しない「歯面ねじれ偏差（Tooth Flank Twist）」が必然的に発生し、接触パターンが小端部（Toe）または大端部（Heel）へ極端に偏る**エッジロード（Edge Loading）**を引き起こす。
 
-わずか 0.001 mm の幾何学的形状誤差が歯面接触応力を数百メガパスカル(MPa)からギガパスカル(GPa)領域へと跳ね上げ、10万サイクル未満でのマイクロピッチングや疲労剥離(Spalling)を引き起こす要因となります。
+わずか $0.001\text{ mm}$（$1\ \mu\text{m}$）の微小な幾何学的形状誤差であっても、実機噛み合い時にはメガパスカル（MPa）単位を遥かに超越してギガパスカル（GPa）級の局所接触応力集中を誘発し、10万サイクルも満たずに歯面のマイクロピッチング（Micropitting）やスポーリング（Spalling）剥離破壊を招く。
 
-本章では、Faydor L. Litvin 教授が体系化した正統歯車幾何学の核心であり、H-GEAR STUDIO バックエンド計算カーネルの基盤である**2パラメータ包絡面理論(Two-Parameter Envelope Theory)**と**かみ合い基本方程式($f = \mathbf{n} \cdot \mathbf{v} = 0$)の微分幾何学的本質**を厳密に導出・解説します。
+本章では、Faydor L. Litvin 教授が集大成した正統歯車幾何学の中核であり、H-GEAR STUDIO バックエンド幾何学カーネルの理論的基盤をなす**包絡面理論 (Theory of Envelopes)**、**1パラメータ曲面族 (One-Parameter Family of Surfaces)**と**2パラメータ曲面族 (Two-Parameter Family of Surfaces)**の対比、そして**包絡面 (Envelope Surface)**と**かみ合い基本方程式 (Equation of Meshing: $f = \mathbf{n} \cdot \mathbf{v} = 0$)**を支配する**包絡面の微分幾何学 (Differential Geometry of Envelopes)**の本質を厳密に展開する。
 
-![図1: 工具曲面群と包絡面創成原理](/images/series2/part01/ja/fig1_surface_family_envelope.png)
+![図1: 工具曲面族と包絡面生成原理](/images/series2/part01/ja/fig1_surface_family_envelope.png)
 
 ---
 
-## 2. 2パラメータ工具曲面族の同次座標変換と空間運動学
+## 2. 2パラメータ曲面族 (Two-Parameter Family of Surfaces) の同次座標変換と空間運動学
 
-### 2.1 工具座標系と被削歯車座標系の定義
+### 2.1 工具座標系と被削材座標系の定義
 
-3次元ユークリッド空間 $\mathbb{R}^3$ において、工具(Tool)に固定された座標系 $S_1(O_1; \mathbf{i}_1, \mathbf{j}_1, \mathbf{k}_1)$、被削歯車(Workpiece)に固定された回転座標系 $S_2(O_2; \mathbf{i}_2, \mathbf{j}_2, \mathbf{k}_2)$、および機械ベースフレームに固定された基準座標系 $S_f(O_f; \mathbf{i}_f, \mathbf{j}_f, \mathbf{k}_f)$ を設定します。
+3次元空間内における工作機械の幾何学的関係を記述するため、切削工具（Tool）に固定された運動座標系を $S_1(O_1; \mathbf{i}_1, \mathbf{j}_1, \mathbf{k}_1)$、被削歯車（Workpiece blank）に固定された運動座標系を $S_2(O_2; \mathbf{i}_2, \mathbf{j}_2, \mathbf{k}_2)$、そして機械本体フレームに固定された基準座標系を $S_f(O_f; \mathbf{i}_f, \mathbf{j}_f, \mathbf{k}_f)$ と定義する。
 
-工具歯面 $\Sigma_1$ は、局所座標系 $S_1$ において2つの独立した曲面パラメータ $(u, \theta)$ によって定義される正則曲面(Regular Surface)です：
+工具刃先歯面 $\Sigma_1$ は、工具固有の局所座標系 $S_1$ において2つの独立した曲面パラメータ $(u, \theta)$ を用いて表される2次元正則曲面（Regular Surface）である：
 
 $$
 \mathbf{r}_1(u, \theta) = \begin{bmatrix} x_1(u, \theta) \\ y_1(u, \theta) \\ z_1(u, \theta) \\ 1 \end{bmatrix}_1
 $$
 
-ここで $u$ は工具基準断面のプロファイルパラメータ（ラック直線部の座標や刃先丸み円弧角など）であり、$\theta$ は工具の長手方向または回転対称角パラメータです。
+ここで $u$ は工具刃先断面プロファイルの形状パラメータ（例：ラックの歯たけ方向直線座標またはコーナ円弧半径パラメータ）であり、$\theta$ は工具の長手方向スパンまたは回転対称角パラメータ（単位: rad）を表す。
 
-曲面の正則性条件により、接線基底ベクトルの外積は零ベクトルにならず、外向き単位法線ベクトル $\mathbf{n}_1$ が一意に定まります：
+曲面 $\Sigma_1$ の正則性（Regularity）条件により、接線基底ベクトルの外積は恒等的にゼロベクトルとはならず、非正規化法線ベクトル $\mathbf{N}_1$ が一意に定まる：
 
 $$
-\mathbf{n}_1(u, \theta) = \frac{\frac{\partial \mathbf{r}_1}{\partial u} \times \frac{\partial \mathbf{r}_1}{\partial \theta}}{\left\| \frac{\partial \mathbf{r}_1}{\partial u} \times \frac{\partial \mathbf{r}_1}{\partial \theta} \right\|}
+\mathbf{N}_1(u, \theta) = \frac{\partial \mathbf{r}_1}{\partial u} \times \frac{\partial \mathbf{r}_1}{\partial \theta} \neq \mathbf{0}
+$$
+
+このベクトルを自身のユークリッドノルムで正規化することにより、外向き単位法線ベクトル $\mathbf{n}_1$ が得られる：
+
+$$
+\mathbf{n}_1(u, \theta) = \frac{\mathbf{N}_1(u, \theta)}{\|\mathbf{N}_1(u, \theta)\|} = \frac{\frac{\partial \mathbf{r}_1}{\partial u} \times \frac{\partial \mathbf{r}_1}{\partial \theta}}{\left\| \frac{\partial \mathbf{r}_1}{\partial u} \times \frac{\partial \mathbf{r}_1}{\partial \theta} \right\|}
 $$
 
 ### 2.2 2つの独立運動パラメータ $(\phi, \psi)$ と同次変換行列 $\mathbf{M}_{21}$
 
-工具 $S_1$ が被削歯車 $S_2$ に対して行う相対運動が、2つの独立した一般化運動座標 $\phi$ および $\psi$ によって記述されると仮定します：
-- $\phi$: 主回転運動パラメータ（工具スピンドル自転角またはブランク回転角）
-- $\psi$: 付加送り・揺動運動パラメータ（クレードル揺動角、傾斜角、または軸方向移動量）
+工具 $S_1$ が被削材 $S_2$ に対して行う相対空間運動が、互いに独立した2つの一般化座標（Generalized Coordinates） $\phi$ および $\psi$ によって規定されるものとする：
+- $\phi$: 主回転運動パラメータ（工具カッタヘッドまたはワークブランクの自転角、単位: rad）
+- $\psi$: 付加送り・揺動運動パラメータ（揺動台ロール角、傾斜角、または軸方向ストローク量、単位: rad または mm）
 
-座標系 $S_1$ から $S_2$ への直接座標変換を担う $4 \times 4$ 同次変換行列 $\mathbf{M}_{21}(\phi, \psi)$ は、固定系 $S_f$ を介して次のように構成されます：
+工具座標系 $S_1$ 上で定義された同次座標位置ベクトルを被削材座標系 $S_2$ へ直接変換する $4 \times 4$ 同次座標変換行列 $\mathbf{M}_{21}(\phi, \psi)$ は、固定座標系 $S_f$ を介した合成変換として以下のように構築される：
 
 $$
-\mathbf{M}_{21}(\phi, \psi) = \mathbf{M}_{2f}(\phi, \psi) \cdot \mathbf{M}_{f1}(\phi, \psi) = \begin{bmatrix} 
-a_{11}(\phi, \psi) & a_{12}(\phi, \psi) & a_{13}(\phi, \psi) & s_x(\phi, \psi) \\ 
-a_{21}(\phi, \psi) & a_{22}(\phi, \psi) & a_{23}(\phi, \psi) & s_y(\phi, \psi) \\ 
-a_{31}(\phi, \psi) & a_{32}(\phi, \psi) & a_{33}(\phi, \psi) & s_z(\phi, \psi) \\ 
-0 & 0 & 0 & 1 
-\end{bmatrix}
+\mathbf{M}_{21}(\phi, \psi) = \mathbf{M}_{2f}(\phi, \psi) \cdot \mathbf{M}_{f1}(\phi, \psi) = \begin{bmatrix} a_{11}(\phi, \psi) & a_{12}(\phi, \psi) & a_{13}(\phi, \psi) & s_x(\phi, \psi) \\ a_{21}(\phi, \psi) & a_{22}(\phi, \psi) & a_{23}(\phi, \psi) & s_y(\phi, \psi) \\ a_{31}(\phi, \psi) & a_{32}(\phi, \psi) & a_{33}(\phi, \psi) & s_z(\phi, \psi) \\ 0 & 0 & 0 & 1 \end{bmatrix}
 $$
 
-この変換を工具曲面 $\mathbf{r}_1(u, \theta)$ に適用することにより、被削歯車座標系 $S_2$ 上で観察される**4変数曲面族(Family of Surfaces)** $\mathbf{r}_2(u, \theta, \phi, \psi)$ が形成されます：
+古典的な1パラメータ曲面族 (One-Parameter Family of Surfaces) においては、被削材座標系で観察される曲面族の位置および姿勢は単一の回転角 $\phi$ のみに支配される：
+
+$$
+\mathbf{r}_2(u, \theta, \phi) = \mathbf{M}_{21}(\phi) \cdot \mathbf{r}_1(u, \theta)
+$$
+
+これに対し、2つの自由度を持つ複合空間運動系では、被削材座標系 $S_2$ において**2パラメータ曲面族 (Two-Parameter Family of Surfaces)** $\mathbf{r}_2(u, \theta, \phi, \psi)$ が形成される：
 
 $$
 \mathbf{r}_2(u, \theta, \phi, \psi) = \mathbf{M}_{21}(\phi, \psi) \cdot \mathbf{r}_1(u, \theta)
@@ -93,33 +100,33 @@ $$
 
 ---
 
-## 3. かみ合い基本方程式(Equation of Meshing)の厳密な導出
+## 3. かみ合い基本方程式 (Equation of Meshing) の厳密な導出
 
-### 3.1 包絡面の存在条件と共通接平面拘束
+### 3.1 包絡面存在の必要十分条件 (Necessary and Sufficient Conditions of Envelope Existence) と共通接平面拘束
 
-被削歯車の歯面 $\Sigma_2$ は、曲面族 $\mathbf{r}_2(u, \theta, \phi, \psi)$ の包絡面(Envelope)として定義されます。微分幾何学の定理によれば、包絡面が存在するための必要十分条件は、任意の瞬間接触点において**曲面族の一般化パラメータに関する偏微分ベクトルが共通接平面(Common Tangent Plane)に含まれること**です。
+創成される歯車の実体歯面 $\Sigma_2$ は、工具曲面族 $\mathbf{r}_2(u, \theta, \phi, \psi)$ の包絡面 (Envelope Surface) として幾何学的に決定される。包絡面の微分幾何学における**包絡面存在の必要十分条件 (Necessary and Sufficient Conditions of Envelope Existence)**に従い、包絡面 $\Sigma_2$ が存在するための条件は、任意の瞬間接触点において**曲面族のすべての一般化パラメータ偏微分ベクトルが共通接平面 (Common Tangent Plane) に属さなければならない**ことである。
 
-座標系 $S_2$ における曲面族の微小変位 $d\mathbf{r}_2$ は次の通りです：
+被削材座標系 $S_2$ における曲面族の位置ベクトルの全微分 $d\mathbf{r}_2$ は次のように展開される：
 
 $$
 d\mathbf{r}_2 = \frac{\partial \mathbf{r}_2}{\partial u} du + \frac{\partial \mathbf{r}_2}{\partial \theta} d\theta + \frac{\partial \mathbf{r}_2}{\partial \phi} d\phi + \frac{\partial \mathbf{r}_2}{\partial \psi} d\psi
 $$
 
-包絡面 $\Sigma_2$ の単位法線ベクトルを $\mathbf{n}_2$ とすれば、曲面パラメータ $(u, \theta)$ に関する偏微分ベクトルは接平面の基底を構成します：
+瞬間接触点における包絡面 $\Sigma_2$ の外向き単位法線ベクトルを $\mathbf{n}_2$ と置く。曲面パラメータ $(u, \theta)$ に関する偏微分ベクトル $\frac{\partial \mathbf{r}_2}{\partial u}$ および $\frac{\partial \mathbf{r}_2}{\partial \theta}$ は、定義により歯面接平面の局所基底を張るため、法線ベクトルと常に直交する：
 
 $$
 \mathbf{n}_2 \cdot \frac{\partial \mathbf{r}_2}{\partial u} = 0, \quad \mathbf{n}_2 \cdot \frac{\partial \mathbf{r}_2}{\partial \theta} = 0
 $$
 
-したがって、$\Sigma_2$ が独立運動パラメータ $\phi, \psi$ の任意の変化に対しても包絡面であり続けるためには、次の直交条件が同時に成立しなければなりません：
+したがって、$\Sigma_2$ が曲面族の真の包絡面となるためには、独立した運動パラメータ $\phi$ および $\psi$ の微小変動に伴う位置変位ベクトルもまた同一の接平面内に存在しなければならない。すなわち、法線成分が恒等的にゼロとなる接平面拘束式が同時に成立することが必須である：
 
 $$
 \mathbf{n}_2 \cdot \frac{\partial \mathbf{r}_2}{\partial \phi} = 0, \quad \mathbf{n}_2 \cdot \frac{\partial \mathbf{r}_2}{\partial \psi} = 0
 $$
 
-### 3.2 相対速度場ベクトルと二重かみ合い拘束式 ($f_1 = f_2 = 0$)
+### 3.2 相対速度場ベクトルと二重噛み合い条件式 ($f_1 = f_2 = 0$)
 
-運動学的に、偏微分ベクトル $\frac{\partial \mathbf{r}_2}{\partial \phi}$ および $\frac{\partial \mathbf{r}_2}{\partial \psi}$ は各独立運動に起因する工具と歯車間の相対速度ベクトルに一致します：
+機構学（Kinematics）の観点から、偏微分ベクトル $\frac{\partial \mathbf{r}_2}{\partial \phi}$ および $\frac{\partial \mathbf{r}_2}{\partial \psi}$ は、それぞれの独立運動に起因する工具と被削材間の相対速度ベクトル（Relative Velocity Vectors）に直接一致する：
 
 $$
 \mathbf{v}_2^{(12, \phi)} = \frac{\partial \mathbf{M}_{21}}{\partial \phi} \mathbf{r}_1 = \left( \frac{\partial \mathbf{M}_{21}}{\partial \phi} \mathbf{M}_{21}^{-1} \right) \mathbf{r}_2
@@ -129,216 +136,346 @@ $$
 \mathbf{v}_2^{(12, \psi)} = \frac{\partial \mathbf{M}_{21}}{\partial \psi} \mathbf{r}_1 = \left( \frac{\partial \mathbf{M}_{21}}{\partial \psi} \mathbf{M}_{21}^{-1} \right) \mathbf{r}_2
 $$
 
-スカラー積の内積不変性を利用して工具座標系 $S_1$ に逆投影することにより、**リトビンの2パラメータ連立かみ合い基本方程式**が導出されます：
+座標変換に対してスカラー内積値が不変（Scalar Invariance）であることを利用し、工具固有の局所座標系 $S_1$ に逆投影して Litvin の非正規化法線ベクトル $\mathbf{N}_1$ を適用すると、**Litvin の2パラメータ連立噛み合い基本方程式**が導出される：
 
 $$
-f_1(u, \theta, \phi, \psi) = \mathbf{n}_1(u, \theta) \cdot \mathbf{v}_1^{(12, \phi)}(u, \theta, \phi, \psi) = 0
+f_1(u, \theta, \phi, \psi) = \mathbf{N}_1(u, \theta) \cdot \frac{\partial \mathbf{r}_1^{(12)}}{\partial \phi} = \mathbf{N}_1(u, \theta) \cdot \mathbf{v}_1^{(12, \phi)}(u, \theta, \phi, \psi) = 0
 $$
 
 $$
-f_2(u, \theta, \phi, \psi) = \mathbf{n}_1(u, \theta) \cdot \mathbf{v}_1^{(12, \psi)}(u, \theta, \phi, \psi) = 0
+f_2(u, \theta, \phi, \psi) = \mathbf{N}_1(u, \theta) \cdot \frac{\partial \mathbf{r}_1^{(12)}}{\partial \psi} = \mathbf{N}_1(u, \theta) \cdot \mathbf{v}_1^{(12, \psi)}(u, \theta, \phi, \psi) = 0
 $$
 
-この方程式の力学的意味は極めて明瞭です。歯面同士が干渉(0.000 mm)することもなく、離脱(0.000 mm)することもなく連続接触を保つためには、法線方向速度成分が完全に一致($v_n^{(1)} = v_n^{(2)}$)し、相対速度ベクトル $\mathbf{v}_s = \mathbf{v}^{(12)}$ が接平面内に拘束された純粋なすべり速度にならなければなりません。
-
-![図2: かみ合い基本方程式の微分幾何学的本質と直交性](/images/series2/part01/ja/fig2_meshing_equation_orthogonality.png)
-
-### 3.3 1パラメータ創成への縮退(Degeneracy)検証
-
-平歯車やはすば歯車のように運動パラメータ $\psi$ が $\phi$ の従属関数($\psi = g(\phi)$)である場合、全微分連鎖律により単一の方程式へと自然に縮退します：
+単位法線ベクトル $\mathbf{n}_1$ を用いて記述すれば次の通りである：
 
 $$
-f(u, \theta, \phi) = \mathbf{n}_1(u, \theta) \cdot \left( \mathbf{v}_1^{(12, \phi)} + \frac{dg}{d\phi} \mathbf{v}_1^{(12, \psi)} \right) = \mathbf{n}_1(u, \theta) \cdot \mathbf{v}_1^{(12)} = 0
+\mathbf{n}_1(u, \theta) \cdot \mathbf{v}_1^{(12, \phi)} = 0, \quad \mathbf{n}_1(u, \theta) \cdot \mathbf{v}_1^{(12, \psi)} = 0
 $$
 
-これにより、2パラメータ包絡理論が古典的創成理論を内包する包括的上位体系であることが証明されます。
+この2式の物理的解釈は極めて明瞭である。実機の歯車噛み合いにおいては、ピッチ点を除いて歯面間に相対滑り速度（$v_s \neq 0$）が常に生じる。両歯面が互いにめり込み（Interference）や離脱を起こすことなく連続的かつ安定に動力伝達を維持するためには、法線方向の相対速度成分が厳密にゼロでなければならない。その幾何学的帰結として、相対滑り速度ベクトル $\mathbf{v}_s = \mathbf{v}^{(12)}$ は共通接平面内に完全に拘束される。
+
+![図2: 噛み合い基本方程式の微分幾何学的本質と直交性](/images/series2/part01/ja/fig2_meshing_equation_orthogonality.png)
+
+### 3.3 1パラメータ創成への数学的退化（Degeneracy）検証
+
+平歯車や平行軸はすば歯車のような単一自由度運動系では、噛み合い方程式は以下のように単一のスカラー代数方程式へと帰着する：
+
+$$
+f(u, \theta, \phi) = \mathbf{N}_1(u, \theta) \cdot \mathbf{v}_1^{(12)} = \mathbf{n}_1(u, \theta) \cdot \mathbf{v}_1^{(12)} = 0
+$$
+
+もし運動パラメータ $\psi$ が主パラメータ $\phi$ の従属関数（$\psi = g(\phi)$）として拘束されている場合、合成関数の全微分連鎖律（Chain Rule）を適用することにより、上記の単一噛み合い方程式へと自然に縮退（Degenerate）する：
+
+$$
+f(u, \theta, \phi) = \mathbf{N}_1(u, \theta) \cdot \left( \mathbf{v}_1^{(12, \phi)} + \frac{dg}{d\phi} \mathbf{v}_1^{(12, \psi)} \right) = 0
+$$
+
+この演繹により、2パラメータ包絡面理論が古典的な1パラメータ Litvin 噛み合い理論を完全に包括する上位の一般化幾何学体系であることが厳密に証明される。
 
 ---
 
-## 4. 接触特性線(Contact Line)と包絡面 $\Sigma_2$ の走査生成
+## 4. 共役歯面上の接触線 (Contact Lines on Conjugate Surfaces) と特性線 (Characteristic Lines) の微分幾何学的証明
 
-### 4.1 1パラメータ運動：瞬間接触線の連続走査による線接触
+### 4.1 1パラメータ運動: 特性線 (Characteristic Lines) の連続空間掃引
 
-単一のかみ合い方程式 $f(u, \theta, \phi) = 0$ が与えられた幾何学的挙動を検証します。
+単一の噛み合い方程式 $f(u, \theta, \phi) = 0$ が与えられた場合の幾何学的挙動を考察する。
 
-固定された回転角 $\phi = \phi_0$ において、2つの未知数 $(u, \theta)$ に対して1つの拘束式が課されます。陰関数定理より $\frac{\partial f}{\partial u} \neq 0$ の正則区間において、この解は工具曲面 $\Sigma_1$ 上の**1次元曲線 $L_1(\phi_0)$（瞬間接触線）**を形成します：
+ある瞬間における固定された回転角 $\phi = \phi_0$ において、2つの未知パラメータ $(u, \theta)$ に対して拘束方程式は単一の $f(u, \theta, \phi_0) = 0$ である。陰関数定理（Implicit Function Theorem）により、正則領域（$\frac{\partial f}{\partial u} \neq 0$）においてこの方程式の解集合は共役歯面上の接触線 (Contact Lines on Conjugate Surfaces) として工具曲面 $\Sigma_1$ 上の**1次元連続曲線（特性線：Characteristic Lines, $L_1(\phi_0)$）**を定義する：
 
 $$
 L_1(\phi_0): \quad u = \chi(\theta, \phi_0) \quad \iff \quad \mathbf{r}_1(u(\theta, \phi_0), \theta)
 $$
 
-運動パラメータ $\phi(t)$ の進展に伴い、工具面上の接触線 $L_1(\phi)$ は座標変換 $\mathbf{M}_{21}(\phi)$ を経て歯車座標系 $S_2$ 上の接触線 $L_2(\phi)$ として空間を連続走査(Sweeping)し、包絡面 $\Sigma_2$ を形成します：
+時間 $t$ の経過に伴い回転角パラメータ $\phi(t)$ が連続的に変化すると、工具面上の特性線 $L_1(\phi)$ は座標変換行列 $\mathbf{M}_{21}(\phi)$ を通じて被削材空間 $S_2$ 上の瞬間接触線へと連続的に射影され、空間内を掃引（Sweeping）しながら包絡面 (Envelope Surface) $\Sigma_2$ を創成する：
 
 $$
 \Sigma_2 = \bigcup_{\phi \in [\phi_s, \phi_e]} \mathbf{M}_{21}(\phi) \cdot L_1(\phi)
 $$
 
-これが平歯車やはすば歯車における**線接触(Line Contact)**の数学的基礎です。
+これこそが、平歯車およびはすば歯車が力学的に**線接触（Line Contact）**を形成する微分幾何学的根拠である。
 
-![図3: かみ合い方程式の解曲線としての接触線と歯面走査](/images/series2/part01/ja/fig3_contact_lines_sweeping.png)
+![図3: 噛み合い方程式の解曲線としての接触線と歯面掃引](/images/series2/part01/ja/fig3_contact_lines_sweeping.png)
 
-### 4.2 2パラメータ運動：瞬間接触点の局所化と点接触創成
+### 4.2 ラックカッタによるインボリュート主歯形創成の微分幾何学的閉形式解の証明
 
-一方、2つの独立運動変数 $(\phi, \psi)$ を持つ加工系においては挙動が根本から異なります。
+ラック工具の直線刃（Rack Cutter Flank）からインボリュート曲線が数学的に必然として創成される過程を、微分幾何学的に完全演繹する。
 
-任意の加工瞬間 $(\phi_0, \psi_0)$ において課される方程式は2つ($f_1 = 0, f_2 = 0$)であり、未知曲面パラメータも2つ $(u, \theta)$ です：
+ラックカッタの基準断面座標系 $S_c$ において、標準圧力角 $\alpha_n$（単位: rad）を持つ直線刃プロファイルおよび単位法線ベクトルは以下のように定義される：
 
 $$
-\begin{cases}
-f_1(u, \theta, \phi_0, \psi_0) = 0 \\
-f_2(u, \theta, \phi_0, \psi_0) = 0
-\end{cases}
+\mathbf{r}_c(u, \theta) = \begin{bmatrix} u \sin\alpha_n \\ u \cos\alpha_n \\ \theta \\ 1 \end{bmatrix}_c
 $$
 
-ヤコビ行列式が正則である限り、この連立方程式の解は線ではなく**単一の孤立した瞬間接触点 $M(u^*, \theta^*, \phi_0, \psi_0)$**へと収束します。
+$$
+\mathbf{n}_c = \begin{bmatrix} \cos\alpha_n \\ -\sin\alpha_n \\ 0 \end{bmatrix}_c
+$$
 
-パラメータ平面 $(\phi, \psi)$ の全領域をスキャンすることにより、接触点 $M$ の軌跡が滑らかな2次元曲面 $\Sigma_2$ を創成します。これがハイポイドギヤやまがりばかさ歯車が**点接触(Point Contact)**機構として機能し、負荷時にヘルツ弾性変形を通じて局所的な**接触楕円(Contact Ellipse)**を形成する力学的根拠です。
+歯車ブランクが基準ピッチ円半径 $r = m z / 2$ を基準に角速度 $\omega$ で回転するとき（$\phi = \omega t$, 単位: rad）、ラック工具はピッチ線に沿って $s = r \phi$ の純粋な直線並進移動を行う。ラック座標系 $S_c$ 上で観測される工具とブランク間の相対速度場 $\mathbf{v}_c^{(ct)}$ は次のようになる：
 
-![図4: 2パラメータ包絡面機構学と点接触創成](/images/series2/part01/ja/fig4_two_parameter_envelope_kinematics.png)
+$$
+\mathbf{v}_c^{(ct)} = \begin{bmatrix} -\omega r \phi - \omega u \cos\alpha_n \\ \omega u \sin\alpha_n \\ 0 \end{bmatrix}_c = \omega \begin{bmatrix} -r \phi - u \cos\alpha_n \\ u \sin\alpha_n \\ 0 \end{bmatrix}_c
+$$
+
+この相対速度ベクトルと単位法線ベクトル $\mathbf{n}_c$ の内積をとり、噛み合い基本方程式 $f(u, \phi) = 0$ を展開すると、顕著な代数的相殺が生じる：
+
+$$
+f(u, \phi) = \mathbf{n}_c \cdot \mathbf{v}_c^{(ct)} = -\omega (u + r \phi \cos\alpha_n) = 0 \implies u(\phi) = -r \phi \cos\alpha_n
+$$
+
+すなわち、任意の回転角 $\phi$ に対応する直線刃上の接触点パラメータ $u$ は、$u(\phi) = -r \phi \cos\alpha_n$ という唯一の閉形式代数解（Closed-Form Solution）として一意に求まる。この解を歯車ブランクの回転座標系 $S_2$ へ逆変換すると、以下の歯形位置ベクトルが得られる：
+
+$$
+\mathbf{r}_2(\phi) = \begin{bmatrix} r_b (\sin\phi - \phi \cos\phi) \\ r_b (\cos\phi + \phi \sin\phi) \\ \theta \\ 1 \end{bmatrix}_2 \quad (r_b = r \cos\alpha_n)
+$$
+
+ここで $r_b = r \cos\alpha_n$ は基礎円半径である。この導出結果は、幾何学的に純粋定義される**厳密なインボリュート曲線（Exact Involute Curve）**の媒介変数表示と $0.000000\text{ mm}$ の誤差もなく完全一致する。これにより、直線切削刃を持つラックカッタが噛み合い基本方程式に従って包絡する曲面は、必然的にインボリュートヘリコイドであることが数学的に証明される。
+
+### 4.3 2パラメータ運動：瞬間接触点の局所化と点接触（Point Contact）創成
+
+一方、2つの独立した運動変数 $(\phi, \psi)$ を持つ複合加工系では、幾何学的構造が根本から変化する。
+
+ある瞬間 $(\phi_0, \psi_0)$ において課される噛み合い条件式は2本（$f_1 = 0, f_2 = 0$）であり、未知の曲面パラメータもまた2変数 $(u, \theta)$ である：
+
+$$
+\begin{cases} f_1(u, \theta, \phi_0, \psi_0) = 0 \\ f_2(u, \theta, \phi_0, \psi_0) = 0 \end{cases}
+$$
+
+この非線形連立代数方程式系が正則解を持つためには、以下のヤコビアン行列式（Jacobian Determinant） $\Delta$ がゼロでないという正則性条件（Regularity Condition）を満たす必要がある：
+
+$$
+\Delta = \frac{\partial(f_1, f_2)}{\partial(u, \theta)} = \det \begin{bmatrix} \frac{\partial f_1}{\partial u} & \frac{\partial f_1}{\partial \theta} \\ \frac{\partial f_2}{\partial u} & \frac{\partial f_2}{\partial \theta} \end{bmatrix} \ne 0
+$$
+
+$\Delta \neq 0$ である限り、この方程式の解は曲線（線）ではなく、**単一の孤立した瞬間接触点（Characteristic Point） $M(u^*, \theta^*, \phi_0, \psi_0)$** へと完全に収束する。
+
+工具と被削材が2次元パラメータ空間 $(\phi, \psi)$ 全体を走査（スキャン）するにつれて、この点 $M$ の2次元軌跡が滑らかな2次元曲面かつ包絡面 (Envelope Surface) $\Sigma_2$ を合成する：
+
+$$
+\Sigma_2 = \bigcup_{(\phi, \psi)} \mathbf{M}_{21}(\phi, \psi) \cdot M(u^*(\phi, \psi), \theta^*(\phi, \psi))
+$$
+
+これこそが、ハイポイドギヤやスパイラルベベルギヤが原理的に**点接触（Point Contact）**機構として設計され、トルク負荷時にヘルツの接触弾性変形によって適度な**接触楕円（Contact Ellipse）**を形成するよう精密に制御される力学的根拠である。
+
+![図4: 2パラメータ包絡面運動学と点接触創成](/images/series2/part01/ja/fig4_two_parameter_envelope_kinematics.png)
 
 ---
 
-## 5. 特異点(Singularity)解析と歯元アンダーカットのヤコビアン判定
+## 5. 創成歯面の特異点 (Singularities of Generated Surface) 解析とヤコビ行列 (Jacobian Matrix) によるアンダーカット限界判定
 
-### 5.1 曲面正則性の喪失と特異点
+### 5.1 包絡面の正則性喪失条件と創成歯面の特異点 (Singularities of Generated Surface)
 
-創成された歯面 $\Sigma_2$ が幾何学的に妥当な滑らかな境界を保つためには、法線ベクトル $\mathbf{N}_2 = \frac{\partial \mathbf{r}_2}{\partial u} \times \frac{\partial \mathbf{r}_2}{\partial \theta}$ が全域で零になってはなりません。
+創成された歯車歯面 $\Sigma_2$ が物理的に実用可能な滑らかな固体境界を形成するためには、歯面の法線ベクトル $\mathbf{N}_2 = \frac{\partial \mathbf{r}_2}{\partial u} \times \frac{\partial \mathbf{r}_2}{\partial \theta}$ が全領域において消失してはならない。
 
-もし特定の加工条件において次の条件が発生すると、包絡面は正則性を失い**特異点(Singularity / Cusp)**を形成します：
+加工パラメータによって特定の幾何学的条件が成立すると、包絡面はその正則性を失い、先端が尖ったカスプ状の**創成歯面の特異点 (Singularities of Generated Surface / Cusp Point)**を形成する：
 
 $$
 \mathbf{N}_2 = \frac{\partial \mathbf{r}_2}{\partial u} \times \frac{\partial \mathbf{r}_2}{\partial \theta} = \mathbf{0}
 $$
 
-運動学的には、工具と歯車の間で接触点が移動する歯面上の相対移動速度 $\mathbf{v}_r^{(2)}$ が瞬間的に停止する状態に対応します：
+微分幾何学的に、これは歯面上において接触点が移動する見かけの相対移動速度ベクトル $\mathbf{v}_r^{(2)}$ が瞬間的にゼロベクトルとなる特異状態に厳密に対応する：
+
+$$
+\mathbf{v}_r^{(2)} = \frac{\partial \mathbf{r}_2}{\partial u} \frac{du}{dt} + \frac{\partial \mathbf{r}_2}{\partial \theta} \frac{d\theta}{dt} = \mathbf{0}
+$$
+
+工具と被削材間の相対運動速度ベクトルとの結合関係式は以下の通りである：
 
 $$
 \mathbf{v}_r^{(2)} = \mathbf{v}_r^{(1)} + \mathbf{v}^{(12)} = \mathbf{0}
 $$
 
-### 5.2 アンダーカット限界判定ヤコビ行列式 $\det(J) = 0$ の導出
+### 5.2 アンダーカット限界判定ヤコビ行列 (Jacobian Matrix) 式 $\det(J) = 0$ の誘導
 
-かみ合い方程式 $f(u, \theta, \phi) = 0$ の全微分をとります：
+1パラメータ創成系においてこの特異点発生境界を数値解析的に厳密に同定するため、噛み合い方程式 $f(u, \theta, \phi) = 0$ の全微分をとる：
 
 $$
 df = \frac{\partial f}{\partial u} du + \frac{\partial f}{\partial \theta} d\theta + \frac{\partial f}{\partial \phi} d\phi = 0
 $$
 
-接触点速度停止条件 $\mathbf{v}_r^{(2)} = \mathbf{0}$ と連立させ、非自明解を持つための代数条件を整理すると、次の**ヤコビ行列式がゼロになる条件**が導かれます：
+接触点の見かけ速度ゼロ条件 $\mathbf{v}_r^{(2)} = \mathbf{0}$ をスカラー座標成分（$x, y$）ごとに連立させると、非自明解が存在するための代数的一致条件は、以下の**$3 \times 3$ ヤコビ行列 (Jacobian Matrix) の行列式がゼロとなること**に帰着する：
 
 $$
-F_{\text{undercut}}(u, \theta, \phi) = \det \begin{bmatrix} 
-\frac{\partial x_1}{\partial u} & \frac{\partial x_1}{\partial \theta} & -v_{x1}^{(12)} \\ 
-\frac{\partial y_1}{\partial u} & \frac{\partial y_1}{\partial \theta} & -v_{y1}^{(12)} \\ 
-\frac{\partial f}{\partial u} & \frac{\partial f}{\partial \theta} & -\frac{\partial f}{\partial \phi} 
-\end{bmatrix} = 0
+F_{\text{undercut}}(u, \theta, \phi) = \det \begin{bmatrix} \frac{\partial x_1}{\partial u} & \frac{\partial x_1}{\partial \theta} & -v_{x1}^{(12)} \\ \frac{\partial y_1}{\partial u} & \frac{\partial y_1}{\partial \theta} & -v_{y1}^{(12)} \\ \frac{\partial f}{\partial u} & \frac{\partial f}{\partial \theta} & -\frac{\partial f}{\partial \phi} \end{bmatrix} = 0
 $$
 
-この特異点限界曲線が実際の有効歯面領域（基礎円 $r_b$ から歯先円 $r_a$ の間）に進入する現象が、歯車の致命的欠陥である**歯元アンダーカット（切り下げ）**です。
+この特異点判定方程式の解曲線が、実際の歯車の有効噛み合い領域（歯先円 $r_a$ から基礎円 $r_b$ の間）の内部へと侵入する現象こそが、歯車製造現場で最も恐れられる致命的欠陥**「歯元アンダーカット（切り下げ：Undercutting）」**である。転位のない標準平歯車（$x = 0$）においてアンダーカットを回避するための最小歯数条件は、微分幾何学的に次のように導かれる：
 
-アンダーカットが発生すると、工具刃先が既に創成されたインボリュート歯元をえぐり取って歯厚を急激に減少させます。有限要素法(FEA)解析において切り欠き応力集中係数 $K_t$ が2.5倍以上に跳ね上がり、歯元曲げ疲労破壊の直接的原因となります。
+$$
+z_{\min} = \frac{2 h_a^*}{\sin^2\alpha_n} = \frac{2 \times 1.0}{\sin^2(20^\circ)} \approx 17.097 \implies z \ge 17
+$$
+
+アンダーカットが発生すると、工具の刃先コーナが先行して創成された有効インボリュート歯面の下部を削り取ってしまい、歯厚が急激に薄肉化する。これは有限要素法（FEA）による応力解析において切欠き応力集中係数（$K_t$）を2.5倍以上跳ね上げ、曲げ疲労強度限界を著しく低下させて歯元疲労破壊の直接的原因となる。
 
 ---
 
-## 6. CAE/CAD計算カーネルにおける数値実装アーキテクチャ
+## 6. 歯元トロコイドフィレット（Trochoid Fillet）包絡と $C^1$ 連続境界線
 
-H-GEAR STUDIO のような高精度工学ソフトウェアでは、離散グリッド近似による演算は厳禁とされています。数値丸め誤差の蓄積により歯面に段差が生じ、接触解析において干渉エラーが誤検知されるためです。
+### 6.1 ラック工具刃先円弧の運動学的包絡軌跡
 
-### 6.1 多次元 Newton-Raphson 厳密収束アルゴリズム
+標準ラック工具の直線刃下部に設けられた先端丸み円弧（$\rho_{a0} = \rho_{fP}^* m = 1.140000\text{ mm}$）は、歯車の歯元隅肉部（フィレット）を創成する。ピッチ線からの歯丈距離 $h_f = h_f^* m = 3.750000\text{ mm}$（ここで $h_f^* = 1.25$ は無次元歯元たけ係数）を基準とし、被削材座標系 $S_2$ において観測される刃先円弧中心点 $C$ の運動軌跡は次のように定式化される：
 
-任意の加工パラメータ $(\phi_k, \psi_k)$ において工具歯面上の接触座標 $\mathbf{x} = [u, \theta]^T$ を決定するため、減衰付き多次元ニュートン法を実行します：
+$$
+\mathbf{r}_C(\phi) = \begin{bmatrix} (r - h_f) \sin\phi - r \phi \cos\phi \\ (r - h_f) \cos\phi + r \phi \sin\phi \end{bmatrix}_2
+$$
+
+回転角 $\phi$ に関する中心点軌跡の1次導関数（接線速度ベクトル）は以下の通りである：
+
+$$
+\frac{d\mathbf{r}_C}{d\phi} = \begin{bmatrix} -h_f \cos\phi + r \phi \sin\phi \\ h_f \sin\phi + r \phi \cos\phi \end{bmatrix}
+$$
+
+この接線ベクトルを反時計回りに $90^\circ$ 回転して正規化した外向き単位法線ベクトル $\mathbf{n}_C(\phi)$ は次のように求まる：
+
+$$
+\mathbf{n}_C(\phi) = \frac{1}{\left\|\frac{d\mathbf{r}_C}{d\phi}\right\|} \begin{bmatrix} -\frac{dy_C}{d\phi} \\ \frac{dx_C}{d\phi} \end{bmatrix}
+$$
+
+したがって、ラック工具の先端円弧が削り出す歯元フィレット曲線 $\mathbf{r}_{\text{fillet}}$ は、中心軌跡に法線オフセットを重畳した閉形式表示として完結する：
+
+$$
+\mathbf{r}_{\text{fillet}}(\phi) = \mathbf{r}_C(\phi) - \rho_{a0} \, \mathbf{n}_C(\phi)
+$$
+
+この幾何学的軌跡によって創成される曲線こそが、歯元曲げ応力集中を決定づける**トロコイドフィレット曲線（Trochoid Fillet）**である。
+
+### 6.2 形状円（Form Circle, $d_{Ff}$）境界点における $C^1$ 連続性の証明
+
+ラック工具上において、直線切削刃と先端円弧が滑らかに接合する幾何学的変曲点パラメータ $u_{\text{trans}}$ は、歯丈 $h_f = h_f^* m$ により以下のように一意に定まる：
+
+$$
+u_{\text{trans}} = \frac{h_f - \rho_{a0} (1 - \sin\alpha_n)}{\sin\alpha_n}
+$$
+
+この幾何学的境界点に対応して歯面上に創成される境界直径こそが**歯形形状円直径（Form Circle Diameter, $d_{Ff}$）**である。ラック歯形において $u \ge u_{\text{trans}}$ の領域はインボリュート主歯形を創成し、$u < u_{\text{trans}}$ の領域はトロコイドフィレットを創成する：
+
+$$
+r_{Ff} = \sqrt{r_b^2 + \left( r \sin\alpha_n - \frac{h_f - \rho_{a0}(1 - \sin\alpha_n)}{\sin\alpha_n} \right)^2}
+$$
+
+境界点 $u = u_{\text{trans}}$ において、インボリュート歯形とトロコイドフィレット曲線は位置座標だけでなく、単位法線ベクトルも完全に一致する：
+
+$$
+\mathbf{r}_{\text{inv}}(u_{\text{trans}}) = \mathbf{r}_{\text{fillet}}(u_{\text{trans}}), \quad \mathbf{n}_{\text{inv}}(u_{\text{trans}}) = \mathbf{n}_{\text{fillet}}(u_{\text{trans}})
+$$
+
+これにより、インボリュート主歯面と歯元隅肉曲線の接合部は幾何学的な段差や折れ角を一切持たず、数学的に厳密な**$C^1$ 連続性（滑らかな接続）**を保持することが完全に証明される。
+
+### 6.3 Float64倍精度歯形諸元および幾何パラメータの検算
+
+微分幾何学的包絡理論を実機歯形諸元に適用した数値検証結果を以下の表に示す：
+
+| 諸元項目 | 記号 | 数値 | 単位 | 工学的意義および規格根拠 |
+| :--- | :---: | :---: | :---: | :--- |
+| **モジュール (Module)** | $m$ | 3.0 | mm | ISO 53 基本標準モジュール系列 |
+| **標準圧力角 (Pressure Angle)** | $\alpha_n$ | 20.0 (0.349066) | deg (rad) | 基準ピッチ線工具圧力角 |
+| **歯数 (Number of Teeth)** | $z_1$ | 19 | - | アンダーカット限界歯数（$z \ge 17$）満足 |
+| **ピッチ円直径 (Pitch Diameter)** | $d$ | 57.000000 | mm | 基準ピッチ円直径 ($d = m z$) |
+| **基礎円直径 (Base Diameter)** | $d_b$ | 53.562479 | mm | インボリュート発生基礎円直径 ($d_b = d \cos\alpha_n$) |
+| **基礎円ピッチ (Base Pitch)** | $p_b$ | 8.856394 | mm | 法線ピッチおよび作用線歯形間隔 ($p_b = \pi m \cos\alpha_n$) |
+| **工具刃先丸み半径 (Tool Tip Radius)** | $\rho_{a0}$ | 1.140000 | mm | トロコイドフィレット創成半径 ($\rho_{a0} = 0.38 m$) |
+| **歯形形状円直径 (Form Diameter)** | $d_{Ff}$ | 53.598069 | mm | インボリュート-トロコイド接合境界線 ($d_{Ff} > d_b$) |
+
+上記数値が示す通り、形状円直径 $d_{Ff} = 53.598069\text{ mm}$ は基礎円直径 $d_b = 53.562479\text{ mm}$ よりも外側に位置しており（$d_{Ff} > d_b$）、歯数 $z_1 = 19$ の歯車においては有効インボリュート曲面の全域においてアンダーカットによる幾何学的欠損が一切生じないことが数値的にも確認される。
+
+---
+
+## 7. 計算機CAD/CAEカーネルの数値実装アーキテクチャ
+
+H-GEAR STUDIO のような高精度 CAE 幾何学モデリングエンジンのバックエンドにおいて2パラメータ包絡面を数値計算する際、安易な離散格子近似やヒューリスティックな反復探索に依存することは厳重に禁じられている。浮動小数点演算誤差の累積によって歯面に微小な段差が生じ、接触線監査時に人工的な食い込みエラーを誘発するためである。
+
+### 7.1 多変数Newton-Raphson法による精密拘束解法
+
+任意の加工パラメータ組 $(\phi_k, \psi_k)$ において、工具曲面上の厳密な瞬間接触点パラメータ $\mathbf{x} = [u, \theta]^T$ を決定するため、減衰項を伴う多次元 Newton-Raphson 残差収束ループを駆動する：
 
 $$
 \mathbf{F}(\mathbf{x}) = \begin{bmatrix} f_1(u, \theta, \phi_k, \psi_k) \\ f_2(u, \theta, \phi_k, \psi_k) \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix}
 $$
 
-更新式：
+反復更新式：
 
 $$
 \mathbf{x}^{(m+1)} = \mathbf{x}^{(m)} - \left[ \mathbf{J}(\mathbf{x}^{(m)}) \right]^{-1} \mathbf{F}(\mathbf{x}^{(m)})
 $$
 
-解析的ヤコビ行列：
+ここでヤコビアン行列 $\mathbf{J}$ は解析的な連続微分式から直接計算される：
 
 $$
-\mathbf{J} = \begin{bmatrix} 
-\frac{\partial f_1}{\partial u} & \frac{\partial f_1}{\partial \theta} \\ 
-\frac{\partial f_2}{\partial u} & \frac{\partial f_2}{\partial \theta} 
-\end{bmatrix}
+\mathbf{J} = \begin{bmatrix} \frac{\partial f_1}{\partial u} & \frac{\partial f_1}{\partial \theta} \\ \frac{\partial f_2}{\partial u} & \frac{\partial f_2}{\partial \theta} \end{bmatrix}
 $$
 
-### 6.2 収束判定基準と $C^2$ 連続 B-Spline 曲面再構成
+### 7.2 収束トレランス制御と $C^2$ 連続B-Spline曲面再構成
 
-厳格な収束判定基準：
-1. **残差ノルム**: $\|\mathbf{F}(\mathbf{x})\| < 10^{-12}$
-2. **座標ステップ幅**: $\|\mathbf{x}^{(m+1)} - \mathbf{x}^{(m)}\| < 10^{-9}\text{ mm}$
-3. **条件数監視**: $\mathrm{cond}(\mathbf{J}) < 10^6$（特異点発散の防止）
+数値計算カーネルの幾何学的収束トレランスは、以下の厳格な基準線に基づいて判定される：
+1. **残差ノルム制限**: $\|\mathbf{F}(\mathbf{x})\| < 10^{-12}$
+2. **座標変位量制限**: $\|\mathbf{x}^{(m+1)} - \mathbf{x}^{(m)}\| < 10^{-9}\text{ mm}$
+3. **条件数監視**: $\mathrm{cond}(\mathbf{J}) < 10^6$（特異点接近および数値的発散のリアルタイム検知）
 
-得られた高精度接触点群は $C^2$ 連続性を満たす B-Spline 曲面(NURBS)にフィッティングされ、曲率不連続性のない滑らかなB-Repが構成されます。
+導出された高密度点群データは3次元 NURBS / B-Spline パラメトリック曲面へと再構成され、局所曲率半径の連続性を保証するために最低でも $C^2$ 幾何連続性を満たすよう制御される。
 
 ---
 
-## 7. H-GEAR STUDIO バックエンド実装マッピング
+## 8. H-GEAR STUDIOバックエンドソースコードマッピング
 
-H-GEAR STUDIO の計算バックエンド(`prototype2/backend/core/`)では、上記微分幾何学理論がPythonコードとして直接実装されています。
+H-GEAR STUDIO のバックエンド幾何学エンジン（`prototype2/backend/core/`）は、本章で導出した微分幾何学包絡理論を 100% 忠実に閉形式コードとして実装している。
 
-### 7.1 ISO 53 トロコイド包絡線コード (`tooth_geometry.py`)
+### 8.1 ISO 53 トロコイド包絡線方程式の実装 (`tooth_geometry.py`)
 
-標準ラック工具の刃先丸み($\rho_{a0}$)による歯元トロコイド曲線の創成は、`prototype2/backend/core/tooth_geometry.py` の `_generate_standard_trochoid_fillet` 関数に忠実に実装されています：
+ラック工具の刃先丸み円弧（$r_c = \rho_{a0}$）が歯車を創成するトロコイド包絡曲線は、`prototype2/backend/core/tooth_geometry.py` の `_generate_standard_trochoid_fillet` 関数において次のように厳密に記述されている：
 
 ```python
 # prototype2/backend/core/tooth_geometry.py 抜粋
-# リトビン トロコイド包絡線厳密解 (Closed-Form Solution)
+# Litvin トロコイド包絡線閉形式解 (Closed-Form Envelope Solution)
 def _generate_standard_trochoid_fillet(R, h_f_center, rho_f, t_start, t_end, num_points):
     """
-    ISO 53 標準ラック工具の刃先丸み中心(xc, yc)の軌跡と
-    法線ベクトル(nx, ny)オフセットによるトロコイド包絡線の算出
+    ISO 53 標準ラック工具の先端円弧中心(xc, yc)の運動軌跡と
+    単位法線ベクトル(nx, ny)の法線オフセットによる厳密トロコイド包絡線算出
     """
     t_vals = np.linspace(t_start, t_end, num_points)
     sin_t = np.sin(t_vals)
     cos_t = np.cos(t_vals)
     
-    # ラック刃先丸み中心の同次運動変換 (xc, yc)
+    # ラック工具刃先円弧中心座標の同次運動変換 (xc, yc)
     xc = (R - h_f_center) * sin_t - R * t_vals * cos_t
     yc = (R - h_f_center) * cos_t + R * t_vals * sin_t
     
-    # 軌跡の1次導関数 (接線ベクトル)
-    dxc = (R - h_f_center) * cos_t - R * cos_t + R * t_vals * sin_t
-    dyc = -(R - h_f_center) * sin_t - R * sin_t + R * t_vals * cos_t
+    # 工具軌跡の1次導関数 (接線ベクトル dxc/dt, dyc/dt)
+    dxc = -h_f_center * cos_t + R * t_vals * sin_t
+    dyc = h_f_center * sin_t + R * t_vals * cos_t
     
     norm = np.hypot(dxc, dyc)
+    # 単位法線ベクトル成分 (nx, ny)
     nx = -dyc / norm
     ny = dxc / norm
     
-    # 包絡線計算式: 誤差 0.000000 mm
+    # 包絡線公式: xp = xc - rho * nx, yp = yc - rho * ny
     xp = xc - rho_f * nx
     yp = yc - rho_f * ny
     
     return xp, yp
 ```
 
-### 7.2 創成諸元パラメータクラス (`rack_geometry.py`)
+### 8.2 工具諸元および創成パラメータデータクラス (`rack_geometry.py`)
 
-`prototype2/backend/core/rack_geometry.py` 内の `RackProfileParams` クラスがモジュール $m$、圧力角 $\alpha_n$、刃先丸み係数 $\rho_{fP}^*$ を保持し、包絡ソルバーと直結しています。
+`prototype2/backend/core/rack_geometry.py` では、標準ラックプロファイルの幾何パラメータクラス `RackProfileParams` を提供し、ISO 53 Type A〜D 工具ラックのモジュール $m$、標準圧力角 $\alpha_n$、刃先丸み係数 $\rho_{fP}^*$ を受領して上記の包絡理論計算へと直結させている。
 
 ---
 
-## 8. 工学的総合比較と次回予告
+## 9. 工学的総合比較および次回予告
 
-### 8.1 1パラメータ創成 vs 2パラメータ創成の比較
+### 9.1 1パラメータ vs 2パラメータ包絡理論の総合比較
 
-| 項目 | 1パラメータ包絡理論 (古典) | 2パラメータ包絡理論 (現代精密工学) |
+| 比較項目 | 1パラメータ包絡理論 (古典) | 2パラメータ包絡理論 (現代精密工学) |
 | :--- | :--- | :--- |
-| **対象歯車** | 平歯車、はすば歯車、直線ラック | ハイポイド、まがりばかさ歯車、5軸加工歯形 |
-| **独立運動自由度** | $\phi$ (1自由度) | $\phi, \psi$ (2独立自由度) |
-| **かみ合い基本方程式** | $f(u, \theta, \phi) = \mathbf{n} \cdot \mathbf{v}^{(12)} = 0$ (1式) | $f_1 = \mathbf{n} \cdot \mathbf{v}^{(\phi)} = 0$, $f_2 = \mathbf{n} \cdot \mathbf{v}^{(\psi)} = 0$ (2式) |
-| **瞬間接触幾何** | 接触特性線 $L_1(\phi)$ (線接触) | 孤立接触点 $M(\phi, \psi)$ (点接触) |
-| **歯面制御性** | 工具プロファイル形状に拘束 | 歯面ねじれ・クラウニングの自由制御 |
-| **切り下げ判定** | $3 \times 3$ ヤコビ行列式 $\det(J) = 0$ | $4 \times 4$ 拡大ヤコビ行列の階数低下判定 |
-| **H-GEAR STUDIO 実装** | `_generate_standard_trochoid_fillet` | 3D LTCA 接触点探索ソルバー & B-Rep |
+| **適用歯車タイプ** | 外歯平歯車、平行軸はすば歯車、直線ラック | ハイポイド、スパイラルベベル、5軸ミーリング歯形 |
+| **独立運動変数** | $\phi$ (1自由度, rad) | $\phi, \psi$ (2独立自由度, rad) |
+| **噛み合い基本方程式** | $f(u, \theta, \phi) = \mathbf{n} \cdot \mathbf{v}^{(12)} = 0$ (1式) | $f_1 = \mathbf{N}_1 \cdot \mathbf{v}_1^{(\phi)} = 0$, $f_2 = \mathbf{N}_1 \cdot \mathbf{v}_1^{(\psi)} = 0$ (2式) |
+| **瞬間接触形態** | 接触特性線 $L_1(\phi)$ (線接触, Line Contact) | 瞬間接触点 $M(\phi, \psi)$ (点接触, Point Contact) |
+| **歯面形状の制御性** | プロファイル転造/ホブ盤の基本形状に従属 | 歯面ねじれ(Twist)およびクラウニングの自由自在な制御 |
+| **特異点/アンダーカット判別** | $3 \times 3$ ヤコビアン判別式 $\det(J) = 0$ | $4 \times 4$ 拡大ヤコビアンのランク低下判別 |
+| **H-GEAR STUDIO実装** | `_generate_standard_trochoid_fillet` 閉形式解 | 3D LTCA接触点探索ソルバーおよびNURBS B-Rep |
 
-本章で導出した2パラメータ包絡面理論とかみ合い基本方程式($f = \mathbf{n} \cdot \mathbf{v} = 0$)は、3次元空間において干渉なく滑らかに動力を伝達するための運動学的必要条件です。
+本章で厳密に演繹した2パラメータ包絡面理論と噛み合い基本方程式（$f = \mathbf{n} \cdot \mathbf{v} = 0$）は、3次元空間において2つの剛体が幾何学的干渉を起こすことなく滑らかに動力を伝達するための最小限の運動学的必要条件である。
 
-しかし、実稼働時の接触応力や弾性変形を解明するためには、1次導関数（法線ベクトル）のみならず、接触点における2次導関数、すなわち**主曲率および測地曲率**を厳密に把握しなければなりません。
+しかしながら、実機の歯車が高トルク負荷下で噛み合う際に発生する歯面局所応力や弾性変形、荷重伝達誤差（LTE）を正確に評価するためには、歯面の1階微分（法線ベクトル）のみならず、接触点における2階微分、すなわち**主曲率（Principal Curvatures）および測地曲率（Geodesic Curvatures）**の空間的変化を解明しなければならない。
 
-次回の**第2-3章**では、微分幾何学の金字塔である**オイラー・サヴァリ(Euler-Savary)方程式の3次元テンソル拡張**と、**共役歯面間の相対曲率テンソル導出**を詳細に解き明かします。
+次章 **Ch 2-3** では、微分幾何学の金字塔である**オイラー・サバリー（Euler-Savary）方程式の3次元テンソル一般化**と、共役曲面間における**相対曲率テンソルの厳密な導出プロセス**を深層解剖する。

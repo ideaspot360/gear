@@ -29,5 +29,8 @@ scratch/
 artifacts/
 **/visual_captures/
 
+# Local Ingestion Staging
+inbox_staging/
+
 # Edge Deployment Git Metadata
 .blog_edge_git/

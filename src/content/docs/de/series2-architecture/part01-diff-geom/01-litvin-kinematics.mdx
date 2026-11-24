@@ -1,6 +1,6 @@
 ---
 title: "Warum verwenden wir Zahnräder? — Von mechanischen Grenzen der Reibräder zum vollständigen differentialgeometrischen Beweis des Willis-Gesetzes"
-description: "Eine umfassende mathematische Abhandlung ausgehend von den mechanischen Grenzen und der Schlupfkinematik von Reibrädern über die relative Kinematik zweier Körper, Litvins erste Eingriffsgleichung und das Willis-Verzahnungsgesetz bis hin zur differentialgeometrischen Krümmungsgleichung von Euler-Savary und der Eigenschaft der Evolventeninvarianz."
+description: "Ausgehend von den physikalischen Reibschlussgrenzen und der Schlupfkinematik einfacher Reibräder entwickelt diese Monografie die Relativkinematik starrer Flanken, Litvins erste Eingriffsgleichung, den geschlossenen differentialgeometrischen Beweis des Willis-Verzahnungsgesetzes, die Krümmungsbeziehungen nach Euler-Savary sowie die Achsabstandsinvarianz der Evolvente."
 series: architecture
 part: 1
 chapter: 1
@@ -16,7 +16,7 @@ required_diagrams:
   - "fig2_willis_law_geometry"
   - "fig3_contact_velocity_vectors"
 academic_level: graduate
-equations_hash: "492c1834bc24cba6ef3de66b9b0bf3742820e76a7d162274fde205fb0202252b"
+equations_hash: "430cba407a6e8cca0398e9d725a4dc08fb7699afd046248c2ca5849bce16d4ed"
 kernel_verified: true
 review_date: "2026-11-12"
 sidebar:
@@ -25,190 +25,935 @@ sidebar:
 
 ## 1. Einleitung: Evolution der Leistungsübertragung und mechanische Grenzen von Reibrädern
 
-Das elementarste mechanische Maschinenelement zur Drehmomentübertragung zwischen zwei Wellen ist das **Reibradgetriebe**, bei dem die Kraft über den Reibschluss zweier aneinandergepresster Zylinder übertragen wird. Mit steigenden Anforderungen an Drehmoment, Drehzahl und exakte Winkelsynchronisation traten jedoch grundlegende physikalische Grenzen zutage:
+Das elementarste mechanische Maschinenelement zur Drehmomentübertragung zwischen zwei parallelen Wellen ist das **Reibradgetriebe**, bei dem zwei glatte Zylinder unter starker Normalkraft aneinandergepresst werden und die Leistung ausschließlich über Grenzflächenreibung übertragen. Mit den steigenden Anforderungen moderner Antriebsstränge an Drehmomentdichte, Betriebsdrehzahlen und mikroradiante Winkelsynchronisation traten jedoch grundlegende physikalische Grenzen zutage.
 
 ```
-[Antriebswelle O1] ──(Normalkraft FN)──▶ [Berührpunkt P (Reibkraft Ft ≤ μ FN)] ──▶ [Abtriebswelle O2]
-       │                                                   │                                │
-       ▼                                                   ▼                                ▼
-[Hohe Lager-Radialkräfte]                           [Schlupf s > 0]                  [Phasenverlust]
+[Antriebswelle O₁] ──(Normalkraft FN)──▶ [Berührpunkt P (Reibkraft Ft ≤ μ FN)] ──(Antrieb)──▶ [Abtriebswelle O₂]
+        │                                                    │                                       │
+        ▼                                                    ▼                                       ▼
+[Extrem hohe Lager-Radiallasten]                     [Makroschlupf s > 0]                   [Phasendivergenz Δθ → ∞]
 ```
 
-### 1.1 Kontaktmechanik und Reibschlussgrenzen
+### 1.1 Kontaktmechanik von Reibrädern und Reibschlussgrenzen der Umfangskraft
 
-Für zwei Reibzylinder mit den Radien $r_1$ und $r_2$ bei Achsabstand $a = r_1 + r_2$ ist die maximal übertragbare Umfangskraft $F_{t,\max}$ durch das Coulombsche Reibungsgesetz begrenzt:
+Betrachten wir zwei zylindrische Reibräder mit den Radien $r_1$ und $r_2$ bei einem Achsabstand $a = r_1 + r_2$, die sich im Punkt $P$ berühren. Wird an Rad 1 ein Antriebsmoment $T_1$ angelegt, ist die maximal übertragbare tangentiale Traktionskraft $F_{t,\max}$ nach dem Coulombschen Reibungsgesetz durch das Produkt aus Normalkraft $F_N$ und Haftbeiwert $\mu_s$ beschränkt:
 
 $$
 F_t \le F_{t,\max} = \mu_s F_N
 $$
 
-Das statische Drehmomentgleichgewicht lautet:
+Das statische Drehmomentgleichgewicht für die Kraftübertragung im Reibradkontakt verlangt:
 
 $$
 F_t = \frac{T_1}{r_1}
 $$
 
-Die erforderliche Mindestnormalkraft $F_{N,\min}$ beträgt daher:
+Folglich muss eine externe Spannvorrichtung (Federpakete, Hydraulikzylinder) kontinuierlich eine **minimale Anpresskraft $F_{N,\min}$** aufbringen:
 
 $$
 F_{N,\min} = \frac{T_1}{\mu_s r_1}
 $$
 
-Dies führt zu massiven Lagerbelastungen ($F_N \approx (5 \sim 20) F_t$) und hoher Hertzscher Pressung $p_{\max} \propto \sqrt{F_N}$, welche Grübchenbildung (Pitting) und Ermüdungsausbrüche begünstigt.
+Aus dieser physikalischen Beziehung resultieren gravierende maschinenbauliche Nachteile:
+
+1. **Massive Lager- und Wellenbelastungen**:
+   Da reale Haftbeiwerte unter Misch- oder Grenzschmierung im Bereich von $\mu_s \approx 0.05 \sim 0.08$ (bzw. trocken $\mu_s \approx 0.15 \sim 0.20$) liegen, muss die erforderliche Anpresskraft $F_N$ das $5$- bis $20$-fache der eigentlichen Nutzumfangskraft $F_t$ betragen:
+
+$$
+R_{\text{bearing}} = F_N \ge \frac{1}{\mu_s} F_t \approx (5 \sim 20) F_t
+$$
+
+   Diese enormen Radialkräfte führen zu elastischen Durchbiegungen der Wellen und überlasten die Wälzlager, was deren nominelle $L_{10}$-Ermüdungslebensdauer drastisch verkürzt.
+
+2. **Hertzsche Pressung und Grübchenbildung (Pitting)**:
+   Nach der Hertzschen Kontakttheorie skaliert die maximale Druckspannung $p_{\max}$ zwischen zwei Zylindern mit der Quadratwurzel der Normalkraft:
+
+$$
+p_{\max} = \sqrt{\frac{F_N \cdot E^*}{\pi b \left( \frac{r_1 r_2}{r_1 + r_2} \right)}} \propto \sqrt{F_N}
+$$
+
+   Wird die Anpresskraft gesteigert, überschreitet die maximale Schubspannung unterhalb der Oberfläche ($\tau_{\max} \approx 0.300 p_{\max}$) die Fließgrenze des Werkstoffs, was zu frühzeitiger Werkstoffermüdung und Grübchenbildung führt.
 
 ---
 
-### 1.2 Schlupf und Verlust der Winkelsynchronisation
+### 1.2 Kinematik des Schlupfs und Verlust der Winkelsynchronisation
 
-Die Relativgeschwindigkeit an der Kontaktzone führt zum Schlupf $s$:
+Unter realen elastischen Kontaktbedingungen (beschrieben durch Osborne Reynolds und F. W. Carter) tritt selbst vor dem vollständigen Durchrutschen infolge mikroskopischer Werkstoffdehnungen sogenannter **elastischer Schlupf (Creep)** auf.
+
+Bezeichnen $v_1 = r_1 \omega_1$ und $v_2 = r_2 \omega_2$ die Umfangsgeschwindigkeiten an den Reibradoberflächen, so ist der **Schlupfwert $s$** definiert als:
 
 $$
-s = \frac{v_1 - v_2}{v_1} = 1 - \frac{r_2 \omega_2}{r_1 \omega_1}
+s = \frac{v_1 - v_2}{v_1} = 1 - \frac{r_2 \omega_2}{r_1 \omega_1} \quad (0 \le s \le 1)
 $$
 
-Das momentane Übersetzungsverhältnis ist daher lastabhängig:
+Unter Berücksichtigung des Schlupfes lautet das momentane Winkelgeschwindigkeits-Übersetzungsverhältnis $u(t)$:
 
 $$
 u(t) = \frac{\omega_1(t)}{\omega_2(t)} = \frac{r_2}{r_1} \cdot \frac{1}{1 - s(t)}
 $$
 
-Bei Drehmomentspitzen bricht der Kraftschluss zusammen ($s \to 1$), was zu unumkehrbarem Phasenverlust $\Delta\theta(t) \to \infty$ führt.
+Sobald Drehmomentspitzen oder Temperaturschwankungen den lokalen Reibbeiwert unter die kritische Grenze senken, bricht der Kraftschluss zusammen:
+
+$$
+F_t(t) > \mu_k F_N \implies s(t) \to 1 \quad (\text{Gross Slip / Spin-out})
+$$
+
+Unter Makroschlupf divergiert die akkumulierte Phasenwinkeldifferenz $\Delta \theta(t)$ zeitlich unbeschränkt:
+
+$$
+\Delta \theta(t) = \theta_1(t) - \frac{r_2}{r_1} \theta_2(t) = \int_0^t s(\tau) \, \omega_1(\tau) \, d\tau \neq 0
+$$
+
+$$
+\lim_{t \to \infty} |\Delta \theta(t)| = \infty
+$$
+
+Diese Divergenz macht Reibräder für Anwendungen in der Robotik, im Automobilantrieb, in Druckmaschinen und in der Feinwerktechnik unbrauchbar.
 
 ---
 
-### 1.3 Formschluss durch Verzahnung (Abbildung 1)
+### 1.3 Paradigmenwechsel zum formschlüssigen Zahneingriff (Analyse von Abbildung 1)
 
-Um diese Beschränkung zu überwinden, ging der Maschinenbau zum **formschlüssigen Zahneingriff** über.
+Um die Reibschlussgrenzen zu überwinden, vollzog die Ingenieurwissenschaft den Übergang zum **geometrischen Formschluss (Formschluss)** durch formschlüssig ineinandergreifende Zahnflanken.
 
-![Abbildung 1A: Funktionsprinzip und Grenzen von Reibrädern](/images/part1/de/fig1a_friction_drive.png)
+![Abbildung 1A: Reibrad-Mechanismus und physikalische Grenzen](/images/part1/de/fig1a_friction_drive.png)
 
-* **(A) Reibradantrieb**: Kraftübertragung über Reibschluss $F_t \le \mu F_N$. Bei Überlast tritt Schlupf auf.
+* **(A) Reibradgetriebe**:
+  - Antriebsrad $O_1$ und Abtriebsrad $O_2$ berühren sich im Wälzpunkt $P$ unter hoher Anpresskraft $F_N$.
+  - Die Umfangskraft ist auf $F_t \le \mu F_N$ begrenzt; bei Überlast tritt Relativschlupf $\Delta v = v_1 - v_2 \neq 0$ auf, wodurch die Phasensynchronisation zerstört wird.
 
 ![Abbildung 1B: Formschlüssiger Eingriff von Evolventenverzahnungen](/images/part1/de/fig1b_gear_drive.png)
 
-* **(B) Evolventenverzahnung**: Formschluss mit Modul $m = 2.0\text{ mm}$, $z_1 = 17, z_2 = 33$, Eingriffswinkel $\alpha_n = 20.0^\circ$. Selbst bei reibungsfreiem Kontakt ($\mu \equiv 0$) bleibt das Übersetzungsverhältnis $u = 33 / 17 \approx 1.941176$ exakt konstant.
+* **(B) Formschlüssiger Zahneingriff bei Evolventenverzahnungen**:
+  - Radsatz mit Modul $m = 2.0\text{ mm}$, Zähnezahlen $z_1 = 17, z_2 = 33$ und Eingriffswinkel $\alpha_n = 20.0^\circ$.
+  - Selbst bei reibungsfreien Oberflächen ($\mu \equiv 0$) drückt die geometrische Flankennormale den Gegenflankenpartner mechanisch formschlüssig weiter.
+  - Unter Vorhaltung eines konstruktiven Flankenspiels $j_n > 0$ zur Vermeidung thermischer Klemmung bleibt das Übersetzungsverhältnis exakt konstant bei $u = 33 / 17 \approx 1.941176$.
+
+Bei beliebig gestalteten Zahnformen treten jedoch periodische Winkelbeschleunigungen, Stöße und Geräusche auf. Dies führt zur zentralen differentialgeometrischen Fragestellung: **"Welche mathematische Bedingung müssen zwei Flankenkurven erfüllen, damit das momentane Übersetzungsverhältnis $u(t) \equiv \text{const}$ während des gesamten Eingriffs streng konstant bleibt?"**
 
 ---
 
 ## 2. Kinematik der Relativbewegung konjugierter Zahnflanken
 
-Gemäß der Kinematik von Prof. Faydor L. Litvin definieren wir drei Koordinatensysteme: $S_f$ (raumfest), $S_1$ (Ritzel) und $S_2$ (Rad).
+Aufbauend auf dem maßgeblichen kinematischen Lehrgebäude von Prof. Faydor L. Litvin (**Litvin's Kinematic Theory of Gearing**) und der Differentialgeometrie von Regelflächen (**Differential Geometry of Surfaces**) formulieren wir die Relativkinematik zweier konjugierter Zahnflanken (**Conjugate Tooth Surfaces**, $\Sigma_1, \Sigma_2$) mittels körperfester Koordinatensysteme und Vektorfelder.
 
-Die Achsabstandsvektoren und Winkelgeschwindigkeiten lauten:
+```
+       [ Raumfestes Bezugssystem Sf (Ursprung O₁, Zf-Achse) ]
+               │                                      │
+      (Drehung φ₁)                           (Drehung φ₂, Abstand a)
+               ▼                                      ▼
+    [ Ritzelkoordinatensystem S₁ ]         [ Radkoordinatensystem S₂ ]
+    Ortsvektor r₁(θ₁)                      Ortsvektor r₂(θ₂)
+    Normalenvektor n₁(θ₁)                  Normalenvektor n₂(θ₂)
+```
+
+### 2.1 Definition der Koordinatensysteme ($S_1, S_2, S_f$) und Momentanachse (IAR)
+
+Im dreidimensionalen euklidischen Raum $\mathbb{R}^3$ definieren wir drei rechtshändige Orthonormalsysteme:
+
+1. **Raumfestes Bezugssystem $S_f(O_f; \mathbf{i}_f, \mathbf{j}_f, \mathbf{k}_f)$**:
+   Fest mit dem Getriebegehäuse verbunden. Ursprung $O_f \equiv O_1(0, 0, 0)$ liegt auf der Drehachse von Ritzel 1. Die Drehachse von Rad 2 liegt im Abstand $a$ auf der $x_f$-Achse bei $(a, 0, 0)$.
+   Der Achsabstandsvektor $\mathbf{R}$ lautet:
 
 $$
 \mathbf{R} = \vec{O_1 O_2} = a \, \mathbf{i}_f = \begin{bmatrix} a \\ 0 \\ 0 \end{bmatrix}_f
 $$
 
-$$
-\boldsymbol{\omega}_1 = \omega_1 \, \mathbf{k}_f, \quad \boldsymbol{\omega}_2 = -\omega_2 \, \mathbf{k}_f
-$$
-
-Die Relativgeschwindigkeit $\mathbf{v}_f^{(12)}$ im Eingriffspunkt $K$ beträgt:
+2. **Ritzelkoordinatensystem $S_1(O_1; \mathbf{i}_1, \mathbf{j}_1, \mathbf{k}_1)$**:
+   Körperfest mit Ritzel 1 verbunden, rotiert um $\mathbf{k}_f$ um den Drehwinkel $\phi_1$. Der Winkelgeschwindigkeitsvektor lautet:
 
 $$
-\mathbf{v}_f^{(12)} = \mathbf{v}_f^{(1)} - \mathbf{v}_f^{(2)} = (\boldsymbol{\omega}_1 - \boldsymbol{\omega}_2) \times \mathbf{r}_f - \mathbf{R} \times \boldsymbol{\omega}_2
+\boldsymbol{\omega}_1 = \omega_1 \, \mathbf{k}_f = \begin{bmatrix} 0 \\ 0 \\ \omega_1 \end{bmatrix}_f, \quad \omega_1 = \frac{d\phi_1}{dt}
+$$
+
+3. **Radkoordinatensystem $S_2(O_2; \mathbf{i}_2, \mathbf{j}_2, \mathbf{k}_2)$**:
+   Körperfest mit Rad 2 verbunden, rotiert bei Außenverzahnung gegensinnig um den Winkel $\phi_2$:
+
+$$
+\boldsymbol{\omega}_2 = -\omega_2 \, \mathbf{k}_f = \begin{bmatrix} 0 \\ 0 \\ -\omega_2 \end{bmatrix}_f, \quad \omega_2 = \frac{d\phi_2}{dt}
+$$
+
+4. **Momentanachse der Relativbewegung (IAR)**:
+   Der Relativwinkelgeschwindigkeitsvektor $\boldsymbol{\omega}_{12}$ zwischen Rad 1 und Rad 2 beträgt:
+
+$$
+\boldsymbol{\omega}_{12} = \boldsymbol{\omega}_1 - \boldsymbol{\omega}_2 = (\omega_1 + \omega_2)\mathbf{k}_f
+$$
+
+   Die geometrische Ortskurve aller Punkte mit verschwindender Relativgeschwindigkeit ($\mathbf{v}^{(12)} = \mathbf{0}$) bildet eine Gerade parallel zu den Drehachsen durch den Wälzpunkt $P(r_{w1}, 0, 0)$. Dies ist die **Momentanachse der Relativbewegung (Instantaneous Axis of Rotation, IAR)**.
+
+---
+
+### 2.2 Homogene Transformationsmatrizen und Transformation der Flankennormale
+
+Nach Faydor L. Litvin fassen wir Rotations- und Translationsoperationen in der homogenen $4 \times 4$-Transformationsmatrix (**Homogeneous Coordinate Transformation Matrix**, $\mathbf{M}_{ij}$) und erweiterten Matrix (**$4 \times 4$ Augmented Matrix**) zusammen.
+
+Die Transformationsmatrix $\mathbf{M}_{f1}(\phi_1)$ von $S_1$ nach $S_f$ lautet:
+
+$$
+\mathbf{M}_{f1}(\phi_1) = \begin{bmatrix} \cos\phi_1 & -\sin\phi_1 & 0 & 0 \\ \sin\phi_1 & \cos\phi_1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}
+$$
+
+Die Matrix $\mathbf{M}_{f2}(\phi_2)$ von $S_2$ nach $S_f$ mit Achsabstand $a$ lautet:
+
+$$
+\mathbf{M}_{f2}(\phi_2) = \begin{bmatrix} \cos\phi_2 & \sin\phi_2 & 0 & a \\ -\sin\phi_2 & \cos\phi_2 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}
+$$
+
+Die inverse Matrix $\mathbf{M}_{2f}(\phi_2) = \mathbf{M}_{f2}^{-1}(\phi_2)$ von $S_f$ nach $S_2$ ergibt sich analytisch zu:
+
+$$
+\mathbf{M}_{2f}(\phi_2) = \mathbf{M}_{f2}^{-1}(\phi_2) = \begin{bmatrix} \cos\phi_2 & -\sin\phi_2 & 0 & -a \cos\phi_2 \\ \sin\phi_2 & \cos\phi_2 & 0 & -a \sin\phi_2 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}
+$$
+
+Damit berechnet sich die direkte Transformationsmatrix $\mathbf{M}_{21}(\phi_1, \phi_2)$ von $S_1$ nach $S_2$ durch Matrizenmultiplikation:
+
+$$
+\mathbf{M}_{21}(\phi_1, \phi_2) = \mathbf{M}_{2f}(\phi_2) \, \mathbf{M}_{f1}(\phi_1) = \begin{bmatrix} \cos(\phi_1 + \phi_2) & -\sin(\phi_1 + \phi_2) & 0 & -a \cos\phi_2 \\ \sin(\phi_1 + \phi_2) & \cos(\phi_1 + \phi_2) & 0 & -a \sin\phi_2 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}
+$$
+
+Die Koordinatentransformation eines homogenen Ortsvektors $\mathbf{r}_1 = [x_1, y_1, z_1, 1]^T$ lautet:
+
+$$
+\mathbf{r}_2 = \mathbf{M}_{21}(\phi_1, \phi_2) \, \mathbf{r}_1
+$$
+
+Da Flankennormalen Richtungsvektoren sind, bleiben sie von Translationen unbeeinflusst und transformieren ausschließlich über die orthogonale $3 \times 3$-Rotationsuntermatrix $\mathbf{L}_{21}(\phi_1, \phi_2)$:
+
+$$
+\mathbf{L}_{21}(\phi_1, \phi_2) = \begin{bmatrix} \cos(\phi_1 + \phi_2) & -\sin(\phi_1 + \phi_2) & 0 \\ \sin(\phi_1 + \phi_2) & \cos(\phi_1 + \phi_2) & 0 \\ 0 & 0 & 1 \end{bmatrix}
+$$
+
+$$
+\mathbf{n}_2 = \mathbf{L}_{21}(\phi_1, \phi_2) \, \mathbf{n}_1
+$$
+
+Wegen der strikten Orthogonalität ($\mathbf{L}_{21}^{-1} = \mathbf{L}_{21}^T, \det(\mathbf{L}_{21}) = +1$) bleibt die Einheitslänge der Normale invariant erhalten: $\|\mathbf{n}_2\| = \|\mathbf{n}_1\| = 1$.
+
+---
+
+### 2.3 Zweiparametrische Flankendarstellung, Einheitsnormale und Grenzbedingungen für Unterschnitt (Surface Parameterization)
+
+Gemäß Litvins Differentialgeometrie wird die dreidimensionale Flankenfläche $\Sigma_1$ von Ritzel 1 durch eine zweiparametrige Flächenparametrisierung (**Surface Parameterization**, $\mathbf{r}(u, \theta)$ bzw. $\mathbf{r}_1(u, \theta)$) mit zwei unabhängigen Parametern $(u, \theta)$ beschrieben:
+- $u$: Profilparameter entlang der Evolvente (Abwälzwinkel)
+- $\theta$: Breitenparameter entlang der Zahnbreite ($z_1$)
+
+$$
+\mathbf{r}_1(u, \theta) = \begin{bmatrix} x_1(u, \theta) \\ y_1(u, \theta) \\ z_1(u, \theta) \end{bmatrix}_1
+$$
+
+Für zylindrische Geradstirnräder ist die Flanke eine Zylinderregelfläche parallel zu $z_1$, sodass $z_1 \equiv \theta$ gesetzt werden kann:
+
+$$
+\mathbf{r}_1(u, \theta) = \begin{bmatrix} x_1(u) \\ y_1(u) \\ \theta \end{bmatrix}_1
+$$
+
+Die Tangentenbasisvektoren ergeben sich durch partielle Ableitungen:
+
+$$
+\mathbf{r}_{1u} = \frac{\partial \mathbf{r}_1}{\partial u} = \begin{bmatrix} \frac{\partial x_1}{\partial u} \\ \frac{\partial y_1}{\partial u} \\ 0 \end{bmatrix}_1 = \begin{bmatrix} \dot{x}_1(u) \\ \dot{y}_1(u) \\ 0 \end{bmatrix}_1
+$$
+
+$$
+\mathbf{r}_{1\theta} = \frac{\partial \mathbf{r}_1}{\partial \theta} = \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix}_1 = \mathbf{k}_1
+$$
+
+Unter der Voraussetzung regulärer Flächen ($\|\mathbf{r}_{1u} \times \mathbf{r}_{1\theta}\| \neq 0$) ist die äußere Einheitsflankennormale $\mathbf{n}_1(u, \theta)$ definiert durch:
+
+$$
+\mathbf{N}_1(u, \theta) = \mathbf{r}_{1u} \times \mathbf{r}_{1\theta} = \begin{vmatrix} \mathbf{i}_1 & \mathbf{j}_1 & \mathbf{k}_1 \\ \dot{x}_1(u) & \dot{y}_1(u) & 0 \\ 0 & 0 & 1 \end{vmatrix} = \begin{bmatrix} \dot{y}_1(u) \\ -\dot{x}_1(u) \\ 0 \end{bmatrix}_1
+$$
+
+$$
+\mathbf{n}_1(u, \theta) = \frac{\mathbf{N}_1(u, \theta)}{\|\mathbf{N}_1(u, \theta)\|} = \frac{1}{\sqrt{\dot{x}_1^2(u) + \dot{y}_1^2(u)}} \begin{bmatrix} \dot{y}_1(u) \\ -\dot{x}_1(u) \\ 0 \end{bmatrix}_1
+$$
+
+Im raumfesten Bezugssystem $S_f$ lauten die transformierten Vektoren:
+
+$$
+\mathbf{r}_f^{(1)}(u, \theta, \phi_1) = \mathbf{L}_{f1}(\phi_1) \cdot \mathbf{r}_1(u, \theta) = \begin{bmatrix} x_1(u) \cos\phi_1 - y_1(u) \sin\phi_1 \\ x_1(u) \sin\phi_1 + y_1(u) \cos\phi_1 \\ \theta \end{bmatrix}_f
+$$
+
+$$
+\mathbf{n}_f^{(1)}(u, \phi_1) = \mathbf{L}_{f1}(\phi_1) \cdot \mathbf{n}_1(u) = \begin{bmatrix} n_{1x} \cos\phi_1 - n_{1y} \sin\phi_1 \\ n_{1x} \sin\phi_1 + n_{1y} \cos\phi_1 \\ 0 \end{bmatrix}_f
+$$
+
+Ein Flankensingularitätspunkt tritt auf, wenn das Kreuzprodukt der Tangentenvektoren der erzeugten Flanke verschwindet:
+
+$$
+\frac{\partial \mathbf{r}_2}{\partial u} \times \frac{\partial \mathbf{r}_2}{\partial \theta} = \mathbf{0}
+$$
+
+An dieser Singularitätsgrenze bildet die Einhüllende eine Spitze (Cusp) und schneidet sich selbst, wodurch das erzeugende Werkzeug aktives Evolventenflankenmaterial wegschneidet: Es entsteht **Unterschnitt (Undercutting)**.
+
+---
+
+### 2.4 Exakte Ableitung des Relativgeschwindigkeitsvektors (Relative Velocity Vector: $\mathbf{v}^{(12)}$)
+
+Betrachten wir zwei Zahnflanken $\Sigma_1$ und $\Sigma_2$, die sich im Punkt $K$ berühren. Der Ortsvektor von $K$ im System $S_f$ bezüglich $O_1$ sei $\mathbf{r}_f = [x_f, y_f, 0]^T$.
+
+In der allgemeinen Starrkörperkinematik lautet der Relativgeschwindigkeitsvektor (**Relative Velocity Vector**, $\mathbf{v}^{(12)}$) mit Achsverschiebegeschwindigkeit $\mathbf{v}_{\text{trans}}$:
+
+$$
+\mathbf{v}^{(12)} = \mathbf{v}^{(1)} - \mathbf{v}^{(2)} = (\boldsymbol{\omega}_1 \times \mathbf{r}_1) - (\boldsymbol{\omega}_2 \times \mathbf{r}_1 + \mathbf{v}_{\text{trans}})
+$$
+
+Für getriebefeste Achsen ($\mathbf{v}_{\text{trans}} = \mathbf{0}$) lauten die Absolutgeschwindigkeiten im Bezugssystem $S_f$:
+
+1. **Absolutgeschwindigkeit $\mathbf{v}_f^{(1)}$ des Berührpunkts auf Flanke 1**:
+
+$$
+\mathbf{v}_f^{(1)} = \boldsymbol{\omega}_1 \times \mathbf{r}_f = \begin{vmatrix} \mathbf{i}_f & \mathbf{j}_f & \mathbf{k}_f \\ 0 & 0 & \omega_1 \\ x_f & y_f & 0 \end{vmatrix} = \begin{bmatrix} -\omega_1 y_f \\ \omega_1 x_f \\ 0 \end{bmatrix}_f
+$$
+
+2. **Absolutgeschwindigkeit $\mathbf{v}_f^{(2)}$ des Berührpunkts auf Flanke 2**:
+
+$$
+\mathbf{v}_f^{(2)} = \boldsymbol{\omega}_2 \times (\mathbf{r}_f - \mathbf{R}) = \begin{vmatrix} \mathbf{i}_f & \mathbf{j}_f & \mathbf{k}_f \\ 0 & 0 & -\omega_2 \\ x_f - a & y_f & 0 \end{vmatrix} = \begin{bmatrix} \omega_2 y_f \\ -\omega_2 (x_f - a) \\ 0 \end{bmatrix}_f
+$$
+
+3. **Relativgeschwindigkeitsvektor $\mathbf{v}_f^{(12)}$**:
+
+$$
+\mathbf{v}_f^{(12)} = \mathbf{v}_f^{(1)} - \mathbf{v}_f^{(2)} = \boldsymbol{\omega}_1 \times \mathbf{r}_f - \boldsymbol{\omega}_2 \times (\mathbf{r}_f - \mathbf{R})
+$$
+
+Unter Anwendung des Distributivgesetzes für Vektorkreuzprodukte:
+
+$$
+\mathbf{v}_f^{(12)} = (\boldsymbol{\omega}_1 - \boldsymbol{\omega}_2) \times \mathbf{r}_f + \boldsymbol{\omega}_2 \times \mathbf{R} = (\boldsymbol{\omega}_1 - \boldsymbol{\omega}_2) \times \mathbf{r}_f - \mathbf{R} \times \boldsymbol{\omega}_2
+$$
+
+In kartesischen Komponenten im System $S_f$ ergibt sich:
+
+$$
+\mathbf{v}_f^{(12)} = \begin{bmatrix} -\omega_1 y_f \\ \omega_1 x_f \\ 0 \end{bmatrix} - \begin{bmatrix} \omega_2 y_f \\ -\omega_2 (x_f - a) \\ 0 \end{bmatrix} = \begin{bmatrix} -(\omega_1 + \omega_2) y_f \\ (\omega_1 + \omega_2) x_f - \omega_2 a \\ 0 \end{bmatrix}_f
 $$
 
 ---
 
-## 3. Erste Eingriffsgleichung nach Litvin und Willis-Verzahnungsgesetz
+## 3. Erste Eingriffsgleichung nach Litvin und differentialgeometrischer Beweis des Willis-Gesetzes
 
-### 3.1 Kontinuierliche Eingriffsbedingung
+### 3.1 Kontinuierliche Eingriffsbedingung und die erste Eingriffsgleichung
 
-Zwei Zahnflanken bleiben genau dann ohne Durchdringung oder Abheben in ständigem Kontakt, wenn die Relativgeschwindigkeit in Richtung der gemeinsamen Flankennormale $\mathbf{n}_f$ verschwindet:
+Damit zwei starre Zahnflanken im Zeitintervall $t \in [0, T]$ ständigen Kontakt halten, ohne einander zu durchdringen oder abzuheben, muss die Relativgeschwindigkeit in Richtung der gemeinsamen Flankennormale verschwinden:
+
+> **"Im Berührpunkt $K$ muss die Projektion der Relativgeschwindigkeit $\mathbf{v}^{(12)}$ auf die gemeinsame Flankennormale $\mathbf{n}$ identisch Null sein."**
+
+Dies ist **Litvins erste Eingriffsgleichung** (**Equation of Meshing**: $f = \mathbf{n} \cdot \mathbf{v}^{(12)} = 0$), formuliert im Flankensystem $S_1$ und im Bezugssystem $S_f$:
 
 $$
-\mathbf{n}_f \cdot \mathbf{v}_f^{(12)} = 0
+f(u, \theta, \phi_1) = \mathbf{n}_1 \cdot \mathbf{v}^{(12)} = 0
 $$
 
-Dies ist **Litvins erste Eingriffsgleichung**.
+$$
+\mathbf{n}_f^{(1)} \cdot \mathbf{v}_f^{(12)} = 0
+$$
 
-### 3.2 Beweis des Willis-Verzahnungsgesetzes
+Ist $\mathbf{n} \cdot \mathbf{v}^{(12)} > 0$, heben die Flanken voneinander ab; ist $\mathbf{n} \cdot \mathbf{v}^{(12)} < 0$, tritt geometrische Durchdringung auf.
 
-Durch Einsetzen und Auswertung des Spatprodukts folgt:
+Entwickeln wir das Skalarprodukt in kartesischen Komponenten für Geradstirnräder mit $\mathbf{n}_f = [n_{fx}, n_{fy}, 0]^T$:
+
+$$
+-n_{fx} (\omega_1 + \omega_2) y_f + n_{fy} [(\omega_1 + \omega_2) x_f - \omega_2 a] = 0
+$$
+
+$$
+(\omega_1 + \omega_2) (n_{fy} x_f - n_{fx} y_f) = \omega_2 a n_{fy}
+$$
+
+Division durch $(\omega_1 + \omega_2)$ und Einsetzen des Betriebswälzkreisradius $r_{w1} = \frac{\omega_2}{\omega_1 + \omega_2} a$ liefert die Geradengleichung der Flankennormale:
+
+$$
+n_{fy} x_f - n_{fx} y_f = \frac{\omega_2}{\omega_1 + \omega_2} a n_{fy} = r_{w1} n_{fy}
+$$
+
+Schnitt mit der Zentrale ($y_f = 0$):
+
+$$
+n_{fy} x_f = r_{w1} n_{fy} \implies x_f = r_{w1} = \frac{a}{1 + u} = P
+$$
+
+Diese geschlossene Herleitung beweist zweifelsfrei, dass die Eingriffsgleichung (**Equation of Meshing**) $\mathbf{n} \cdot \mathbf{v}^{(12)} = 0$ mathematisch exakt äquivalent dazu ist, dass die Flankennormale entlang der Eingriffslinie (**Line of Action / Contact Path**) stets durch den raumfesten Wälzpunkt $P(r_{w1}, 0, 0)$ geht.
+
+Bei Schrägstirnrädern mit Grundschrägungswinkel $\beta_b$ besitzt die Normale eine $z$-Komponente ($n_z = \sin\beta_b$). Da jedoch bei parallelen Achsen keine Relativgeschwindigkeit in Achsrichtung auftritt ($v_z^{(12)} \equiv 0$), reduziert sich das Skalarprodukt exakt auf den Stirnschnitt:
+
+$$
+\mathbf{n} \cdot \mathbf{v}^{(12)} = \mathbf{n}_t \cdot \mathbf{v}_t^{(12)} + n_z v_z^{(12)} = \mathbf{n}_t \cdot \mathbf{v}_t^{(12)} + 0 = 0
+$$
+
+Somit bleibt der Durchgang durch den Wälzpunkt $P$ in jedem Stirnschnitt über die gesamte Zahnbreite uneingeschränkt gewahrt.
+
+---
+
+### 3.2 Analytischer und geometrischer Beweis des Willis-Verzahnungsgesetzes
+
+Setzen wir den Relativgeschwindigkeitsvektor in die Eingriffsgleichung ein:
+
+$$
+\mathbf{n}_f \cdot \left[ (\boldsymbol{\omega}_1 - \boldsymbol{\omega}_2) \times \mathbf{r}_f + \boldsymbol{\omega}_2 \times \mathbf{R} \right] = 0
+$$
+
+Anwendung der zyklischen Vertauschung im Spatprodukt $\mathbf{a} \cdot (\mathbf{b} \times \mathbf{c}) = (\mathbf{a} \times \mathbf{b}) \cdot \mathbf{c}$:
+
+$$
+(\boldsymbol{\omega}_1 - \boldsymbol{\omega}_2) \cdot (\mathbf{r}_f \times \mathbf{n}_f) + \mathbf{n}_f \cdot (\boldsymbol{\omega}_2 \times \mathbf{R}) = 0
+$$
+
+$$
+(\boldsymbol{\omega}_1 - \boldsymbol{\omega}_2) \cdot (\mathbf{r}_f \times \mathbf{n}_f) + \boldsymbol{\omega}_2 \cdot (\mathbf{R} \times \mathbf{n}_f) = 0
+$$
+
+$$
+\boldsymbol{\omega}_1 \cdot (\mathbf{r}_f \times \mathbf{n}_f) - \boldsymbol{\omega}_2 \cdot [(\mathbf{r}_f - \mathbf{R}) \times \mathbf{n}_f] = 0
+$$
+
+Mit $\mathbf{r}_f = \vec{O_1 K}$ und $\mathbf{r}_f - \mathbf{R} = \vec{O_2 K}$:
 
 $$
 \boldsymbol{\omega}_1 \cdot (\vec{O_1 K} \times \mathbf{n}_f) = \boldsymbol{\omega}_2 \cdot (\vec{O_2 K} \times \mathbf{n}_f)
 $$
 
-Da $O_1$ und $O_2$ auf entgegengesetzten Seiten der Eingriffslinie liegen, heben sich die Vorzeichen auf:
+Projektion auf die $\mathbf{k}_f$-Achse mit $\boldsymbol{\omega}_1 = \omega_1 \mathbf{k}_f$ und $\boldsymbol{\omega}_2 = -\omega_2 \mathbf{k}_f$:
 
 $$
-\frac{\omega_1}{\omega_2} = \frac{\overline{O_2 N_2}}{\overline{O_1 N_1}} = \frac{\overline{O_2 P}}{\overline{O_1 P}} = \text{konstant} = u
+\omega_1 [(\vec{O_1 K} \times \mathbf{n}_f) \cdot \mathbf{k}_f] = -\omega_2 [(\vec{O_2 K} \times \mathbf{n}_f) \cdot \mathbf{k}_f]
 $$
 
-> **[Verzahnungsgesetz nach Willis (1841)]**  
-> Das Übersetzungsverhältnis ist genau dann konstant, wenn die gemeinsame Normale in allen Berührpunkten stets durch einen festen Punkt (Wälzpunkt $P$) auf der Zentrale $\overline{O_1 O_2}$ geht.
+Bei Außenverzahnungen liegen die Radmitten $O_1$ und $O_2$ auf entgegengesetzten Seiten der Eingriffslinie. Daher besitzen die Hebelarm-Kreuzprodukte $(\vec{O_1 K} \times \mathbf{n}_f)$ und $(\vec{O_2 K} \times \mathbf{n}_f)$ entgegengesetzte Vorzeichen längs $\mathbf{k}_f$:
+
+$$
+(\vec{O_1 K} \times \mathbf{n}_f) \cdot \mathbf{k}_f = + \overline{O_1 N_1}, \quad (\vec{O_2 K} \times \mathbf{n}_f) \cdot \mathbf{k}_f = - \overline{O_2 N_2}
+$$
+
+Dieses geometrische Vorzeichen hebt das negative Vorzeichen der gegensinnigen Raddrehung ($-\omega_2$) exakt auf:
+
+$$
+\omega_1 \cdot \overline{O_1 N_1} = (-\omega_2) \cdot (-\overline{O_2 N_2}) = \omega_2 \cdot \overline{O_2 N_2}
+$$
+
+```
+                   O₂ (Radmitte)
+                   │ ＼
+                   │   ＼
+                   │     ＼ N₂ (Grundkreistangente, 90°)
+                   │       ＼
+       Zentrale    │         ＼ Eingriffslinie (n-n)
+       (Line of    P (Wälzpunkt) ── K (Momentaner Berührpunkt)
+       Centers)    │         ／
+                   │       ／
+                   │     ／ N₁ (Grundkreistangente, 90°)
+                   │   ／
+                   │ ／
+                   O₁ (Ritzelmitte)
+```
+
+Die Hebelarmlängen $\overline{O_1 N_1}$ und $\overline{O_2 N_2}$ entsprechen den Abständen der Radmittelpunkte zur Flankennormale:
+
+$$
+\overline{O_1 N_1} = \left\| \vec{O_1 K} \times \mathbf{n}_f \right\|, \quad \overline{O_2 N_2} = \left\| \vec{O_2 K} \times \mathbf{n}_f \right\|
+$$
+
+Die Dreiecke $\Delta O_1 N_1 P$ und $\Delta O_2 N_2 P$ sind **ähnliche rechtwinklige Dreiecke**:
+
+$$
+\Delta O_1 N_1 P \sim \Delta O_2 N_2 P
+$$
+
+Nach dem Ähnlichkeitssatz gilt:
+
+$$
+\frac{\overline{O_2 N_2}}{\overline{O_1 N_1}} = \frac{\overline{O_2 P}}{\overline{O_1 P}}
+$$
+
+Damit ist das Übersetzungsverhältnis $i$ und die Zähnezahlübersetzung $u = z_2 / z_1 \ge 1.0$ nach ISO 6336 bewiesen:
+
+$$
+\frac{\omega_1}{\omega_2} = \frac{\overline{O_2 P}}{\overline{O_1 P}} = \text{constant} = \frac{z_2}{z_1} = u \ge 1.0
+$$
+
+Dies beweist das Verzahnungsgesetz nach Robert Willis (1841) vollständig:
+
+> **[Willis-Verzahnungsgesetz (1841)]**  
+> Die notwendige und hinreichende Bedingung dafür, dass zwei Zahnflanken ein streng konstantes Winkelgeschwindigkeitsverhältnis ($u = \omega_1 / \omega_2 = \text{const}$) übertragen, besteht darin, dass **die gemeinsame Flankennormale in allen Berührpunkten $K$ stets durch einen raumfesten Punkt (Wälzpunkt $P$) auf der Zentrale $\overline{O_1 O_2}$ verläuft**.
+
+---
+
+### 3.3 Analyse der Abbildung 2 und Verknüpfung mit den Gleichungen
 
 ![Abbildung 2: Geometrischer Beweis des Verzahnungsgesetzes](/images/part1/de/fig2_willis_law_geometry.png)
 
----
+Abbildung 2 verdeutlicht alle geometrischen Elemente des Willis-Beweises:
+*(Hinweis: In Abschnitt 2 lag der Ursprung $O_1$ bei $(0, 0)$ mit horizontaler Zentrale; in Abbildung 2 ist der Wälzpunkt $P$ bei $(0, 0)$ mit vertikaler Zentrale dargestellt. Kinematische Invarianten sind unabhängig von solchen Transformationen.)*
 
-## 4. Differentialgeometrische Euler-Savary-Gleichung
-
-Die Krümmungsradien konjugierter Flanken genügen der **Euler-Savary-Gleichung**:
-
-$$
-\left( \frac{1}{s_1} - \frac{1}{s_2} \right) \sin\alpha_w = \frac{1}{r_{w1}} \pm \frac{1}{r_{w2}}
-$$
-
-Für Außenverzahnungen gilt das Pluszeichen ($+$), für Innenverzahnungen das Minuszeichen ($-$).
-Bei Evolventenverzahnungen fallen die Krümmungsmittelpunkte $C_1, C_2$ permanent mit den Grundkreistangentenpunkten $N_1, N_2$ zusammen, wodurch die Gleichung überall identisch erfüllt ist.
+* **Drehachsen und Zentrale**: Die Zentrale verbindet Ritzelmitte $O_1(0, -r_1)$ und Radmitte $O_2(0, r_2)$.
+* **Wälzpunkt $P$**: Liegt bei $(0, 0)$ als ortsfester Momentanpol.
+* **Eingriffslinie $n-n$**: Steht im Berührpunkt $K$ senkrecht auf der Flankentangente und schneidet den Wälzpunkt $P$ unter Betriebseingriffswinkel $\alpha = 22.0^\circ$.
+* **Ähnliche Dreiecke $\Delta O_1 N_1 P \sim \Delta O_2 N_2 P$**:
+  - Abstand $\overline{O_1 N_1} = r_{b1} = r_1 \cos\alpha$.
+  - Abstand $\overline{O_2 N_2} = r_{b2} = r_2 \cos\alpha$.
+  - Das Verhältnis $\frac{\omega_1}{\omega_2} = \frac{O_2 P}{O_1 P} = \frac{r_2}{r_1} = \frac{r_{b2}}{r_{b1}} = \text{const}$ ist damit geschlossen bewiesen.
 
 ---
 
-## 5. Involuteninvarianz bei Achsabstandsänderung
+## 4. Differentialgeometrische Ableitung der Euler-Savary-Gleichung
 
-Die Kreis-Evolvente ist definiert durch:
+Zur Berechnung der Flankentragfähigkeit und Grübchensicherheit müssen die **Krümmungsradien** und Krümmungsmittelpunkte der Flanken bestimmt werden. Dies leistet die **Euler-Savary-Gleichung**.
+
+```
+       C₂ (Krümmungsmittelpunkt Flanke 2)
+       │
+       K  (Berührpunkt)
+       │
+       P  (Wälzpunkt / Momentanpol)
+       │
+       C₁ (Krümmungsmittelpunkt Flanke 1)
+       (Liegen kollinear auf der Eingriffslinie)
+```
+
+### 4.1 Kinematik des Momentanpols und Wendekreises
+
+Die Wälzkurven wälzen im Punkt $P$ schlupffrei ab. Die Umfangsgeschwindigkeit im Wälzpunkt beträgt:
 
 $$
-\begin{cases}
-x(\theta) = r_b (\cos\theta + \theta \sin\theta) \\
-y(\theta) = r_b (\sin\theta - \theta \cos\theta)
-\end{cases}
+v_P = \omega_1 r_{w1} = \omega_2 r_{w2}
 $$
 
-Ändert sich der Achsabstand von $a$ zu $a'$, passt sich der Betriebseingriffswinkel $\alpha_{wt}'$ selbsttätig an:
+Die Relativwinkelgeschwindigkeit bei Außenverzahnung lautet:
 
 $$
-a' \cos\alpha_{wt}' = r_{b1} + r_{b2}
+\omega_{12} = \|\boldsymbol{\omega}_1 - \boldsymbol{\omega}_2\| = \omega_1 + \omega_2
 $$
 
-Das Übersetzungsverhältnis bleibt exakt unverändert:
+Punkte, deren Normalbeschleunigung in der Relativbewegung verschwindet ($a_n = 0$, Wendepunkte mit Krümmungsradius $\rho \to \infty$), liegen auf dem **Wendekreis**. Sein Durchmesser $D_i$ berechnet sich zu:
 
 $$
-u' = \frac{r_{b2}}{r_{b1}} = \frac{z_2}{z_1} = u \quad (\Delta u \equiv 0.000000\%)
+D_i = \frac{v_P}{\omega_{12}} = \frac{\omega_1 r_{w1}}{\omega_1 + \omega_2} = \frac{r_{w1}}{1 + \frac{\omega_2}{\omega_1}} = \frac{r_{w1}}{1 + \frac{r_{w1}}{r_{w2}}} = \frac{r_{w1} r_{w2}}{r_{w1} + r_{w2}} = \frac{r_{w1} r_{w2}}{a}
+$$
+
+Eine Gerade durch $P$ unter Eingriffswinkel $\alpha_w$ schneidet den Wendekreis im **Wendepol $J$**:
+
+$$
+\overline{PJ} = D_i \sin\alpha_w = \frac{r_{w1} r_{w2}}{a} \sin\alpha_w
 $$
 
 ---
 
-## 6. Kontaktkinematik und Gleitgeschwindigkeit
+### 4.2 Hüllbedingung zweiter Ordnung und Ableitung der Euler-Savary-Gleichung
 
-Die Relativgeschwindigkeit zerfällt in Normal- und Tangentialanteile. Die Gleitgeschwindigkeit $v_s$ wächst linear mit dem Abstand $g$ vom Wälzpunkt $P$:
+Die Krümmungsmittelpunkte $C_1, C_2$ und der Wendepol $J$ erfüllen die harmonische Beziehung:
+
+Mit den vorzeichenbehafteten Koordinaten entlang der Normale:
+- $s_1 = \overline{P C_1}$
+- $s_2 = \overline{P C_2}$
+- $s_K = \overline{P K}$
+
+ergeben sich die Krümmungsradien:
+
+$$
+\rho_1 = |s_1 - s_K|, \quad \rho_2 = |s_2 - s_K|
+$$
+
+Die kinematische Euler-Savary-Beziehung lautet:
+
+$$
+\frac{1}{s_1} - \frac{1}{s_2} = \frac{1}{\overline{PJ}}
+$$
+
+Einsetzen von $\overline{PJ} = \frac{r_{w1} r_{w2}}{a} \sin\alpha_w$:
+
+$$
+\frac{1}{s_1} - \frac{1}{s_2} = \frac{1}{\frac{r_{w1} r_{w2}}{a} \sin\alpha_w} = \frac{a}{r_{w1} r_{w2} \sin\alpha_w}
+$$
+
+Multiplikation mit $\sin\alpha_w$ und $a = r_{w1} + r_{w2}$:
+
+$$
+\left( \frac{1}{s_1} - \frac{1}{s_2} \right) \sin\alpha_w = \frac{r_{w1} + r_{w2}}{r_{w1} r_{w2}} = \frac{1}{r_{w1}} + \frac{1}{r_{w2}}
+$$
+
+Dies ist die **Euler-Savary-Krümmungsgleichung** für beliebige ebene Zahnflanken.
+
+---
+
+### 4.3 Vorzeichenkonventionen für Außen- und Innenverzahnungen
+
+1. **Außenverzahnungen**:
+   Krümmungsmittelpunkte liegen auf entgegengesetzten Seiten von $P$ ($s_1 > 0, s_2 < 0$), was zu einer additiven Krümmungsbeziehung führt:
+
+$$
+\left( \frac{1}{|s_1|} + \frac{1}{|s_2|} \right) \sin\alpha_w = \frac{1}{r_{w1}} + \frac{1}{r_{w2}} = \frac{a}{r_{w1} r_{w2}}
+$$
+
+2. **Innenverzahnungen**:
+   Da das Hohlrad das Ritzel umschließt, drehen beide gleichsinnig ($\omega_{12} = |\omega_1 - \omega_2|$), und der Achsabstand beträgt $a = r_{w2} - r_{w1}$. Die Gleichung nimmt subtraktive Form an:
+
+$$
+\left( \frac{1}{s_1} - \frac{1}{s_2} \right) \sin\alpha_w = \frac{1}{r_{w1}} - \frac{1}{r_{w2}} = \frac{r_{w2} - r_{w1}}{r_{w1} r_{w2}} = \frac{a}{r_{w1} r_{w2}}
+$$
+
+   Da $r_{w2} > r_{w1}$, ist der äquivalente Krümmungsterm $\frac{1}{r_{w1}} - \frac{1}{r_{w2}}$ viel kleiner als bei Außenverzahnungen. Dies bewirkt stark vergrößerte Ersatzkrümmungsradien $\rho_{\text{eq}}$ und drastisch reduzierte Hertzsche Pressungen $\sigma_H$, was die enorme Grübchentragfähigkeit von Planetengetrieben begründet.
+
+---
+
+### 4.4 Triviale Degeneration der Euler-Savary-Gleichung bei Evolventenprofilen
+
+Bei Evolventenverzahnungen sind die Normalen Tangenten an den Grundkreis. Folglich **fallen die Krümmungsmittelpunkte $C_1$ und $C_2$ permanent mit den Grundkreistangentenpunkten $N_1$ und $N_2$ zusammen**:
+
+$$
+C_1 \equiv N_1, \quad C_2 \equiv N_2
+$$
+
+$$
+s_1 = \overline{P N_1} = r_{w1} \sin\alpha_w
+$$
+
+$$
+s_2 = -\overline{P N_2} = -r_{w2} \sin\alpha_w
+$$
+
+Einsetzen in die linke Seite der Euler-Savary-Gleichung:
+
+$$
+\left( \frac{1}{r_{w1} \sin\alpha_w} - \frac{1}{-r_{w2} \sin\alpha_w} \right) \sin\alpha_w = \frac{\sin\alpha_w}{\sin\alpha_w} \left( \frac{1}{r_{w1}} + \frac{1}{r_{w2}} \right) = \frac{1}{r_{w1}} + \frac{1}{r_{w2}}
+$$
+
+Beide Seiten stimmen identisch überein! Dies beweist algebraisch, dass **Evolventenprofile die Euler-Savary-Gleichung entlang der gesamten Eingriffslinie trivial als Identität erfüllen**.
+
+---
+
+## 5. Mathematische Zwangsläufigkeit der Evolventenverzahnung und Invarianz bei Achsabstandsänderung
+
+### 5.1 Exakte geschlossene Parametergleichung der Evolvente (Einheitenhinweis Radiant)
+
+Betrachten wir einen gespannten Faden, der von einem Grundkreis mit Radius $r_b$ abgewickelt wird. Der Abwälzwinkel $\theta$ und der Eingriffswinkel $\alpha$ müssen bei allen trigonometrischen und transzendenten Berechnungen zwingend im **Bogenmaß (rad, radian)** eingesetzt werden.
+
+Der Berührpunkt $B$ auf dem Grundkreis lautet:
+
+$$
+\mathbf{r}_B(\theta) = \begin{bmatrix} r_b \cos\theta \\ r_b \sin\theta \end{bmatrix}
+$$
+
+Der Einheitstangentenvektor $\mathbf{u}_t(\theta)$ in $B$ ist:
+
+$$
+\mathbf{u}_t(\theta) = \begin{bmatrix} -\sin\theta \\ \cos\theta \end{bmatrix}
+$$
+
+Die abgewickelte Fadenlänge entspricht der Kreisbogenlänge:
+
+$$
+L(\theta) = r_b \theta
+$$
+
+Der Evolventenpunkt $K$ hat den Ortsvektor $\mathbf{r}(\theta) = \mathbf{r}_B(\theta) - L(\theta) \mathbf{u}_t(\theta)$:
+
+$$
+\mathbf{r}(\theta) = \mathbf{r}_B(\theta) - L(\theta) \begin{bmatrix} -\sin\theta \\ \cos\theta \end{bmatrix} = \begin{bmatrix} r_b \cos\theta + r_b \theta \sin\theta \\ r_b \sin\theta - r_b \theta \cos\theta \end{bmatrix}
+$$
+
+Dies liefert die geschlossenen kartesischen Parametergleichungen:
+
+$$
+\begin{cases} x(\theta) = r_b (\cos\theta + \theta \sin\theta) \\ y(\theta) = r_b (\sin\theta - \theta \cos\theta) \end{cases}
+$$
+
+Der Radiusabstand $r(\theta)$ vereinfacht sich zu:
+
+$$
+r(\theta) = \sqrt{x(\theta)^2 + y(\theta)^2} = \sqrt{r_b^2 (\cos\theta + \theta \sin\theta)^2 + r_b^2 (\sin\theta - \theta \cos\theta)^2} = r_b \sqrt{1 + \theta^2}
+$$
+
+Aus $\cos\alpha = r_b / r(\theta)$ folgt:
+
+$$
+\cos\alpha = \frac{r_b}{r_b \sqrt{1 + \theta^2}} = \frac{1}{\sqrt{1 + \theta^2}} \implies \tan\alpha = \theta
+$$
+
+Damit ist die **Evolventenfunktion ($\text{inv}\alpha$)** definiert:
+
+$$
+\phi = \theta - \alpha = \tan\alpha - \alpha \equiv \text{inv}(\alpha)
+$$
+
+---
+
+### 5.2 Absolute Invarianz des Übersetzungsverhältnisses bei Achsabstandsänderung
+
+Zykloiden- oder Kreisbogenverzahnungen erfordern exakte Achsabstände; bereits eine Abweichung von $0.05\text{ mm}$ führt zu starken periodischen Drehschwingungen.
+
+**Evolventenverzahnungen halten dagegen das Übersetzungsverhältnis selbst bei veränderlichem Achsabstand $a$ absolut konstant**. Der mathematische Beweis:
+
+1. **Invarianz der Grundkreisradien**:
+   Nach der Fertigung sind die Grundkreisradien unveränderliche geometrische Größen:
+
+$$
+r_{b1} = \frac{1}{2} m z_1 \cos\alpha_0 = \text{const}, \quad r_{b2} = \frac{1}{2} m z_2 \cos\alpha_0 = \text{const}
+$$
+
+2. **Selbsttätige Anpassung des Betriebseingriffswinkels**:
+   Ändert sich der Montageabstand auf $a' = a + \Delta a$, stellt sich automatisch ein neuer Betriebseingriffswinkel $\alpha_{wt}'$ ein:
+
+$$
+a' \cos\alpha_{wt}' = r_{b1} + r_{b2} \implies \cos\alpha_{wt}' = \frac{r_{b1} + r_{b2}}{a'}
+$$
+
+3. **Neukonfiguration der Betriebswälzkreisradien**:
+
+$$
+r_{w1}' = \frac{r_{b1}}{\cos\alpha_{wt}'}, \quad r_{w2}' = \frac{r_{b2}}{\cos\alpha_{wt}'}
+$$
+
+4. **Algebraische Invarianz des Übersetzungsverhältnisses**:
+
+$$
+u' = \frac{\omega_1}{\omega_2} = \frac{r_{w2}'}{r_{w1}'} = \frac{\frac{r_{b2}}{\cos\alpha_{wt}'}}{\frac{r_{b1}}{\cos\alpha_{wt}'}} = \frac{r_{b2}}{r_{b1}} = \frac{z_2}{z_1} = u = \text{Constant}
+$$
+
+$$
+\Delta u = |u' - u| \equiv 0.000000\%
+$$
+
+Der Faktor $\cos\alpha_{wt}'$ kürzt sich in Zähler und Nenner exakt heraus. Diese Eigenschaft erklärt, warum die Evolvente weltweit über 95% aller mechanischen Getriebe dominiert.
+
+---
+
+## 6. Kontaktkinematik, Geschwindigkeitszerlegung und spezifisches Gleiten
+
+Der Zahneingriff stellt eine kombinierte Roll- und Gleitbewegung dar. Die Relativgleitgeschwindigkeit bestimmt die Schmierfilmdicke (EHD), die Reibungswärme und das Fressrisiko (Scuffing).
+
+```
+                  en (Einheitsnormalenvektor)
+                  ▲
+                  │  vn1 = vn2 (Identische Normalengeschwindigkeiten!)
+                  │
+                  K ─────────────────────▶ et (Einheitstangentenvektor)
+                 ／│＼                    vt2 (Tangentialgeschwindigkeit Flanke 2)
+               ／  │  ＼                  ────────────────▶
+             v₂    │    v₁               vt1 (Tangentialgeschwindigkeit Flanke 1)
+                   │                      ────────────────────────────────▶
+                   │                      vs = vt1 - vt2 (Relativgleitgeschwindigkeit)
+                   │                      ════════════════▶
+```
+
+### 6.1 Orthogonale Geschwindigkeitszerlegung in Normalen- und Tangentialanteile
+
+Zerlegung der Geschwindigkeiten $\mathbf{v}_1$ und $\mathbf{v}_2$ in Normalen- und Tangentialkomponenten:
+
+$$
+\mathbf{v}_1 = v_{n1} \, \mathbf{e}_n + v_{t1} \, \mathbf{e}_t
+$$
+
+$$
+\mathbf{v}_2 = v_{n2} \, \mathbf{e}_n + v_{t2} \, \mathbf{e}_t
+$$
+
+1. **Normalenkomponenten**:
+
+$$
+v_{n1} = \mathbf{v}_1 \cdot \mathbf{e}_n = \omega_1 \cdot \overline{O_1 N_1} = \omega_1 r_{b1}
+$$
+
+$$
+v_{n2} = \mathbf{v}_2 \cdot \mathbf{e}_n = \omega_2 \cdot \overline{O_2 N_2} = \omega_2 r_{b2}
+$$
+
+Da $r_{b2} / r_{b1} = \omega_1 / \omega_2$:
+
+$$
+v_{n1} = v_{n2} = v_n = \text{constant}
+$$
+
+**Die Normalengeschwindigkeiten sind über den gesamten Eingriff identisch**, wodurch Durchdringung und Abheben ausgeschlossen sind.
+
+2. **Tangentialkomponenten**:
+Mit den momentanen Krümmungsradien $\rho_1 = \overline{N_1 K}$ und $\rho_2 = \overline{N_2 K}$:
+
+$$
+v_{t1} = \omega_1 \rho_1
+$$
+
+$$
+v_{t2} = \omega_2 \rho_2
+$$
+
+---
+
+### 6.2 Analytische Ableitung des Gleitgeschwindigkeitsvektors
+
+Die Gleitgeschwindigkeit $\mathbf{v}_s$ liegt rein tangential:
+
+$$
+\mathbf{v}_s = \mathbf{v}_1 - \mathbf{v}_2 = (v_{n1} - v_{n2}) \mathbf{e}_n + (v_{t1} - v_{t2}) \mathbf{e}_t = (v_{t1} - v_{t2}) \mathbf{e}_t
+$$
+
+Mit Koordinate $g$ entlang der Eingriffslinie ab Wälzpunkt $P$:
+
+$$
+\rho_1 = \overline{N_1 P} + g = r_{w1} \sin\alpha_w + g
+$$
+
+$$
+\rho_2 = \overline{N_2 P} - g = r_{w2} \sin\alpha_w - g
+$$
+
+Einsetzen in die Tangentialgeschwindigkeiten:
+
+$$
+v_{t1} = \omega_1 (r_{w1} \sin\alpha_w + g) = \omega_1 r_{w1} \sin\alpha_w + \omega_1 g
+$$
+
+$$
+v_{t2} = \omega_2 (r_{w2} \sin\alpha_w - g) = \omega_2 r_{w2} \sin\alpha_w - \omega_2 g
+$$
+
+Differenzbildung:
+
+$$
+v_s = v_{t1} - v_{t2} = (\omega_1 r_{w1} \sin\alpha_w - \omega_2 r_{w2} \sin\alpha_w) + (\omega_1 + \omega_2) g
+$$
+
+Da die Umfangsgeschwindigkeiten im Wälzpunkt übereinstimmen ($\omega_1 r_{w1} = \omega_2 r_{w2}$), verschwindet der erste Term:
 
 $$
 v_s(g) = (\omega_1 + \omega_2) \, g
 $$
 
-Im Wälzpunkt $P$ ($g = 0$) herrscht reines Rollen ($v_s = 0$).
+Dieser geschlossene Ausdruck beweist zwei fundamentale Gesetze:
+1. **Reines Rollen im Wälzpunkt $P$**: Bei $g = 0$ wird $v_s = 0$ (reines Rollen).
+2. **Linearer Anstieg mit dem Abstand**: Die Gleitgeschwindigkeit $v_s$ wächst linear mit dem Abstand $g$ zum Zahnfuß $A$ bzw. Zahnkopf $E$.
 
-![Abbildung 3: Kinematik des Eingriffspunkts und Geschwindigkeitsvektoren](/images/part1/de/fig3_contact_velocity_vectors.png)
+---
 
-Die spezifischen Gleitwerte $\sigma_1, \sigma_2$ bestimmen das Fress- und Verschleißrisiko:
+### 6.3 Geschlossene analytische Ausdrücke für das spezifische Gleiten
+
+Das **spezifische Gleiten ($\sigma_1, \sigma_2$)** quantifiziert die Verschleißbelastung:
 
 $$
-\sigma_1 = 1 - \frac{1}{u} \cdot \frac{\rho_2}{\rho_1}, \quad \sigma_2 = 1 - u \cdot \frac{\rho_1}{\rho_2}
+\sigma_1 = \frac{v_{t1} - v_{t2}}{v_{t1}} = 1 - \frac{v_{t2}}{v_{t1}} = 1 - \frac{\omega_2 \rho_2}{\omega_1 \rho_1} = 1 - \frac{1}{u} \cdot \frac{\rho_2}{\rho_1}
 $$
+
+$$
+\sigma_2 = \frac{v_{t2} - v_{t1}}{v_{t2}} = 1 - \frac{v_{t1}}{v_{t2}} = 1 - \frac{\omega_1 \rho_1}{\omega_2 \rho_2} = 1 - u \cdot \frac{\rho_1}{\rho_2}
+$$
+
+Am Eingriffsbeginn $A$ (Ritzelfuß) nähert sich $\rho_1 \to 0$, sodass $\sigma_1 \to -\infty$ divergiert. Daher optimiert man in der Getriebeauslegung die **Profilverschiebungsfaktoren ($x_1, x_2$)**, um die maximalen spezifischen Gleitwerte anzugleichen ($\sigma_{1,\max} \approx \sigma_{2,\max}$).
+
+---
+
+### 6.4 Analyse der Abbildung 3 und Verifikation der Vektorzerlegung
+
+![Abbildung 3: Kontaktkinematik und Geschwindigkeitsvektoren](/images/part1/de/fig3_contact_velocity_vectors.png)
+
+Abbildung 3 bestätigt die Geschwindigkeitszerlegung im Berührpunkt $K$:
+* **Kontinuität in Normalenrichtung**: Die Projektionen der Vektoren $\vec{v}_1$ und $\vec{v}_2$ auf die Normale $\vec{n}$ fallen exakt zusammen ($\vec{v}_{n1} = \vec{v}_{n2}$).
+* **Relativgleiten in Tangentialrichtung**: Die Tangentialkomponenten $\vec{v}_{t1}$ und $\vec{v}_{t2}$ weichen voneinander ab; die Differenz bildet den Gleitgeschwindigkeitsvektor $\vec{v}_s = \vec{v}_{t1} - \vec{v}_{t2}$.
 
 ---
 
 ## 7. Implementierung im H-GEAR STUDIO Rechenkern
 
-Die abgeleiteten Gleichungen sind im Python-Backend (`gear_math.py`, `profile_service.py`) mit doppelter Präzision ($10^{-13}$) implementiert und treiben die 2D/3D LTCA-Echtzeitanalyse.
+Die oben abgeleiteten Gleichungen sind im Python-Rechenkern von H-GEAR STUDIO mit doppelter Gleitkommapräzision ($10^{-13}$) implementiert.
+
+### 7.1 `prototype2/backend/core/gear_math.py`
+
+```python
+def involute(alpha: float) -> float:
+    """Evolventenfunktion: inv(α) = tan(α) - α (Einheit: rad)"""
+    return math.tan(alpha) - alpha
+
+def inv_involute(target: float, alpha0: float = math.radians(20.0)) -> float:
+    """
+    Inverse Evolventenfunktion: löst inv(α) = target via Newton-Raphson.
+    d(inv(α))/dα = tan²(α)
+    Konvergenztoleranz: |delta| < 1e-13
+    """
+    alpha = max(1e-8, alpha0)
+    for _ in range(300):
+        fa = involute(alpha) - target
+        df = math.tan(alpha) ** 2
+        if abs(df) < 1e-15:
+            break
+        delta = fa / df
+        alpha -= delta
+        alpha = max(1e-9, alpha)
+        if abs(delta) < 1e-13:
+            break
+    return alpha
+
+def working_pressure_angle(alpha_t: float, x1: float, x2: float,
+                           z1: int, z2: int, alpha_n: float) -> float:
+    """Berechnet den Betriebseingriffswinkel α_wt für profilverschobene Radsätze."""
+    target = involute(alpha_t) + 2.0 * ((x1 + x2) / (z1 + z2)) * math.tan(alpha_n)
+    return inv_involute(target, alpha_t)
+```
+
+### 7.2 `prototype2/backend/profile_service.py`
+
+```python
+def _compute_loa(geom1: GearToothGeometry, geom2: GearToothGeometry,
+                 cx1: float, cy1: float, cx2: float, cy2: float,
+                 alpha_wt: float, z1: int, z2: int) -> Dict[str, Any]:
+    """
+    Berechnet die Eingriffslinie (LOA) und die Eingriffsstrecke (A ~ E).
+    Liefert die durch den Wälzpunkt P verlaufende invariante Normale.
+    """
+    a = math.hypot(cx2 - cx1, cy2 - cy1)
+    r1, r2   = geom1.r,  geom2.r
+    rb1, rb2 = geom1.rb, geom2.rb
+    ra1, ra2 = geom1.ra, geom2.ra
+
+    # Richtungsvektor der Eingriffslinie
+    loa_dx = math.sin(alpha_wt)
+    loa_dy = math.cos(alpha_wt)
+
+    # Grundkreistangentenpunkte T1, T2
+    T1x = cx1 + rb1 * math.cos(alpha_wt)
+    T1y = cy1 - rb1 * math.sin(alpha_wt)
+    T2x = cx2 - rb2 * math.cos(alpha_wt)
+    T2y = cy2 + rb2 * math.sin(alpha_wt)
+
+    # Wälzpunkt P
+    Px = cx1 + r1
+    Py = cy1
+
+    # Eingriffsanfang A und Eingriffsende E
+    t1_t2_len = math.hypot(T2x - T1x, T2y - T1y)
+    t2_a_len  = math.sqrt(max(0.0, ra2**2 - rb2**2))
+    s_A       = t1_t2_len - t2_a_len
+    s_E       = math.sqrt(max(0.0, ra1**2 - rb1**2))
+
+    Ax = T1x + s_A * loa_dx
+    Ay = T1y + s_A * loa_dy
+    Ex = T1x + s_E * loa_dx
+    Ey = T1y + s_E * loa_dy
+    return {
+        "line_of_action": {"p1": (T1x, T1y), "p2": (T2x, T2y)},
+        "pitch_point": (Px, Py),
+        "active_segment": {"A": (Ax, Ay), "E": (Ex, Ey)},
+    }
+```
+
+Diese Berechnungsmodule treiben im Frontend (`GearProfileViewer.tsx`) flüssige 60-FPS-Zahneingriffsanimationen und 3D-Zahnkontaktanalysen (LTCA) an.
 
 ---
 
 ## 8. Zusammenfassung und Ausblick
 
-Das nächste Kapitel widmet sich der vertieften Evolventengeometrie: **"Evolventengeometrie: Geschlossene Koordinaten und Gleitmechanismen"**.
+### 8.1 Zusammenfassung der wichtigsten ingenieurtechnischen Schlussfolgerungen
+
+| Untersuchungsbereich | Reibradgetriebe | Evolventen-Zahnradgetriebe |
+|---|---|---|
+| **Kraftübertragungsmechanismus** | Reibschluss an der Grenzfläche ($F_t \le \mu_s F_N$) | Geometrischer Formschluss der Zahnflanken (Formschluss) |
+| **Invarianz des Übersetzungsverhältnisses** | Lastabhängiger Schlupf ($s > 0, \Delta u \neq 0$) | Streng konstant nach dem Willis-Gesetz ($u \equiv \text{const}$) |
+| **Empfindlichkeit gegenüber Achsabstandsänderung** | Normalkraftänderung führt sofort zu Durchrutschen | Selbsttätige Anpassung des Betriebseingriffswinkels $\alpha_w$ erhält Verhältnis exakt |
+| **Kontinuität des Normalkontakts** | Gefahr makroskopischen Abhebens bei elastischer Verformung | Identität $v_{n1} = v_{n2}$ schließt Durchdringung und Abheben vollständig aus |
+| **Relatives Gleitverhalten** | Unregelmäßiges Gleiten über den gesamten Kontaktbogen | Reines Rollen im Wälzpunkt ($v_s = 0$) und linearer Anstieg zu den Enden |
+
+### 8.2 Ausblick auf Teil 1 Kapitel 2
+
+Teil 1 Kapitel 2 widmet sich der vertieften Evolventengeometrie: **"Evolventengeometrie: Geschlossene Koordinaten und Gleitmechanismen"**:
+- Transzendente Gleichungslösungen zwischen Abwälzwinkel $\theta$ und Eingriffswinkel $\alpha$
+- Flankenverteilung des spezifischen Gleitens $\sigma_1(s), \sigma_2(s)$
+- Einfluss von Kopfrücknahme ($C_\alpha$) und Breitenballigkeit auf Gleitverhalten und Drehwegabweichung (TE)
+- Analytische Spline-Generierung im H-GEAR STUDIO Modul `core/tooth_geometry.py`

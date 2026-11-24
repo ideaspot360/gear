@@ -1,6 +1,6 @@
 ---
 title: "なぜ我々は歯車を使うのか？ — 摩擦車の力学的限界からウィリス(Willis)共役噛み合い法則の微分幾何学的完全証明まで"
-description: "平摩擦車の接触力学と滑り限界から出発し、2体相対運動学、リトビン(Litvin)の第1噛み合い方程式、ウィリスの共役噛み合い基本法則、オイラー・サヴァリ(Euler-Savary)微分幾何学曲率方程式、インボリュート曲線の中心距離不変性および接触点速度分解までを網羅する正統歯車幾何学の完全誘導"
+description: "平摩擦車の接触滑り限界と摩擦駆動の力学的ボトルネックを出発点とし、2曲面の相対機構学、リトビン(Litvin)噛み合い第1方程式、ウィリス共役噛み合い法則、オイラー・サヴァリ(Euler-Savary)曲率方程式、インボリュートの中心距離不変性および接触点速度分解まで展開する正統歯車幾何学の完全誘導"
 series: architecture
 part: 1
 chapter: 1
@@ -16,197 +16,949 @@ required_diagrams:
   - "fig2_willis_law_geometry"
   - "fig3_contact_velocity_vectors"
 academic_level: graduate
-equations_hash: "492c1834bc24cba6ef3de66b9b0bf3742820e76a7d162274fde205fb0202252b"
+equations_hash: "430cba407a6e8cca0398e9d725a4dc08fb7699afd046248c2ca5849bce16d4ed"
 kernel_verified: true
 review_date: "2026-11-12"
 sidebar:
   order: 1
 ---
 
-## 1. 緒論：動力伝達機構の進化と摩擦車(Friction Wheels)の力学的限界
+## 1. 序論: 動力伝達機構の進化と摩擦車(Friction Wheels)の力学的限界
 
-2軸間で回転動力を伝達する最も原初的な機械要素は、2つの滑らかな円筒を相互に押し付けて摩擦力で回転を伝達する**平摩擦車(Plain Cylindrical Friction Wheels)**です。しかし、高トルク伝達や厳密な回転位相同期が求められるにつれ、摩擦伝動方式は根本的な限界を露呈しました。
+回転動力を一方の軸から他方の軸へ伝達する最も原始的な機械要素は、2つの平滑な円筒を互いに強く圧着し、接触面の摩擦力によって回転を伝達する**平摩擦車(Plain Cylindrical Friction Wheels)**である。しかし、機械工学が高負荷・高速化し、微小角同期(Angular Synchronization)を要求するにつれて、摩擦駆動方式は克服不可能な力学的・機構学的限界を露呈した。
 
 ```
-[駆動軸 O1] ──(法線加圧力 FN)──▶ [接触点 P (摩擦力 Ft ≤ μ FN)] ──▶ [従動軸 O2]
-      │                                       │                             │
-      ▼                                       ▼                             ▼
-[巨大な軸受反力負荷]                     [すべり率 s > 0 発生]          [位相喪失・速度比ドリフト]
+[駆動軸 O₁] ──(垂直抗力 FN 圧着)──▶ [接触点 P (摩擦力 Ft ≤ μ FN)] ──(駆動)──▶ [従動軸 O₂]
+      │                                     │                                  │
+      ▼                                     ▼                                  ▼
+[巨大な軸受反力の永久負荷]           [巨視的滑り s > 0 の発生]           [角速度比 u 変動と位相崩壊]
 ```
 
-### 1.1 平摩擦車の接触力学と接線駆動力の摩擦拘束
+### 1.1 平面摩擦車の接触力学および接線伝達力の摩擦拘束
 
-半径 $r_1, r_2$ の2つの摩擦車が中心距離 $a = r_1 + r_2$ で接触しているとき、伝達可能な最大円周力 $F_{t,\max}$ はクーロンの摩擦法則により垂直抗力 $F_N$ と静止摩擦係数 $\mu_s$ によって制限されます：
+半径がそれぞれ $r_1, r_2$ である2つの平摩擦車が中心距離 $a = r_1 + r_2$ を維持し、接触点 $P$ で外接していると仮定する。駆動車(Wheel 1)に回転トルク $T_1$ が印加されるとき、接触界面で発生可能な最大円周接線力(Tangential Traction Force) $F_{t,\max}$ は、クーロンの摩擦法則(Coulomb's Friction Law)により、両円筒を押し付ける垂直抗力(Normal Force) $F_N$ と静止摩擦係数 $\mu_s$ の積によって拘束される:
 
 $$
 F_t \le F_{t,\max} = \mu_s F_N
 $$
 
-伝達トルク $T_1$ に対する駆動接線力 $F_t$ の釣り合いは：
+駆動車が滑りなく従動車(Wheel 2)へ伝達できる有効接線駆動トルク伝達力 $F_t$ とトルク $T_1$ の静力学的平衡関係は次の通りである:
 
 $$
 F_t = \frac{T_1}{r_1}
 $$
 
-したがって、すべりを起こさずにトルクを伝達するための最小垂直抗力 $F_{N,\min}$ は：
+したがって、摩擦車において動力伝達を成立させるために外部加圧機構(スプリング、油圧シリンダなど)が機構系に印加しなければならない**最小垂直抗力 $F_{N,\min}$** は次のように決定される:
 
 $$
 F_{N,\min} = \frac{T_1}{\mu_s r_1}
 $$
 
-低摩擦潤滑環境（$\mu_s \approx 0.05 \sim 0.08$）では、要求される垂直抗力 $F_N$ は接線伝達力 $F_t$ の $5 \sim 20$ 倍に達し、軸の曲げ変形や軸受寿命（$L_{10}$）の急激な低下、ヘルツ接触応力 $p_{\max} \propto \sqrt{F_N}$ によるスポーリングを引き起こします。
+この条件式は極めて致命的な工学的帰結をもたらす:
+
+1. **軸受および支持軸系の過大なラジアル荷重**:
+   伝達トルク $T_1$ が増大するほど、そして摩擦係数 $\mu_s$ が小さいほど(境界潤滑下で $\mu_s \approx 0.05 \sim 0.08$、鋼-鋼乾燥接触で $\mu_s \approx 0.15 \sim 0.20$)、要求される垂直抗力 $F_N$ は有効伝達力 $F_t$ の $5 \sim 20$ 倍に達する:
+
+$$
+R_{\text{bearing}} = F_N \ge \frac{1}{\mu_s} F_t \approx (5 \sim 20) F_t
+$$
+
+   この巨大な半径方向反力は回転軸の曲げ変形を誘発し、支持軸受(転がり軸受または滑り軸受)に永久的な静的・動的過負荷を与え、軸受の $L_{10}$ 疲労寿命を急速に短縮させる。
+
+2. **ヘルツ接触応力と表面剥離(Spalling)**:
+   ヘルツ接触応力(Hertzian Contact Stress)の公式に従い、接触幅 $b$ と等価弾性係数 $E^*$ をもつ2円筒間の最大接触圧力 $p_{\max}$ は垂直抗力の平方根に比例する:
+
+$$
+p_{\max} = \sqrt{\frac{F_N \cdot E^*}{\pi b \left( \frac{r_1 r_2}{r_1 + r_2} \right)}} \propto \sqrt{F_N}
+$$
+
+   トルク伝達のために $F_N$ を増加させるほど、表面直下の最大せん断応力 $\tau_{\max} \approx 0.300 p_{\max}$ が材料のせん断降伏強度を超過し、早期の表面下疲労剥離(Subsurface Fatigue Spalling)やピッチングが発生する。
 
 ---
 
-### 1.2 すべり率(Slip Ratio)と角速度同期の崩壊
+### 1.2 接触領域における滑り率(Slip Ratio)と角速度同期の崩壊
 
-接触面におけるすべり率 $s$ は次のように定義されます：
+実際の弾性接触では、レイノルズ(Osborne Reynolds)およびカーター(F. W. Carter)の接触力学理論により、完全な静止摩擦状態であっても微小な弾性変形の差による**弾性クリープ(Elastic Creep)**が発生し、伝達トルクが限界を超えると巨視的滑り(Gross Slip)へと遷移する。
+
+駆動車の表面周速度を $v_1 = r_1 \omega_1$、従動車の表面周速度を $v_2 = r_2 \omega_2$ とするとき、界面における**相対滑り率(Slip Ratio) $s$** は次のように厳密に定義される:
 
 $$
-s = \frac{v_1 - v_2}{v_1} = 1 - \frac{r_2 \omega_2}{r_1 \omega_1}
+s = \frac{v_1 - v_2}{v_1} = 1 - \frac{r_2 \omega_2}{r_1 \omega_1} \quad (0 \le s \le 1)
 $$
 
-瞬時角速度比 $u(t)$ はすべり率に依存します：
+滑り率 $s$ を導入すると、両軸間の実際の瞬間角速度比(Instantaneous Angular Velocity Ratio) $u(t)$ は次のように展開される:
 
 $$
 u(t) = \frac{\omega_1(t)}{\omega_2(t)} = \frac{r_2}{r_1} \cdot \frac{1}{1 - s(t)}
 $$
 
-トルク変動などによりクーロン限界を超えると巨視的すべり（$s \to 1$）が発生し、累積位相差 $\Delta\theta(t) \to \infty$ が発散します。
+理想的な純転がり接触($s = 0$)では角速度比は幾何学的半径比 $u = r_2 / r_1$ で固定されるが、負荷トルク $T(t)$ の急変や温度上昇・潤滑油の混入により摩擦係数が臨界値を下回ると($\mu(t) < \mu_{\text{crit}}$)、摩擦限界を逸脱した瞬間に滑り率が急増する:
+
+$$
+F_t(t) > \mu_k F_N \implies s(t) \to 1 \quad (\text{Gross Slip / Spin-out})
+$$
+
+このとき、入出力回転位相角 $\theta_1(t) = \int_0^t \omega_1(\tau) d\tau$ と $\theta_2(t) = \int_0^t \omega_2(\tau) d\tau$ の累積位相差 $\Delta \theta(t)$ は時間とともに発散する:
+
+$$
+\Delta \theta(t) = \theta_1(t) - \frac{r_2}{r_1} \theta_2(t) = \int_0^t s(\tau) \, \omega_1(\tau) \, d\tau \neq 0
+$$
+
+$$
+\lim_{t \to \infty} |\Delta \theta(t)| = \infty
+$$
+
+このような位相同期の数学的崩壊は、ロボット関節減速機、自動車駆動系、印刷機、時計機構など、厳密な位相幾何学的同期が要求される精密機械システムにおいて摩擦車駆動の採用を根本的に不可能にする。
 
 ---
 
-### 1.3 噛み合い伝動（歯車）へのパラダイムシフト（図1解析）
+### 1.3 形状拘束噛み合い(Form-Closed Engagement)へのパラダイムシフト (図1の解析)
 
-この摩擦伝動の限界を打破するため、機械工学は接触面に歯形突起を設けて幾何学的に回転を強制する**噛み合い伝動（Form-closed Positive Mesh）**へと進化しました。
+摩擦伝達の限界を克服するため、機械工学は接触面の摩擦力に依存する「摩擦拘束(Friction-closed)」方式から、接触面に幾何学的突起(歯形、Teeth)を形成して相互に物理的に噛み合い回転を強制する**「幾何学的形状拘束噛み合い(Positive Mechanical Mesh)」**へとパラダイムを転換した。
 
-![図 1A: 摩擦車の動力伝達機構と力学的限界](/images/part1/ja/fig1a_friction_drive.png)
+![図1A: 摩擦車の動力伝達メカニズムと力学的限界](/images/part1/ja/fig1a_friction_drive.png)
 
-* **(A) 摩擦車伝動**：接線伝達力は $F_t \le \mu F_N$ に縛られ、過負荷時にすべりが発生。
+* **(A) 平摩擦車機構**:
+  - 駆動車 $O_1$ と従動車 $O_2$ がピッチ点 $P$ で点接触し、垂直抗力 $F_N$ が軸中心に向けて強く印加される。
+  - 接線駆動力は $F_t \le \mu F_N$ の不等式領域に拘束され、伝達限界を超えると滑り領域 $\Delta v = v_1 - v_2 \neq 0$ が形成されて位相角同期が喪失される。
 
-![図 1B: インボリュート歯車の正確なかみ合い](/images/part1/ja/fig1b_gear_drive.png)
+![図1B: インボリュート歯車の形状拘束噛み合い](/images/part1/ja/fig1b_gear_drive.png)
 
-* **(B) インボリュート歯車噛み合い**：モジュール $m = 2.0\text{ mm}$, 歯数 $z_1 = 17, z_2 = 33$, 圧力角 $\alpha_n = 20.0^\circ$。摩擦係数がゼロ（$\mu \equiv 0$）であっても、歯面の法線抗力によって確実に動力を伝達し、速度比 $u = 33 / 17 \approx 1.941176$ を厳密に維持します。
+* **(B) 正規インボリュート歯車の形状拘束噛み合い**:
+  - モジュール $m = 2.0\text{ mm}$、歯数 $z_1 = 17, z_2 = 33$、圧力角 $\alpha_n = 20.0^\circ$ で生成された共役歯車対である。
+  - 摩擦力が皆無の無摩擦表面($\mu \equiv 0$)であっても、歯面の幾何学的接触法線力が相手歯形を物理的に推進するため、形状拘束による確実な動力伝達(Positive Mechanical Engagement)が実現される。
+  - 熱膨張を考慮した設計バックラッシ $j_n > 0$ を管理しつつ幾何学的干渉を排除した精密歯形噛み合い(Positive Mechanical Mesh)が維持され、速度比は厳格な定数 $u = 33 / 17 \approx 1.941176$ を満足する。
+
+しかし、歯形を任意の曲線(例えば三角ノコギリ歯や半円突起)で加工すると、回転中に瞬間角速度比が周期的に激しく脈動し、激しい衝撃、振動、騒音が発生する。したがって、**「2つの歯面が噛み合い回転する間、瞬間角速度比 $u(t) \equiv \text{const}$ を完全に一定に維持できる曲線の幾何学的条件とは何か？」**という根源的な数学的問いが提起される。
 
 ---
 
-## 2. 2体歯面の相対運動学 (Kinematics of Relative Motion)
+## 2. 2つの回転剛体歯面の相対運動機構学 (Kinematics of Relative Motion)
 
-Litvinの幾何学体系に基づき、固定座標系 $S_f$、ピニオン回転系 $S_1$、歯車回転系 $S_2$ を定義します。
+歯車幾何学の世界的権威 Faydor L. Litvin 教授の正統機構学体系(**Litvin's Kinematic Theory of Gearing**)および曲面微分幾何学(**Differential Geometry of Surfaces**)に立脚し、任意の2つの共役歯面(**Conjugate Tooth Surfaces**, $\Sigma_1, \Sigma_2$)の相対噛み合い運動を記述するための座標系とベクトル場を厳密に定式化する。
 
-中心間距離ベクトルと角速度ベクトルは：
+```
+       [ 固定基準座標系 Sf (原点 O₁、Zf 軸) ]
+               │                          │
+      (角度 φ₁ 回転)              (角度 φ₂ 逆回転、距離 a 移動)
+               ▼                          ▼
+    [ ピニオン座標系 S₁ ]              [ 大歯車座標系 S₂ ]
+    位置ベクトル r₁(θ₁)                 位置ベクトル r₂(θ₂)
+    法線ベクトル n₁(θ₁)                 法線ベクトル n₂(θ₂)
+```
+
+### 2.1 座標系の定義 (Coordinate Systems Setup: $S_1, S_2, S_f$) および瞬間回転軸(IAR)
+
+3次元ユークリッド空間 $\mathbb{R}^3$ 内に次のような3つの正規直交座標系を定義する:
+
+1. **固定基準座標系 $S_f(O_f; \mathbf{i}_f, \mathbf{j}_f, \mathbf{k}_f)$**:
+   歯車ハウジングに固定された静止座標系である。駆動ピニオンの回転軸中心を原点 $O_f \equiv O_1(0, 0, 0)$ とする。従動歯車の回転中心 $O_2$ は $x_f$ 軸に沿って中心距離 $a$ だけ離れた点 $(a, 0, 0)$ に位置する。
+   中心線ベクトル $\mathbf{R}$ は次の通りである:
 
 $$
 \mathbf{R} = \vec{O_1 O_2} = a \, \mathbf{i}_f = \begin{bmatrix} a \\ 0 \\ 0 \end{bmatrix}_f
 $$
 
-$$
-\boldsymbol{\omega}_1 = \omega_1 \, \mathbf{k}_f, \quad \boldsymbol{\omega}_2 = -\omega_2 \, \mathbf{k}_f
-$$
-
-接触点 $K$ における相対運動速度ベクトル $\mathbf{v}_f^{(12)}$ は：
+2. **ピニオン回転座標系 $S_1(O_1; \mathbf{i}_1, \mathbf{j}_1, \mathbf{k}_1)$**:
+   ピニオン(歯形1)に固定されて一体となって回転する物体固定座標系(Body-fixed Frame)である。基準系 $S_f$ に対して $\mathbf{k}_f$ 軸周りに回転角 $\phi_1$ だけ回転する。
+   ピニオンの角速度ベクトルは次の通りである:
 
 $$
-\mathbf{v}_f^{(12)} = \mathbf{v}_f^{(1)} - \mathbf{v}_f^{(2)} = (\boldsymbol{\omega}_1 - \boldsymbol{\omega}_2) \times \mathbf{r}_f - \mathbf{R} \times \boldsymbol{\omega}_2
+\boldsymbol{\omega}_1 = \omega_1 \, \mathbf{k}_f = \begin{bmatrix} 0 \\ 0 \\ \omega_1 \end{bmatrix}_f, \quad \omega_1 = \frac{d\phi_1}{dt}
+$$
+
+3. **歯車回転座標系 $S_2(O_2; \mathbf{i}_2, \mathbf{j}_2, \mathbf{k}_2)$**:
+   大歯車(歯形2)に固定されて回転する物体固定座標系である。中心 $O_2$ を原点とし、外歯車噛み合いにおいてピニオンと逆方向に回転角 $\phi_2$ だけ回転する。
+   歯車の角速度ベクトルは次の通りである:
+
+$$
+\boldsymbol{\omega}_2 = -\omega_2 \, \mathbf{k}_f = \begin{bmatrix} 0 \\ 0 \\ -\omega_2 \end{bmatrix}_f, \quad \omega_2 = \frac{d\phi_2}{dt}
+$$
+
+4. **瞬間回転軸(Instantaneous Axis of Rotation, IAR)**:
+   ピニオンに対する歯車の相対角速度ベクトル $\boldsymbol{\omega}_{12}$ は、外噛み合いの逆回転特性により次のように加算される:
+
+$$
+\boldsymbol{\omega}_{12} = \boldsymbol{\omega}_1 - \boldsymbol{\omega}_2 = (\omega_1 + \omega_2)\mathbf{k}_f
+$$
+
+   両回転体間の相対速度が $0$ となる点の幾何学的軌跡は、回転軸と平行で中心線上のピッチ点 $P(r_{w1}, 0, 0)$ を通過する直線となる。この直線こそが相対運動の**瞬間回転軸(Instantaneous Axis of Rotation, IAR)**である。
+
+---
+
+### 2.2 同次座標変換行列および歯面法線ベクトルの変換 (Homogeneous Transformation Matrices & Normal Transformation)
+
+Faydor L. Litvin 教授の $4 \times 4$ 同次座標変換行列(**Homogeneous Coordinate Transformation Matrix**, $\mathbf{M}_{ij}$)および拡大行列(**$4 \times 4$ Augmented Matrix**)体系を導入し、回転と平行移動を単一の拡大行列演算として定式化する。
+
+座標系 $S_1$ から固定座標系 $S_f$ への $4 \times 4$ 同次変換行列 $\mathbf{M}_{f1}(\phi_1)$ は次の通りである:
+
+$$
+\mathbf{M}_{f1}(\phi_1) = \begin{bmatrix} \cos\phi_1 & -\sin\phi_1 & 0 & 0 \\ \sin\phi_1 & \cos\phi_1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}
+$$
+
+座標系 $S_2$ から固定座標系 $S_f$ への変換行列 $\mathbf{M}_{f2}(\phi_2)$ は回転中心 $O_2(a, 0, 0)$ の平行移動を含む:
+
+$$
+\mathbf{M}_{f2}(\phi_2) = \begin{bmatrix} \cos\phi_2 & \sin\phi_2 & 0 & a \\ -\sin\phi_2 & \cos\phi_2 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}
+$$
+
+固定座標系 $S_f$ から座標系 $S_2$ への逆変換行列 $\mathbf{M}_{2f}(\phi_2) = \mathbf{M}_{f2}^{-1}(\phi_2)$ は次のように閉形式で決定される:
+
+$$
+\mathbf{M}_{2f}(\phi_2) = \mathbf{M}_{f2}^{-1}(\phi_2) = \begin{bmatrix} \cos\phi_2 & -\sin\phi_2 & 0 & -a \cos\phi_2 \\ \sin\phi_2 & \cos\phi_2 & 0 & -a \sin\phi_2 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}
+$$
+
+したがって、ピニオン座標系 $S_1$ から歯車座標系 $S_2$ への直接変換行列 $\mathbf{M}_{21}(\phi_1, \phi_2)$ は行列積として厳密に計算される:
+
+$$
+\mathbf{M}_{21}(\phi_1, \phi_2) = \mathbf{M}_{2f}(\phi_2) \, \mathbf{M}_{f1}(\phi_1) = \begin{bmatrix} \cos(\phi_1 + \phi_2) & -\sin(\phi_1 + \phi_2) & 0 & -a \cos\phi_2 \\ \sin(\phi_1 + \phi_2) & \cos(\phi_1 + \phi_2) & 0 & -a \sin\phi_2 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}
+$$
+
+同次位置ベクトル $\mathbf{r}_1 = [x_1, y_1, z_1, 1]^T$ の変換は次の通りである:
+
+$$
+\mathbf{r}_2 = \mathbf{M}_{21}(\phi_1, \phi_2) \, \mathbf{r}_1
+$$
+
+歯面法線ベクトルは方向ベクトル(Directional Vector)であるため、平行移動成分の影響を受けない。したがって、$\mathbf{M}_{21}$ の左上 $3 \times 3$ 直交回転部分行列 $\mathbf{L}_{21}(\phi_1, \phi_2)$ によってのみ変換される:
+
+$$
+\mathbf{L}_{21}(\phi_1, \phi_2) = \begin{bmatrix} \cos(\phi_1 + \phi_2) & -\sin(\phi_1 + \phi_2) & 0 \\ \sin(\phi_1 + \phi_2) & \cos(\phi_1 + \phi_2) & 0 \\ 0 & 0 & 1 \end{bmatrix}
+$$
+
+$$
+\mathbf{n}_2 = \mathbf{L}_{21}(\phi_1, \phi_2) \, \mathbf{n}_1
+$$
+
+直交部分行列 $\mathbf{L}_{21}$ はユニタリ直交性($\mathbf{L}_{21}^{-1} = \mathbf{L}_{21}^T, \det(\mathbf{L}_{21}) = +1$)を満足するため、法線ベクトルの単位長さ($\|\mathbf{n}_2\| = \|\mathbf{n}_1\| = 1$)が厳格に保存される。
+
+---
+
+### 2.3 歯面2パラメータ曲面媒介変数表示(Surface Parameterization)、単位法線ベクトルおよび特異点・アンダーカット条件
+
+Litvin の正統幾何学体系に従い、ピニオン1の3次元歯面 $\Sigma_1$ は物体固定座標系 $S_1$ において2パラメータ曲面媒介変数表示(**Surface Parameterization**, $\mathbf{r}(u, \theta)$ または $\mathbf{r}_1(u, \theta)$)の2つの独立パラメータ座標 $(u, \theta)$ で厳密に定義される:
+- $u$: 歯形インボリュートに沿うパラメータ(展開角または基礎円円弧長パラメータ)
+- $\theta$: 歯幅($z_1$)方向またはヘリカル創成パラメータ
+
+$$
+\mathbf{r}_1(u, \theta) = \begin{bmatrix} x_1(u, \theta) \\ y_1(u, \theta) \\ z_1(u, \theta) \end{bmatrix}_1
+$$
+
+直交平歯車(Spur Gear)の場合、歯面は $z_1$ 軸に沿って直線平行押出しされた線織面(Ruled Surface)であるため、$z_1 \equiv \theta$ と設定できる:
+
+$$
+\mathbf{r}_1(u, \theta) = \begin{bmatrix} x_1(u) \\ y_1(u) \\ \theta \end{bmatrix}_1
+$$
+
+曲面上の任意の点における2本の接線基底ベクトル(Tangent Basis Vectors)は各パラメータに対する偏微分として与えられる:
+
+$$
+\mathbf{r}_{1u} = \frac{\partial \mathbf{r}_1}{\partial u} = \begin{bmatrix} \frac{\partial x_1}{\partial u} \\ \frac{\partial y_1}{\partial u} \\ 0 \end{bmatrix}_1 = \begin{bmatrix} \dot{x}_1(u) \\ \dot{y}_1(u) \\ 0 \end{bmatrix}_1
+$$
+
+$$
+\mathbf{r}_{1\theta} = \frac{\partial \mathbf{r}_1}{\partial \theta} = \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix}_1 = \mathbf{k}_1
+$$
+
+歯面が特異点(Singularity)のない正則曲面(Regular Surface, $\|\mathbf{r}_{1u} \times \mathbf{r}_{1\theta}\| \neq 0$)であるとき、2本の接線ベクトルの外積を正規化して歯面外向き単位法線ベクトル $\mathbf{n}_1(u, \theta)$ を数学的に一意に定義する:
+
+$$
+\mathbf{N}_1(u, \theta) = \mathbf{r}_{1u} \times \mathbf{r}_{1\theta} = \begin{vmatrix} \mathbf{i}_1 & \mathbf{j}_1 & \mathbf{k}_1 \\ \dot{x}_1(u) & \dot{y}_1(u) & 0 \\ 0 & 0 & 1 \end{vmatrix} = \begin{bmatrix} \dot{y}_1(u) \\ -\dot{x}_1(u) \\ 0 \end{bmatrix}_1
+$$
+
+$$
+\mathbf{n}_1(u, \theta) = \frac{\mathbf{N}_1(u, \theta)}{\|\mathbf{N}_1(u, \theta)\|} = \frac{1}{\sqrt{\dot{x}_1^2(u) + \dot{y}_1^2(u)}} \begin{bmatrix} \dot{y}_1(u) \\ -\dot{x}_1(u) \\ 0 \end{bmatrix}_1
+$$
+
+固定基準座標系 $S_f$ で観測された歯面位置ベクトル $\mathbf{r}_f^{(1)}$ および単位法線ベクトル $\mathbf{n}_f^{(1)}$ は、回転部分行列 $\mathbf{L}_{f1}(\phi_1)$ によって次のように座標変換される:
+
+$$
+\mathbf{r}_f^{(1)}(u, \theta, \phi_1) = \mathbf{L}_{f1}(\phi_1) \cdot \mathbf{r}_1(u, \theta) = \begin{bmatrix} x_1(u) \cos\phi_1 - y_1(u) \sin\phi_1 \\ x_1(u) \sin\phi_1 + y_1(u) \cos\phi_1 \\ \theta \end{bmatrix}_f
+$$
+
+$$
+\mathbf{n}_f^{(1)}(u, \phi_1) = \mathbf{L}_{f1}(\phi_1) \cdot \mathbf{n}_1(u) = \begin{bmatrix} n_{1x} \cos\phi_1 - n_{1y} \sin\phi_1 \\ n_{1x} \sin\phi_1 + n_{1y} \cos\phi_1 \\ 0 \end{bmatrix}_f
+$$
+
+ここで、機構学的特異点(Singularity)とアンダーカット(Undercutting)の関係を明確に確立する。創成歯面 $\Sigma_2$ の接線ベクトルの外積が $0$ となる点の軌跡は次の通りである:
+
+$$
+\frac{\partial \mathbf{r}_2}{\partial u} \times \frac{\partial \mathbf{r}_2}{\partial \theta} = \mathbf{0}
+$$
+
+この特異点限界条件(Singularity Condition)が満たされる境界において、創成包絡面は尖点(Cusp)を形成して自己交差し、有効なインボリュート歯面を削り取る**アンダーカット(Undercutting)**が物理的に開始される。
+
+---
+
+### 2.4 相対運動速度ベクトルの厳密な導出 (Relative Velocity Vector: $\mathbf{v}^{(12)}$)
+
+任意の噛み合い瞬間において、歯面1と歯面2が固定系 $S_f$ 上の点 $K$ で接触しているとする。固定系原点 $O_1$ を基準とした点 $K$ の位置ベクトルを $\mathbf{r}_f = [x_f, y_f, 0]^T$ とする。
+
+軸の並進速度 $\mathbf{v}_{\text{trans}}$ を伴う多体剛体機構学における相対運動速度ベクトル(**Relative Velocity Vector**, $\mathbf{v}^{(12)}$)の一般定義式は次の通りである:
+
+$$
+\mathbf{v}^{(12)} = \mathbf{v}^{(1)} - \mathbf{v}^{(2)} = (\boldsymbol{\omega}_1 \times \mathbf{r}_1) - (\boldsymbol{\omega}_2 \times \mathbf{r}_1 + \mathbf{v}_{\text{trans}})
+$$
+
+固定軸平行歯車伝動では $\mathbf{v}_{\text{trans}} = \mathbf{0}$ であるため、各絶対速度は次のように展開される:
+
+1. **歯面1に拘束された点 $K$ の絶対速度 $\mathbf{v}_f^{(1)}$**:
+
+$$
+\mathbf{v}_f^{(1)} = \boldsymbol{\omega}_1 \times \mathbf{r}_f = \begin{vmatrix} \mathbf{i}_f & \mathbf{j}_f & \mathbf{k}_f \\ 0 & 0 & \omega_1 \\ x_f & y_f & 0 \end{vmatrix} = \begin{bmatrix} -\omega_1 y_f \\ \omega_1 x_f \\ 0 \end{bmatrix}_f
+$$
+
+2. **歯面2に拘束された点 $K$ の絶対速度 $\mathbf{v}_f^{(2)}$**:
+
+$$
+\mathbf{v}_f^{(2)} = \boldsymbol{\omega}_2 \times (\mathbf{r}_f - \mathbf{R}) = \begin{vmatrix} \mathbf{i}_f & \mathbf{j}_f & \mathbf{k}_f \\ 0 & 0 & -\omega_2 \\ x_f - a & y_f & 0 \end{vmatrix} = \begin{bmatrix} \omega_2 y_f \\ -\omega_2 (x_f - a) \\ 0 \end{bmatrix}_f
+$$
+
+3. **相対運動速度ベクトル $\mathbf{v}_f^{(12)}$**:
+
+$$
+\mathbf{v}_f^{(12)} = \mathbf{v}_f^{(1)} - \mathbf{v}_f^{(2)} = \boldsymbol{\omega}_1 \times \mathbf{r}_f - \boldsymbol{\omega}_2 \times (\mathbf{r}_f - \mathbf{R})
+$$
+
+ベクトル外積の分配法則に従って式を整理すると次の機構学的一般式を得る:
+
+$$
+\mathbf{v}_f^{(12)} = (\boldsymbol{\omega}_1 - \boldsymbol{\omega}_2) \times \mathbf{r}_f + \boldsymbol{\omega}_2 \times \mathbf{R} = (\boldsymbol{\omega}_1 - \boldsymbol{\omega}_2) \times \mathbf{r}_f - \mathbf{R} \times \boldsymbol{\omega}_2
+$$
+
+直交座標系 $S_f$ の成分ごとに展開すると次の通りである:
+
+$$
+\mathbf{v}_f^{(12)} = \begin{bmatrix} -\omega_1 y_f \\ \omega_1 x_f \\ 0 \end{bmatrix} - \begin{bmatrix} \omega_2 y_f \\ -\omega_2 (x_f - a) \\ 0 \end{bmatrix} = \begin{bmatrix} -(\omega_1 + \omega_2) y_f \\ (\omega_1 + \omega_2) x_f - \omega_2 a \\ 0 \end{bmatrix}_f
 $$
 
 ---
 
-## 3. リトビン第1噛み合い方程式とウィリス(Willis)の法則の完全証明
+## 3. リトビン噛み合い第1方程式とウィリス(Willis)の定理の微分幾何学的完全証明
 
-### 3.1 連続接触条件とリトビン第1方程式
+### 3.1 連続接触条件と噛み合い第1方程式 (First Equation of Meshing)
 
-2つの歯面が食い込みも離脱も起こさず連続接触を維持するための必要十分条件は、接触点 $K$ における共通法線方向の相対速度成分が常にゼロであることです：
+2つの剛体歯面 $\Sigma_1, \Sigma_2$ が時間区間 $t \in [0, T]$ にわたり、食い込み(Interpenetration)も離脱(Separation)も起こさずに連続接触を維持するための幾何学的必要十分条件は次の通りである:
+
+> **「接触点 $K$ における共通歯面法線(Common Normal)方向の相対運動速度成分は必ず $0$ でなければならない。」**
+
+物体固定座標系 $S_1$ および固定基準座標系 $S_f$ における**リトビンの噛み合い第1方程式(Litvin's First Equation of Meshing / Equation of Meshing: $f = \mathbf{n} \cdot \mathbf{v}^{(12)} = 0$)**は次のように宣言される:
 
 $$
-\mathbf{n}_f \cdot \mathbf{v}_f^{(12)} = 0
+f(u, \theta, \phi_1) = \mathbf{n}_1 \cdot \mathbf{v}^{(12)} = 0
 $$
 
-### 3.2 ウィリスの共役噛み合い基本法則の証明
+$$
+\mathbf{n}_f^{(1)} \cdot \mathbf{v}_f^{(12)} = 0
+$$
 
-スカラー3重積の巡回恒等式を展開すると：
+もしこの内積が正($\mathbf{n} \cdot \mathbf{v}^{(12)} > 0$)であれば歯面は即座に離脱し、負($\mathbf{n} \cdot \mathbf{v}^{(12)} < 0$)であれば剛体同士が相互貫通する物理的矛盾が生じる。
+
+スパーギヤの単位法線ベクトルを $\mathbf{n}_f = [n_{fx}, n_{fy}, 0]^T$ として内積を成分展開する:
+
+$$
+-n_{fx} (\omega_1 + \omega_2) y_f + n_{fy} [(\omega_1 + \omega_2) x_f - \omega_2 a] = 0
+$$
+
+$$
+(\omega_1 + \omega_2) (n_{fy} x_f - n_{fx} y_f) = \omega_2 a n_{fy}
+$$
+
+両辺を $(\omega_1 + \omega_2)$ で割り、中心距離配分比 $r_{w1} = \frac{\omega_2}{\omega_1 + \omega_2} a$ を代入すると、法線直線の幾何学的方程式が導かれる:
+
+$$
+n_{fy} x_f - n_{fx} y_f = \frac{\omega_2}{\omega_1 + \omega_2} a n_{fy} = r_{w1} n_{fy}
+$$
+
+中心線($y_f = 0$)との交点を求めるため $y_f = 0$ を代入すると:
+
+$$
+n_{fy} x_f = r_{w1} n_{fy} \implies x_f = r_{w1} = \frac{a}{1 + u} = P
+$$
+
+この代数展開は、**「噛み合い方程式(Equation of Meshing) $\mathbf{n} \cdot \mathbf{v}^{(12)} = 0$ を満たすすべての接触点における作用線・接触経路(Line of Action / Contact Path)上の共通法線は、中心線上の固定されたピッチ点 $P(r_{w1}, 0, 0)$ を必ず通過する」**という事実を閉形式で証明する。
+
+さらにヘリカルギヤの場合、ねじれ角 $\beta_b$ により法線ベクトルに $z$ 成分($n_z = \sin\beta_b$)が生じるが、平行軸歯車では軸方向相対速度が $v_z^{(12)} \equiv 0$ であるため、内積は正面断面(Transverse Plane)へと正確に縮約される:
+
+$$
+\mathbf{n} \cdot \mathbf{v}^{(12)} = \mathbf{n}_t \cdot \mathbf{v}_t^{(12)} + n_z v_z^{(12)} = \mathbf{n}_t \cdot \mathbf{v}_t^{(12)} + 0 = 0
+$$
+
+したがって、ヘリカルギヤにおいても正面断面上でのピッチ点通過不変性が完全に保存される。
+
+---
+
+### 3.2 ウィリス(Willis)共役噛み合い法則の代数的・幾何学的閉形式証明
+
+噛み合い第1方程式に相対速度ベクトルの一般式を代入して展開する:
+
+$$
+\mathbf{n}_f \cdot \left[ (\boldsymbol{\omega}_1 - \boldsymbol{\omega}_2) \times \mathbf{r}_f + \boldsymbol{\omega}_2 \times \mathbf{R} \right] = 0
+$$
+
+スカラー三重積(Scalar Triple Product)の循環恒等式 $\mathbf{a} \cdot (\mathbf{b} \times \mathbf{c}) = (\mathbf{a} \times \mathbf{b}) \cdot \mathbf{c}$ を適用する:
+
+$$
+(\boldsymbol{\omega}_1 - \boldsymbol{\omega}_2) \cdot (\mathbf{r}_f \times \mathbf{n}_f) + \mathbf{n}_f \cdot (\boldsymbol{\omega}_2 \times \mathbf{R}) = 0
+$$
+
+$$
+(\boldsymbol{\omega}_1 - \boldsymbol{\omega}_2) \cdot (\mathbf{r}_f \times \mathbf{n}_f) + \boldsymbol{\omega}_2 \cdot (\mathbf{R} \times \mathbf{n}_f) = 0
+$$
+
+$$
+\boldsymbol{\omega}_1 \cdot (\mathbf{r}_f \times \mathbf{n}_f) - \boldsymbol{\omega}_2 \cdot [(\mathbf{r}_f - \mathbf{R}) \times \mathbf{n}_f] = 0
+$$
+
+ここで $\mathbf{r}_f = \vec{O_1 K}$ および $\mathbf{r}_f - \mathbf{R} = \vec{O_2 K}$ であるから:
 
 $$
 \boldsymbol{\omega}_1 \cdot (\vec{O_1 K} \times \mathbf{n}_f) = \boldsymbol{\omega}_2 \cdot (\vec{O_2 K} \times \mathbf{n}_f)
 $$
 
-外接歯車対では回転中心 $O_1, O_2$ が作用線の反対側に位置するため、幾何学的符号が相殺され：
+$\boldsymbol{\omega}_1 = \omega_1 \mathbf{k}_f$ および $\boldsymbol{\omega}_2 = -\omega_2 \mathbf{k}_f$ を代入する:
 
 $$
-\frac{\omega_1}{\omega_2} = \frac{\overline{O_2 N_2}}{\overline{O_1 N_1}} = \frac{\overline{O_2 P}}{\overline{O_1 P}} = \text{constant} = u
+\omega_1 [(\vec{O_1 K} \times \mathbf{n}_f) \cdot \mathbf{k}_f] = -\omega_2 [(\vec{O_2 K} \times \mathbf{n}_f) \cdot \mathbf{k}_f]
 $$
 
-> **[ウィリスの噛み合い基本法則 (Willis' Law)]**  
-> 歯面が常に一定の角速度比を伝達するための必要十分条件は、**接触点における共通法線が2つの回転中心を結ぶ中心線上の固定点（ピッチ点 $P$）を常に通過すること**である。
+外歯車対において、両回転中心 $O_1, O_2$ は共通法線を境界として互いに反対側の半平面に位置するため、モーメントアーム外積ベクトルは常に逆符号を指す:
 
-![図 2: ウィリスのかみ合いの法則の幾何学的証明](/images/part1/ja/fig2_willis_law_geometry.png)
+$$
+(\vec{O_1 K} \times \mathbf{n}_f) \cdot \mathbf{k}_f = + \overline{O_1 N_1}, \quad (\vec{O_2 K} \times \mathbf{n}_f) \cdot \mathbf{k}_f = - \overline{O_2 N_2}
+$$
+
+この幾何学的符号反転が逆回転の負符号($-\omega_2$)と正確に相殺(Cancel-out)される:
+
+$$
+\omega_1 \cdot \overline{O_1 N_1} = (-\omega_2) \cdot (-\overline{O_2 N_2}) = \omega_2 \cdot \overline{O_2 N_2}
+$$
+
+```
+                   O₂ (大歯車中心)
+                   │ ＼
+                   │   ＼
+                   │     ＼ N₂ (基礎円接点, 90°)
+                   │       ＼
+       中心線      │         ＼ 作用線 (Line of Action, n-n)
+       (Line of    P (ピッチ点) ── K (任意の歯面接触点)
+       Centers)    │         ／
+                   │       ／
+                   │     ／ N₁ (基礎円接点, 90°)
+                   │   ／
+                   │ ／
+                   O₁ (小歯車中心)
+```
+
+回転中心 $O_1, O_2$ から共通法線へ下ろした垂線の長さ $\overline{O_1 N_1}, \overline{O_2 N_2}$ は次のように定義される:
+
+$$
+\overline{O_1 N_1} = \left\| \vec{O_1 K} \times \mathbf{n}_f \right\|, \quad \overline{O_2 N_2} = \left\| \vec{O_2 K} \times \mathbf{n}_f \right\|
+$$
+
+直角三角形 $\Delta O_1 N_1 P$ と $\Delta O_2 N_2 P$ は2つの内角が等しい**相似直角三角形(Similar Right Triangles)**を形成する:
+
+$$
+\Delta O_1 N_1 P \sim \Delta O_2 N_2 P
+$$
+
+相似比により対応辺の長さの比は完全に一致する:
+
+$$
+\frac{\overline{O_2 N_2}}{\overline{O_1 N_1}} = \frac{\overline{O_2 P}}{\overline{O_1 P}}
+$$
+
+したがって、ISO 6336 規格に準拠する変速比 $i$ および歯数比 $u = z_2 / z_1 \ge 1.0$ との恒等式が確立される:
+
+$$
+\frac{\omega_1}{\omega_2} = \frac{\overline{O_2 P}}{\overline{O_1 P}} = \text{constant} = \frac{z_2}{z_1} = u \ge 1.0
+$$
+
+これにより、ロバート・ウィリス(Robert Willis, 1841)が確立した歯車工学の第1憲法が微分幾何学的に完全証明された:
+
+> **[ウィリスの噛み合い基本法則 (Willis' Law of Conjugate Gearing)]**  
+> 2つの回転曲線歯形が噛み合って一定の角速度比($u = \omega_1 / \omega_2 = \text{const}$)を伝達するための機構学的必要十分条件は、**歯面のすべての接触点 $K$ における共通法線(Common Normal)が、両歯車の回転中心 $O_1, O_2$ を結ぶ中心線上の固定された1点(ピッチ点 $P$)を常に通過しなければならない**ということである。
 
 ---
 
-## 4. オイラー・サヴァリ(Euler-Savary)曲率方程式の厳密誘導
+### 3.3 図2の幾何構造と数式の1:1直結解析
 
-共役曲面の曲率半径 $\rho_1, \rho_2$ とピッチ点 $P$ から曲率中心 $C_1, C_2$ までの符号付き距離 $s_1, s_2$ は、**オイラー・サヴァリ方程式**を満たします：
+![図2: ウィリス噛合い法則の幾何学的証明](/images/part1/ja/fig2_willis_law_geometry.png)
 
-$$
-\left( \frac{1}{s_1} - \frac{1}{s_2} \right) \sin\alpha_w = \frac{1}{r_{w1}} \pm \frac{1}{r_{w2}}
-$$
+上記 [Figure 2] は、証明されたウィリスの法則のすべての幾何学的要素を正確に可視化したものである:
+*(注: 第2節の大数展開では Litvin の標準規約に従い $O_1$ を原点、中心線を水平軸としたが、Figure 2 では視覚的対称性のためにピッチ点 $P$ を原点 $(0, 0)$、中心線を垂直軸として配置している。機構学的不変関係は座標系の平行移動・回転に完全に独立である。)*
 
-外接歯車ではプラス（$+$）、内歯車ではマイナス（$-$）となります。
-インボリュート歯車では、曲率中心 $C_1, C_2$ が基礎円上の接点 $N_1, N_2$ に永久に固定されるため、全作用線上でこの方程式が自然かつ恒等的に成立します。
-
----
-
-## 5. インボリュート曲線の中心距離不変性
-
-基礎円半径 $r_b$ から解き放たれるインボリュート曲線の直交座標閉形式解は：
-
-$$
-\begin{cases}
-x(\theta) = r_b (\cos\theta + \theta \sin\theta) \\
-y(\theta) = r_b (\sin\theta - \theta \cos\theta)
-\end{cases}
-$$
-
-中心距離が $a$ から $a'$ に変動した場合、噛み合い圧力角 $\alpha_{wt}'$ が自律的に適応します：
-
-$$
-a' \cos\alpha_{wt}' = r_{b1} + r_{b2}
-$$
-
-その結果、角速度比 $u'$ は完全に一定に保たれます：
-
-$$
-u' = \frac{r_{b2}}{r_{b1}} = \frac{z_2}{z_1} = u \quad (\Delta u \equiv 0.000000\%)
-$$
+* **回転中心と中心線**: 下部ピニオン中心 $O_1(0, -r_1)$ と上部大歯車中心 $O_2(0, r_2)$ を結ぶ一点鎖線が中心線である。
+* **ピッチ点 $P$**: 中心線上に位置する原点 $(0, 0)$ であり、運動中不変の幾何学的瞬間中心である。
+* **共通法線 $n-n$ (作用線, Line of Action)**: 接触点 $K$ で接線 $t_K-t_K$ に直交し、ピッチ点 $P$ を一定の噛み合い圧力角 $\alpha = 22.0^\circ$ で貫通する。
+* **相似直角三角形 $\Delta O_1 N_1 P \sim \Delta O_2 N_2 P$**:
+  - 中心 $O_1$ からの垂線の長さ $\overline{O_1 N_1} = r_{b1} = r_1 \cos\alpha$。
+  - 中心 $O_2$ からの垂線の長さ $\overline{O_2 N_2} = r_{b2} = r_2 \cos\alpha$。
+  - 辺の比により $\frac{\omega_1}{\omega_2} = \frac{O_2 P}{O_1 P} = \frac{r_2}{r_1} = \frac{r_{b2}}{r_{b1}} = \text{const}$ が閉形式で証明される。
 
 ---
 
-## 6. 接触点速度分解とすべり速度・すべり率
+## 4. オイラー・サヴァリ(Euler-Savary)方程式の微分幾何学的完全導出
 
-共通接線方向のすべり速度 $v_s$ はピッチ点 $P$ からの距離 $g$ に比例して線形に増加します：
+共役歯形を設計する際、単にウィリスの法則を満たすだけでなく、接触点における**曲率半径(Radius of Curvature)**と曲率中心の軌跡を制御しなければ歯面の面圧強度やアンダーカットの有無を解析できない。平面機構学におけるこの基本方程式が**オイラー・サヴァリ(Euler-Savary)方程式**である。
+
+```
+       C₂ (歯形2の曲率中心)
+       │
+       K  (接触点)
+       │
+       P  (ピッチ点 / 転がり瞬間中心)
+       │
+       C₁ (歯形1の曲率中心)
+       (共通法線直線上に一直線に配置)
+```
+
+### 4.1 転がり瞬間中心(Pole)と変曲円(Inflection Circle)の幾何学
+
+平面相対運動において、両歯車のピッチ曲線はピッチ点 $P$ で滑りなく純転がり接触を行う。ピッチ点 $P$ の純転がり線速度は次の通りである:
+
+$$
+v_P = \omega_1 r_{w1} = \omega_2 r_{w2}
+$$
+
+外噛み合いにおける相対角速度の大きさは加算される:
+
+$$
+\omega_{12} = \|\boldsymbol{\omega}_1 - \boldsymbol{\omega}_2\| = \omega_1 + \omega_2
+$$
+
+相対運動系において、法線加速度が $0$ となる点($a_n = 0$、すなわち軌跡の曲率半径が無限大 $\rho \to \infty$ となり変曲点を形成する幾何学的軌跡)は、瞬間中心 $P$ を接点とする円を形成する。これを**変曲円(Inflection Circle)**と定義する。その直径 $D_i$ は次の通りである:
+
+$$
+D_i = \frac{v_P}{\omega_{12}} = \frac{\omega_1 r_{w1}}{\omega_1 + \omega_2} = \frac{r_{w1}}{1 + \frac{\omega_2}{\omega_1}} = \frac{r_{w1}}{1 + \frac{r_{w1}}{r_{w2}}} = \frac{r_{w1} r_{w2}}{r_{w1} + r_{w2}} = \frac{r_{w1} r_{w2}}{a}
+$$
+
+ピッチ点 $P$ を通過し圧力角 $\alpha_w$ をなす直線(作用線)が変曲円と交わる点を**変曲極(Inflection Pole, $J$)**と呼ぶ:
+
+$$
+\overline{PJ} = D_i \sin\alpha_w = \frac{r_{w1} r_{w2}}{a} \sin\alpha_w
+$$
+
+---
+
+### 4.2 2階包絡条件とオイラー・サヴァリ方程式の導出
+
+接触点 $K$ を共有する両歯面の曲率中心 $C_1, C_2$ と変曲極 $J$ の調和比関係からオイラー・サヴァリ方程式が導かれる。
+
+ピッチ点 $P$ を原点とする法線上の符号付き座標:
+- $s_1 = \overline{P C_1}$
+- $s_2 = \overline{P C_2}$
+- $s_K = \overline{P K}$
+
+各歯面の曲率半径 $\rho_1, \rho_2$ は次の通りである:
+
+$$
+\rho_1 = |s_1 - s_K|, \quad \rho_2 = |s_2 - s_K|
+$$
+
+平面機構学におけるオイラー・サヴァリの逆数距離関係式:
+
+$$
+\frac{1}{s_1} - \frac{1}{s_2} = \frac{1}{\overline{PJ}}
+$$
+
+変曲極までの距離 $\overline{PJ} = \frac{r_{w1} r_{w2}}{a} \sin\alpha_w$ を代入すると:
+
+$$
+\frac{1}{s_1} - \frac{1}{s_2} = \frac{1}{\frac{r_{w1} r_{w2}}{a} \sin\alpha_w} = \frac{a}{r_{w1} r_{w2} \sin\alpha_w}
+$$
+
+両辺に $\sin\alpha_w$ を乗じ、$a = r_{w1} + r_{w2}$ を代入して整理すると:
+
+$$
+\left( \frac{1}{s_1} - \frac{1}{s_2} \right) \sin\alpha_w = \frac{r_{w1} + r_{w2}}{r_{w1} r_{w2}} = \frac{1}{r_{w1}} + \frac{1}{r_{w2}}
+$$
+
+これにより、任意の平面共役歯形に対する**オイラー・サヴァリ(Euler-Savary)微分幾何学曲率方程式**が厳密に導出された。
+
+---
+
+### 4.3 外歯車対と内歯車対における符号規約 (Sign Conventions)
+
+1. **外歯円筒歯車 (External Cylindrical Gears)**:
+   曲率中心 $C_1$ と $C_2$ はピッチ点 $P$ を挟んで反対側に位置するため($s_1 > 0, s_2 < 0$)、加算形式となる:
+
+$$
+\left( \frac{1}{|s_1|} + \frac{1}{|s_2|} \right) \sin\alpha_w = \frac{1}{r_{w1}} + \frac{1}{r_{w2}} = \frac{a}{r_{w1} r_{w2}}
+$$
+
+2. **内歯車対 (Internal Gear Pair: Ring & Pinion)**:
+   内歯車(リングギヤ)の歯面がピニオンを包み込む構成であり、両歯車は同方向に回転する($\omega_{12} = |\omega_1 - \omega_2|$)。中心距離は $a = r_{w2} - r_{w1}$ となり、減算形式へと移行する:
+
+$$
+\left( \frac{1}{s_1} - \frac{1}{s_2} \right) \sin\alpha_w = \frac{1}{r_{w1}} - \frac{1}{r_{w2}} = \frac{r_{w2} - r_{w1}}{r_{w1} r_{w2}} = \frac{a}{r_{w1} r_{w2}}
+$$
+
+   内歯車では $r_{w2} > r_{w1}$ であるため、右辺の等価曲率項 $\frac{1}{r_{w1}} - \frac{1}{r_{w2}}$ は外歯車に比べて極めて小さくなる。これは内歯車が外歯車に比べて接触等価曲率半径 $\rho_{\text{eq}}$ が格段に大きくなり(ヘルツ接触応力 $\sigma_H$ の大幅低減)、優れた面圧強度を発揮する微分幾何学的根拠となる。
+
+---
+
+### 4.4 インボリュート曲線におけるオイラー・サヴァリ方程式の自明な退化 (Degeneration)
+
+インボリュート歯形では、基礎円から解きほぐされる直線そのものが法線となるため、**インボリュート曲線の曲率中心 $C_1, C_2$ は基礎円上の接点 $N_1, N_2$ に永久に固定される**:
+
+$$
+C_1 \equiv N_1, \quad C_2 \equiv N_2
+$$
+
+$$
+s_1 = \overline{P N_1} = r_{w1} \sin\alpha_w
+$$
+
+$$
+s_2 = -\overline{P N_2} = -r_{w2} \sin\alpha_w
+$$
+
+これをオイラー・サヴァリ方程式の左辺に代入すると:
+
+$$
+\left( \frac{1}{r_{w1} \sin\alpha_w} - \frac{1}{-r_{w2} \sin\alpha_w} \right) \sin\alpha_w = \frac{\sin\alpha_w}{\sin\alpha_w} \left( \frac{1}{r_{w1}} + \frac{1}{r_{w2}} \right) = \frac{1}{r_{w1}} + \frac{1}{r_{w2}}
+$$
+
+左辺と右辺が恒等的に一致する！  
+これは**「インボリュート歯形は噛み合いの全区間においてオイラー・サヴァリ方程式を自然に恒等式として満足する唯一無二の直線作用線共役曲線である」**ことを代数的に立証している。
+
+---
+
+## 5. インボリュート歯形の数学的必然性と中心距離自己適応不変性
+
+### 5.1 インボリュート媒介変数方程式の厳密な導出 (ラジアン単位の警告)
+
+半径 $r_b$ の基礎円の円周に巻き付けられた糸をピンと張ったまま解きほぐすときの端点軌跡を直交座標系 $S(O; x, y)$ で導出する。
+ここで、展開角 $\theta$ および圧力角 $\alpha$ は、三角関数および超越関数の解析において必ず**ラジアン(rad, radian, ラジアン)**単位として厳格に取り扱われなければならない。
+
+基礎円周上の接点 $B$ の座標は展開角 $\theta$ に対して次の通りである:
+
+$$
+\mathbf{r}_B(\theta) = \begin{bmatrix} r_b \cos\theta \\ r_b \sin\theta \end{bmatrix}
+$$
+
+点 $B$ における単位接線ベクトル $\mathbf{u}_t(\theta)$ は:
+
+$$
+\mathbf{u}_t(\theta) = \begin{bmatrix} -\sin\theta \\ \cos\theta \end{bmatrix}
+$$
+
+解きほぐされた接線線分の長さ $L(\theta)$ は基礎円円弧長に等しい:
+
+$$
+L(\theta) = r_b \theta
+$$
+
+端点 $K$ の位置ベクトル $\mathbf{r}(\theta) = \mathbf{r}_B(\theta) - L(\theta) \mathbf{u}_t(\theta)$ は:
+
+$$
+\mathbf{r}(\theta) = \mathbf{r}_B(\theta) - L(\theta) \begin{bmatrix} -\sin\theta \\ \cos\theta \end{bmatrix} = \begin{bmatrix} r_b \cos\theta + r_b \theta \sin\theta \\ r_b \sin\theta - r_b \theta \cos\theta \end{bmatrix}
+$$
+
+したがって、インボリュート曲線の閉形式直交座標パラメータ方程式が得られる:
+
+$$
+\begin{cases} x(\theta) = r_b (\cos\theta + \theta \sin\theta) \\ y(\theta) = r_b (\sin\theta - \theta \cos\theta) \end{cases}
+$$
+
+任意の展開角 $\theta$ における半径 $r(\theta)$ は次のように簡潔に縮約される:
+
+$$
+r(\theta) = \sqrt{x(\theta)^2 + y(\theta)^2} = \sqrt{r_b^2 (\cos\theta + \theta \sin\theta)^2 + r_b^2 (\sin\theta - \theta \cos\theta)^2} = r_b \sqrt{1 + \theta^2}
+$$
+
+$\cos\alpha = r_b / r(\theta)$ より:
+
+$$
+\cos\alpha = \frac{r_b}{r_b \sqrt{1 + \theta^2}} = \frac{1}{\sqrt{1 + \theta^2}} \implies \tan\alpha = \theta
+$$
+
+極座標系におけるインボリュート角 $\phi$ は、工学的に**インボリュート関数($\text{inv}\alpha$)**と定義される:
+
+$$
+\phi = \theta - \alpha = \tan\alpha - \alpha \equiv \text{inv}(\alpha)
+$$
+
+---
+
+### 5.2 中心距離変動に対する角速度比の絶対不変性の証明 (Invariance Property)
+
+サイクロイド歯車や円弧歯形は、組み立て誤差や熱膨張によって中心距離 $a$ がわずか $0.05\text{ mm}$ 狂うだけでも角速度比が激しく脈動する。
+
+しかし、**インボリュート歯形は中心距離 $a$ が変動しても角速度比が完全に一定に保たれる**。その数学的証明:
+
+1. **基礎円半径の物理的不変性**:
+   加工された歯車の基礎円半径 $r_{b1}, r_{b2}$ は軸間距離に依存しない形状不変量である:
+
+$$
+r_{b1} = \frac{1}{2} m z_1 \cos\alpha_0 = \text{const}, \quad r_{b2} = \frac{1}{2} m z_2 \cos\alpha_0 = \text{const}
+$$
+
+2. **噛み合い圧力角の自己適応(Self-Adaptation)**:
+   組立中心距離が $a' = a + \Delta a$ へ変動すると、新しい噛み合い圧力角 $\alpha_{wt}'$ が自動的に定まる:
+
+$$
+a' \cos\alpha_{wt}' = r_{b1} + r_{b2} \implies \cos\alpha_{wt}' = \frac{r_{b1} + r_{b2}}{a'}
+$$
+
+3. **噛み合いピッチ円半径の自己再編**:
+
+$$
+r_{w1}' = \frac{r_{b1}}{\cos\alpha_{wt}'}, \quad r_{w2}' = \frac{r_{b2}}{\cos\alpha_{wt}'}
+$$
+
+4. **角速度比の代数的不変性**:
+
+$$
+u' = \frac{\omega_1}{\omega_2} = \frac{r_{w2}'}{r_{w1}'} = \frac{\frac{r_{b2}}{\cos\alpha_{wt}'}}{\frac{r_{b1}}{\cos\alpha_{wt}'}} = \frac{r_{b2}}{r_{b1}} = \frac{z_2}{z_1} = u = \text{Constant}
+$$
+
+$$
+\Delta u = |u' - u| \equiv 0.000000\%
+$$
+
+分母と分子の $\cos\alpha_{wt}'$ 項が完璧に相殺消去される！  
+これこそが、インボリュート曲線が世界の機械産業の95%以上を独占的に支配する最大の幾何学的理由である。
+
+---
+
+## 6. 接触点 $K$ における線速度直交分解、相対滑りおよび滑り率(Specific Sliding)
+
+歯車歯面の噛み合い運動は純粋な転がりではなく、**転がりと滑り(Sliding)が複合的に共存する運動**である。接触面における滑り速度は、弾性流体潤滑(EHL)油膜形成、摩擦発熱、摩耗およびスコーフィング(Scuffing)限界を支配する中核因子である。
+
+```
+                  en (共通法線単位ベクトル)
+                  ▲
+                  │  vn1 = vn2 (法線速度が完全一致！連続接触)
+                  │
+                  K ─────────────────────▶ et (共通接線単位ベクトル)
+                 ／│＼                    vt2 (歯形2接線速度)
+               ／  │  ＼                  ────────────────▶
+             v₂    │    v₁               vt1 (歯形1接線速度)
+                   │                      ────────────────────────────────▶
+                   │                      vs = vt1 - vt2 (相対滑り速度)
+                   │                      ════════════════▶
+```
+
+### 6.1 線速度の直交分解 (Orthogonal Velocity Decomposition)
+
+接触点 $K$ における法線単位ベクトルを $\mathbf{e}_n$、接線単位ベクトルを $\mathbf{e}_t$ とする。各速度の直交分解:
+
+$$
+\mathbf{v}_1 = v_{n1} \, \mathbf{e}_n + v_{t1} \, \mathbf{e}_t
+$$
+
+$$
+\mathbf{v}_2 = v_{n2} \, \mathbf{e}_n + v_{t2} \, \mathbf{e}_t
+$$
+
+1. **法線方向成分 (Normal Components)**:
+
+$$
+v_{n1} = \mathbf{v}_1 \cdot \mathbf{e}_n = \omega_1 \cdot \overline{O_1 N_1} = \omega_1 r_{b1}
+$$
+
+$$
+v_{n2} = \mathbf{v}_2 \cdot \mathbf{e}_n = \omega_2 \cdot \overline{O_2 N_2} = \omega_2 r_{b2}
+$$
+
+基礎円比 $r_{b2} / r_{b1} = \omega_1 / \omega_2$ より:
+
+$$
+v_{n1} = v_{n2} = v_n = \text{constant}
+$$
+
+**法線方向速度は噛み合いの全区間において完全に等しい**。これにより食い込みや離脱が原理的に排除される。
+
+2. **接線方向成分 (Tangential Components)**:
+各歯面の瞬間曲率半径を $\rho_1 = \overline{N_1 K}, \rho_2 = \overline{N_2 K}$ とすると:
+
+$$
+v_{t1} = \omega_1 \rho_1
+$$
+
+$$
+v_{t2} = \omega_2 \rho_2
+$$
+
+---
+
+### 6.2 相対滑り速度ベクトル $\mathbf{v}_s$ の代数的導出
+
+両歯面間の**相対滑り速度(Sliding Velocity) $\mathbf{v}_s$** は接線成分の差となる:
+
+$$
+\mathbf{v}_s = \mathbf{v}_1 - \mathbf{v}_2 = (v_{n1} - v_{n2}) \mathbf{e}_n + (v_{t1} - v_{t2}) \mathbf{e}_t = (v_{t1} - v_{t2}) \mathbf{e}_t
+$$
+
+ピッチ点 $P$ を原点とする作用線上の座標を $g$ とすると:
+
+$$
+\rho_1 = \overline{N_1 P} + g = r_{w1} \sin\alpha_w + g
+$$
+
+$$
+\rho_2 = \overline{N_2 P} - g = r_{w2} \sin\alpha_w - g
+$$
+
+接線速度式に代入する:
+
+$$
+v_{t1} = \omega_1 (r_{w1} \sin\alpha_w + g) = \omega_1 r_{w1} \sin\alpha_w + \omega_1 g
+$$
+
+$$
+v_{t2} = \omega_2 (r_{w2} \sin\alpha_w - g) = \omega_2 r_{w2} \sin\alpha_w - \omega_2 g
+$$
+
+差をとると:
+
+$$
+v_s = v_{t1} - v_{t2} = (\omega_1 r_{w1} \sin\alpha_w - \omega_2 r_{w2} \sin\alpha_w) + (\omega_1 + \omega_2) g
+$$
+
+ピッチ点周速度一致条件($\omega_1 r_{w1} = \omega_2 r_{w2}$)により第1項は $0$ となる:
 
 $$
 v_s(g) = (\omega_1 + \omega_2) \, g
 $$
 
-ピッチ点 $P$ ($g = 0$) では純粋転がり接触（$v_s = 0$）となります。
-
-![図 3: 接触点における速度ベクトルの分解](/images/part1/ja/fig3_contact_velocity_vectors.png)
-
-比すべり（Specific Sliding）$\sigma_1, \sigma_2$ は歯面の摩耗およびスコーフィングリスクを決定します：
-
-$$
-\sigma_1 = 1 - \frac{1}{u} \cdot \frac{\rho_2}{\rho_1}, \quad \sigma_2 = 1 - u \cdot \frac{\rho_1}{\rho_2}
-$$
+この閉形式解は極めて重要な物理法則を宣言している:
+1. **ピッチ点での純転がり**: $g = 0$ で $v_s = 0$ となり、滑りが完全に消失して純転がり接触となる。
+2. **ピッチ点離脱時の線形急増**: ピッチ点から離れるほど(歯元始点 $A$ および歯先終点 $E$)、滑り速度 $v_s$ は距離 $g$ に正比例して線形に増大する。
 
 ---
 
-## 7. H-GEAR STUDIO バックエンド実装
+### 6.3 比滑り(Specific Sliding, $\sigma_1, \sigma_2$)の完全な数式
 
-これらの微分幾何学数式は、H-GEAR STUDIOのバックエンド（`gear_math.py`, `profile_service.py`）に倍精度（$10^{-13}$）で実装されており、リアルタイム2D/3D LTCA解析を駆動しています。
+接線速度に対する相対滑り速度の比である**比滑り(Specific Sliding)**は次のように定義される:
+
+$$
+\sigma_1 = \frac{v_{t1} - v_{t2}}{v_{t1}} = 1 - \frac{v_{t2}}{v_{t1}} = 1 - \frac{\omega_2 \rho_2}{\omega_1 \rho_1} = 1 - \frac{1}{u} \cdot \frac{\rho_2}{\rho_1}
+$$
+
+$$
+\sigma_2 = \frac{v_{t2} - v_{t1}}{v_{t2}} = 1 - \frac{v_{t1}}{v_{t2}} = 1 - \frac{\omega_1 \rho_1}{\omega_2 \rho_2} = 1 - u \cdot \frac{\rho_1}{\rho_2}
+$$
+
+噛み合い開始点 $A$ (小歯車歯元)では $\rho_1 \to 0$ となり、$\sigma_1 \to -\infty$ へと急激に悪化して激しい摩耗を引き起こす。したがって精密歯車設計では、**転位係数($x_1, x_2$)を最適化して両歯車の最大比滑りを均等化($\sigma_{1,\max} \approx \sigma_{2,\max}$)**することが不可欠である。
 
 ---
 
-## 8. 要約と第2章の予告
+### 6.4 図3の速度ベクトル分解および物理法則の検証
 
-次章（Part 1 Chapter 2）では、**「インボリュート幾何学：直交座標閉形式解とすべり機構」**を詳細に解説します。
+![図3: 接触点機構学および速度ベクトル分解](/images/part1/ja/fig3_contact_velocity_vectors.png)
+
+上記 [Figure 3] は、接触点 $K$ における速度ベクトル分解メカニズムを精密に立証している:
+* **法線連続接触**: 速度ベクトル $\vec{v}_1, \vec{v}_2$ の法線軸 $\vec{n}$ への正射影ベクトルは $\vec{v}_{n1} = \vec{v}_{n2}$ として完全に重なり合う。
+* **接線相対滑り**: 共通接線 $t-t$ 軸上の速度成分は $\vec{v}_{t1}$ と $\vec{v}_{t2}$ で明確な差を示し、その差ベクトル $\vec{v}_s = \vec{v}_{t1} - \vec{v}_{t2}$ が潤滑油膜をせん断する純滑り速度となる。
+
+---
+
+## 7. H-GEAR STUDIO バックエンドソースコードマッピング (Implementation in H-GEAR STUDIO Kernel)
+
+誘導された微分幾何学およびウィリス共役噛み合い数式は、H-GEAR STUDIO の実際のバックエンド演算カーネルに $10^{-13}$ レベルの超精密閉形式アルゴリズムとして直接実装されている。
+
+### 7.1 `prototype2/backend/core/gear_math.py`
+
+```python
+def involute(alpha: float) -> float:
+    """インボリュート関数: inv(α) = tan(α) - α (単位: rad)"""
+    return math.tan(alpha) - alpha
+
+def inv_involute(target: float, alpha0: float = math.radians(20.0)) -> float:
+    """
+    インボリュート逆関数: ニュートン・ラフソン法により inv(α) = target を求解。
+    d(inv(α))/dα = tan²(α)
+    収束許容誤差: |delta| < 1e-13
+    """
+    alpha = max(1e-8, alpha0)
+    for _ in range(300):
+        fa = involute(alpha) - target
+        df = math.tan(alpha) ** 2
+        if abs(df) < 1e-15:
+            break
+        delta = fa / df
+        alpha -= delta
+        alpha = max(1e-9, alpha)
+        if abs(delta) < 1e-13:
+            break
+    return alpha
+
+def working_pressure_angle(alpha_t: float, x1: float, x2: float,
+                           z1: int, z2: int, alpha_n: float) -> float:
+    """転位歯車対の噛合い圧力角 α_wt 閉形式算出"""
+    target = involute(alpha_t) + 2.0 * ((x1 + x2) / (z1 + z2)) * math.tan(alpha_n)
+    return inv_involute(target, alpha_t)
+```
+
+### 7.2 `prototype2/backend/profile_service.py`
+
+```python
+def _compute_loa(geom1: GearToothGeometry, geom2: GearToothGeometry,
+                 cx1: float, cy1: float, cx2: float, cy2: float,
+                 alpha_wt: float, z1: int, z2: int) -> Dict[str, Any]:
+    """
+    作用線(Line of Action)座標および噛合い区間(A ~ E)の精密幾何算出。
+    ピッチ点 P を貫通する不変直線を算出。
+    """
+    a = math.hypot(cx2 - cx1, cy2 - cy1)
+    r1, r2   = geom1.r,  geom2.r
+    rb1, rb2 = geom1.rb, geom2.rb
+    ra1, ra2 = geom1.ra, geom2.ra
+
+    # 作用線単位方向ベクトル
+    loa_dx = math.sin(alpha_wt)
+    loa_dy = math.cos(alpha_wt)
+
+    # 基礎円接点 T1, T2
+    T1x = cx1 + rb1 * math.cos(alpha_wt)
+    T1y = cy1 - rb1 * math.sin(alpha_wt)
+    T2x = cx2 - rb2 * math.cos(alpha_wt)
+    T2y = cy2 + rb2 * math.sin(alpha_wt)
+
+    # ピッチ点 P
+    Px = cx1 + r1
+    Py = cy1
+
+    # 噛合い開始点 A および終了点 E の代数的算出
+    t1_t2_len = math.hypot(T2x - T1x, T2y - T1y)
+    t2_a_len  = math.sqrt(max(0.0, ra2**2 - rb2**2))
+    s_A       = t1_t2_len - t2_a_len
+    s_E       = math.sqrt(max(0.0, ra1**2 - rb1**2))
+
+    Ax = T1x + s_A * loa_dx
+    Ay = T1y + s_A * loa_dy
+    Ex = T1x + s_E * loa_dx
+    Ey = T1y + s_E * loa_dy
+    return {
+        "line_of_action": {"p1": (T1x, T1y), "p2": (T2x, T2y)},
+        "pitch_point": (Px, Py),
+        "active_segment": {"A": (Ax, Ay), "E": (Ex, Ey)},
+    }
+```
+
+H-GEAR STUDIO はこの演算結果を基に、フロントエンド(`GearProfileViewer.tsx`)で 60 FPS リアルタイム2D噛み合いアニメーションおよび3D接触解析(LTCA)を駆動します。
+
+---
+
+## 8. 要約および次回予告 (Summary & Next Chapter)
+
+### 8.1 本章の中核的工学結論の要約
+
+| 検討領域 | 摩擦車 (Friction Wheel) | インボリュート歯車 (Involute Gear) |
+|---|---|---|
+| **動力伝達メカニズム** | 接触面摩擦拘束 ($F_t \le \mu_s F_N$) | 歯形幾何学的形状拘束 (Positive Mesh) |
+| **速度比の不変性** | 負荷変動時の滑り発生 ($s > 0, \Delta u \neq 0$) | ウィリスの法則により永久不変 ($u \equiv \text{const}$) |
+| **中心距離変動感度** | 押付力変動により直ちに総滑りへ移行 | 噛合い圧力角 $\alpha_w$ の自己適応により速度比を完全保存 |
+| **法線接触連続性** | 弾性変形による巨視的浮き上がりリスク | $v_{n1} = v_{n2}$ 恒等成立により干渉・浮き上がりを完全排除 |
+| **相対滑り挙動** | 全接触弧にわたる不規則な滑り | ピッチ点での純転がり ($v_s = 0$) および両端での線形増加 |
+
+### 8.2 次回予告: Part 1 Chapter 2
+
+次回第2編では、インボリュート幾何学をさらに深掘りし、**「インボリュート幾何学: 直交座標閉形式解と滑りメカニズム (Involute Geometry: Closed-form Coordinates & Sliding Mechanics)」**をテーマとして取り上げます:
+- 基礎円展開角 $\theta$ と圧力角 $\alpha$ 間の非線形超越方程式解析
+- 歯面全区間にわたる比滑り $\sigma_1(s), \sigma_2(s)$ の厳密な曲線挙動究明
+- 歯先レリーフ(Tip Relief $C_\alpha$)およびクラウニングが接触滑りと伝達誤差(TE)に及ぼす弾性力学的相互作用
+- H-GEAR STUDIO `core/tooth_geometry.py` の連続微分幾何学スプライン生成エンジンの詳細解析

@@ -16,7 +16,7 @@ required_diagrams:
   - "fig2_willis_law_geometry"
   - "fig3_contact_velocity_vectors"
 academic_level: graduate
-equations_hash: "492c1834bc24cba6ef3de66b9b0bf3742820e76a7d162274fde205fb0202252b"
+equations_hash: "430cba407a6e8cca0398e9d725a4dc08fb7699afd046248c2ca5849bce16d4ed"
 kernel_verified: true
 review_date: "2026-11-12"
 sidebar:
@@ -101,7 +101,7 @@ $$
 이때 입·출력 회전 위상각(Rotational Phase Angle) $\theta_1(t) = \int_0^t \omega_1(\tau) d\tau$와 $\theta_2(t) = \int_0^t \omega_2(\tau) d\tau$ 사이의 누적 위상차 $\Delta \theta(t)$는 시간에 따라 발산한다:
 
 $$
-\Delta \theta(t) = \theta_1(t) - \frac{r_2}{r_1} \theta_2(t) = \int_0^t \frac{s(\tau)}{1 - s(\tau)} \, \omega_1(\tau) \, d\tau \neq 0
+\Delta \theta(t) = \theta_1(t) - \frac{r_2}{r_1} \theta_2(t) = \int_0^t s(\tau) \, \omega_1(\tau) \, d\tau \neq 0
 $$
 
 $$
@@ -126,8 +126,8 @@ $$
 
 * **(B) 정규 인볼류트 기어의 형상 맞물림**:
   - 모듈 $m = 2.0\text{ mm}$, 잇수 $z_1 = 17, z_2 = 33$, 압력각 $\alpha_n = 20.0^\circ$로 백엔드 커널에서 엄밀히 산출된 치형 쌍이다.
-  - 마찰력이 전무한 무마찰 표면($\mu \equiv 0$)이라 하더라도, 치면의 기하학적 접촉 법선력이 상대 치형을 물리적으로 밀어내므로 미끄럼 없는 완전한 동력 전달이 실현된다.
-  - 이론적 치간 오버랩(Interference Overlap) $0.000000\text{ mm}$, 백래시 $j_n = 0.000\text{ mm}$의 엄밀한 공액 접촉이 유지되며, 속도비는 엄격한 상수 $u = 33 / 17 \approx 1.941176$를 만족한다.
+  - 마찰력이 전무한 무마찰 표면($\mu \equiv 0$)이라 하더라도, 치면의 기하학적 접촉 법선력이 상대 치형을 물리적으로 밀어내므로 형상 구속에 의한 확실한 동력 전달(Positive Mechanical Engagement)이 실현된다.
+  - 이론적 백래시 $j_n > 0$을 관리하며 기하학적 간섭을 원천 배제한 정밀 치형 맞물림(Positive Mechanical Mesh)이 유지되며, 속도비는 엄격한 상수 $u = 33 / 17 \approx 1.941176$를 만족한다.
 
 그러나 치형을 임의의 곡선(예: 삼각형 톱니나 반원형 돌기)으로 가공하면, 회전 중에 순간 각속도비가 주기적으로 요동치며 극심한 충격, 진동 및 소음이 발생한다. 따라서 **"두 치면이 맞물려 회전하는 내내 순간 각속도비 $u(t) \equiv \text{const}$를 완벽히 일정하게 유지할 수 있는 곡선의 기하학적 조건은 무엇인가?"**라는 근본적인 수학적 질문이 대두된다.
 
@@ -135,7 +135,7 @@ $$
 
 ## 2. 두 회전 강체 치면의 상대 운동 기구학 (Kinematics of Relative Motion)
 
-기어 기하학의 세계적 석학 Faydor L. Litvin 교수의 이론 체계에 입각하여, 임의의 두 2차원 평면 곡선 치면 $\Sigma_1$과 $\Sigma_2$의 상대 맞물림 운동을 기술하기 위한 좌표계와 벡터장을 엄밀하게 정립한다.
+기어 기하학의 세계적 석학 Faydor L. Litvin 교수의 정통 기구학 이론 체계(**Litvin's Kinematic Theory of Gearing**) 및 곡면 미분기하학(**Differential Geometry of Surfaces**)에 입각하여, 임의의 두 공액 치면(**Conjugate Tooth Surfaces**, $\Sigma_1, \Sigma_2$)의 상대 맞물림 운동을 기술하기 위한 좌표계와 벡터장을 엄밀하게 정립한다.
 
 ```
        [ 고정 기준 좌표계 Sf (원점 O₁, Zf 축) ]
@@ -147,7 +147,7 @@ $$
     법선벡터 n₁(θ₁)                   법선벡터 n₂(θ₂)
 ```
 
-### 2.1 좌표계 정의 (Coordinate Systems Setup: $S_1, S_2, S_f$)
+### 2.1 좌표계 정의 (Coordinate Systems Setup: $S_1, S_2, S_f$) 및 순간 회전축(IAR)
 
 3차원 유클리드 공간 $\mathbb{R}^3$ 내에 다음과 같은 3개의 정규 직교 좌표계를 정의한다:
 
@@ -175,116 +175,145 @@ $$
 \boldsymbol{\omega}_2 = -\omega_2 \, \mathbf{k}_f = \begin{bmatrix} 0 \\ 0 \\ -\omega_2 \end{bmatrix}_f, \quad \omega_2 = \frac{d\phi_2}{dt}
 $$
 
----
-
-### 2.2 동차 좌표 변환 행렬 (Homogeneous Transformation Matrices)
-
-좌표계 $S_1$에서 정의된 점의 좌표를 고정 좌표계 $S_f$로 변환하는 $4 \times 4$ 동차 변환 행렬 $\mathbf{M}_{f1}(\phi_1)$은 다음과 같다:
+4. **순간 회전축(Instantaneous Axis of Rotation, IAR)**:
+   피니언에 대한 대기어의 상대 각속도 벡터 $\boldsymbol{\omega}_{12}$는 외접 회전 특성에 의해 다음과 같이 합산된다:
 
 $$
-\mathbf{M}_{f1}(\phi_1) = \begin{bmatrix} 
-\cos\phi_1 & -\sin\phi_1 & 0 & 0 \\ 
-\sin\phi_1 & \cos\phi_1 & 0 & 0 \\ 
-0 & 0 & 1 & 0 \\ 
-0 & 0 & 0 & 1 
-\end{bmatrix}
+\boldsymbol{\omega}_{12} = \boldsymbol{\omega}_1 - \boldsymbol{\omega}_2 = (\omega_1 + \omega_2)\mathbf{k}_f
 $$
 
-마찬가지로, 좌표계 $S_2$에서 정의된 점의 좌표를 고정 좌표계 $S_f$로 변환하는 동차 변환 행렬 $\mathbf{M}_{f2}(\phi_2)$는 회전 중심 $O_2(a, 0, 0)$의 병진 이동을 포함하여 다음과 같이 구성된다:
-
-$$
-\mathbf{M}_{f2}(\phi_2) = \begin{bmatrix} 
-\cos\phi_2 & \sin\phi_2 & 0 & a \\ 
--\sin\phi_2 & \cos\phi_2 & 0 & 0 \\ 
-0 & 0 & 1 & 0 \\ 
-0 & 0 & 0 & 1 
-\end{bmatrix}
-$$
-
-좌표계 $S_1$에서 $S_2$로의 직접 좌표 변환 행렬 $\mathbf{M}_{21}(\phi_1, \phi_2)$는 역행렬 연산을 통해 다음과 같이 정의된다:
-
-$$
-\mathbf{M}_{21} = \mathbf{M}_{2f} \cdot \mathbf{M}_{f1} = \mathbf{M}_{f2}^{-1} \cdot \mathbf{M}_{f1}
-$$
+   두 회전체 사이의 상대 속도가 $0$이 되는 점들의 궤적은 회전축들과 평행하며 중심선 상의 피치점 $P(r_{w1}, 0, 0)$를 통과하는 직선을 형성한다. 이 직선이 바로 상대 운동의 **순간 회전축(Instantaneous Axis of Rotation, IAR)**이다.
 
 ---
 
-### 2.3 치면 2매개변수 곡면 표현과 단위 법선 벡터 (Surface Parametrization & Unit Normal)
+### 2.2 동차 좌표 변환 행렬 및 치면 법선 벡터 변환 (Homogeneous Transformation Matrices & Normal Transformation)
 
-Faydor L. Litvin의 정통 기하학 체계에 따라, 피니언 1의 3차원 치면 $\Sigma_1$은 동체 고정 좌표계 $S_1$에서 두 개의 독립 매개변수 곡면 좌표계 $(u_1, \theta_1)$로 엄밀하게 정의된다:
-- $u_1$: 치형 윤곽 곡선(Profile Involute)을 따르는 매개변수 (전개각 또는 기초원 원호 파라미터)
-- $\theta_1$: 기어의 치폭(Face Width, $z_1$) 방향 또는 헬리컬 비틀림 창성 매개변수
+Faydor L. Litvin 교수의 $4 \times 4$ 동차 좌표 변환 행렬(**Homogeneous Coordinate Transformation Matrix**, $\mathbf{M}_{ij}$) 체계를 도입하여 좌표계 간의 위치 및 방향 변환을 단일 확대 행렬(**$4 \times 4$ Augmented Matrix**) 연산으로 정식화한다.
 
-$$
-\mathbf{r}_1(u_1, \theta_1) = \begin{bmatrix} x_1(u_1, \theta_1) \\ y_1(u_1, \theta_1) \\ z_1(u_1, \theta_1) \end{bmatrix}_1
-$$
-
-직교 평면 기어(Spur Gear)의 경우, 치면은 $z_1$ 축을 따라 직선으로 평행 압출(Cylindrical Extrusion)된 선직면(Ruled Surface)이므로 $z_1 \equiv \theta_1$로 설정할 수 있다:
+좌표계 $S_1$에서 정의된 점의 동차 좌표를 고정 좌표계 $S_f$로 변환하는 $4 \times 4$ 동차 변환 행렬 $\mathbf{M}_{f1}(\phi_1)$은 다음과 같다:
 
 $$
-\mathbf{r}_1(u_1, \theta_1) = \begin{bmatrix} x_1(u_1) \\ y_1(u_1) \\ \theta_1 \end{bmatrix}_1
+\mathbf{M}_{f1}(\phi_1) = \begin{bmatrix} \cos\phi_1 & -\sin\phi_1 & 0 & 0 \\ \sin\phi_1 & \cos\phi_1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}
+$$
+
+좌표계 $S_2$에서 고정 좌표계 $S_f$로의 변환 행렬 $\mathbf{M}_{f2}(\phi_2)$는 회전 중심 $O_2(a, 0, 0)$의 병진 변위를 포함한다:
+
+$$
+\mathbf{M}_{f2}(\phi_2) = \begin{bmatrix} \cos\phi_2 & \sin\phi_2 & 0 & a \\ -\sin\phi_2 & \cos\phi_2 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}
+$$
+
+고정 좌표계 $S_f$에서 좌표계 $S_2$로의 역변환 행렬 $\mathbf{M}_{2f}(\phi_2) = \mathbf{M}_{f2}^{-1}(\phi_2)$는 회전 부분행렬의 전치와 역병진 벡터로 다음과 같이 닫힌 형태로 결정된다:
+
+$$
+\mathbf{M}_{2f}(\phi_2) = \mathbf{M}_{f2}^{-1}(\phi_2) = \begin{bmatrix} \cos\phi_2 & -\sin\phi_2 & 0 & -a \cos\phi_2 \\ \sin\phi_2 & \cos\phi_2 & 0 & -a \sin\phi_2 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}
+$$
+
+따라서 피니언 좌표계 $S_1$에서 대기어 좌표계 $S_2$로 직접 변환하는 $4 \times 4$ 동차 변환 행렬 $\mathbf{M}_{21}(\phi_1, \phi_2)$는 행렬 곱으로 엄밀하게 계산된다:
+
+$$
+\mathbf{M}_{21}(\phi_1, \phi_2) = \mathbf{M}_{2f}(\phi_2) \, \mathbf{M}_{f1}(\phi_1) = \begin{bmatrix} \cos(\phi_1 + \phi_2) & -\sin(\phi_1 + \phi_2) & 0 & -a \cos\phi_2 \\ \sin(\phi_1 + \phi_2) & \cos(\phi_1 + \phi_2) & 0 & -a \sin\phi_2 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}
+$$
+
+임의의 동차 위치 벡터 $\mathbf{r}_1 = [x_1, y_1, z_1, 1]^T$의 변환은 다음과 같다:
+
+$$
+\mathbf{r}_2 = \mathbf{M}_{21}(\phi_1, \phi_2) \, \mathbf{r}_1
+$$
+
+치면 법선 벡터는 방향 벡터(Directional Vector)이므로 평행이동 성분의 영향을 받지 않는다. 따라서 $\mathbf{M}_{21}$의 상단 $3 \times 3$ 직교 회전 부분행렬 $\mathbf{L}_{21}(\phi_1, \phi_2)$에 의해서만 회전 변환된다:
+
+$$
+\mathbf{L}_{21}(\phi_1, \phi_2) = \begin{bmatrix} \cos(\phi_1 + \phi_2) & -\sin(\phi_1 + \phi_2) & 0 \\ \sin(\phi_1 + \phi_2) & \cos(\phi_1 + \phi_2) & 0 \\ 0 & 0 & 1 \end{bmatrix}
+$$
+
+$$
+\mathbf{n}_2 = \mathbf{L}_{21}(\phi_1, \phi_2) \, \mathbf{n}_1
+$$
+
+직교 부분행렬 $\mathbf{L}_{21}$은 유니터리 직교성($\mathbf{L}_{21}^{-1} = \mathbf{L}_{21}^T, \det(\mathbf{L}_{21}) = +1$)을 만족하므로 법선 벡터의 단위 길이($\|\mathbf{n}_2\| = \|\mathbf{n}_1\| = 1$)가 엄격히 보존된다.
+
+---
+
+### 2.3 치면 2매개변수 곡면 파라미터화와 단위 법선 벡터 및 특이점·언더컷 조건 (Surface Parameterization & Singularities)
+
+Faydor L. Litvin의 정통 기하학 체계에 따라, 피니언 1의 3차원 치면 $\Sigma_1$은 동체 고정 좌표계 $S_1$에서 두 개의 독립 매개변수 곡면 파라미터화(**Surface Parameterization**, $\mathbf{r}(u, \theta)$ 및 $\mathbf{r}_1(u, \theta)$)로 엄밀하게 정의된다:
+- $u$: 치형 윤곽 곡선(Profile Involute)을 따르는 매개변수 (전개각 또는 기초원 원호 파라미터)
+- $\theta$: 기어의 치폭(Face Width, $z_1$) 방향 또는 헬리컬 비틀림 창성 매개변수 (문맥에 따라 첨자 1을 병기)
+
+$$
+\mathbf{r}_1(u, \theta) = \begin{bmatrix} x_1(u, \theta) \\ y_1(u, \theta) \\ z_1(u, \theta) \end{bmatrix}_1
+$$
+
+직교 평면 기어(Spur Gear)의 경우, 치면은 $z_1$ 축을 따라 직선으로 평행 압출(Cylindrical Extrusion)된 선직면(Ruled Surface)이므로 $z_1 \equiv \theta$로 설정할 수 있다:
+
+$$
+\mathbf{r}_1(u, \theta) = \begin{bmatrix} x_1(u) \\ y_1(u) \\ \theta \end{bmatrix}_1
 $$
 
 미분기하학의 가우스 제일 기본 형식(First Fundamental Form)에 따라, 곡면의 임의의 점에서의 두 접선 기저 벡터(Tangent Basis Vectors)는 각 매개변수에 대한 편미분으로 부여된다:
 
 $$
-\mathbf{r}_{1u} = \frac{\partial \mathbf{r}_1}{\partial u_1} = \begin{bmatrix} \frac{\partial x_1}{\partial u_1} \\ \frac{\partial y_1}{\partial u_1} \\ 0 \end{bmatrix}_1 = \begin{bmatrix} \dot{x}_1(u_1) \\ \dot{y}_1(u_1) \\ 0 \end{bmatrix}_1
+\mathbf{r}_{1u} = \frac{\partial \mathbf{r}_1}{\partial u} = \begin{bmatrix} \frac{\partial x_1}{\partial u} \\ \frac{\partial y_1}{\partial u} \\ 0 \end{bmatrix}_1 = \begin{bmatrix} \dot{x}_1(u) \\ \dot{y}_1(u) \\ 0 \end{bmatrix}_1
 $$
 
 $$
-\mathbf{r}_{1\theta} = \frac{\partial \mathbf{r}_1}{\partial \theta_1} = \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix}_1 = \mathbf{k}_1
+\mathbf{r}_{1\theta} = \frac{\partial \mathbf{r}_1}{\partial \theta} = \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix}_1 = \mathbf{k}_1
 $$
 
-치면이 특이점(Singularity)이 없는 정규 정칙 곡면(Regular Surface, $\|\mathbf{r}_{1u} \times \mathbf{r}_{1\theta}\| \neq 0$)일 때, 두 접선 벡터의 외적을 정규화하여 치면 외향 단위 법선 벡터(Unit Surface Normal) $\mathbf{n}_1(u_1, \theta_1)$을 수학적으로 유일하게 정의한다:
+치면이 특이점(Singularity)이 없는 정규 정칙 곡면(Regular Surface, $\|\mathbf{r}_{1u} \times \mathbf{r}_{1\theta}\| \neq 0$)일 때, 두 접선 벡터의 외적을 정규화하여 치면 외향 단위 법선 벡터(Unit Surface Normal) $\mathbf{n}_1(u, \theta)$을 수학적으로 유일하게 정의한다:
 
 $$
-\mathbf{N}_1(u_1, \theta_1) = \mathbf{r}_{1u} \times \mathbf{r}_{1\theta} = \begin{vmatrix} 
-\mathbf{i}_1 & \mathbf{j}_1 & \mathbf{k}_1 \\ 
-\dot{x}_1(u_1) & \dot{y}_1(u_1) & 0 \\ 
-0 & 0 & 1 
-\end{vmatrix} = \begin{bmatrix} \dot{y}_1(u_1) \\ -\dot{x}_1(u_1) \\ 0 \end{bmatrix}_1
+\mathbf{N}_1(u, \theta) = \mathbf{r}_{1u} \times \mathbf{r}_{1\theta} = \begin{vmatrix} \mathbf{i}_1 & \mathbf{j}_1 & \mathbf{k}_1 \\ \dot{x}_1(u) & \dot{y}_1(u) & 0 \\ 0 & 0 & 1 \end{vmatrix} = \begin{bmatrix} \dot{y}_1(u) \\ -\dot{x}_1(u) \\ 0 \end{bmatrix}_1
 $$
 
 $$
-\mathbf{n}_1(u_1, \theta_1) = \frac{\mathbf{N}_1(u_1, \theta_1)}{\|\mathbf{N}_1(u_1, \theta_1)\|} = \frac{1}{\sqrt{\dot{x}_1^2(u_1) + \dot{y}_1^2(u_1)}} \begin{bmatrix} \dot{y}_1(u_1) \\ -\dot{x}_1(u_1) \\ 0 \end{bmatrix}_1
+\mathbf{n}_1(u, \theta) = \frac{\mathbf{N}_1(u, \theta)}{\|\mathbf{N}_1(u, \theta)\|} = \frac{1}{\sqrt{\dot{x}_1^2(u) + \dot{y}_1^2(u)}} \begin{bmatrix} \dot{y}_1(u) \\ -\dot{x}_1(u) \\ 0 \end{bmatrix}_1
 $$
 
 고정 기준 좌표계 $S_f$에서 관측된 치면 위치벡터 $\mathbf{r}_f^{(1)}$ 및 단위 법선 벡터 $\mathbf{n}_f^{(1)}$은 변환 행렬의 $3 \times 3$ 직교 회전 부분행렬 $\mathbf{L}_{f1}(\phi_1)$에 의해 다음과 같이 좌표 변환된다:
 
 $$
-\mathbf{r}_f^{(1)}(u_1, \theta_1, \phi_1) = \mathbf{L}_{f1}(\phi_1) \cdot \mathbf{r}_1(u_1, \theta_1) = \begin{bmatrix} x_1(u_1) \cos\phi_1 - y_1(u_1) \sin\phi_1 \\ x_1(u_1) \sin\phi_1 + y_1(u_1) \cos\phi_1 \\ \theta_1 \end{bmatrix}_f
+\mathbf{r}_f^{(1)}(u, \theta, \phi_1) = \mathbf{L}_{f1}(\phi_1) \cdot \mathbf{r}_1(u, \theta) = \begin{bmatrix} x_1(u) \cos\phi_1 - y_1(u) \sin\phi_1 \\ x_1(u) \sin\phi_1 + y_1(u) \cos\phi_1 \\ \theta \end{bmatrix}_f
 $$
 
 $$
-\mathbf{n}_f^{(1)}(u_1, \phi_1) = \mathbf{L}_{f1}(\phi_1) \cdot \mathbf{n}_1(u_1) = \begin{bmatrix} n_{1x} \cos\phi_1 - n_{1y} \sin\phi_1 \\ n_{1x} \sin\phi_1 + n_{1y} \cos\phi_1 \\ 0 \end{bmatrix}_f
+\mathbf{n}_f^{(1)}(u, \phi_1) = \mathbf{L}_{f1}(\phi_1) \cdot \mathbf{n}_1(u) = \begin{bmatrix} n_{1x} \cos\phi_1 - n_{1y} \sin\phi_1 \\ n_{1x} \sin\phi_1 + n_{1y} \cos\phi_1 \\ 0 \end{bmatrix}_f
 $$
+
+여기서 기구학적 특이점(Singularity)과 언더컷(Undercutting)의 관계를 명확히 정립해야 한다. 치형 창성 과정에서 창성된 대기어 치면 $\Sigma_2$의 두 매개변수 접선 벡터의 외적이 $0$이 되는 점들의 자취는 다음과 같다:
+
+$$
+\frac{\partial \mathbf{r}_2}{\partial u} \times \frac{\partial \mathbf{r}_2}{\partial \theta} = \mathbf{0}
+$$
+
+이 특이점 한계 조건(Singularity Condition)이 만족되는 경계에서 창성 포락선은 첨점(Cusp)을 형성하며 교차하고, 그 결과 작동 치면의 인벌류트 플랭크를 깎아먹는 **언더컷(Undercutting)** 현상이 물리적으로 개시된다.
 
 ---
 
-### 2.4 상대 운동 속도 벡터의 엄밀한 유도 (Derivation of Relative Velocity Vector)
+### 2.4 상대 운동 속도 벡터의 엄밀한 유도 (Relative Velocity Vector: $\mathbf{v}^{(12)}$)
 
 임의의 맞물림 순간에 치면 1과 치면 2가 고정 프레임 $S_f$ 상의 한 점 $K$에서 접촉하고 있다고 가정하자. 고정 프레임 $S_f$의 원점 $O_1$을 기준으로 점 $K$의 위치벡터를 $\mathbf{r}_f = [x_f, y_f, 0]^T$라 하자.
+
+일반적인 다물체 강체 기구학에서 상대 운동 속도 벡터(**Relative Velocity Vector**, $\mathbf{v}^{(12)}$)는 회전 각속도 벡터 외적과 축 간격 병진 속도 $\mathbf{v}_{\text{trans}}$의 합성으로 다음과 같이 정의된다:
+
+$$
+\mathbf{v}^{(12)} = \mathbf{v}^{(1)} - \mathbf{v}^{(2)} = (\boldsymbol{\omega}_1 \times \mathbf{r}_1) - (\boldsymbol{\omega}_2 \times \mathbf{r}_1 + \mathbf{v}_{\text{trans}})
+$$
+
+고정 축계 평행 기어 전동에서 $\mathbf{v}_{\text{trans}} = \mathbf{0}$이므로, 고정 프레임 $S_f$ 상의 개별 절대 속도는 다음과 같이 전개된다:
 
 1. **치면 1에 구속된 점 $K$의 절대 속도 $\mathbf{v}_f^{(1)}$**:
    점 $K$는 회전축 $O_1$을 중심으로 각속도 $\boldsymbol{\omega}_1$로 회전하므로 오일러의 속도 공식에 의해:
 
 $$
-\mathbf{v}_f^{(1)} = \boldsymbol{\omega}_1 \times \mathbf{r}_f = \begin{vmatrix} 
-\mathbf{i}_f & \mathbf{j}_f & \mathbf{k}_f \\ 
-0 & 0 & \omega_1 \\ 
-x_f & y_f & 0 
-\end{vmatrix} = \begin{bmatrix} -\omega_1 y_f \\ \omega_1 x_f \\ 0 \end{bmatrix}_f
+\mathbf{v}_f^{(1)} = \boldsymbol{\omega}_1 \times \mathbf{r}_f = \begin{vmatrix} \mathbf{i}_f & \mathbf{j}_f & \mathbf{k}_f \\ 0 & 0 & \omega_1 \\ x_f & y_f & 0 \end{vmatrix} = \begin{bmatrix} -\omega_1 y_f \\ \omega_1 x_f \\ 0 \end{bmatrix}_f
 $$
 
 2. **치면 2에 구속된 점 $K$의 절대 속도 $\mathbf{v}_f^{(2)}$**:
    점 $K$는 회전축 $O_2$를 중심으로 각속도 $\boldsymbol{\omega}_2$로 회전한다. $O_2$를 기준으로 한 점 $K$의 상대 위치벡터는 $\mathbf{r}_f - \mathbf{R}$이므로:
 
 $$
-\mathbf{v}_f^{(2)} = \boldsymbol{\omega}_2 \times (\mathbf{r}_f - \mathbf{R}) = \begin{vmatrix} 
-\mathbf{i}_f & \mathbf{j}_f & \mathbf{k}_f \\ 
-0 & 0 & -\omega_2 \\ 
-x_f - a & y_f & 0 
-\end{vmatrix} = \begin{bmatrix} \omega_2 y_f \\ -\omega_2 (x_f - a) \\ 0 \end{bmatrix}_f
+\mathbf{v}_f^{(2)} = \boldsymbol{\omega}_2 \times (\mathbf{r}_f - \mathbf{R}) = \begin{vmatrix} \mathbf{i}_f & \mathbf{j}_f & \mathbf{k}_f \\ 0 & 0 & -\omega_2 \\ x_f - a & y_f & 0 \end{vmatrix} = \begin{bmatrix} \omega_2 y_f \\ -\omega_2 (x_f - a) \\ 0 \end{bmatrix}_f
 $$
 
 3. **상대 운동 속도 벡터 $\mathbf{v}_f^{(12)}$**:
@@ -316,11 +345,49 @@ $$
 
 > **"접촉점 $K$에서 두 치면의 공통 법선(Common Normal) 방향의 상대 운동 속도 성분은 반드시 $0$이어야 한다."**
 
+동체 고정 좌표계 $S_1$ 및 고정 기준 좌표계 $S_f$에서의 **리트빈의 맞물림 제1방정식(Litvin's First Equation of Meshing / Equation of Meshing: $f = \mathbf{n} \cdot \mathbf{v}^{(12)} = 0$)**은 다음과 같이 선언된다:
+
 $$
-\mathbf{n}_f \cdot \mathbf{v}_f^{(12)} = 0
+f(u, \theta, \phi_1) = \mathbf{n}_1 \cdot \mathbf{v}^{(12)} = 0
 $$
 
-이를 **리트빈의 맞물림 제1방정식(Litvin's First Equation of Meshing)**이라 부른다. 만약 이 내적 값이 양수($\mathbf{n} \cdot \mathbf{v}^{(12)} > 0$)이면 치면이 즉시 들뜨며 접촉이 단절되고, 음수($\mathbf{n} \cdot \mathbf{v}^{(12)} < 0$)이면 두 강체가 기하학적으로 상호 관입하는 물리적 모순이 발생한다.
+$$
+\mathbf{n}_f^{(1)} \cdot \mathbf{v}_f^{(12)} = 0
+$$
+
+만약 이 내적 값이 양수($\mathbf{n} \cdot \mathbf{v}^{(12)} > 0$)이면 치면이 즉시 들뜨며 접촉이 단절되고, 음수($\mathbf{n} \cdot \mathbf{v}^{(12)} < 0$)이면 두 강체가 기하학적으로 상호 관입하는 물리적 모순이 발생한다.
+
+이제 이 맞물림 제1방정식이 고전 기하학의 작용선 및 접촉 경로(**Line of Action / Contact Path**) 및 피치점(Pitch Point) 통과 조건과 어떻게 수학적으로 동일한지 직교좌표 성분으로 엄밀히 전개하자. 스퍼 기어의 단위 법선 벡터를 $\mathbf{n}_f = [n_{fx}, n_{fy}, 0]^T$라 하면:
+
+$$
+-n_{fx} (\omega_1 + \omega_2) y_f + n_{fy} [(\omega_1 + \omega_2) x_f - \omega_2 a] = 0
+$$
+
+$$
+(\omega_1 + \omega_2) (n_{fy} x_f - n_{fx} y_f) = \omega_2 a n_{fy}
+$$
+
+양변을 $(\omega_1 + \omega_2)$로 나누고 중심거리 분배비 $\frac{\omega_2}{\omega_1 + \omega_2} a = r_{w1}$을 대입하면 공통 법선 직선 방정식이 유도된다:
+
+$$
+n_{fy} x_f - n_{fx} y_f = \frac{\omega_2}{\omega_1 + \omega_2} a n_{fy} = r_{w1} n_{fy}
+$$
+
+두 회전 중심을 잇는 중심선($y_f = 0$)과의 교점을 구하기 위해 $y_f = 0$을 대입하면:
+
+$$
+n_{fy} x_f = r_{w1} n_{fy} \implies x_f = r_{w1} = \frac{a}{1 + u} = P
+$$
+
+이 대수적 전개는 **"리트빈 맞물림 제1방정식 $\mathbf{n} \cdot \mathbf{v}^{(12)} = 0$을 만족하는 모든 접촉점의 공통 법선은 중심선 상의 고정된 피치점 $P(r_{w1}, 0, 0)$를 반드시 통과한다"**는 사실을 닫힌 해로 증명한다.
+
+나아가 헬리컬 기어의 경우 3차원 비틀림각 $\beta_b$에 의해 법선 벡터가 $z$ 성분($n_z = \sin\beta_b$)을 갖지만, 평행 축 기어에서 상대 속도의 축방향 성분은 $v_z^{(12)} \equiv 0$이다. 따라서 스칼라 내적은 다음과 같이 정면 단면(Transverse Plane) 성분으로 정확히 축약된다:
+
+$$
+\mathbf{n} \cdot \mathbf{v}^{(12)} = \mathbf{n}_t \cdot \mathbf{v}_t^{(12)} + n_z v_z^{(12)} = \mathbf{n}_t \cdot \mathbf{v}_t^{(12)} + 0 = 0
+$$
+
+따라서 헬리컬 기어에서도 정면 단면상에서 피치점 통과 불변성이 완벽하게 보존된다.
 
 ---
 
@@ -360,9 +427,8 @@ $$
 \omega_1 [(\vec{O_1 K} \times \mathbf{n}_f) \cdot \mathbf{k}_f] = -\omega_2 [(\vec{O_2 K} \times \mathbf{n}_f) \cdot \mathbf{k}_f]
 $$
 
-여기서 기하학적 핵심을 주의 깊게 관찰해야 한다:
-외접 기어 쌍에서 두 회전 중심 $O_1$과 $O_2$는 공통 접촉 법선(Line of Action)을 경계로 **서로 반대편 반평면(Opposite Half-planes)**에 위치한다.
-따라서 위치벡터와 법선의 외적 벡터 $(\vec{O_1 K} \times \mathbf{n}_f)$와 $(\vec{O_2 K} \times \mathbf{n}_f)$는 $\mathbf{k}_f$ 축 상에서 언제나 서로 반대 방향(부호가 반대)을 가리킨다:
+여기서 외접 기어 쌍에서 두 회전 중심 $O_1$과 $O_2$는 공통 접촉 법선(Line of Action)을 경계로 **서로 반대편 반평면(Opposite Half-planes)**에 위치한다.
+따라서 위치벡터와 법선의 외적 벡터 $(\vec{O_1 K} \times \mathbf{n}_f)$와 $(\vec{O_2 K} \times \mathbf{n}_f)$는 $\mathbf{k}_f$ 축 상에서 언제나 서로 반대 부호를 가리킨다:
 
 $$
 (\vec{O_1 K} \times \mathbf{n}_f) \cdot \mathbf{k}_f = + \overline{O_1 N_1}, \quad (\vec{O_2 K} \times \mathbf{n}_f) \cdot \mathbf{k}_f = - \overline{O_2 N_2}
@@ -372,10 +438,6 @@ $$
 
 $$
 \omega_1 \cdot \overline{O_1 N_1} = (-\omega_2) \cdot (-\overline{O_2 N_2}) = \omega_2 \cdot \overline{O_2 N_2}
-$$
-
-$$
-\frac{\omega_1}{\omega_2} = \frac{\overline{O_2 N_2}}{\overline{O_1 N_1}}
 $$
 
 ```
@@ -394,27 +456,13 @@ $$
                    O₁ (피니언 중심)
 ```
 
-여기서 외적 벡터의 크기 $\|\vec{O_1 K} \times \mathbf{n}_f\|$와 $\|\vec{O_2 K} \times \mathbf{n}_f\|$는 각각 **회전 중심 $O_1$과 $O_2$에서 공통 법선(Line of Action)까지 내린 수선의 수직 거리(Moment Arm Length)**를 의미한다!
-
-회전 중심 $O_1$에서 공통 법선에 내린 수선의 발을 $N_1$, 회전 중심 $O_2$에서 공통 법선에 내린 수선의 발을 $N_2$라 정의하자:
+회전 중심 $O_1, O_2$에서 공통 법선에 내린 수선의 발을 $N_1, N_2$라 할 때, 모멘트 암 거리 $\overline{O_1 N_1}$과 $\overline{O_2 N_2}$는 다음과 같이 정의된다:
 
 $$
 \overline{O_1 N_1} = \left\| \vec{O_1 K} \times \mathbf{n}_f \right\|, \quad \overline{O_2 N_2} = \left\| \vec{O_2 K} \times \mathbf{n}_f \right\|
 $$
 
-따라서 각속도비는 다음과 같이 수선의 길이의 비로 정확히 환원된다:
-
-$$
-\frac{\omega_1}{\omega_2} = \frac{\overline{O_2 N_2}}{\overline{O_1 N_1}}
-$$
-
-이제 공통 법선 직선이 두 회전 중심을 잇는 중심선 $\overline{O_1 O_2}$와 만나는 교점을 **$P$ (피치점, Pitch Point)**라 하자.
-직각삼각형 $\Delta O_1 N_1 P$와 $\Delta O_2 N_2 P$를 관찰하면:
-
-1. $\angle O_1 N_1 P = \angle O_2 N_2 P = 90^\circ$ (수선의 정의)
-2. $\angle O_1 P N_1 = \angle O_2 P N_2$ (맞꼭지각, Vertical Opposite Angles)
-
-두 내각이 서로 같으므로, 유클리드 기하학에 의해 두 삼각형은 엄밀한 **닮은꼴 직각삼각형(Similar Right Triangles)**을 형성한다:
+공통 법선 직선이 두 회전 중심을 잇는 중심선 $\overline{O_1 O_2}$와 만나는 교점을 $P$ (피치점)라 하면, $\Delta O_1 N_1 P$와 $\Delta O_2 N_2 P$는 두 내각이 같은 **닮은꼴 직각삼각형(Similar Right Triangles)**을 형성한다:
 
 $$
 \Delta O_1 N_1 P \sim \Delta O_2 N_2 P
@@ -426,10 +474,10 @@ $$
 \frac{\overline{O_2 N_2}}{\overline{O_1 N_1}} = \frac{\overline{O_2 P}}{\overline{O_1 P}}
 $$
 
-따라서 최종적으로 다음의 항등식이 유도된다:
+따라서 ISO 6336 규격에 부합하는 변속비 $i$ 및 잇수비 $u = z_2 / z_1 \ge 1.0$와의 관계식이 엄밀히 확정된다:
 
 $$
-\frac{\omega_1}{\omega_2} = \frac{\overline{O_2 P}}{\overline{O_1 P}} = \text{constant} = u
+\frac{\omega_1}{\omega_2} = \frac{\overline{O_2 P}}{\overline{O_1 P}} = \text{constant} = \frac{z_2}{z_1} = u \ge 1.0
 $$
 
 이로써 로버트 윌리스(Robert Willis, 1841)가 정립한 기어 공학의 제1헌법이 미분기하학적으로 완전무결하게 증명되었다:
@@ -494,9 +542,8 @@ $$
 D_i = \frac{v_P}{\omega_{12}} = \frac{\omega_1 r_{w1}}{\omega_1 + \omega_2} = \frac{r_{w1}}{1 + \frac{\omega_2}{\omega_1}} = \frac{r_{w1}}{1 + \frac{r_{w1}}{r_{w2}}} = \frac{r_{w1} r_{w2}}{r_{w1} + r_{w2}} = \frac{r_{w1} r_{w2}}{a}
 $$
 
-이제 피치점 $P$를 통과하며 피치선 공통 접선과 각도 $\alpha_w$(작용 압력각)를 이루는 임의의 직선(작용선, 즉 공통 법선 $\mathbf{n}$)을 고려하자.
-이 작용선 직선이 변곡원과 만나는 교점을 **변곡 극(Inflection Pole, $J$)**이라 부른다.
-변곡원의 직경이 $D_i$이고 접점에서 직경 벡터와 이루는 기하학적 각도가 $\alpha_w$이므로, 원주각 정리에 의해 피치점 $P$에서 변곡 극 $J$까지의 거리는 다음과 같다:
+피치점 $P$를 통과하며 피치선 공통 접선과 각도 $\alpha_w$(작용 압력각)를 이루는 임의의 직선(작용선, 즉 공통 법선 $\mathbf{n}$)이 변곡원과 만나는 교점을 **변곡 극(Inflection Pole, $J$)**이라 부른다.
+원주각 정리에 의해 피치점 $P$에서 변곡 극 $J$까지의 거리는 다음과 같다:
 
 $$
 \overline{PJ} = D_i \sin\alpha_w = \frac{r_{w1} r_{w2}}{a} \sin\alpha_w
@@ -581,7 +628,7 @@ s_1 = \overline{P N_1} = r_{w1} \sin\alpha_w
 $$
 
 $$
-s_2 = -\overline{P N_2} = -r_{w2} \sin\alpha_w \quad (\text{방향 반대})
+s_2 = -\overline{P N_2} = -r_{w2} \sin\alpha_w
 $$
 
 이를 오일러-사바리 방정식의 좌변에 대입하면:
@@ -605,9 +652,10 @@ $$
                                               기초원 접선 ──┴── 인볼류트 법선 (직교성)
 ```
 
-### 5.1 인볼류트 매개변수 방정식의 엄밀 유도
+### 5.1 인볼류트 매개변수 방정식의 엄밀 유도 (라디안 단위 경고)
 
 반경 $r_b$인 기초원(Base Circle)의 원주에 감겨 있는 팽팽한 실의 끝점이 풀려나오면서 그리는 궤적을 직교좌표계 $S(O; x, y)$에서 유도하자.
+여기서 전개각 $\theta$와 압력각 $\alpha$는 삼각함수 및 미분 연산에서 반드시 **라디안(rad, radian)** 단위로 취급되어야 한다.
 
 기초원의 원주 상의 임의의 접점 $B$의 좌표는 전개각(Roll Angle) $\theta$에 대해 다음과 같다:
 
@@ -636,10 +684,7 @@ $$
 따라서 인볼류트 곡선의 직교좌표 닫힌 해(Closed-form Parametric Equations)는 다음과 같다:
 
 $$
-\begin{cases}
-x(\theta) = r_b (\cos\theta + \theta \sin\theta) \\
-y(\theta) = r_b (\sin\theta - \theta \cos\theta)
-\end{cases}
+\begin{cases} x(\theta) = r_b (\cos\theta + \theta \sin\theta) \\ y(\theta) = r_b (\sin\theta - \theta \cos\theta) \end{cases}
 $$
 
 임의의 전개각 $\theta$에서 인볼류트 곡선 상의 점까지의 반경 $r(\theta)$는 다음과 같이 간결한 대수식으로 축약된다:
@@ -864,7 +909,7 @@ $$
 
 ```python
 def involute(alpha: float) -> float:
-    """인볼류트 함수: inv(α) = tan(α) - α"""
+    """인볼류트 함수: inv(α) = tan(α) - α (단위: rad)"""
     return math.tan(alpha) - alpha
 
 def inv_involute(target: float, alpha0: float = math.radians(20.0)) -> float:
@@ -934,7 +979,11 @@ def _compute_loa(geom1: GearToothGeometry, geom2: GearToothGeometry,
     Ay = T1y + s_A * loa_dy
     Ex = T1x + s_E * loa_dx
     Ey = T1y + s_E * loa_dy
-    ...
+    return {
+        "line_of_action": {"p1": (T1x, T1y), "p2": (T2x, T2y)},
+        "pitch_point": (Px, Py),
+        "active_segment": {"A": (Ax, Ay), "E": (Ex, Ey)},
+    }
 ```
 
 H-GEAR STUDIO는 이 연산 결과를 바탕으로 프론트엔드(`GearProfileViewer.tsx`)에서 60 FPS 실시간 2D 맞물림 애니메이션 및 3D LTCA(Loaded Tooth Contact Analysis)를 구동하며, 조립 간섭 오차 $0.000000\text{ mm}$의 완전무결함을 실시간으로 보증합니다.
@@ -947,7 +996,7 @@ H-GEAR STUDIO는 이 연산 결과를 바탕으로 프론트엔드(`GearProfileV
 
 | 검토 영역 | 평찰차 (Friction Wheel) | 인볼류트 기어 (Involute Gear) |
 |---|---|---|
-| **동력 전달 메커니즘** | 계면 마찰 구속 ($F_t \le \mu F_N$) | 치형 기하학적 형상 구속 (Positive Mesh) |
+| **동력 전달 메커니즘** | 계면 마찰 구속 ($F_t \le \mu_s F_N$) | 치형 기하학적 형상 구속 (Positive Mesh) |
 | **속도비 불변성** | 부하 변동 시 슬립 발생 ($s > 0, \Delta u \neq 0$) | 윌리스 법칙에 의해 영구 불변 ($u \equiv \text{const}$) |
 | **중심거리 변동 민감도** | 접촉력 변동으로 즉각 미끄러짐 전이 | 작용 압력각 $\alpha_w$ 자가 적응으로 속도비 완전 보존 |
 | **법선 접촉 연속성** | 표면 탄성 변형에 의한 거시적 들뜸 위험 | $v_{n1} = v_{n2}$ 항등 성립으로 간섭·들뜸 배제 |

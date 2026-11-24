@@ -16,7 +16,7 @@ required_diagrams:
   - "fig3_spur_gear_four_circles"
   - "fig4_line_of_action_contact_path"
 academic_level: undergraduate
-equations_hash: "0f42aa8ed3a8e7425e6ff328b30f6afe22192e81292ef345d63f3286df78369c"
+equations_hash: "80a1f543d259ab3499b9c413ee47d4e893716dbdae7ba97818de0891da78dec6"
 review_date: "2026-11-13"
 sidebar:
   order: 2
@@ -24,27 +24,27 @@ sidebar:
 
 ## 1. Differentialgeometrie der Evolventenkurve und Erzeugungsprinzip
 
-Der grundlegende Grund für die universelle Anwendung der Kreisevolvente als Zahnflankenform für Stirnräder im Maschinenbau liegt darin, dass die Flankennormale in jedem Berührungspunkt stets die gemeinsame innere Tangente der beiden Grundkreise bildet. Dadurch bleibt das Übersetzungsverhältnis selbst bei Achsabstandsabweichungen exakt konstant.
+Der grundlegende Grund für die universelle Anwendung der Kreisevolvente als Standard-Zahnflankenform für Stirnräder im Maschinenbau liegt darin, dass die Flankennormale in jedem Berührungspunkt stets die gemeinsame innere Tangente der beiden Grundkreise bildet. Dadurch bleibt das Übersetzungsverhältnis selbst bei Achsabstandsabweichungen exakt konstant—eine grundlegende Eigenschaft, die als **Achsabstandsunempfindlichkeit** bezeichnet wird. Diese bemerkenswerte Eigenschaft wurde 1762 von Leonhard Euler in seiner Abhandlung *De aptissima figura dentium rotarum* erstmals mathematisch bewiesen. Sie stellt sicher, dass selbst bei montagebedingten Achsabstandstoleranzen oder elastischen Verformungen die kinematische Verzahnungsgesetzmäßigkeit (Konjugation) und eine stoßfreie Kraftübertragung uneingeschränkt erhalten bleiben.
 
-### Kinematik des Fadenabwickelns am Grundkreis
+### Kinematik des Fadenabwickelns am Grundkreis und Vektorsynthese
 
-Betrachten wir einen Grundkreis mit Radius $r_b$, dessen Mittelpunkt im Ursprung $O(0, 0)$ des kartesischen Koordinatensystems liegt. Wird ein gespannter Faden um den Abwälzwinkel $\theta$ (in Radiant) gegen den Uhrzeigersinn abgewickelt, so lautet der Ortsvektor des Berührungspunktes $T(\theta)$ auf dem Grundkreis:
+Betrachten wir einen Grundkreis mit Radius $r_b$, dessen Mittelpunkt im Ursprung $O(0, 0)$ des kartesischen Koordinatensystems liegt. Wird ein gespannter Faden um den Wälzwinkel (ISO 21771 / DIN 3960 Symbol: $\xi$ oder $\theta$, in Radiant) gegen den Uhrzeigersinn abgewickelt, so lauten der Ortsvektor des Berührungspunktes $T(\theta)$ auf dem Grundkreis und die abgewickelte Fadenlänge $L(\theta)$:
 
 $$
 \mathbf{r}_T(\theta) = \begin{bmatrix} r_b \cos\theta \\ r_b \sin\theta \end{bmatrix}, \quad L(\theta) = r_b \theta
 $$
 
-Die abgewickelte Fadenlänge $L(\theta)$ entspricht exakt der Bogenlänge auf dem Grundkreis ohne Schlupf. Da der Faden tangential vom Punkt $T$ absteht, ergibt sich der Ortsvektor $\mathbf{r}_K(\theta)$ des Kurvenendpunktes $K(\theta)$ durch Vektoraddition:
+Die abgewickelte Fadenlänge $L(\theta)$ entspricht exakt der Bogenlänge auf dem Grundkreis ohne Schlupf. Da der Faden tangential vom Punkt $T$ absteht, ergibt sich der Ortsvektor $\mathbf{r}_K(\theta)$ des Kurvenendpunktes $K(\theta)$ durch Vektoraddition des Grundkreis-Berührungspunktvektors $\mathbf{r}_T(\theta)$ und des tangentialen Fadenvektors $\vec{TK}(\theta)$:
 
 $$
-\mathbf{r}_K(\theta) = \mathbf{r}_T(\theta) + L(\theta)\begin{bmatrix} \sin\theta \\ -\cos\theta \end{bmatrix} = \begin{bmatrix} r_b(\cos\theta + \theta\sin\theta) \\ r_b(\sin\theta - \theta\cos\theta) \end{bmatrix}
+\mathbf{r}_K(\theta) = \mathbf{r}_T(\theta) + \vec{TK}(\theta) = \mathbf{r}_T(\theta) + L(\theta)\begin{bmatrix} \sin\theta \\ -\cos\theta \end{bmatrix} = \begin{bmatrix} r_b(\cos\theta + \theta\sin\theta) \\ r_b(\sin\theta - \theta\cos\theta) \end{bmatrix}
 $$
 
 Dies sind die kartesischen Parametergleichungen der Kreisevolvente.
 
-### Differentialgeometrische Flankennormale und Krümmungsradius
+### Differentialgeometrische Flankennormale, Krümmungsradius und physikalische Randbedingung
 
-Die Ableitung von $\mathbf{r}_K(\theta)$ nach dem Abwälzwinkel $\theta$ liefert den Geschwindigkeitsvektor $\mathbf{v}_K(\theta)$ und den Einheitsnormalenvektor $\mathbf{n}(\theta)$:
+Die Ableitung von $\mathbf{r}_K(\theta)$ nach dem Wälzwinkel $\theta$ liefert den tangentialen Geschwindigkeitsvektor $\mathbf{v}_K(\theta)$ und den Einheitsnormalenvektor $\mathbf{n}(\theta)$:
 
 $$
 \mathbf{v}_K(\theta) = \frac{d\mathbf{r}_K}{d\theta} = r_b \theta \begin{bmatrix} \cos\theta \\ \sin\theta \end{bmatrix}, \quad \mathbf{n}(\theta) = \begin{bmatrix} -\sin\theta \\ \cos\theta \end{bmatrix}
@@ -56,20 +56,22 @@ $$
 \rho_K(\theta) = \frac{1}{\kappa(\theta)} = r_b \theta = r_b \tan\alpha_K
 $$
 
-Am Schnittpunkt mit dem Grundkreis ($\theta = 0$) verschwindet der Krümmungsradius ($\rho_K = 0$), wodurch eine geometrische Spitze (Spitzpunkt) entsteht. Folglich kann eine Evolventenflanke innerhalb des Grundkreises physikalisch nicht existieren.
+**[Physikalische Existenz-Randbedingung der Evolventenflanke ($r_K \ge r_b$)]**  
+Am Schnittpunkt mit dem Grundkreis ($\theta = 0, r_K = r_b$) verschwindet der Krümmungsradius ($\rho_K = 0$), wodurch eine geometrische Spitze (Spitzpunkt) entsteht. Folglich kann eine Evolventenflanke innerhalb des Grundkreises ($r_K < r_b$) physikalisch nicht existieren. Bei Zahnrädern mit kleiner Zähnezahl, bei denen der Fußkreis kleiner als der Grundkreis ist ($r_f < r_b$), wird der Bereich unterhalb von $r_b$ durch eine **nicht-evolventische Trochoiden-Fußausrundung** gebildet. Ein Kontakt in diesem Fußbereich führt zu schwerem **Eingriffs-Unterschnitt (Evolventen-Interferenz)**.
 
-### Zusammenhang zwischen Abwälzwinkel $\theta$ und Eingriffswinkel $\alpha_K$
+### Zusammenhang zwischen Wälzwinkel $\theta$, Eingriffswinkel $\alpha_K$ und Polarwinkel $\phi_K$
 
-Der Abstand $r_K$ vom Ursprung zum Punkt $K$ ergibt sich aus dem rechtwinkligen Dreieck $\Delta OTK$:
+Der Abstand $r_K$ vom Ursprung zum Punkt $K$ ergibt sich aus dem rechtwinkligen Dreieck $\Delta OTK$ ($\angle OTK = 90^\circ$):
 
 $$
 r_K = |\mathbf{r}_K| = r_b \sqrt{1 + \theta^2} = \frac{r_b}{\cos\alpha_K} \quad \Longleftrightarrow \quad \theta = \tan\alpha_K
 $$
 
-Definiert man den Profil-Eingriffswinkel $\alpha_K$ als Winkel zwischen der Flankennormale und der Tangente an den Kreis mit Radius $r_K$, gilt $\cos\alpha_K = r_b / r_K$ und folglich $\theta = \tan\alpha_K$. Der Polarwinkel $\theta_k$ der Evolvente lautet in geschlossener Form:
+Definiert man den Profil-Eingriffswinkel $\alpha_K$ als Winkel zwischen der Flankennormale und der Umfangsgeschwindigkeit (senkrecht zu Radius $OK$), gilt $\cos\alpha_K = r_b / r_K$ und folglich Wälzwinkel $\theta = \tan\alpha_K$.  
+Im rechtwinkligen Dreieck $\Delta OTK$ entspricht der Zwischenwinkel zwischen den Radien $OT$ und $OK$ dem Eingriffswinkel $\alpha_K$. Da der Berührpunkt $T$ beim Wälzwinkel $\theta$ liegt und der Radius $OK$ um $\alpha_K$ nacheilt, ergibt sich der Evolventen-Polarwinkel (ISO 21771 Symbol: $\phi_K$ oder $\theta_k$) als Winkeldifferenz $\phi_K = \theta - \alpha_K = \tan\alpha_K - \alpha_K$:
 
 $$
-\begin{cases} r(\alpha) = \dfrac{r_b}{\cos\alpha} \\ \theta_k(\alpha) = \tan\alpha - \alpha = \mathrm{inv}\,\alpha \end{cases}
+\begin{cases} r(\alpha_K) = \dfrac{r_b}{\cos\alpha_K} \\ \phi_K(\alpha_K) = \tan\alpha_K - \alpha_K = \mathrm{inv}\,\alpha_K \end{cases}
 $$
 
 ![Abbildung 1: Differentialgeometrie des Fadenabwickelns und Erzeugung der Evolventenkurve](/images/part2/de/fig1_involute_generation.png)
@@ -78,7 +80,7 @@ $$
 
 ## 2. Die Evolventenfunktion $\mathrm{inv}\,\alpha$ und analytische Reiheniumkehrung
 
-### Physikalische und geometrische Definition
+### Physikalische Definition und Sicherheitsanforderung der Rad-Einheit
 
 Die Evolventenfunktion (Involutfunktion) ist die fundamentale transzendente Funktion der Zahnradgeometrie:
 
@@ -88,6 +90,9 @@ $$
 
 Geometrisch beschreibt $\tan\alpha$ die auf den Grundkreisradius bezogene dimensionslose Fadenlänge $L / r_b$, während $\alpha$ die Winkeldifferenz zwischen $OT$ und $OK$ darstellt. $\mathrm{inv}\,\alpha$ ist somit die reine winkelmäßige Auslenkung der Evolvente.
 
+> ⚠️ **[Verbindliche Sicherheitsanforderung: Strikte Einhaltung der Rad-Einheit]**  
+> Bei der Berechnung von $\mathrm{inv}\,\alpha = \tan\alpha - \alpha$ ist der Term $\tan\alpha$ zwar dimensionslos, der subtrahierte Winkel $\alpha$ **MUSS jedoch zwingend im Bogenmaß bzw. Radiant ($\text{rad}$)** angegeben werden ($\alpha [\text{rad}] = \alpha [^\circ] \times \frac{\pi}{180}$). Das Einsetzen von Grad-Werten ist eine fatale Fehlerquelle in CAE-Zahnradsolvern. Für den Normaleingriffswinkel $\alpha = 20^\circ$ beträgt der exakte Evolventenwert $\mathrm{inv}\,20^\circ = \tan(20\pi/180) - 20\pi/180 \approx 0.01490438\text{ rad}$.
+
 ### Strenge Monotonie und Bijektivität
 
 Die erste Ableitung der Evolventenfunktion ist für alle praxisrelevanten Eingriffswinkel positiv:
@@ -96,7 +101,7 @@ $$
 \frac{d}{d\alpha}(\mathrm{inv}\,\alpha) = \sec^2\alpha - 1 = \tan^2\alpha > 0 \quad \left(\forall \alpha \in \left(0, \frac{\pi}{2}\right)\right)
 $$
 
-Da $d(\mathrm{inv}\,\alpha)/d\alpha = \tan^2\alpha > 0$ für alle $\alpha \in (0, \pi/2)$, ist die Funktion streng monoton wachsend. Daher existiert die Umkehrfunktion $\alpha = \mathrm{inv}^{-1}(\theta_k)$ eindeutig.
+Da $d(\mathrm{inv}\,\alpha)/d\alpha = \tan^2\alpha > 0$ für alle $\alpha \in (0, \pi/2)$, ist die Funktion streng monoton wachsend. Daher existiert die Umkehrfunktion $\alpha = \mathrm{inv}^{-1}(\phi_K)$ eindeutig.
 
 ### Analytische Reiheniumkehrung bis $\mathcal{O}(z^9)$
 
@@ -106,7 +111,7 @@ $$
 \mathrm{inv}\,\alpha = \frac{1}{3}\alpha^3 + \frac{2}{15}\alpha^5 + \frac{17}{315}\alpha^7 + \frac{62}{2835}\alpha^9 + \mathcal{O}(\alpha^{11})
 $$
 
-Zur direkten analytischen Berechnung von $\alpha$ aus einem gegebenen Involutwert $\theta_k$ führt die Substitution $z = (3\theta_k)^{1/3}$ zur Reiheniumkehrung bis zur Ordnung $\mathcal{O}(z^9)$:
+Zur direkten analytischen Berechnung von $\alpha$ aus einem gegebenen Involutwert $\theta_k$ ($\phi_K$) führt die Substitution $z = (3\theta_k)^{1/3}$ zur Reiheniumkehrung bis zur Ordnung $\mathcal{O}(z^9)$:
 
 $$
 \alpha(z) = z - \frac{2}{15}z^3 + \frac{3}{175}z^5 - \frac{2}{1575}z^7 + \mathcal{O}(z^9), \quad z = (3\theta_k)^{1/3}
@@ -130,12 +135,13 @@ $$
 
 Die Geometrie eines Standard-Stirnrads wird durch Modul $m$, Zähnezahl $z$ und Normaleingriffswinkel $\alpha = 20^\circ$ über vier konzentrische Kreise vollständig definiert.
 
-### Definition der vier Grundkreise
+### Definition der vier Grundkreise: Teilkreis ($d$) vs. Wälzkreis ($d_w$)
 
-1. **Teilkreis**: Referenzzylinder des Durchmessers $d$:
+1. **Teilkreis**: Referenzzylinder des Durchmessers $d$ für Profilabmessungen:
 $$
 d = m \cdot z, \quad r = \frac{d}{2} = \frac{m z}{2}
 $$
+(Im Normensystem nach ISO 21771 / DIN 3960 sind der **Teilkreisdurchmesser ($d$)** und der **Bezugseingriffswinkel ($\alpha = 20^\circ$)** unveränderliche Fertigungsbezugsgrößen des Einzelrades. Sie müssen streng vom lokalen **Profil-Eingriffswinkel ($\alpha_K$ mit $\cos\alpha_K = r_b / r_K$)** auf beliebigem Radius $r_K$ sowie vom **Betriebswälzkreis ($d_w = d_b / \cos\alpha_w$)** und **Betriebseingriffswinkel ($\alpha_w = \arccos(a\cos\alpha / a_w)$)** unterschieden werden, die sich erst beim Kämmen zweier Räder unter Achsabstandsänderung $a_w \ne a$ oder Profilverschiebung einstellen. Nur beim Standard-Achsabstand $a$ ohne Profilverschiebung fallen $d_w = d$ und $\alpha_w = \alpha$ zusammen.)
 2. **Grundkreis**: Ursprungskreis der Evolventenverzahnung mit Durchmesser $d_b$:
 $$
 d_b = d \cos\alpha = m z \cos\alpha, \quad r_b = \frac{d_b}{2} = \frac{m z \cos\alpha}{2}
@@ -151,7 +157,7 @@ $$
 
 ### Abmessungen des Norm-Bezugsprofils nach ISO 53 / DIN 867
 
-Gemäß ISO 53 (Profil A) und DIN 867 gelten folgende Bezugsprofil-Koeffizienten:
+Gemäß ISO 53 (Profil A) und DIN 867 gelten folgende Bezugsprofil-Koeffizienten mit Sternchen (*)-Notation:
 - Modul: $m$
 - Normaleingriffswinkel: $\alpha = 20.0^\circ$
 - Kopfhöhenfaktor: $h_a^* = 1.000 \implies h_a = 1.000 m$
@@ -160,13 +166,15 @@ Gemäß ISO 53 (Profil A) und DIN 867 gelten folgende Bezugsprofil-Koeffizienten
 - Gesamtzahnhöhenfaktor: $h^* = h_a^* + h_f^* = 2.250 \implies h = 2.250 m$
 - Werkzeug-Kantenrundungsfaktor: $\rho_f^* = 0.380 \implies \rho_f = 0.380 m$
 
-### Teilungen und Bogenzahndicke
+### Teilungen, Bogenzahndicke und Nenn-Flankenspiel-Bedingung
 
-Die Teilung am Teilkreis $p$, die Zahndicke $s$ und die Zahnlückenweite $e$ lauten:
+Die Teilung am Teilkreis $p$, die theoretische spielfreie Nennzahndicke $s$ und die Zahnlückenweite $e$ lauten:
 
 $$
 p = \pi m = s + e, \quad s = e = \frac{\pi m}{2}
 $$
+
+Die Gleichung $s = e = \pi m / 2$ beschreibt die theoretische spielfreie Nennabmessung. In der realen Fertigung wird die Zahndicke durch Zahndickenabmaße gezielt verringert, um das notwendige Betriebsflankenspiel ($j_t > 0$) für Wärmedehnung und Schmierfilmbildung sicherzustellen.
 
 Die Grundkreisteilung (Eingriffsteilung) $p_b$ entspricht dem Abstand aufeinanderfolgender Flanken auf der Eingriffslinie:
 
@@ -174,7 +182,7 @@ $$
 p_b = p \cos\alpha = \pi m \cos\alpha
 $$
 
-Auf einem beliebigen Radius $r \ge r_b$ mit lokalem Eingriffswinkel $\alpha_r = \arccos(r_b / r)$ betragen der halbe Zahnwinkel $\psi_r$ und die Bogenzahndicke $s_r$:
+Auf einem beliebigen Radius $r \ge r_b$ mit lokalem Profil-Eingriffswinkel $\alpha_r = \arccos(r_b / r)$ betragen der halbe Zahnwinkel $\psi_r$ und die Bogenzahndicke $s_r$:
 
 $$
 \psi_r = \frac{s}{2r} + \mathrm{inv}\,\alpha - \mathrm{inv}\,\alpha_r \quad \Longrightarrow \quad s_r = 2r \psi_r = r \left[ \frac{s}{r} + 2(\mathrm{inv}\,\alpha - \mathrm{inv}\,\alpha_r) \right]
@@ -188,7 +196,7 @@ $$
 s_a = r_a \left[ \frac{s}{r} + 2(\mathrm{inv}\,\alpha - \mathrm{inv}\,\alpha_a) \right] \ge 0.25 m, \quad \alpha_a = \arccos\left(\frac{r_b}{r_a}\right)
 $$
 
-Wird $s_a < 0.25m$ unterschritten, entsteht eine messerscharfe Zahnspitze, die zu Kantenausbrüchen unter Last neigt.
+Wird $s_a < 0.25m$ unterschritten, entsteht eine messerscharfe Zahnspitze (Kopfanspitzung), die zu Kantenausbrüchen unter Last neigt.
 
 ![Abbildung 3: Die vier Grundkreise von Stirnrädern und Bezugsprofil-Abmessungen nach ISO 53](/images/part2/de/fig3_spur_gear_four_circles.png)
 
@@ -196,24 +204,25 @@ Wird $s_a < 0.25m$ unterschritten, entsteht eine messerscharfe Zahnspitze, die z
 
 ## 4. Eingriffslinie, Berührungspfad und geschlossene Herleitung der Profilüberdeckung $\epsilon_\alpha$
 
-### Kinematik der Eingriffslinie und charakteristische Punkte
+### Kinematik der Eingriffslinie und Wälzpunkt $P$: Reines Rollen vs. Relativgleiten
 
-Beim Abwälzen der Zahnflanken wandert der Berührungspunkt entlang der **Eingriffslinie**, welche die gemeinsame innere Tangente der beiden Grundkreise darstellt. Bei Null-Achsabstand $a = r_1 + r_2$ beträgt der Abstand der Tangentenpunkte:
+Beim Abwälzen außenverzahnter Stirnräder wandert der Berührungspunkt entlang der **Eingriffslinie**, welche die **gemeinsame innere Tangente** der beiden Grundkreise darstellt. Bezeichnet man die Berührungspunkte an den beiden Grundkreisen mit $T_1, T_2$ (in kinematischen Diagrammen auch als $N_1, N_2$ bezeichnet) und den Standard-Achsabstand mit $a = r_1 + r_2$, so beträgt die Länge der Tangentenstrecke:
 
 $$
 a = r_1 + r_2 = \frac{m(z_1 + z_2)}{2}, \quad \overline{T_1 T_2} = (r_{b1} + r_{b2})\tan\alpha = a \sin\alpha
 $$
 
 Die wirksame Eingriffsstrecke $\overline{AE}$ wird durch drei Hauptpunkte bestimmt:
-- **Eingriffsbeginn A (Punkt A)**: Schnittpunkt des Kopfkreises des Rades ($r_{a2}$) mit der Eingriffslinie. Abstand zum Wälzpunkt $P$ ist die Vor-Eingriffsstrecke $g_f$:
+- **Eingriffsbeginn A (SAP)**: Schnittpunkt des Kopfkreises des Rades ($r_{a2}$) mit der Eingriffslinie. Abstand zum Wälzpunkt $P$ ist die Vor-Eingriffsstrecke $g_f$:
 $$
 g_f = \overline{AP} = \sqrt{r_{a2}^2 - r_{b2}^2} - r_{b2}\tan\alpha
 $$
-- **Eingriffsende E (Punkt E)**: Schnittpunkt des Kopfkreises des Ritzels ($r_{a1}$) mit der Eingriffslinie. Abstand zu $P$ ist die Nach-Eingriffsstrecke $g_a$:
+- **Eingriffsende E (EAP)**: Schnittpunkt des Kopfkreises des Ritzels ($r_{a1}$) mit der Eingriffslinie. Abstand zu $P$ ist die Nach-Eingriffsstrecke $g_a$:
 $$
 g_a = \overline{PE} = \sqrt{r_{a1}^2 - r_{b1}^2} - r_{b1}\tan\alpha
 $$
-- **Wälzpunkt P**: Berührungspunkt der beiden Teilkreise auf der Zentrallinie.
+- **Wälzpunkt P**: Berührungspunkt der beiden Teilkreise auf der Zentrallinie.  
+Am Wälzpunkt $P$ stimmen die Tangentialgeschwindigkeiten beider Flanken überein, sodass hier **reines Rollen ($v_s = 0$)** stattfindet. Entlang der gesamten übrigen Eingriffsstrecke ($A \to P$ und $P \to E$) tritt jedoch kontinuierliches **Relativgleiten ($v_s = |v_{t1} - v_{t2}| \ne 0$)** auf. Die Annahme eines völlig gleitfreien Abrollens über das gesamte Zahnprofil ist ein kinematischer Irrglaube.
 
 ### Gesamte Eingriffsstrecke $g_\alpha$ und Profilüberdeckung $\epsilon_\alpha$
 
@@ -281,7 +290,7 @@ Die nachfolgende Tabelle enthält die exakten geschlossenen Referenzwerte, die d
 | 3 | Teilkreisradius Ritzel | $r_1$ | $d_1 / 2$ | 28.500000 | mm |
 | 4 | Teilkreisdurchmesser Rad | $d_2$ | $m \cdot z_2$ | 141.000000 | mm |
 | 5 | Teilkreisradius Rad | $r_2$ | $d_2 / 2$ | 70.500000 | mm |
-| 6 | Null-Achsabstand | $a$ | $(d_1 + d_2) / 2$ | 99.000000 | mm |
+| 6 | Standard-Achsabstand | $a$ | $(d_1 + d_2) / 2$ | 99.000000 | mm |
 | 7 | Teilung am Teilkreis | $p$ | $\pi m$ | 9.424778 | mm |
 | 8 | Zahndicke und Zahnlückenweite | $s, e$ | $p / 2$ | 4.712389 | mm |
 | 9 | Eingriffsteilung (Grundkreisteilung) | $p_b$ | $\pi m \cos\alpha$ | 8.856394 | mm |

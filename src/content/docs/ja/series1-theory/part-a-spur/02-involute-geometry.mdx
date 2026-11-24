@@ -1,6 +1,6 @@
 ---
 title: 第2章. インボリュート歯形曲線の幾何学と基本諸元数学体系
-description: 基礎円伸開線の微分幾何学軌跡、インボリュート関数 inv αの閉形式逆展開、4大基本円とISO 53標準ラック諸元、そして作用線上の正面かみ合い率 ε_α 閉形式導出までを網羅する平歯車幾何学理論第2編
+description: 基礎円インボリュートの微分幾何学軌跡、インボリュート関数 inv αの閉形式逆展開、4大基本円とISO 53標準ラック諸元、そして作用線上の正面かみ合い率 ε_α 閉形式導出までを網羅する平歯車幾何学理論第2編
 series: theory
 part: 1
 chapter: 2
@@ -16,7 +16,7 @@ required_diagrams:
   - "fig3_spur_gear_four_circles"
   - "fig4_line_of_action_contact_path"
 academic_level: undergraduate
-equations_hash: "0f42aa8ed3a8e7425e6ff328b30f6afe22192e81292ef345d63f3286df78369c"
+equations_hash: "80a1f543d259ab3499b9c413ee47d4e893716dbdae7ba97818de0891da78dec6"
 review_date: "2026-11-13"
 sidebar:
   order: 2
@@ -24,27 +24,27 @@ sidebar:
 
 ## 1. インボリュート歯形曲線の微分幾何学的定義と創成原理
 
-機械工学において平歯車の歯形曲線としてインボリュート（Involute、伸開線）が採用される根本的な理由は、歯車が回転するとき接触点の共通法線が常に2つの基礎円の共通内接線と一致し、中心距離の変動に対しても角速度比を完全に一定に保つことができるためです。
+機械工学において平歯車の標準歯形曲線としてインボリュート（Involute）が採用される根本的な理由は、歯車が回転するとき接触点の法線が常に2つの基礎円の共通内接線（Common Internal Tangent）と一致し、中心距離の変動に対しても角速度比を完全に一定に保つ**中心距離不感性（Center Distance Insensitivity）**を備えているためです。この画期的な幾何学的性質は、1762年にレオンハルト・オイラー（Leonhard Euler）が論文『回転歯車の最も適した歯形について（De aptissima figura dentium rotarum）』で数学的に初めて証明したものであり、組み立て公差や軸受のたわみによって中心距離が微小に変化しても、機構学的な共役性（Conjugacy）が維持され、均一で滑らかな動力伝達が保証されます。
 
-### 基礎円伸開線の幾何学
+### 基礎円からの糸の巻き戻し幾何学とベクトル合成
 
-半径 $r_b$ の基礎円（Base Circle）の中心を直交座標系の原点 $O(0, 0)$ に配置します。基礎円の周囲に巻き付けられた張った糸（Taut String）を展開角（ロール角、Roll Angle） $\theta$ （単位: $\text{rad}$）だけ反時計回りにほどくとき、基礎円上で糸が接線方向に離れる接点 $T(\theta)$ の位置ベクトルは次のように定義されます。
+半径 $r_b$ の基礎円（Base Circle）の中心を直交座標系の原点 $O(0, 0)$ に配置します。基礎円の周囲に巻き付けられた張った糸（Taut String）を展開角（ロール角、ISO 21771 / DIN 3960 記号: $\xi$ または $\theta$、単位: $\text{rad}$）だけ反時計回りにほどくとき、基礎円上で糸が接線方向に離れる接点 $T(\theta)$ の位置ベクトル $\mathbf{r}_T(\theta)$ とほどけた糸の長さ $L(\theta)$ は次のように定義されます。
 
 $$
 \mathbf{r}_T(\theta) = \begin{bmatrix} r_b \cos\theta \\ r_b \sin\theta \end{bmatrix}, \quad L(\theta) = r_b \theta
 $$
 
-ほどけた糸の長さ $L(\theta)$ は基礎円の円弧長さと滑りなく完全に一致します。糸は接点 $T$ において基礎円の接線方向に緊張しているため、糸の端点 $K(\theta)$ の位置ベクトル $\mathbf{r}_K(\theta)$ は基礎円接点ベクトルと接線方向ベクトルの合成によって導かれます。
+ほどけた糸の長さ $L(\theta)$ は基礎円の円弧長さと滑りなく完全に一致します。糸は接点 $T$ において基礎円の接線方向に緊張しているため、曲線を創成する糸の端点 $K(\theta)$ の位置ベクトル $\mathbf{r}_K(\theta)$ は基礎円接点ベクトル $\mathbf{r}_T(\theta)$ と接線方向ベクトル $\vec{TK}(\theta)$ のベクトル合成によって導かれます。
 
 $$
-\mathbf{r}_K(\theta) = \mathbf{r}_T(\theta) + L(\theta)\begin{bmatrix} \sin\theta \\ -\cos\theta \end{bmatrix} = \begin{bmatrix} r_b(\cos\theta + \theta\sin\theta) \\ r_b(\sin\theta - \theta\cos\theta) \end{bmatrix}
+\mathbf{r}_K(\theta) = \mathbf{r}_T(\theta) + \vec{TK}(\theta) = \mathbf{r}_T(\theta) + L(\theta)\begin{bmatrix} \sin\theta \\ -\cos\theta \end{bmatrix} = \begin{bmatrix} r_b(\cos\theta + \theta\sin\theta) \\ r_b(\sin\theta - \theta\cos\theta) \end{bmatrix}
 $$
 
 これがインボリュート曲線の直交座標媒介変数方程式（Cartesian Parametric Equations）です。
 
-### 微分幾何学的接線・法線および曲率半径
+### 微分幾何学的接線・法線、曲率半径および物理的境界条件
 
-媒介変数 $\theta$ に関する1階導関数を計算すると、インボリュート曲線の速度ベクトル $\mathbf{v}_K(\theta)$ と単位法線ベクトル $\mathbf{n}(\theta)$ が得られます。
+媒介変数 $\theta$ に関する位置ベクトルの1階導関数を計算すると、インボリュート曲線の接線方向速度ベクトル $\mathbf{v}_K(\theta)$ と単位法線ベクトル $\mathbf{n}(\theta)$ が得られます。
 
 $$
 \mathbf{v}_K(\theta) = \frac{d\mathbf{r}_K}{d\theta} = r_b \theta \begin{bmatrix} \cos\theta \\ \sin\theta \end{bmatrix}, \quad \mathbf{n}(\theta) = \begin{bmatrix} -\sin\theta \\ \cos\theta \end{bmatrix}
@@ -56,29 +56,31 @@ $$
 \rho_K(\theta) = \frac{1}{\kappa(\theta)} = r_b \theta = r_b \tan\alpha_K
 $$
 
-基礎円上の開始点（$\theta=0$）において曲率半径は $\rho_K = 0$ となり尖点（Cusp）を形成するため、インボリュート歯形は基礎円の内側領域には幾何学的に決して存在できません。
+**[インボリュート歯形の物理的存在限界条件 ($r_K \ge r_b$)]**  
+基礎円上の創成開始点（$\theta=0, r_K=r_b$）において曲率半径は $\rho_K = 0$ となり尖点（Cusp）を形成します。したがって数学的に $r_K < r_b$ の基礎円内側領域にはインボリュート曲線が物理的に決して存在できません。実機歯車において歯数 $z$ が小さく基礎円半径が歯底円半径より大きい場合（$r_f < r_b$）、基礎円下部の歯面は切削工具の刃先が創成する**非インボリュート・トロコイドすみ肉（Trochoid Fillet）**領域となり、相手歯車の歯先がこの領域と接触すると歯面を削り取る**インボリュート干渉（Involute Interference）**が発生します。
 
-### 展開角 $\theta$ と圧力角 $\alpha_K$ の関係および極座標方程式
+### 展開角 $\theta$、圧力角 $\alpha_K$ の関係および極座標方程式の導出
 
-原点から点 $K$ までの半径距離 $r_K$ は直角三角形 $\Delta OTK$ からピタゴラスの定理により導かれます。
+原点から点 $K$ までの半径距離 $r_K$ は直角三角形 $\Delta OTK$ （$\angle OTK = 90^\circ$）からピタゴラスの定理により厳密に導かれます。
 
 $$
 r_K = |\mathbf{r}_K| = r_b \sqrt{1 + \theta^2} = \frac{r_b}{\cos\alpha_K} \quad \Longleftrightarrow \quad \theta = \tan\alpha_K
 $$
 
-点 $K$ における歯形法線と円周速度ベクトル（半径線 $OK$ に垂直）とのなす角を圧力角（Pressure Angle） $\alpha_K$ と定義すると、 $\cos\alpha_K = r_b / r_K$ が成り立ち、展開角 $\theta$ は圧力角の正接値 $\theta = \tan\alpha_K$ に帰着します。基準半径線からの極角（Polar Angle） $\theta_k$ は次のような閉形式極座標方程式で表されます。
+点 $K$ における歯形法線と円周速度ベクトル（半径線 $OK$ に垂直）とのなす角を歯形圧力角（Profile Pressure Angle） $\alpha_K$ と定義すると、 $\cos\alpha_K = r_b / r_K$ が成り立ち、展開角 $\theta$ は圧力角の正接値 $\theta = \tan\alpha_K$ に帰着します。  
+このとき直角三角形 $\Delta OTK$ において半径線 $OT$ と $OK$ のなす挟角は圧力角 $\alpha_K$ に等しくなります。基礎円接点 $T$ の位相角は展開角 $\theta$ であり、半径線 $OK$ は接点半径線 $OT$ より挟角 $\alpha_K$ だけ遅れて位置するため、基準半径線からの極角（Polar Angle、ISO 21771 記号: $\phi_K$ または $\theta_k$）は角度位相差 $\phi_K = \theta - \alpha_K = \tan\alpha_K - \alpha_K$ として明快に導出されます。
 
 $$
-\begin{cases} r(\alpha) = \dfrac{r_b}{\cos\alpha} \\ \theta_k(\alpha) = \tan\alpha - \alpha = \mathrm{inv}\,\alpha \end{cases}
+\begin{cases} r(\alpha_K) = \dfrac{r_b}{\cos\alpha_K} \\ \phi_K(\alpha_K) = \tan\alpha_K - \alpha_K = \mathrm{inv}\,\alpha_K \end{cases}
 $$
 
-![図 1: 基礎円伸開線幾何学とインボリュート曲線の微分幾何学的創成原理](/images/part2/ja/fig1_involute_generation.png)
+![図 1: 基礎円からの糸の巻き戻し幾何学とインボリュート曲線の微分幾何学的創成原理](/images/part2/ja/fig1_involute_generation.png)
 
 ---
 
 ## 2. インボリュート関数 $\mathrm{inv}\,\alpha$ の物理的・幾何学的意味と数値演算
 
-### インボリュート関数の定義
+### インボリュート関数の定義とラジアン単位の必須安全制約
 
 歯車工学の基礎となる超越関数であるインボリュート関数（Involute Function）は次のように定義されます。
 
@@ -86,7 +88,10 @@ $$
 \mathrm{inv}\,\alpha \equiv \tan\alpha - \alpha
 $$
 
-幾何学的に $\tan\alpha$ は基礎円半径で無次元化された接線長さ $L / r_b$ を表し、 $\alpha$ は接点半径線 $OT$ と半径線 $OK$ との位相差角（$\text{rad}$）を表します。したがって $\mathrm{inv}\,\alpha$ は、糸がほどけることによって形成される純粋な角度位相変位を意味します。
+幾何学的に $\tan\alpha$ は基礎円半径で無次元化された接線長さ $L / r_b$ を表し、 $\alpha$ は接点半径線 $OT$ と半径線 $OK$ との位相差角を表します。したがって $\mathrm{inv}\,\alpha$ は、糸がほどけることによって形成される純粋な角度位相変位を意味します。
+
+> ⚠️ **[必須安全制約（Mandatory Safety Mandate）: ラジアン単位の厳格な遵守]**  
+> インボリュート関数 $\mathrm{inv}\,\alpha = \tan\alpha - \alpha$ の演算において、三角関数項 $\tan\alpha$ は無次元の実数ですが、減算される角度項 $\alpha$ は**必ずラジアン単位（$\text{rad}$）**でなければなりません（$\alpha [\text{rad}] = \alpha [^\circ] \times \frac{\pi}{180}$）。度（Degree）単位の数値をそのまま代入することは、商用CAEソルバー開発や手計算設計において数値破綻を招く最も典型的な致命的ミスです。基準圧力角 $\alpha = 20^\circ$ のインボリュート値は $\mathrm{inv}\,20^\circ = \tan(20\pi/180) - 20\pi/180 \approx 0.01490438\text{ rad}$ です。
 
 ### 厳密な単調増加性と1対1全単射
 
@@ -96,7 +101,7 @@ $$
 \frac{d}{d\alpha}(\mathrm{inv}\,\alpha) = \sec^2\alpha - 1 = \tan^2\alpha > 0 \quad \left(\forall \alpha \in \left(0, \frac{\pi}{2}\right)\right)
 $$
 
-$0 < \alpha < \pi/2$ の区間において $d(\mathrm{inv}\,\alpha)/d\alpha = \tan^2\alpha > 0$ であるため、インボリュート関数は厳密に単調増加（Strictly Monotonic Increasing）します。これにより逆関数 $\alpha = \mathrm{inv}^{-1}(\theta_k)$ が一意に存在します。
+$0 < \alpha < \pi/2$ の区間において $d(\mathrm{inv}\,\alpha)/d\alpha = \tan^2\alpha > 0$ であるため、インボリュート関数は厳密に単調増加（Strictly Monotonic Increasing）します。これにより逆関数 $\alpha = \mathrm{inv}^{-1}(\phi_K)$ が一意に存在します。
 
 ### テーラー級数逆展開（Series Reversion）による解析的閉形式解
 
@@ -106,7 +111,7 @@ $$
 \mathrm{inv}\,\alpha = \frac{1}{3}\alpha^3 + \frac{2}{15}\alpha^5 + \frac{17}{315}\alpha^7 + \frac{62}{2835}\alpha^9 + \mathcal{O}(\alpha^{11})
 $$
 
-極角 $\theta_k$ から圧力角 $\alpha$ を直接解析的に求めるため、 $z = (3\theta_k)^{1/3}$ を導入して級数逆展開（Series Reversion）を行うと、 $\mathcal{O}(z^9)$ までの高精度な閉形式解が得られます。
+極角 $\theta_k$（$\phi_K$）から圧力角 $\alpha$ を直接解析的に求めるため、 $z = (3\theta_k)^{1/3}$ を導入して級数逆展開（Series Reversion）を行うと、 $\mathcal{O}(z^9)$ までの高精度な閉形式解が得られます。
 
 $$
 \alpha(z) = z - \frac{2}{15}z^3 + \frac{3}{175}z^5 - \frac{2}{1575}z^7 + \mathcal{O}(z^9), \quad z = (3\theta_k)^{1/3}
@@ -130,12 +135,13 @@ $$
 
 平歯車の幾何形状は、モジュール $m$、歯数 $z$、基準圧力角 $\alpha=20^\circ$ を基準とする4つの同心円によって完全に規定されます。
 
-### 4大基本円の定義
+### 4大基本円の定義と基準ピッチ円($d$) vs 噛み合いピッチ円($d_w$)の区別
 
-1. **基準ピッチ円（Reference Pitch Circle）**: かみ合いの基準となる直径 $d$ の円筒面。
+1. **基準ピッチ円（Reference Pitch Circle）**: 歯車歯形寸法規格およびかみ合い設計の基準となる直径 $d$ の円筒面。
 $$
 d = m \cdot z, \quad r = \frac{d}{2} = \frac{m z}{2}
 $$
+（ISO 21771 / DIN 3960 規格体系において、**基準ピッチ円（$d$）**および**基準圧力角（$\alpha = 20^\circ$）**は歯車単体固有の製作基準諸元です。これは任意半径 $r_K$ における局所的な**歯形圧力角（$\alpha_K$、$\cos\alpha_K = r_b / r_K$）**、ならびに中心距離の変更（$a_w \ne a$）や転位適用時に実際の接触運動軌跡となる**噛み合いピッチ円（Working Pitch Circle, $d_w = d_b / \cos\alpha_w$）**および**噛み合い圧力角（Working Pressure Angle, $\alpha_w = \arccos(a\cos\alpha / a_w)$）**と厳密に区別されなければなりません。標準中心距離 $a$ で無転位の歯車が噛み合う場合にのみ、$d_w = d$ および $\alpha_w = \alpha$ が完全に成立します。）
 2. **基礎円（Base Circle）**: インボリュート曲線が発生する直径 $d_b$ の幾何学的基準円。
 $$
 d_b = d \cos\alpha = m z \cos\alpha, \quad r_b = \frac{d_b}{2} = \frac{m z \cos\alpha}{2}
@@ -151,7 +157,7 @@ $$
 
 ### ISO 53 / JIS B 1701 標準基本ラック歯形諸元
 
-国際規格 ISO 53（Profile A）および JIS B 1701 における標準基本ラック諸元係数は次の通りです。
+国際規格 ISO 53（Profile A）および JIS B 1701 における標準基本ラック諸元係数は、無次元アスタリスク（*）添字表記に従います。
 - モジュール: $m$
 - 基準圧力角: $\alpha = 20.0^\circ$
 - 歯先たけ係数: $h_a^* = 1.000 \implies h_a = 1.000 m$
@@ -160,13 +166,15 @@ $$
 - 全歯たけ係数: $h^* = h_a^* + h_f^* = 2.250 \implies h = 2.250 m$
 - 工具歯先丸み半径係数: $\rho_f^* = 0.380 \implies \rho_f = 0.380 m$
 
-### ピッチおよび任意半径における歯厚計算式
+### ピッチ、任意半径歯厚計算式および公称バックラッシ条件
 
-ピッチ円上の円周ピッチ $p$、歯厚 $s$、および歯溝の幅 $e$ は次の関係を満たします。
+ピッチ円上の円周ピッチ $p$、理論歯厚 $s$、および歯溝の幅 $e$ は次の関係を満たします。
 
 $$
 p = \pi m = s + e, \quad s = e = \frac{\pi m}{2}
 $$
+
+ここで $s = e = \pi m / 2$ はバックラッシのない理想的な理論公称値です。実際の産業用歯車の製造においては、熱膨張、加工公差、油膜形成を考慮し、歯厚を公差分だけ追い込み加工することで有効な円周バックラッシ（$j_t > 0$）を必ず確保します。
 
 基礎円ピッチ（法線ピッチ） $p_b$ は、かみ合い作用線上における隣接歯面の法線方向間隔に一致します。
 
@@ -174,7 +182,7 @@ $$
 p_b = p \cos\alpha = \pi m \cos\alpha
 $$
 
-任意半径 $r \ge r_b$ における局所圧力角を $\alpha_r = \arccos(r_b / r)$ とすると、インボリュート曲線の広がり角を考慮した半歯角 $\psi_r$ および円弧歯厚 $s_r$ は次式で計算されます。
+任意半径 $r \ge r_b$ における局所歯形圧力角を $\alpha_r = \arccos(r_b / r)$ とすると、インボリュート曲線の広がり角を考慮した半歯角 $\psi_r$ および円弧歯厚 $s_r$ は次式で計算されます。
 
 $$
 \psi_r = \frac{s}{2r} + \mathrm{inv}\,\alpha - \mathrm{inv}\,\alpha_r \quad \Longrightarrow \quad s_r = 2r \psi_r = r \left[ \frac{s}{r} + 2(\mathrm{inv}\,\alpha - \mathrm{inv}\,\alpha_r) \right]
@@ -196,15 +204,15 @@ $s_a < 0.25m$ となると歯先がナイフエッジ状に尖る尖頭化（Poi
 
 ## 4. かみ合い作用線上の接触軌跡と正面かみ合い率 $\epsilon_\alpha$ 閉形式導出
 
-### 作用線とかみ合い特異点
+### 作用線とかみ合い特異点: ピッチ点 $P$ の純粋転がりと歯面の相対すべり ($v_s$)
 
-歯車が回転して動力を伝達するとき、接触点の幾何学的軌跡は2つの基礎円の共通内接線である**かみ合い線（作用線、Line of Action）**を形成します。中心距離を $a = r_1 + r_2$ とするとき、接線線分の長さは次式で表されます。
+外歯車対が回転して動力を伝達するとき、接触点の幾何学的軌跡は2つの基礎円の**共通内接線（Common Internal Tangent）**である**かみ合い線（作用線、Line of Action）**を形成します。2つの基礎円との接点をそれぞれ $T_1$, $T_2$（機構図上の表記: $N_1$, $N_2$）とし、標準中心距離を $a = r_1 + r_2$ とするとき、接線線分の長さは次式で表されます。
 
 $$
 a = r_1 + r_2 = \frac{m(z_1 + z_2)}{2}, \quad \overline{T_1 T_2} = (r_{b1} + r_{b2})\tan\alpha = a \sin\alpha
 $$
 
-作用線上の有効接触区間は次の3大特異点によって規定されます。
+作用線上の有効接触区間 $\overline{AE}$ は次の3大特異点によって規定されます。
 - **かみ合い開始点 A（SAP）**: 被動歯車（Gear 2）の歯先円（$r_{a2}$）が作用線と交差する点。ピッチ点 $P$ までの長さを接近かみ合い長さ $g_f$ と呼びます。
 $$
 g_f = \overline{AP} = \sqrt{r_{a2}^2 - r_{b2}^2} - r_{b2}\tan\alpha
@@ -213,7 +221,8 @@ $$
 $$
 g_a = \overline{PE} = \sqrt{r_{a1}^2 - r_{b1}^2} - r_{b1}\tan\alpha
 $$
-- **ピッチ点 P**: 2つのピッチ円が接する瞬間中心点。
+- **ピッチ点 P（Pitch Point）**: 2つの基準ピッチ円が接する瞬間中心点。  
+ピッチ点 $P$ においては両歯車の接線方向線速度が完全に一致し、歯面間の相対すべり速度が0となる**純粋転がり（Pure Rolling, $v_s = 0$）**が成立します。しかしピッチ点を除く全かみ合い区間（$A \to P$ および $P \to E$）では、歯面間に不可避な相対すべり（$v_s = |v_{t1} - v_{t2}| \ne 0$）が連続的に発生します。インボリュート歯車のかみ合いが歯面全体で滑りなく転がるという考えは機構学的な誤解であり、純粋転がりはピッチ点においてのみ成立します。
 
 ### 全かみ合い長さ $g_\alpha$ および正面かみ合い率 $\epsilon_\alpha$
 

@@ -143,6 +143,18 @@ export default defineConfig({
 								{ autogenerate: { directory: 'series2-architecture/part01-diff-geom' } },
 							],
 						},
+						{
+							label: 'Part 2. Solvers',
+							collapsed: true,
+							translations: {
+								ko: 'Part 2. 수치해석 및 비선형 닫힌 해 솔버 (Ch 2-5~2-8)',
+								de: 'Teil 2. Numerische Gleichungslöser (Kapitel 2-5~2-8)',
+								ja: 'Part 2. 数値解析と非線形ソルバー (第2-5章〜2-8章)',
+							},
+							items: [
+								{ autogenerate: { directory: 'series2-architecture/part02-solvers' } },
+							],
+						},
 					],
 				},
 			],

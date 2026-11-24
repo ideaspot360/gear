@@ -24,13 +24,13 @@ sidebar:
 
 ## 3.1 직관적 문제 제기 및 물리적 배경
 
-기어 전동의 기본 목적은 두 축 사이에서 각속도비를 단 한순간의 변동이나 미끄러짐 없이 일정하게 전달하는 것입니다. 평치차 쌍이 맞물려 회전할 때, 동력이 중단 없이 부드럽게 전달되려면 기하학적으로 엄격한 연속 물림 조건이 충족되어야 합니다.
+기어 전동의 근본적인 목적은 두 회전축 사이에서 각속도비(Angular Velocity Ratio) $i = \omega_1 / \omega_2$를 단 한순간의 변동 없이 정밀하게 전달하는 것입니다. 마찰차(Friction Wheels)와 달리 기어 전동은 인볼류트 치형의 기하학적 형상 맞물림(Form-locking)을 통해 거시적인 슬립(Slip) 없이 정확한 기구학적 각속도비를 일정하게 유지합니다. 그러나 치면의 미시적 접촉 거동 관점에서는, 피치점을 제외한 거의 전 접촉 구간에서 치면 간 상대 미끄럼($v_s \ne 0$)이 필연적으로 수반됩니다. 평치차 쌍이 맞물려 회전할 때, 동력이 중단 없이 부드럽게 전달되려면 기하학적으로 엄격한 연속 물림 조건이 충족되어야 합니다.
 
 ### 연속 전동의 역학적 필연성
 
 선행하는 치 한 쌍이 물림을 종료하고 떨어져 나가기 전에, 반드시 후속 치 한 쌍이 먼저 접촉선에 진입하여 하중을 분담해야 합니다. 만약 선행 치가 떨어져 나갈 때까지 후속 치가 물리지 못한다면 어떻게 되겠습니까?
 
-동력 전달선 상에 물림 단절 구간(Dead Zone)이 발생합니다. 구동축과 피동축 사이의 위상차가 순간적으로 벌어지고, 후속 치가 맞물리는 순간 치면끼리 거대한 충격량($F_{\mathrm{dyn}} = I \frac{d\omega}{dt}$)으로 충돌합니다. 이는 감속기에서 심각한 충격음과 진동을 유발할 뿐만 아니라, 치근에 가해지는 충격 하중으로 인해 이가 순식간에 부러지는 대형 파손 사고로 이어집니다.
+동력 전달선 상에 물림 단절 구간(Dead Zone)이 발생합니다. 구동축과 피동축 사이의 위상차가 순간적으로 벌어지고, 후속 치가 맞물리는 순간 치면끼리 거대한 동적 충격 토크 및 치면 법선력($T_{\mathrm{dyn}} = I \frac{d\omega}{dt}$, $F_{\mathrm{dyn}} = \frac{T_{\mathrm{dyn}}}{r_2} = \frac{I}{r_2}\frac{d\omega}{dt}$)으로 충돌합니다. 이는 감속기에서 심각한 충격음과 진동을 유발할 뿐만 아니라, 치근에 가해지는 충격 하중으로 인해 이가 순식간에 부러지는 대형 파손 사고로 이어집니다.
 
 따라서 전동의 연속성을 보장하기 위해 한 쌍의 이가 작용선 상에서 접촉을 유지하는 길이($g_\alpha$)는 반드시 인접한 치 사이의 간격인 법선 피치($p_b$)보다 커야 합니다. 이를 정량화한 지표가 정면 물림률(Transverse Contact Ratio, $\epsilon_\alpha$)입니다.
 
@@ -42,7 +42,7 @@ $$
 
 ### 치면 접촉 부위별 구름과 미끄럼 메커니즘
 
-기어 치면이 맞물릴 때 모든 위치에서 균일한 마찰 거동이 일어나는 것은 아닙니다. 두 기어의 피치원(Pitch Circle)이 외접하는 피치점(Pitch Point, 점 C/P)에서는 두 치면의 접선 선속도가 완벽히 일치하여 상대 미끄럼 속도가 정확히 0이 되는 **순수 구름 접촉(Pure Rolling)**이 일어납니다.
+기어 치면이 맞물릴 때 모든 접촉 위치에서 균일한 마찰 거동이 일어나는 것은 아닙니다. 두 기어의 기준 피치원(Reference Pitch Circle, $d = mz$, $d_1, d_2$) 및 작동 피치원(Working Pitch Circle, $d_w = d_b / \cos\alpha_w$, $d_{w1}, d_{w2}$)이 외접하는 피치점(Pitch Point, 점 C/P)에서는 두 치면의 접선 선속도가 완벽히 일치($v_{t1}(P) = v_{t2}(P)$)하여 치면 상대 미끄럼 속도가 정확히 0이 되는 **순수 구름 접촉(Pure Rolling, $v_s(P) = 0, \sigma_1(P) = \sigma_2(P) = 0$)**이 실현됩니다. (표준 무전위 평치차에서는 $d_{wi} \equiv d_i$, 작동 압력각 $\alpha_w \equiv \alpha_0$)
 
 피치점을 벗어나 이뿌리(Dedendum)나 이끝(Addendum) 쪽으로 이동하면 상황이 완전히 달라집니다. 치형 곡률반경의 차이로 인해 두 치면 사이에 강한 상대 미끄럼 마찰(Sliding Friction)이 발생합니다.
 
@@ -57,7 +57,7 @@ $$
 
 ### 작용선(Line of Action)과 접선 선분 길이
 
-인볼류트 치형에서 접촉점의 법선은 항상 두 기어의 기초원에 접하는 공통 내접선을 추종하며, 이 직선을 작용선(Line of Action)이라 부릅니다. 구동 피니언의 기초원 접점을 $T_1$, 피동 대기어의 기초원 접점을 $T_2$라 할 때, 두 접점 사이의 총 선분 길이 $\overline{T_1 T_2}$는 중심거리 $a$와 기준 압력각 $\alpha_0$로부터 폐쇄형으로 유도됩니다.
+인볼류트 치형에서 접촉점의 법선(Common Normal)은 항상 두 기어의 기초원에 접하는 **공통 내접선(Common Internal Tangent)**을 일관되게 추종하며, 실제 접촉이 일어나는 이 선분을 **작용선(Line of Action)**이라 부릅니다. 구동 피니언의 기초원 접점을 $T_1$, 피동 대기어의 기초원 접점을 $T_2$라 할 때, 두 접점 사이의 총 선분 길이 $\overline{T_1 T_2}$는 중심거리 $a$와 기준 압력각 $\alpha_0$로부터 폐쇄형으로 유도됩니다.
 
 $$
 \overline{T_1 T_2} = (r_{b1} + r_{b2})\tan\alpha_0 = a \sin\alpha_0
@@ -103,7 +103,7 @@ $$
 
 ### 물림길이 및 정면 물림률의 유도
 
-실제 치면 접촉이 진행되는 구간은 선분 $\overline{AE}$입니다. 이를 피치점 $P$를 기준으로 접근 물림길이($g_f = \overline{AP}$)와 후퇴 물림길이($g_a = \overline{PE}$)로 구분합니다.
+실제 치면 접촉이 진행되는 구간은 선분 $\overline{AE}$입니다. 이를 피치점 $P$를 기준으로 접근 물림길이(Approach Path Length, $g_f = \overline{AP}$)와 후퇴 물림길이(Recess Path Length, $g_a = \overline{PE}$)로 구분합니다. ISO 21771 및 DIN 3960의 일반화된 기하학 정의에 따르면 작동 중심거리 $a_w$ 및 작동 압력각 $\alpha_w$ 조건에서 $g_f = \sqrt{r_{a2}^2 - r_{b2}^2} - r_{w2}\sin\alpha_w$, $g_a = \sqrt{r_{a1}^2 - r_{b1}^2} - r_{w1}\sin\alpha_w$로 유도되며, 표준 무전위 평치차($a = a_0, \alpha_w = \alpha_0, r_{wi} = r_i$)에서는 $r_{w2}\sin\alpha_w = r_2\sin\alpha_0 = r_{b2}\tan\alpha_0$, $r_{w1}\sin\alpha_w = r_1\sin\alpha_0 = r_{b1}\tan\alpha_0$가 성립합니다:
 
 $$
 g_f = \overline{AP} = s_C - s_A = \sqrt{r_{a2}^2 - r_{b2}^2} - r_{b2}\tan\alpha_0, \quad g_a = \overline{PE} = s_E - s_C = \sqrt{r_{a1}^2 - r_{b1}^2} - r_{b1}\tan\alpha_0
@@ -158,19 +158,19 @@ $$
 v_{t1}(s) = \omega_1 \rho_1 = \omega_1 s, \quad v_{t2}(s) = \omega_2 \rho_2 = \omega_2 (\overline{T_1 T_2} - s)
 $$
 
-두 치면 사이의 상대 미끄럼 속도 $v_g(s)$는 두 접선 선속도의 대수적 차이로 계산됩니다.
+치면 접촉점 $K$에서의 상대 미끄럼 속도(Sliding Velocity)는 접선 방향 속도차의 절댓값 $v_s(K) = |v_{t1}(K) - v_{t2}(K)|$ (작용선 좌표 $s$ 기준 $v_s(s) = |v_{t1}(s) - v_{t2}(s)|$)로 정의되며, 작용선 좌표 $s$를 따른 부호 있는 대수적 상대 미끄럼 속도 $v_g(s)$는 다음과 같이 닫힌 형태로 계산됩니다.
 
 $$
 v_g(s) = v_{t1}(s) - v_{t2}(s) = (\omega_1 + \omega_2)(s - s_C) = (\omega_1 + \omega_2) x
 $$
 
-피치점 거리 $x = s - s_C$에 대하여 미끄럼 속도는 완전한 1차 선형 함수를 이룹니다. 피치점($x = 0$)에서 $v_g = 0$이 되어 순수 구름 접촉이 실현되며, 피치점을 경계로 미끄럼의 방향(부호)이 정반대로 역전됩니다.
+피치점 거리 $x = s - s_C$에 대하여 미끄럼 속도는 완전한 1차 선형 함수를 이룹니다. 피치점($x = 0, s = s_C$)에서 $v_{t1}(P) = v_{t2}(P)$가 되어 상대 미끄럼 속도가 엄밀하게 0($v_s(P) = 0, v_g(P) = 0$)이 되며, 피치점을 경계로 미끄럼의 방향(부호)이 정반대로 역전됩니다.
 
 ![치면 접촉점에서의 선속도 벡터 분해 및 상대 미끄럼 속도 역전 메커니즘](/images/part3/ko/fig3_contact_kinematics_velocities.png)
 
 ### 치면 상대 미끄럼률(Specific Sliding)과 대수 항등식
 
-치면의 마모율과 발열량을 정량화하는 무차원 척도가 상대 미끄럼률(Specific Sliding, $k$)입니다. 이는 미끄럼 속도를 자기 자신의 접선 선속도로 나눈 비율로 정의됩니다.
+치면의 마모율과 발열량을 정량화하는 무차원 척도가 치면 상대 미끄럼률(Specific Sliding, 특정 미끄럼률)입니다. 국제 표준(ISO 21771 / AGMA 9005)에서는 $\sigma_1, \sigma_2$ (또는 $k_1, k_2$, DIN에서는 $g_1, g_2$)로 표기하며, 이는 치면 미끄럼 속도를 자기 자신의 접선 선속도로 나눈 비율($\sigma_1 \equiv k_1, \sigma_2 \equiv k_2$)로 정의됩니다.
 
 구동 피니언의 미끄럼률 $k_1(s)$:
 
@@ -190,7 +190,7 @@ $$
 (1 - k_1)(1 - k_2) \equiv 1.0
 $$
 
-곡률반경이 0에 수렴하는 기초원 접점 부근($s \to 0$ 또는 $s \to \overline{T_1 T_2}$)에서는 상대 미끄럼률이 음의 무한대($-\infty$)로 급격히 발산합니다. 피니언의 잇수가 적을수록 점 A(피니언 이뿌리)가 기초원에 매우 가까워지므로, 피니언 치근부의 미끄럼률이 극단적으로 악화됩니다. 이것이 바로 소잇수 피니언에 양(+)의 전위계수($x_1 > 0$)를 부여하여 활성 치형을 기초원 바깥으로 밀어내야 하는 결정적인 공학적 이유입니다.
+피치점 $P$($s = s_C$)에서는 미끄럼 속도가 0이므로 특정 미끄럼률 역시 $\sigma_1(P) = k_1(P) = 0.000000$, $\sigma_2(P) = k_2(P) = 0.000000$으로 정확히 0이 됩니다. 반면 곡률반경이 0에 수렴하는 기초원 접점 부근($s \to 0$ 또는 $s \to \overline{T_1 T_2}$)에서는 상대 미끄럼률이 음의 무한대($-\infty$)로 급격히 발산합니다. 피니언의 잇수가 적을수록 점 A(피니언 이뿌리)가 기초원에 매우 가까워지므로, 피니언 치근부의 미끄럼률이 극단적으로 악화($k_1(A) = -7.420059$)됩니다. 이것이 바로 소잇수 피니언에 양(+)의 전위계수($x_1 > 0$)를 부여하여 활성 치형을 기초원 바깥으로 밀어내야 하는 결정적인 공학적 이유입니다.
 
 ![작용선 상의 피니언 및 대기어 치면 상대 미끄럼률(Specific Sliding) 곡선 분포](/images/part3/ko/fig4_specific_sliding_curves.png)
 
@@ -203,6 +203,10 @@ $$
 $$
 m = 3.000000\text{ mm}, \quad \alpha_0 = 20.000000^\circ, \quad z_1 = 18, \quad z_2 = 54, \quad a = 108.000000\text{ mm}
 $$
+
+- 기준 랙 치형 규격: ISO 53 Profile A ($h_a^* = 1.000000, c^* = 0.250000, h_f^* = 1.250000, \rho_f^* = 0.380000$)
+- 잇수비 (ISO 6336): $u = z_2 / z_1 = 54 / 18 = 3.000000 \ge 1.0$ (기구학적 변속비 $i = \omega_1 / \omega_2 = u = 3.000000$)
+- 전위계수: $x_1 = 0.000000, x_2 = 0.000000$ (표준 무전위 평치차, 기준 피치원 $d = mz$ 및 작동 피치원 직경 $d_w = d_b / \cos\alpha_w$에서 $d_{w1} \equiv d_1, d_{w2} \equiv d_2$, 작동 압력각 $\alpha_w \equiv \alpha_0$)
 
 피치원 및 기초원 기본 기하학적 치수:
 
@@ -234,7 +238,7 @@ $$
 
 | 번호 | 파라미터 명칭 | 기호 | 산출 수식 | 계산값 | 단위 |
 |:---:|:---|:---:|:---|:---:|:---:|
-| 1 | 감속비 | $u$ | $z_2 / z_1$ | 3.000000 | — |
+| 1 | 잇수비 (감속비) | $u$ | $z_2 / z_1$ | 3.000000 | — |
 | 2 | 피니언 피치원 직경 | $d_1$ | $m \cdot z_1$ | 54.000000 | mm |
 | 3 | 피니언 피치원 반경 | $r_1$ | $d_1 / 2$ | 27.000000 | mm |
 | 4 | 대기어 피치원 직경 | $d_2$ | $m \cdot z_2$ | 162.000000 | mm |
@@ -247,10 +251,10 @@ $$
 | 11 | 피니언 기초원 반경 | $r_{b1}$ | $d_{b1} / 2$ | 25.371701 | mm |
 | 12 | 대기어 기초원 직경 | $d_{b2}$ | $d_2 \cos\alpha_0$ | 152.230205 | mm |
 | 13 | 대기어 기초원 반경 | $r_{b2}$ | $d_{b2} / 2$ | 76.115102 | mm |
-| 14 | 이끝높이 | $h_a$ | $1.0 \cdot m$ | 3.000000 | mm |
-| 15 | 이뿌리높이 | $h_f$ | $1.25 \cdot m$ | 3.750000 | mm |
+| 14 | 이끝높이 | $h_a$ | $h_a^* \cdot m$ | 3.000000 | mm |
+| 15 | 이뿌리높이 | $h_f$ | $(h_a^* + c^*) m$ | 3.750000 | mm |
 | 16 | 전체 치높이 | $h$ | $h_a + h_f$ | 6.750000 | mm |
-| 17 | 이끝틈새 | $c$ | $0.25 \cdot m$ | 0.750000 | mm |
+| 17 | 이끝틈새 | $c$ | $c^* \cdot m$ | 0.750000 | mm |
 | 18 | 피니언 이끝원 직경 | $d_{a1}$ | $d_1 + 2h_a$ | 60.000000 | mm |
 | 19 | 피니언 이끝원 반경 | $r_{a1}$ | $d_{a1} / 2$ | 30.000000 | mm |
 | 20 | 대기어 이끝원 직경 | $d_{a2}$ | $d_2 + 2h_a$ | 168.000000 | mm |
@@ -313,7 +317,7 @@ $$
 | **기준 랙 치형 (Basic Rack)** | 원통기어용 표준 랙 | 원통기어용 표준 랙 | KS B 1405 / ISO 53 Profile A |
 | **모듈 (Module, $m$)** | 3.000 mm | 3.000 mm | 표준 제1계열 |
 | **기준 압력각 (Standard Pressure Angle, $\alpha_0$)** | 20.0° | 20.0° | 기본 치형 기준 |
-| **잇수 (Number of Teeth, $z$)** | 18 | 54 | 감속비 $u = 3.000$ |
+| **잇수 (Number of Teeth, $z$)** | 18 | 54 | 잇수비 $u = 3.000$ (ISO 6336) |
 | **전위계수 (Profile Shift Coefficient, $x$)** | 0.0000 | 0.0000 | 표준 무전위 |
 | **피치원 직경 (Pitch Diameter, $d$)** | 54.000 mm | 162.000 mm | $d = m \cdot z$ |
 | **기초원 직경 (Base Diameter, $d_b$)** | 50.743 mm | 152.230 mm | $d_b = d \cos\alpha_0$ |
@@ -388,18 +392,18 @@ $$
 
 ### 국제 표준 규격별 정의 및 표기법 비교
 
-| 항목 | 한국산업표준 (KS) | 독일표준 (DIN) | 국제표준화기구 (ISO) | 미국치차제조협회 (AGMA) | Earle Buckingham (1949) |
+| 항목 | 한국산업표준 (KS B 0102) | 국제표준화기구 (ISO 21771) | 독일표준 (DIN 3960) | 미국치차제조협회 (AGMA 9005/2001) | Earle Buckingham (1949) |
 |:---|:---:|:---:|:---:|:---:|:---:|
-| **작용선** | 작용선 | Eingriffslinie | Line of Action | Line of Action | Line of Action |
-| **정면 물림률** | 정면 물림률 $\epsilon_\alpha$ | Profilüberdeckung $\epsilon_\alpha$ | Transverse contact ratio $\epsilon_\alpha$ | Contact ratio $m_p$ | Contact ratio CR |
-| **기초원 피치** | 법선 피치 $p_b$ | Grundteilung $p_b$ | Base pitch $p_b$ | Base pitch $p_b$ | Normal pitch $p_N$ |
-| **물림 개시점** | 점 A (SAP) | Punkt A (Eingriffsbeginn) | Point A ($E_A$) | SAP | Point A |
-| **최하위 단일 접촉점** | 점 B (LPSTC) | Punkt B (Innerer Einzeleingriff) | Point B ($B$) | LPSTC | Point B |
-| **피치점** | 점 C / P | Punkt C / Wälzpunkt | Pitch point $C$ / $P$ | Pitch point | Pitch point |
-| **최상위 단일 접촉점** | 점 D (HPSTC) | Punkt D (Äußerer Einzeleingriff) | Point D ($D$) | HPSTC | Point D |
-| **물림 종료점** | 점 E (EAP) | Punkt E (Eingriffsende) | Point E ($E_E$) | EAP | Point E |
-| **상대 미끄럼률** | 미끄럼률 $k$ | Spezifisches Gleiten $g$ | Specific sliding $k$ | Specific sliding | Specific sliding |
-| **치근 강도 기준점** | 점 D (HPSTC) | Punkt D (DIN 3990) | Point D (ISO 6336-3 Method B) | HPSTC (AGMA 2001) | Point D |
+| **작용선** | 작용선 | Line of Action | Eingriffslinie | Line of Action | Line of Action |
+| **정면 물림률** | 정면 물림률 $\epsilon_\alpha$ | Transverse contact ratio $\epsilon_\alpha$ | Profilüberdeckung $\epsilon_\alpha$ | Contact ratio $m_p$ | Contact ratio CR |
+| **기초원 피치** | 법선 피치 $p_b$ | Base pitch $p_b$ | Grundteilung $p_b$ | Base pitch $p_b$ | Normal pitch $p_N$ |
+| **물림 개시점** | 점 A (SAP) | Point A ($E_A$) | Punkt A (Eingriffsbeginn) | SAP | Point A |
+| **최하위 단일 접촉점** | 점 B (LPSTC) | Point B ($B$) | Punkt B (Innerer Einzeleingriff) | LPSTC | Point B |
+| **피치점** | 점 C / P | Pitch point $C$ / $P$ | Punkt C / Wälzpunkt | Pitch point | Pitch point |
+| **최상위 단일 접촉점** | 점 D (HPSTC) | Point D ($D$) | Punkt D (Äußerer Einzeleingriff) | HPSTC | Point D |
+| **물림 종료점** | 점 E (EAP) | Point E ($E_E$) | Punkt E (Eingriffsende) | EAP | Point E |
+| **상대 미끄럼률** | 미끄럼률 $\sigma$ / $k$ | Specific sliding $\sigma$ / $k$ | Spezifisches Gleiten $g$ | Specific sliding $\sigma$ | Specific sliding |
+| **치근 강도 기준점** | 점 D (HPSTC) | Point D (ISO 6336-3 Method B) | Punkt D (DIN 3990) | HPSTC (AGMA 2001) | Point D |
 
 ### 참고 문헌 (References)
 

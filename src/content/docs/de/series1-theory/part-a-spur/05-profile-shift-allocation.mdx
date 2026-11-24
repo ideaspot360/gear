@@ -1,6 +1,6 @@
 ---
 title: "Kapitel 5. Die sechs Optimierungskriterien zur Profilverschiebungsaufteilung: Hinterschnittvermeidung, ausgeglichene Biegetragfähigkeit, Gleitgeschwindigkeitsausgleich und DIN 3992 Auslegungsbereich"
-description: "Fortgeschrittene ingenieurwissenschaftliche Abhandlung zur Profilverschiebungsaufteilung nach Festlegung der Summe Sigma x: Mindest-Hinterschnittgrenzen, ISO 6336 Zahnformfaktor YF Ausgleich, spezifisches Gleitgleichgewicht, Kopfdicken- und Überdeckungsanalyse, DIN 3992 Zulässigkeitsbereich und Fertigungszeichnungspraxis"
+description: "Fortgeschrittene ingenieurwissenschaftliche Abhandlung zur Profilverschiebungsaufteilung nach Festlegung der Summe x_Sigma: Ausgleich des spezifischen Gleitens, ISO 6336 Zahnformfaktor YF Ausgleich, Flankenpressung und Grübchentragfähigkeit, Kopfdicken- und Überdeckungsanalyse, DIN 3992 Zulässigkeitsbereich und Fertigungszeichnungspraxis"
 series: theory
 part: 1
 chapter: 5
@@ -10,111 +10,134 @@ standards:
   - "ISO 21771:2007"
   - "DIN 3992"
   - "ISO 6336:2019"
+  - "ISO 53:1998"
   - "DIN 3960"
+  - "DIN 3990"
+  - "AGMA 913-A98"
 required_diagrams:
   - "fig1_shift_feasible_domain"
   - "fig2_bending_strength_balance"
   - "fig3_asymmetric_mesh_profile"
 academic_level: undergraduate
-equations_hash: "7074da796cae7eba61110bab48faf2ca041bfdc50e0f723b028f50e8dc325dd4"
-review_date: "2026-11-17"
+equations_hash: "653f5c47a8655ad7679376402b4dbf16ebae6bc785c60cc04af1761f414f5070"
+review_date: "2026-11-23"
 sidebar:
   order: 5
 ---
 
 ## 5.1 Problemstellung und physikalischer Hintergrund: Die Falle nach Bestimmung der Verschiebungssumme
 
-In mehr als zwei Jahrzehnten praktischer Tätigkeit in der rechnerischen Getriebeauslegung, Struktur-CAE und Kunststoff-Spritzgusstechnik begegnet man immer wieder demselben verhängnisvollen Irrtum: Viele Konstrukteure glauben, mit der Bestimmung der Profilverschiebungssumme ($\Sigma x = x_1 + x_2$) sei die Auslegung des Zahnradpaares bereits abgeschlossen.
+In mehr als zwei Jahrzehnten praktischer Tätigkeit in der rechnerischen Getriebeauslegung, Struktur-CAE, Lebensdauerberechnung und Spritzguss- sowie Zerspanungstechnik begegnet man immer wieder demselben verhängnisvollen Irrtum: Viele Konstrukteure glauben, mit der Bestimmung der Profilverschiebungssumme ($x_\Sigma = x_1 + x_2$) sei die Auslegung des Zahnradpaares bereits abgeschlossen.
 
-Nehmen wir an, für ein Getriebegehäuse mit festem Achsabstand $a'$ wird zur spielfreien Verbindung eines Ritzels ($z_1 = 11$) mit einem Rad ($z_2 = 41$) bei Modul $m = 1.0\,\text{mm}$ rechnerisch eine erforderliche Verschiebungssumme von $\Sigma x = +0.30$ ermittelt. Nun steht die entscheidende Frage im Raum: Wie teilen wir diese $+0.30$ auf Ritzel und Rad auf?
+Nehmen wir an, für ein Getriebegehäuse mit festem Achsabstand $a'$ wird zur spielfreien Verbindung eines Ritzels ($z_1 = 11$) mit einem Rad ($z_2 = 41$) bei Modul $m = 1.0\,\text{mm}$ und Normaleingriffswinkel $\alpha_0 = 20.0^\circ$ rechnerisch eine erforderliche Verschiebungssumme von $x_\Sigma = +0.30$ ermittelt. Das Zähnezahlverhältnis (Übersetzung) beträgt $u = z_2 / z_1 = 41 / 11 = 3.727273 \ge 1.0$, und das Winkelgeschwindigkeitsverhältnis ist $i = \omega_1 / \omega_2 = u = 3.727273$. Nun steht die entscheidende Frage im Raum: Wie teilen wir diese $+0.30$ auf Ritzel ($x_1$) und Rad ($x_2$) auf?
 
 In der industriellen Praxis führen drei typische Fehlentscheidungen regelmäßig zu gravierenden Schadensfällen:
 
-1. **Unverschobenes Ritzel ($x_1 = 0.00, x_2 = +0.30$)**: Das Ritzel bleibt ohne Profilverschiebung, während das Rad die gesamte positive Verschiebung erhält. Bei einem Normaleingriffswinkel $\alpha_0 = 20^\circ$ liegt die Grenzzähnezahl gegen Hinterschnitt bei $z_{\min} = 17.1$. Wird ein Ritzel mit nur 11 Zähnen unverschoben gefertigt, schneidet der Zahnkopf des Wälzfräsers tief in die aktive Evolvente am Zahnfuß ein. Die tragende Zahnfußsehne schrumpft auf $1.55\,\text{mm}$, was zu extremer Kerbspannung führt. Unter Betriebsbelastung entstehen nach wenigen Betriebsstunden Ermüdungsrisse, die zum katastrophalen Zahnfußbruch führen.
-2. **Reine 50/50-Gleichverteilung ($x_1 = +0.15, x_2 = +0.15$)**: Eine hälftige Teilung unterschreitet den Mindestverschiebungswert ($x_{1,\min} = +0.357$) zur Vermeidung des Hinterschnitts bei 11 Zähnen deutlich. Das Ritzel behält Rest-Hinterschnitt, und das erhebliche Festigkeitsungleichgewicht zwischen kleinem Ritzel und großem Rad bleibt ungelöst.
-3. **Übermäßige Ritzelverschiebung ($x_1 = +0.65, x_2 = -0.35$)**: Wird das Ritzel zu stark nach außen verschoben, verjüngt sich die Kopfkreisdicke ($s_{a1} < 0.20m$) bis zur Zuspitzung. Beim Einsatzhärten führen thermische Spannungsspitzen zu Mikrorissen an den Zahnspitzen, die unter dynamischen Stoßbelastungen frühzeitig ausbrechen.
+1. **Unverschobenes Ritzel ($x_1 = 0.00, x_2 = +0.30$)**: Das Ritzel bleibt ohne Profilverschiebung, während das Rad die gesamte positive Verschiebung erhält. Bei einem Normaleingriffswinkel $\alpha_0 = 20^\circ$ gemäß Bezugsprofil ISO 53 liegt die Grenzzähnezahl gegen Hinterschnitt bei $z_{\min} = 17.1$. Wird ein Ritzel mit nur 11 Zähnen unverschoben gefertigt, schneidet der Zahnkopf des Wälzfräsers tief in die aktive Evolvente am Zahnfuß ein. Die tragende Zahnfußsehne schrumpft auf $1.55\,\text{mm}$, was zu extremer Kerbspannung führt. Unter Betriebsbelastung entstehen nach wenigen Betriebsstunden Ermüdungsrisse, die zum katastrophalen Zahnfußbruch führen.
+2. **Reine 50/50-Gleichverteilung ($x_1 = +0.15, x_2 = +0.15$)**: Eine hälftige Teilung unterschreitet den Mindestverschiebungswert ($x_{1,\min} = +0.357$) zur Vermeidung des Hinterschnitts bei 11 Zähnen deutlich. Das Ritzel behält Rest-Hinterschnitt, und das erhebliche Festigkeitsungleichgewicht zwischen kleinem Ritzel und großem Rad (Spannungsverhältnis $\sigma_{F1} / \sigma_{F2} > 1.35$) bleibt ungelöst.
+3. **Übermäßige Ritzelverschiebung ($x_1 = +0.65, x_2 = -0.35$)**: Wird das Ritzel zu stark nach außen verschoben, verjüngt sich die Kopfkreiszahndicke ($s_{a1} < 0.20m$) bis zur Zuspitzung (Cresting). Beim Einsatzhärten führen Randentkohlungs- und Aufkohlungsspitzen (Corner Effect) zu sprödem Martensitgefüge, sodass unter dynamischen Stoßbelastungen frühzeitig Zahneckenausbrüche (Chipping) auftreten.
 
-Die Aufteilung der Profilverschiebung ist daher keine willkürliche Rechenübung, sondern ein nichtlineares Mehrziel-Optimierungsproblem zur gleichzeitigen Beherrschung von **Zahnfuß-Dauerfestigkeit, Flanken-Grübchentragfähigkeit, Zuspitzungsgrenzen und Profilüberdeckung**.
+Die Aufteilung der Profilverschiebung ist daher keine willkürliche Rechenübung, sondern ein nichtlineares Mehrziel-Optimierungsproblem zur gleichzeitigen Beherrschung von **Zahnfuß-Dauerfestigkeit ($S_F \ge 1.4$), Flanken-Grübchentragfähigkeit ($S_H \ge 1.2$), Fresssicherheit gegen Blitztemperaturen, Zuspitzungsgrenzen ($s_a \ge 0.25m$, Einsatzhärten $\ge 0.40m$) und Profilüberdeckung ($\epsilon_\alpha \ge 1.20 \sim 1.40$) zur NVH-Geräuschminderung**.
 
 ---
 
 ## 5.2 Mathematische Grundlagen: Die sechs Kriterien zur optimalen Aufteilung
 
-In Übereinstimmung mit DIN 3992 und ISO 21771 definieren wir die **sechs maßgebenden ingenieurtechnischen Kriterien** zur Profilverschiebungsaufteilung.
+In Übereinstimmung mit DIN 3992 und ISO 21771 definieren wir die **geometrischen Betriebsvoraussetzungen** und die **sechs maßgebenden ingenieurtechnischen Kriterien** zur Profilverschiebungsaufteilung.
 
-### Kriterium 1. Mindest-Hinterschnittgrenze
+### Geometrische Betriebsvoraussetzung: Betriebsabstand ($a'$) und Profilverschiebungssumme ($x_\Sigma$)
 
-Damit die Kopflinie des Erzeugungswerkzeugs den Eingriffsgrenzpunkt $N$ auf dem Grundkreis nicht unterschneidet, muss der Profilverschiebungsfaktor die folgende Bedingung erfüllen:
-
-$$x_1 \ge x_{\min} = 1.0 - \frac{z_1 \sin^2\alpha_0}{2}$$
-
-Mit $\alpha_0 = 20^\circ$ ($\sin 20^\circ = 0.342020$) ergibt sich für $z_1 = 11$:
-
-$$x_{1,\min} = 1.0 - \frac{11 \times 0.116978}{2} = 1.0 - 0.643378 = +0.356622 \approx +0.357$$
-
-Um Hinterschnitt am 11-zahnigen Ritzel vollständig auszuschließen, ist $x_1 \ge +0.357$ zwingend erforderlich. Im vorliegenden Benchmark wird mit $x_1 = +0.450$ ein robuster Sicherheitsabstand gewählt.
-
-### Kriterium 2. Fester Achsabstand und spielfreier Betriebseingriff
-
-Um ein Stirnradpaar bei vorgegebenem Gehäuseachsabstand $a'$ spielfrei abzuwälzen, bestimmt sich der Betriebseingriffswinkel $\alpha_w$ aus der Evolventenfunktion:
+Um ein Stirnradpaar bei vorgegebenem Gehäuseachsabstand $a'$ spielfrei abzuwälzen, bestimmt sich der Betriebseingriffswinkel $\alpha_w$ aus der Evolventenfunktion (Winkel im Bogenmaß rad):
 
 $$\text{inv}\,\alpha_w = \text{inv}\,\alpha_0 + 2\frac{x_\Sigma}{z_1 + z_2}\tan\alpha_0 = \text{inv}\,\alpha_0 + 2\frac{x_1 + x_2}{z_1 + z_2}\tan\alpha_0$$
 
-Der Betriebsabstand $a'$ folgt aus der Invarianz der Grundkreisteilung:
+Der Betriebsachsabstand $a'$ folgt aus der Invarianz der Grundkreisteilung:
 
 $$a' = a \frac{\cos\alpha_0}{\cos\alpha_w} = \frac{m(z_1 + z_2)}{2} \frac{\cos\alpha_0}{\cos\alpha_w}$$
 
-Der Achsabstandsfaktor $y$ ist definiert als:
+Der Achsabstandsfaktor $y$ und der Kopfrücknahmefaktor $k$ zur exakten Wahrung des Norm-Kopfspiels $c = c^* m = 0.25 m$ lauten:
 
-$$y = \frac{a' - a}{m}$$
+$$y = \frac{a' - a}{m}, \quad k = x_\Sigma - y = (x_1 + x_2) - \frac{a' - a}{m}$$
 
-Zur exakten Wahrung des Norm-Kopfspiels $c = 0.25 m$ ohne jede Abweichung wird der Kopfrücknahmefaktor $k$ berechnet:
+Mit den Bezugsprofilbeiwerten nach ISO 53 ($h_a^* = 1.0, c^* = 0.25$) ergeben sich die Kopfkreisdurchmesser ($d_a$) und Fußkreisdurchmesser ($d_f$):
 
-$$k = x_\Sigma - y = (x_1 + x_2) - \frac{a' - a}{m}$$
+$$d_{a1} = m(z_1 + 2h_a^* + 2x_1 - 2k), \quad d_{a2} = m(z_2 + 2h_a^* + 2x_2 - 2k)$$
 
-Die resultierenden Kopfkreisdurchmesser ($d_a$) und Fußkreisdurchmesser ($d_f$) lauten:
-
-$$d_{a1} = m(z_1 + 2 + 2x_1 - 2k), \quad d_{a2} = m(z_2 + 2 + 2x_2 - 2k)$$
-
-$$d_{f1} = m(z_1 - 2.5 + 2x_1), \quad d_{f2} = m(z_2 - 2.5 + 2x_2)$$
+$$d_{f1} = m(z_1 - 2(h_a^* + c^*) + 2x_1), \quad d_{f2} = m(z_2 - 2(h_a^* + c^*) + 2x_2)$$
 
 Das tatsächliche Kopfspiel $c$ im Betriebszustand bestätigt die exakte Invarianz:
 
-$$c = a' - r_{a1} - r_{f2} = a' - \frac{d_{a1} + d_{f2}}{2} \equiv 0.25 m$$
+$$c = a' - r_{a1} - r_{f2} = a' - \frac{d_{a1} + d_{f2}}{2} \equiv c^* m = 0.25 m$$
 
-### Kriterium 3. Zahnkopf-Zuspitzungsgrenze
+Nachdem die Summe $x_\Sigma = x_1 + x_2$ festliegt, erfolgt die Aufteilung anhand von sechs Kriterien.
 
-Mit wachsender positiver Profilverschiebung nimmt die Zahndicke am Kopfkreis $s_a$ stetig ab. ISO- und DIN-Normen fordern $s_a \ge 0.25 m$ (bei einsatzgehärteten Rädern $\ge 0.30 m$), um Zuspitzung und Rissbildung zu verhindern:
+### Kriterium 1. Ausgleich des spezifischen Gleitens (Gleitgeschwindigkeitsausgleich)
 
-$$s_{ai} = 2 r_{ai} \left( \frac{s_i}{2 r_i} + \text{inv}\,\alpha_0 - \text{inv}\,\alpha_{ai} \right) \ge 0.25 m, \quad \cos\alpha_{ai} = \frac{r_{bi}}{r_{ai}}$$
+Zur Minimierung von Flankenverschleiß, Reibungserwärmung, Graufleckigkeit und Fressschäden analysieren wir das spezifische Gleiten ($\sigma_1, \sigma_2$) entlang der Eingriffslinie ($v_s = |v_{t1} - v_{t2}|$). Für das Übersetzungsverhältnis $u = z_2 / z_1 \ge 1.0$ gilt stets die fundamentale kinematische Invariante:
 
-wobei $s_i = m(\pi/2 + 2 x_i \tan\alpha_0)$ die Teilkreis-Zahndicke darstellt.
+$$\sigma_1 = 1 - \frac{\rho_2}{u \rho_1}, \quad \sigma_2 = 1 - \frac{u \rho_1}{\rho_2}, \quad (1 - \sigma_1)(1 - \sigma_2) \equiv 1.0$$
+
+In den Eingriffsgrenzpunkten A (SAP, Ritzelfuß) und E (EAP, Radfuß) bestimmen sich die maximalen Gleitwerte aus den Krümmungsradien ($\rho_{a1} = \sqrt{r_{a1}^2 - r_{b1}^2}$, $\rho_{a2} = \sqrt{r_{a2}^2 - r_{b2}^2}$):
+
+$$\sigma_{1A} = \sigma_{1\max} = 1 - \frac{\rho_{a2}}{u \rho_{f1}}, \quad \sigma_{2E} = \sigma_{2\max} = 1 - \frac{u \rho_{a1}}{\rho_{f2}}$$
+
+Der Ausgleich des spezifischen Gleitens (Balanced Specific Sliding) fordert betragsgleiche Maximalwerte:
+
+$$|\sigma_{1\max}| = |\sigma_{2\max}| \iff \frac{\rho_{a2}}{u \rho_{f1}} - 1 = \frac{u \rho_{a1}}{\rho_{f2}} - 1 \iff \frac{\rho_{a2}}{\rho_{f1}} \cdot \frac{\rho_{f2}}{\rho_{a1}} = u^2$$
+
+Durch die positive Verschiebung des Ritzels ($x_1 > 0$) rückt der Wälzpunkt $P$ weiter vom Ritzel-Grundkreis weg, wodurch der Krümmungsradius $\rho_{f1}$ am Ritzelfuß deutlich anwächst. Dies glättet den Blitztemperaturverlauf und verhindert Fressen zuverlässig.
+
+### Kriterium 2. Ausgeglichene Zahnfußtragfähigkeit
+
+Gemäß ISO 6336-3 (Methode B) ist die Zahnfußspannung $\sigma_F$ proportional zur Zahnstangenkraft $F_t$, zum Zahnformfaktor $Y_F$ und zum Spannungskorrekturfaktor $Y_S$:
+
+$$\sigma_F = \frac{F_t}{b m} Y_F Y_S Y_\beta Y_B Y_T \le \sigma_{FP} = \frac{\sigma_{F\lim} Y_{ST}}{S_{F\min}}$$
+
+Ein kleines 11-Zähne-Ritzel unterliegt geometrisch einem deutlich ungünstigeren Formfaktor als ein 41-Zähne-Rad. Für gleiche Werkstoffe lautet die Bedingung für identische Fußsicherheiten ($S_{F1} / S_{F2} \approx 1.00$):
+
+$$\frac{\sigma_{F1}}{\sigma_{F2}} = \frac{Y_{F1} Y_{S1}}{Y_{F2} Y_{S2}} \approx 1.0 \implies \frac{S_{F1}}{S_{F2}} \approx 1.0$$
+
+Durch Zuteilung einer hohen positiven Verschiebung ($x_1 = +0.45$) an das Ritzel verringert sich $Y_{F1}$ von $3.078$ auf $2.628$. Zusammen mit einer moderaten negativen Verschiebung ($x_2 = -0.15$) am Rad wird eine harmonische Spannungsverteilung erreicht ($\sigma_{F1} = 144.23\,\text{MPa}$, $\sigma_{F2} = 147.52\,\text{MPa}$, Verhältnis $0.978$).
+
+### Kriterium 3. Minimierung der Flankenpressung und Grübchentragfähigkeit
+
+Gemäß ISO 6336-2 ist die Flankenpressung (Hertzsche Pressung) $\sigma_H$ umgekehrt proportional zur Quadratwurzel des reduzierten Krümmungsradius $\rho_{\text{red}}$:
+
+$$\sigma_H = Z_H Z_E Z_\epsilon Z_\beta \sqrt{\frac{F_t}{b d_1} \frac{u + 1}{u}} \le \sigma_{HP} = \frac{\sigma_{H\lim}}{S_{H\min}}$$
+
+Am Wälzpunkt $P$ ergibt sich der reduzierte Krümmungsradius aus $\rho_{1P} = (d_{w1} \sin\alpha_w)/2$ und $\rho_{2P} = (d_{w2} \sin\alpha_w)/2$:
+
+$$\rho_{\text{red}} = \frac{\rho_{1P} \rho_{2P}}{\rho_{1P} + \rho_{2P}} = \frac{d_{w1} \sin\alpha_w}{2} \frac{u}{u + 1} = \frac{a' \sin\alpha_w \cdot u}{(u + 1)^2}$$
+
+Eine positive Summe $x_\Sigma > 0$ vergrößert $\alpha_w$ und damit $\rho_{\text{red}}$, wodurch die Pressung $\sigma_H$ sinkt. Ein ausreichend großes $x_1$ schützt den Einzeleingriffspunkt (HPSTC) wirksam vor Grübchenbildung (Pitting).
 
 ### Kriterium 4. Optimierung der Profilüberdeckung
 
-Zur Gewährleistung eines ruhigen, stoßfreien Zahneingriffs muss die Profilüberdeckung $\epsilon_\alpha \ge 1.20$ (empfohlen $\ge 1.30$) betragen:
+Zur Gewährleistung eines ruhigen, stoßfreien Zahneingriffs muss die Profilüberdeckung $\epsilon_\alpha \ge 1.20$ (empfohlen $\ge 1.40$ für geräuscharme Antriebe) betragen:
 
 $$\epsilon_\alpha = \frac{g_\alpha}{p_b} = \frac{\sqrt{r_{a1}^2 - r_{b1}^2} + \sqrt{r_{a2}^2 - r_{b2}^2} - a' \sin\alpha_w}{\pi m \cos\alpha_0} \ge 1.20$$
 
 Da mit zunehmender Verschiebungssumme der Betriebseingriffswinkel wächst, verkürzt sich die Eingriffsstrecke $g_\alpha$. Die Kontur $\epsilon_\alpha = 1.200$ bildet somit die obere Begrenzung des zulässigen Bereichs.
 
-### Kriterium 5. Ausgeglichene Zahnfußtragfähigkeit
+### Kriterium 5. Zahnkopf-Zuspitzungsgrenze
 
-Gemäß ISO 6336-3 (Methode B) ist die Zahnfußspannung $\sigma_F$ proportional zum Zahnformfaktor $Y_F$ und Spannungskorrekturfaktor $Y_S$:
+Mit wachsender positiver Profilverschiebung nimmt die Zahndicke am Kopfkreis $s_a$ stetig ab. ISO 21771 und DIN 3992 fordern $s_a \ge 0.25 m$ (bei einsatzgehärteten Rädern $\ge 0.40 m$, Mindestgrenze $0.25m$), um Zuspitzung, Rissbildung und Eckenausbrüche zu verhindern:
 
-$$\sigma_{F1} = \frac{F_t}{b m} Y_{F1} Y_{S1} Y_\beta Y_B Y_T \approx \sigma_{F2} = \frac{F_t}{b m} Y_{F2} Y_{S2} Y_\beta Y_B Y_T \implies \frac{\sigma_{F1}}{\sigma_{F2}} \equiv 1.0$$
+$$s_{ai} = 2 r_{ai} \left( \frac{s_i}{2 r_i} + \text{inv}\,\alpha_0 - \text{inv}\,\alpha_{ai} \right) \ge 0.25 m, \quad \cos\alpha_{ai} = \frac{r_{bi}}{r_{ai}}$$
 
-Ein kleines 11-Zähne-Ritzel unterliegt einer deutlich ungünstigeren Geometrie als ein 41-Zähne-Rad. Durch Zuteilung einer hohen positiven Verschiebung ($x_1 = +0.45$) an das Ritzel und einer moderaten negativen Verschiebung ($x_2 = -0.15$) an das Rad werden die Zahnformfaktoren angeglichen ($Y_{F1} \approx 2.628, Y_{F2} \approx 2.588$). Die Biegespannungen ($\sigma_{F1} = 144.23\,\text{MPa}$ zu $\sigma_{F2} = 147.52\,\text{MPa}$) und Fußsicherheiten erreichen nahezu 1:1 Parität ($\sigma_{F1}/\sigma_{F2} = 0.978$).
+wobei $s_i = m(\pi/2 + 2 x_i \tan\alpha_0)$ die Teilkreis-Zahndicke darstellt und die Evolventenfunktion $\text{inv}\,\alpha = \tan\alpha - \alpha$ (im Bogenmaß rad) verwendet wird.
 
-### Kriterium 6. Spezifischer Gleitgeschwindigkeitsausgleich
+### Kriterium 6. Mindest-Hinterschnittgrenze und störungsfreier Eingriff
 
-Zur Minimierung von Flankenverschleiß und Graufleckigkeit werden die spezifischen Gleitwerte am Ritzelfuß (Punkt A, SAP) und Radfuß (Punkt E, EAP) aufeinander abgestimmt:
+Damit die Kopflinie des Erzeugungswerkzeugs den Eingriffsgrenzpunkt $N$ auf dem Grundkreis nicht unterschneidet, muss der Profilverschiebungsfaktor nach ISO 53 ($h_a^* = 1.0$) die folgende Bedingung erfüllen:
 
-$$k_{1,\max} = 1 - \frac{\omega_2 \rho_{a2}}{\omega_1 \rho_{f1}} = 1 - \frac{\omega_1 \rho_{a1}}{\omega_2 \rho_{f2}} = k_{2,\max}$$
+$$x_1 \ge x_{1,\min} = h_a^* - \frac{z_1 \sin^2\alpha_0}{2}$$
 
-Entlang der gesamten Eingriffslinie gilt dabei stets die fundamentale kinematische Invariante:
+Mit $\alpha_0 = 20^\circ$ ($\sin 20^\circ = 0.342020$) ergibt sich für $z_1 = 11$:
 
-$$(1 - k_1)(1 - k_2) \equiv 1.0$$
+$$x_{1,\min} = 1.0 - \frac{11 \times 0.116978}{2} = 1.0 - 0.643378 = +0.356622 \approx +0.357$$
+
+Um Hinterschnitt am 11-zahnigen Ritzel vollständig auszuschließen, ist $x_1 \ge +0.357$ zwingend erforderlich. Im Benchmark wird mit $x_1 = +0.450$ ein robuster Sicherheitsabstand gewählt, wobei gleichzeitig Trochoiden-Fußkreisinterferenzen ausgeschlossen werden.
 
 ---
 
@@ -152,12 +175,11 @@ Abbildung 2 stellt den Verlauf der ISO 6336 Formfaktoren und des Spannungsverhä
 
 Abbildung 3 zeigt die direkt aus dem Geometriekern (`prototype2/backend/profile_service.py`) gestreamten Konturen der Paarung $z_1 = 11, z_2 = 41$:
 
-- **Verzicht auf überflüssige Werkzeuglinien**: Klare Darstellung des reinen Zahn-zu-Zahn-Betriebseingriffs.
+- **Verzicht auf überflüssige Werkzeuglinien**: Klare Darstellung des reinen Zahn-zu-Zahn-Betriebseingriffs ohne Fräserlinien.
 - **Verdickter Ritzelfuß**: Belegt völlige Hinterschnittfreiheit bei 11 Zähnen. Die $30^\circ$-Tangentenfußdicke ($s_{F1} = 1.93\,\text{mm}$) liegt $24.6\%$ über der unverschobenen Variante ($1.55\,\text{mm}$), was das Widerstandsmoment um $55\%$ steigert.
 - **Tragfähiger Radfuß**: Bestätigt, dass das Rad trotz $x_2 = -0.15$ dank hoher Zähnezahl ($z_2 = 41$) mit $s_{F2} = 1.90\,\text{mm}$ vollkommen sicher dimensioniert ist.
 - **Aktive Eingriffsstrecke**: Markiert den Kontaktverlauf von Punkt A ($s_A = -1.527\,\text{mm}$) über Wälzpunkt P zu Punkt E ($s_E = +2.577\,\text{mm}$) mit $g_\alpha = 4.104\,\text{mm}$ und $\epsilon_\alpha = 1.390$.
 - **Exaktes Kopfspiel**: Bestätigt die Erhaltung von $c \equiv 0.250\,\text{mm}$ über den Kopfrücknahmefaktor $k = 0.0116\,\text{mm}$.
-- **Kollisionsfreie Wälzbewegung**: Bestätigt 100% störungsfreien Eingriff mit gemessenem Flanken-Overlap = 0.000000 mm² durch reine Betriebseingriffswinkel-Phasenausrichtung.
 
 ---
 
@@ -170,7 +192,7 @@ Die 38 geometrischen Hauptkenngrößen der optimierten Auslegung ($m = 1.0\,\tex
 | 1 | Modul (Normal Module) | $m$ | Bezugsnormwert | $1.000000$ | $\text{mm}$ |
 | 2 | Ritzelzähnezahl | $z_1$ | Grenzzähnezahl Benchmark | $11$ | - |
 | 3 | Radzähnezahl | $z_2$ | Getriebe-Abtriebszähnezahl | $41$ | - |
-| 4 | Übersetzungsverhältnis | $u$ | $z_2 / z_1 = 41 / 11$ | $3.727273$ | - |
+| 4 | Übersetzungsverhältnis (Zähnezahlverhältnis) | $u$ | $z_2 / z_1 = 41 / 11$ | $3.727273$ | - |
 | 5 | Normaleingriffswinkel | $\alpha_0$ | ISO 53 / DIN 867 | $20.000000$ | $\text{deg}$ |
 | 6 | Ritzel-Profilverschiebungsfaktor | $x_1$ | Hinterschnittfrei & Tragfähigkeitsausgleich | $+0.450000$ | - |
 | 7 | Rad-Profilverschiebungsfaktor | $x_2$ | Negativer Ausgleichsfaktor | $-0.150000$ | - |
@@ -244,7 +266,7 @@ Werkstoff & Wärmebehandlung    : SCM415 Einsatzgehärtet (HRC 58~62)| SCM415 Ei
 
 ## 5.6 Lagerkräfte und Getriebekräftedynamik
 
-Durch den vergrößerten Betriebseingriffswinkel ($\alpha_w = 21.66^\circ$) gegenüber dem Nennwinkel ($20.00^\circ$) verändert sich die auf Wellen und Lager wirkende Radialkraft $F_r$:
+Durch den vergrößerten Betriebseingriffswinkel ($\alpha_w = 21.66^\circ$) gegenüber dem Nennwinkel ($20.00^\circ$) infolge der Verschiebungssumme ($x_\Sigma = +0.30$) verändern sich die Umfangskraft $F_t$ und die trennende Radialkraft $F_r$ auf Wellen und Lager:
 
 $$F_t = \frac{2000 T}{d_{w1}} = \frac{2000 \times 1.0\,\text{N}\cdot\text{m}}{11.122\,\text{mm}} = 179.82\,\text{N}$$
 
@@ -252,7 +274,7 @@ Die trennende Radialkraft $F_r$ skaliert mit dem Tangens des Betriebseingriffswi
 
 $$F_r = F_t \tan\alpha_w = 179.82 \times \tan(21.6609^\circ) = 179.82 \times 0.39716 = 71.42\,\text{N}$$
 
-Gegenüber der Normallage ($F_{r0} = 179.82 \times \tan 20^\circ = 65.45\,\text{N}$) steigt die Radialkraft um rund $9.1\%$. In der Praxis überwiegt der Gewinn an Zahnfußtragfähigkeit ($+55\%$) diesen geringfügigen Anstieg der Lagerlast bei weitem, womit die asymmetrische Auslegung ihre unbestreitbare Überlegenheit beweist.
+Gegenüber der Normallage ($F_{r0} = 179.82 \times \tan 20^\circ = 65.45\,\text{N}$) steigt die Radialkraft um rund $9.1\%$. In der Auslegungspraxis überwiegt der Gewinn an Zahnfußtragfähigkeit ($+55\%$) und Flankensicherheit diesen geringfügigen Anstieg der Lagerlast bei weitem, womit die asymmetrische positive Ritzelverschiebung ihre globale ingenieurtechnische Überlegenheit beweist.
 
 ---
 
@@ -260,7 +282,9 @@ Gegenüber der Normallage ($F_{r0} = 179.82 \times \tan 20^\circ = 65.45\,\text{
 
 1. **DIN 3992:1964**: *Profilverschiebung bei Stirnrädern mit Außenverzahnung*.
 2. **ISO 21771:2007**: *Gears -- Cylindrical involute gears and gear pairs -- Concepts and geometry*.
-3. **ISO 6336-3:2019**: *Calculation of load capacity of spur and helical gears -- Part 3: Calculation of tooth bending strength*.
-4. **DIN 3960 / DIN 867**: *Begriffe und Bestimmungsgrößen für Stirnräder und Stirnradpaare mit Evolventenverzahnung*.
-5. **Buckingham, Earle**: *Analytical Mechanics of Gears*, Chapter 5: "Profile Shifted Involute Gearing", McGraw-Hill, 1949.
-6. **Litvin, F. L., & Fuentes, A.**: *Gear Geometry and Applied Theory*, 2nd Edition, Cambridge University Press, 2004.
+3. **ISO 6336-1/2/3:2019**: *Calculation of load capacity of spur and helical gears* (Teil 1: Grundlagen; Teil 2: Grübchentragfähigkeit; Teil 3: Zahnfußtragfähigkeit).
+4. **ISO 53:1998**: *Cylindrical gears for general and heavy engineering -- Standard basic rack tooth profile*.
+5. **DIN 3960 / DIN 3990**: *Begriffe und Bestimmungsgrößen für Stirnräder und Stirnradpaare mit Evolventenverzahnung*.
+6. **DIN 3967:1978 / DIN 867**: *Getriebe-Passsystem; Flankenspiel, Zahndickenabmaße und Bezugsprofile für Stirnräder*.
+7. **Buckingham, Earle**: *Analytical Mechanics of Gears*, Chapter 5: "Profile Shifted Involute Gearing", McGraw-Hill, 1949.
+8. **Litvin, F. L., & Fuentes, A.**: *Gear Geometry and Applied Theory*, 2nd Edition, Cambridge University Press, 2004.
